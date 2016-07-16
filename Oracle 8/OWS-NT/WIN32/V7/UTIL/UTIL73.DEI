@@ -1,0 +1,156 @@
+/* Copyright (c) Oracle Corporation 1995.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    util73.dei - Windows NT V3 de-installation script for database utilities.
+
+  DESCRIPTION
+    This script removes the Windows NT database utilities files and
+    un-registers the product.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY Reason
+  ctow        05/13/96 - Add stub support for PO7 7.3
+  mmacdona    03/13/96 - Make Win32 Common 
+  dcolello    01/16/96 - 7.3
+  ljiang      07/21/95 - 7.2
+  syau        07/01/94 - 7.1.3
+  HA!         04/28/94 - 7.1.2 and 3.0.10.2
+  Hartenstine 04/21/93 - DESKTOP: Adapt to Windows NT
+    trodgers  01-APR-92 Created.
+*****************************************************************************/
+{
+  { doit = execute("%installer_home%\%operating_system%.dei"); }
+  [
+    'UNBOUND_VARIABLE: signal('failure,instantiate(nls("instver_too_early2","The version of the Installer currently running is %%installer_version%%. The product(s) you have chosen to deinstall were installed with a later version of the Installer. Please use a later version of the Installer to deinstall these product(s).")));
+  ]
+
+  if (doit)
+    {
+      /**********************************************************************
+         Ensure that the necessary environment variables are bound
+       **********************************************************************/
+
+      {
+        rdbms73 = translate("rdbms73", ora_config, registry_filename(current_registry));
+        if (not(exists(rdbms73)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+      [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+        'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+        {
+          variable = "rdbms73";
+          information_dialog(instantiate(deinstall_prompt02),
+                             instantiate(deinstall_content02),
+                             instantiate(deinstall_help02));
+          doit = FALSE;
+        }
+      ]
+
+      {
+        plsql23 = translate("plsql23", ora_config, registry_filename(current_registry));
+        if (not(exists(plsql23)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+      [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+        'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+        {
+          variable = "plsql23";
+          information_dialog(instantiate(deinstall_prompt02),
+                             instantiate(deinstall_content02),
+                             instantiate(deinstall_help02));
+          doit = FALSE;
+        }
+      ]
+
+      /**********************************************************************
+         Bind all NLS deinstall strings here...
+       **********************************************************************/
+
+      unregistering = nls("unregistering","Unregistering %%registry_label%%...");
+      modifying_config = nls("modifying_config","Modifying NT Registry...");
+      deinst_demo = nls("deinst_demo","Deinstalling %%registry_label%% Demonstration files...");
+      deinst_sql = nls("deinst_sql","Deinstalling %%registry_label%% SQL Scripts...");
+      deinst_init = nls("deinst_init","Deinstalling ORACLE7 Initialization File...");
+      deinst_res = nls("deinst_res","Deinstalling %%registry_label%% Resource Files...");
+      deinst_help = nls("deinst_help","Deinstalling %%registry_label%% Help Files...");
+      deinst_msb = nls("deinst_msb","Deinstalling %%registry_label%% Message Files...");
+      deinst_exe = nls("deinst_exe","Deinstalling %%registry_label%% Executables...");
+      deinst_script = nls("deinst_script","Deinstalling %%registry_label%% Installation Scripts...");
+
+      /**********************************************************************
+         Continue with the deinstallation
+       **********************************************************************/
+
+      ui_product(registry_label);
+
+      ui_action(instantiate(deinst_demo));
+      remove(demo);
+
+      ui_action(instantiate(deinst_sql));
+      remove(sql);
+
+      if (exists("%ORACLE_HOME%\MSHELP\XE73T.GID"))
+      {
+        remove_file("%ORACLE_HOME%\MSHELP\XE73T.GID");
+      }
+      [
+        'DEFAULT: continue();
+      ]
+
+      ui_action(instantiate(deinst_help));
+      remove(help);
+      windows_delete_icons(help) ;
+
+      ui_action(instantiate(deinst_msb));
+      remove(msg, nls_abbreviation);
+
+      ui_action(instantiate(deinst_exe));
+      remove(exec);
+
+      ui_action(instantiate(deinst_script));
+      remove(deinstl);
+
+      if (registered("w32rsf73"))
+      {
+        dependent = registration("w32rsf73");
+        unreference(dependent,current_registry);
+        deinstall(dependent);
+      }
+
+      if (not(registered("ntrdbms73")) && not(registered("w32rsf73")) && not(registered("w95rdbms73")))
+        modify("RDBMS73","",ora_config,registry_filename(current_registry));
+      if (not(registered("w32rsf73")))
+        modify("PLSQL23","",ora_config,registry_filename(current_registry));
+
+      /* Change registry for stub variables or remove if no products registered */
+      if (registered("w32util83")) {
+        modify("UTIL_DFLT","83",ora_config,registry_filename(current_registry));
+        modify("SMGR_DFLT","33",ora_config,registry_filename(current_registry));
+      }
+      else if (registered("w32util82")) {
+        modify("UTIL_DFLT","82",ora_config,registry_filename(current_registry));
+        modify("SMGR_DFLT","32",ora_config,registry_filename(current_registry));
+      }
+      else if (registered("w32util81")) {
+        modify("UTIL_DFLT","81",ora_config,registry_filename(current_registry));
+        modify("SMGR_DFLT","31",ora_config,registry_filename(current_registry));
+      }
+      else if (registered("w32util80")) {
+        modify("UTIL_DFLT","80",ora_config,registry_filename(current_registry));
+        modify("SMGR_DFLT","30",ora_config,registry_filename(current_registry));
+      }
+      else if (registered("w95util72"))
+        modify("UTIL_DFLT","72",ora_config,registry_filename(current_registry));
+      else {
+        modify("UTIL_DFLT","",ora_config,registry_filename(current_registry));
+        modify("SMGR_DFLT","",ora_config,registry_filename(current_registry));
+	remove(stub);
+	remove(smgr);
+      }
+	
+      ui_action(instantiate(unregistering));
+      unregister(current_registry);
+    }
+}

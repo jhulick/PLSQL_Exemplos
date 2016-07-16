@@ -1,0 +1,233 @@
+/*   Copyright (c) Oracle Corporation 1995.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    rsf73.vrf - WinNT V3 installation verification script for the Required
+                Support Files (RSF).
+
+  DESCRIPTION
+    This script checks dependencies and environment settings for installation
+    of the Windows NT RSF.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    MM/DD/YY  Reason
+    mrlai     10/25/96  Modified to detect and stop all Oracle services
+    mmacdona  06/28/96  7.3.2.2.0
+    mmacdona  03/13/96  Make Win32 Common
+    ljiang    07/20/95  7.2
+    syau      07/01/94  7.1.3
+    HA!       04/28/94  7.1.2 and 3.0.10.2
+    trodgers  10-APR-92 Created.
+*****************************************************************************/
+{
+  { doit = execute("%installer_home%\%operating_system%.vrf"); }
+  [
+    'UNBOUND_VARIABLE:
+      {
+        required_version = product_version(ntinstver);
+        temp = explode(required_version,".");
+        required_version = implode(list(first(temp),first(rest(temp)),
+                                        first(rest(rest(temp))),
+                                        first(rest(rest(rest(temp))))),".");
+        signal('failure,instantiate(nls("instver_too_early1","The version of the Installer currently running is %%installer_version%%. The installation you have chosen requires version %%required_version%% or later. Please run version %%required_version%% or later in order to perform this installation.")));
+      }
+  ]
+
+  if (doit)
+    {
+      /***********************************************************************
+          Set the VRF-INS script "ratchet"
+       ***********************************************************************/
+      vrf_ratchet = "7.3.2.2.0C";
+
+      /***********************************************************************
+         Bind path variables...
+      ************************************************************************/
+      {
+        set_rdbms73 = FALSE;
+        rdbms73 = translate("RDBMS73", ora_config, product_filename(current_product));
+        if (not(exists(rdbms73)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+        [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+          'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+          {
+            rdbms73 = "%oracle_home%\RDBMS73";
+            set_rdbms73 = TRUE;
+          }
+        ]
+
+      {
+        set_plsql23 = FALSE;
+        plsql23 = translate("PLSQL23", ora_config, product_filename(current_product));
+        if (not(exists(plsql23)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+        [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+          'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+          {
+            plsql23 = "%oracle_home%\PLSQL23";
+            set_plsql23 = TRUE;
+          }
+        ]
+
+      {
+        set_pro18 = FALSE;
+        pro18 = translate("PRO18", ora_config, product_filename(current_product));
+        if (not(exists(pro18)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+        [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+          'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+          {
+            pro18 = "%oracle_home%\PRO18";
+            set_pro18 = TRUE;
+          }
+        ]
+
+      {
+        set_nlsrtl32 = FALSE;
+        nlsrtl32 = translate("NLSRTL32", ora_config, product_filename(current_product));
+        if (not(exists(nlsrtl32)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+        [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+          'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+          {
+            nlsrtl32 = "%oracle_home%\NLSRTL32";
+            set_nlsrtl32 = TRUE;
+          }
+        ]
+
+      {
+        set_ora_nls = FALSE;
+        ora_nls = translate("ORA_NLS32", ora_config, product_filename(current_product));
+        if (not(exists(ora_nls)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+        [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+          'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+          {
+            ora_nls32 = "%nlsrtl32%\DATA";
+            set_ora_nls = TRUE;
+          }
+        ]
+
+      winsys = windows_system_directory();
+
+      /***********************************************************************
+         Bind string variables & prompt strings...
+      ***********************************************************************/
+      installing_scripts = nls("installing_scripts",
+                               "Installing %%product_label%% Scripts...");
+      installing_dlls = nls("installing_dlls",
+                               "Installing %%product_label%% Dynamic Link Libraries...");
+      installing_msbs = nls("installing_msbs",
+                               "Installing %%product_label%% Message Files...");
+      installing_sql = nls("installing_sql",
+                               "Installing %%product_label%% SQL Scripts...");
+      installing_nlsdata = nls("installing_nlsdata",
+                               "Installing %%product_label%% NLS data files...");
+      modifying_config = nls("modifying_config",
+                               "Modifying NT Registry...");
+      registering = nls("registering","Registering %%product_label%%...");
+
+      /***********************************************************************
+           Return total size of files depending upon which options were
+           selected for installation...
+      ************************************************************************/
+
+if (platform() == "nt")
+      {
+
+         /***** gather a list of existing Oracle* services *****/
+         temp = win32_enumerate_keys("HKEY_LOCAL_MACHINE",
+                                   "System\CurrentControlSet\Services");
+
+         service_list = list();
+         while (not(empty(temp)))
+         {
+             service_name = first(temp);
+
+             if (contains(service_name, "Oracle"))
+                 add(service_list, service_name);
+              temp = rest(temp);
+         }
+
+        /*********************** stop all the services **********************/
+         temp = service_list;
+         while (not(empty(temp)))
+         {
+             service_name = first(temp);
+
+               {
+                   winnt_stop_service(service_name);
+               }
+               [
+                   'DEFAULT:
+                   {
+                       continue();
+                   }
+               ]
+
+             temp = rest(temp);
+         }
+
+         wait = not(empty(service_list));
+
+         if (wait) { wait_time = 2000; while (wait_time > 0) wait_time = wait_time - 1; }
+
+      }
+
+            /* check to see if all of the other oracle services are shutdown */
+
+      permit_retry_operations = FALSE; /* this should be the default */
+      {
+        copy_file("%oracle_home%\bin\oraspawn.dll", "%oracle_home%\bin\oraspawn.sav");
+      }
+      [
+        'FILE_NOT_FOUND,'INVALID_FILE_NAME:
+          continue();
+        'READ_ERROR,'WRITE_ERROR:
+          signal('FAILURE, nls("failure_of_copy", "Installation terminated because %oracle_home%\bin\oraspawn.dll could not be copied."));
+      ]
+      {
+        move_file("%oracle_home%\bin\oraspawn.sav", "%oracle_home%\bin\oraspawn.dll");
+      }
+      [
+        'OS_ERROR:
+          signal('FAILURE, nls("failure_of_service", "Installation terminated.  Please stop all Oracle services before installing."));
+        'DEFAULT:
+          continue();
+      ]
+
+      {
+        copy_file("%oracle_home%\bin\ora73dis.dll", "%oracle_home%\bin\ora73dis.sav");
+      }
+      [
+        'FILE_NOT_FOUND,'INVALID_FILE_NAME:
+          continue();
+        'READ_ERROR,'WRITE_ERROR:
+          signal('FAILURE, nls("failure_of_copy", "Installation terminated because %oracle_home%\bin\ora72dis.dll could not be copied."));
+      ]
+      {
+        move_file("%oracle_home%\bin\ora73dis.sav", "%oracle_home%\bin\ora73dis.dll");
+      }
+      [
+        'OS_ERROR:
+          signal('FAILURE, nls("failure_of_service", "Installation terminated.  Please stop all Oracle services before installing."));
+        'DEFAULT:
+          continue();
+      ]
+
+      /* reminder: we forget deinstl70, deinstl71 here */
+      return(sum(deinstl,dll,commdll,msvcdll,mfcdll,msg,nls_abbreviation,sql,nlsdata));
+    }
+  else
+    {
+      refresh_map_file = FALSE;
+      return(0);
+    }
+}
+

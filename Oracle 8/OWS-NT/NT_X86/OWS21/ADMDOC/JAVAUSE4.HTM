@@ -1,0 +1,161 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using the Java&#153; Cartridge 
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="javause.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="javause3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418658">
+Dynamic HTML from Java
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418659">
+To generate dynamic HTML from within Java, you create various objects that use the interface IHtmlItem. All classes that generate dynamic HTML implement this interface, which has two simple methods: toHTML and print. Both of these methods produce the content of the object as HTML, but toHTML returns it as a string, whereas print sends it to system output. Therefore, you use toHTML when you want the resulting HTML to be further processed by another method and use print when you want to output it. In effect, you build your Web page in a buffer with toHTML and flush the buffer with print.<P>
+</A><A NAME="418660">
+The oracle.html package provides a standard set of classes based on HTML2, HTML3, and popular browser-specific extensions. You are not limited to these, however. You can easily create your own customizable HTML classes by deriving them from the CompoundItem or Container classes. The oracle.html package also has the intelligence to generate output that is optimized for the browser at hand. For example, a browser that does not support tables will get table data in the form of preformatted strings.<P>
+</A><A NAME="418661">
+In some cases, interfaces have been used to specify the attributes of HTML tags. This was done to simplify cases where tag assignments can be complex or where similar arguments are used by several types of tags. If you have a body of HTML you want to use repeatedly, you can encapsulate it in an object of class Compounditem and thereafter treat it as a single HTMLitem.<P>
+</A><A NAME="418662">
+The HTML tags that you can dynamically generate using the supplied objects are listed below:<p>
+<table border=3>
+<tr><th><A NAME="418665">
+<H5><b>HTML 
+FEATURE
+</b></H5>
+</A>
+<th><A NAME="418667">
+<H5><b>JAVA OBJECTS THAT GENERATE
+</b></H5>
+</A>
+
+<tr><td><A NAME="418669">
+headings <BR>
+</A><td><A NAME="418671">
+HTMLHead<BR>
+</A>
+<tr><td><A NAME="418673">
+page breaks<BR>
+</A><td><A NAME="418675">
+HTMLPage<BR>
+</A>
+<tr><td><A NAME="418677">
+main body of page<BR>
+</A><td><A NAME="418679">
+HTMLBody<BR>
+</A>
+<tr><td><A NAME="418681">
+Comments<BR>
+</A><td><A NAME="418683">
+Comment<BR>
+</A>
+<tr><td><A NAME="418685">
+links<BR>
+</A><td><A NAME="418687">
+Link<BR>
+</A>
+<tr><td><A NAME="418689">
+anchors<BR>
+</A><td><A NAME="418691">
+Anchor<BR>
+</A>
+<tr><td><A NAME="418697">
+client- side Java applets<BR>
+</A><td><A NAME="418699">
+Applet<BR>
+</A>
+<tr><td><A NAME="418701">
+ checkboxes<BR>
+</A><td><A NAME="418703">
+CheckBox<BR>
+</A>
+<tr><td><A NAME="418705">
+ forms<BR>
+</A><td><A NAME="418707">
+Form<BR>
+</A>
+<tr><td><A NAME="418709">
+ lists<BR>
+</A><td><A NAME="418711">
+Java classes exist for various types<BR>
+</A>
+<tr><td><A NAME="418713">
+ frames<BR>
+</A><td><A NAME="418715">
+Frameset; Frame<BR>
+</A>
+<tr><td><A NAME="418717">
+ hidden fields<BR>
+</A><td><A NAME="418719">
+Hidden<BR>
+</A>
+<tr><td><A NAME="418721">
+ GIF graphics<BR>
+</A><td><A NAME="418723">
+Image<BR>
+</A>
+<tr><td><A NAME="418725">
+ select options<BR>
+</A><td><A NAME="418727">
+Select; Option<BR>
+</A>
+<tr><td><A NAME="418729">
+ passwords<BR>
+</A><td><A NAME="418731">
+PasswordField<BR>
+</A>
+<tr><td><A NAME="418733">
+ radio buttons<BR>
+</A><td><A NAME="418735">
+Radio<BR>
+</A>
+<tr><td><A NAME="418737">
+ tables<BR>
+</A><td><A NAME="418739">
+Table; DynamicTable; TableRow; TableCell;TableDataCell; TableHeaderCell; TableRowCell<BR>
+</A>
+<tr><td><A NAME="418741">
+ text areas<BR>
+</A><td><A NAME="418743">
+TextArea; TextField<BR>
+</A>
+
+</table>
+<P>
+</A><A NAME="418744">
+As you can see, the Java objects that generate the main structural HTML tags begin with HTML; others are chiefly named for the tags they generate. The general procedure is to use the first three objects to define the basic structure of your generated Web page to then to use the AddItem method to add HTMLItems to the body.<P>
+</A><HR>
+<H2>
+<A NAME="419174">
+Related Information
+</A>
+</H2>
+<A NAME="419183">
+<a href="javax3.htm#997184">Java Dynamic HTML Examples</a>, <a href="appover1.htm#418246">Invoking an Application</a>, <a href="psqlwtlk.htm#10346">The PL/SQL Web Toolkit Reference</a><P>
+</A><A NAME="417956">
+<P>
+</A> <P>
+ 
+<HR>
+<A HREF="javause.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to"> Go to the top of the section</A><P>
+<A HREF="javause3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

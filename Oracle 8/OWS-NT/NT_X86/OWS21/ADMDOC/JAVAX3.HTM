@@ -1,0 +1,364 @@
+<HTML>
+<HEAD>
+<TITLE>
+Server-Side Java Examples
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="javax.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="javax2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="997184">
+Java Dynamic HTML Examples
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="997185">
+This page provides examples of how to dynamically generate some HTML text using the Java Cartridge. The first example is a complete program; the others are fragments illustrating specific classes. The examples are as follows:<P>
+</A><ul type=disc><A NAME="997351">
+<LI>Java "Hello World" Example. This is a complete Java application generating dynamic HTML.
+</A>
+<A NAME="997405">
+<LI>Java Anchor Example.
+</A>
+<A NAME="997408">
+<LI>Java Form Example.
+</A>
+<A NAME="997410">
+<LI>Java Table Example.
+</A>
+<A NAME="997385">
+<LI>Java Menu Example.
+</A>
+<A NAME="997414">
+<LI>Java Definition List Example.
+</A>
+<A NAME="997419">
+<LI>Java Encapsulation Example.
+</A>
+<A NAME="997384">
+<LI>Java Embedded Applet Example.
+</A>
+</ul><HR>
+<H2>
+<A NAME="997403">
+Java "Hello World" Example
+</A>
+</H2>
+<A NAME="997186">
+The following is a basic Java program that produces an HTML page whose title and content are both the famous "Hello World!":<P>
+</A><A NAME="997187">
+<PRE>import oracle.html.*;</PRE><P>
+</A>
+<A NAME="997188">
+<PRE>public class HelloWorld {</PRE><P>
+</A>
+<A NAME="997189">
+<PRE>public static void main (String args[]) {</PRE><P>
+</A>
+<A NAME="997190">
+<PRE>  // Create an HtmlHead Object titled "Hello World!"</PRE><P>
+</A>
+<A NAME="997191">
+<PRE>  HtmlHead hd = new HtmlHead("Hello World!");</PRE><P>
+</A>
+<A NAME="997192">
+<PRE>  // Create an HtmlBody Object</PRE><P>
+</A>
+<A NAME="997193">
+<PRE>  HtmlBody bd = new HtmlBody();</PRE><P>
+</A>
+<A NAME="997194">
+<PRE>  // Create an HtmlPage Object</PRE><P>
+</A>
+<A NAME="997195">
+<PRE>  HtmlPage hp = new HtmlPage(hd, bd);</PRE><P>
+</A>
+<A NAME="997196">
+<PRE>  // Adds a simple string "Hello World" in this page</PRE><P>
+</A>
+<A NAME="997197">
+<PRE>  bd.addItem("Hello World!");</PRE><P>
+</A>
+<A NAME="997198">
+<PRE>  // Print out the content of this Page</PRE><P>
+</A>
+<A NAME="997199">
+<PRE>  hp.print();</PRE><P>
+</A>
+<A NAME="997200">
+}<P>
+</A><A NAME="997202">
+}<P>
+</A><HR>
+<H2>
+<A NAME="997352">
+Java Anchor Example
+</A>
+</H2>
+<A NAME="997353">
+The following Java code creates an HTML anchor:<P>
+</A><A NAME="997203">
+<PRE>Anchor anchor = new Anchor("expire_date", new SimpleItem("Expire Date: 02/96"));</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="997355">
+Java Form  Example
+</A>
+</H2>
+<A NAME="997204">
+The following Java code creates an HTML form:<P>
+</A><A NAME="997205">
+<PRE>Form form = new Form("GET", "http://www.myhom.com/wrb/doit");</PRE><P>
+</A>
+<A NAME="997206">
+<PRE>// Create a TextField object and add it to the form</PRE><P>
+</A>
+<A NAME="997207">
+<PRE>form.addItem(new TextField("textfield"));</PRE><P>
+</A>
+<A NAME="997208">
+<PRE>// Add the form object to the HtmlBody object</PRE><P>
+</A>
+<A NAME="997209">
+<PRE>bd.addItem(form);</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="997359">
+Java Table  Example
+</A>
+</H2>
+<A NAME="997210">
+The following Java code creates an HTML table. To make this example realistic, we have added some user-defined functions:<P>
+</A><A NAME="997211">
+<PRE>// User-defined functions</PRE><P>
+</A>
+<A NAME="997212">
+<PRE>Product product = getFirstProduct();</PRE><P>
+</A>
+<A NAME="997213">
+<PRE>// create a dynamic table with 2 columns</PRE><P>
+</A>
+<A NAME="997214">
+<PRE>DynamicTable tab = new DynamicTable(2);</PRE><P>
+</A>
+<A NAME="997215">
+<PRE>// create the rows and add them to the table</PRE><P>
+</A>
+<A NAME="997216">
+<PRE>TableRow rows[] = new TableRow[NUM_ROWS];</PRE><P>
+</A>
+<A NAME="997217">
+<PRE>for (int i=0; i&lt; NUM_ROWS; i++) {</PRE><P>
+</A>
+<A NAME="997218">
+<PRE>  // allocate TableRow</PRE><P>
+</A>
+<A NAME="997219">
+<PRE>  rows[i] = new TableRow();</PRE><P>
+</A>
+<A NAME="997220">
+<PRE>  // populate row with data</PRE><P>
+</A>
+<A NAME="997221">
+<PRE>  rows[i].addCell(new TableHeaderCell(product.getProductID()))</PRE><P>
+</A>
+<A NAME="997222">
+<PRE>         .addCell(new TableDataCell(product.getProductDescription()))</PRE><P>
+</A>
+<A NAME="997223">
+<PRE>  // add them to Table</PRE><P>
+</A>
+<A NAME="997224">
+<PRE>  tab.addRow(rows[i]);</PRE><P>
+</A>
+<A NAME="997225">
+<PRE>}</PRE><P>
+</A>
+<A NAME="997226">
+<PRE></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="997365">
+Java Menu  Example
+</A>
+</H2>
+<A NAME="997227">
+The following Java code creates an HTML menu:<P>
+</A><A NAME="997228">
+<PRE>// Create a MenuList Object</PRE><P>
+</A>
+<A NAME="997229">
+<PRE>MenuList menulist = new MenuList();</PRE><P>
+</A>
+<A NAME="997230">
+<PRE>// Add new items to the list</PRE><P>
+</A>
+<A NAME="997231">
+<PRE>menulist.addItem(new SimpleItem("Menu Item 1"))</PRE><P>
+</A>
+<A NAME="997232">
+<PRE>        .addItem(new SimpleItem("Menu Item 2"));</PRE><P>
+</A>
+<A NAME="997233">
+<PRE>// Add the list object to the body</PRE><P>
+</A>
+<A NAME="997234">
+<PRE>bd.addItem(menulist);</PRE><P>
+</A>
+<A NAME="997235">
+<P>
+</A><HR>
+<H2>
+<A NAME="997367">
+Java Definition List  Example
+</A>
+</H2>
+<A NAME="997236">
+The following Java code creates an HTML definition list, encapsulated in a Container object:<P>
+</A><A NAME="997237">
+<PRE>Container dterms = new Container();</PRE><P>
+</A>
+<A NAME="997238">
+<PRE>dterms.addItem(new SimpleItem("DefTerm1.1"));</PRE><P>
+</A>
+<A NAME="997239">
+<PRE>dterms.addItem(new SimpleItem("DefTerm1.2"));</PRE><P>
+</A>
+<A NAME="997240">
+<PRE>DefinitionList dl = new DefinitionList();</PRE><P>
+</A>
+<A NAME="997241">
+<PRE>// Creates a new Definition List Object, note the first argument</PRE><P>
+</A>
+<A NAME="997242">
+<PRE>dl.addDef(dterms, new SimpleItem("Definition1"));</PRE><P>
+</A>
+<A NAME="997243">
+The following Java code creates an HTML ordered list:<P>
+</A><A NAME="997244">
+<PRE>// Create a OrderedList Object</PRE><P>
+</A>
+<A NAME="997245">
+<PRE>OrderedList orderedlist = new OrderedList();</PRE><P>
+</A>
+<A NAME="997246">
+<PRE>// Add new items to the list</PRE><P>
+</A>
+<A NAME="997247">
+<PRE>orderedlist.addItem(new SimpleItem("Ordered Item 1"))</PRE><P>
+</A>
+<A NAME="997248">
+<PRE>           .addItem(new SimpleItem("Ordered Item 2"));</PRE><P>
+</A>
+<A NAME="997249">
+<PRE>// Add the list object to the body (assuming it already exists)</PRE><P>
+</A>
+<A NAME="997250">
+<PRE>bd.addItem(orderedlist);</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="997369">
+Java Encapsulation  Example
+</A>
+</H2>
+<A NAME="997251">
+The following Java code encapsulates a group of HTML tags as a single component that can be used repeatedly in a page:<P>
+</A><A NAME="997252">
+<PRE>// Create a new CompoundItem object</PRE><P>
+</A>
+<A NAME="997253">
+<PRE>CompoundItem compoundItem = new CompoundItem();</PRE><P>
+</A>
+<A NAME="997254">
+<PRE>// Set the default text attribute of all items in Compound Item</PRE><P>
+</A>
+<A NAME="997255">
+<PRE>// Note that this operation cannot be done with a &lt;b&gt;Container&lt;/b&gt;</PRE><P>
+</A>
+<A NAME="997256">
+<PRE>compoundItem.setItal();</PRE><P>
+</A>
+<A NAME="997257">
+<PRE>// Add a SimpleItem and a TextArea to the CompoundItem</PRE><P>
+</A>
+<A NAME="997258">
+<PRE>compoundItem.addItem(new Simpleitem("How are you?").setBold())</PRE><P>
+</A>
+<A NAME="997259">
+<PRE>            .addItem(new TextArea("response", 30, 10));</PRE><P>
+</A>
+<A NAME="997260">
+<PRE>// Add the CompoundItem to the body object (assuming it's been created)</PRE><P>
+</A>
+<A NAME="997261">
+<PRE>bd.addItem(compoundItem);</PRE><P>
+</A>
+<A NAME="997262">
+<PRE></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="997371">
+Java Embedded Applet  Example
+</A>
+</H2>
+<A NAME="997263">
+The following Java code specifies an applet of Java bytecode to be included in the Web page output for execution on the client's browser.<P>
+</A><A NAME="997264">
+<PRE>// Create a new Applet object with the following attributes:</PRE><P>
+</A>
+<A NAME="997265">
+<PRE>// Applet file name:  "NervousText.class"</PRE><P>
+</A>
+<A NAME="997266">
+<PRE>// Width of Applet Window:  400</PRE><P>
+</A>
+<A NAME="997267">
+<PRE>// Height of Applet Window:  75</PRE><P>
+</A>
+<A NAME="997268">
+<PRE>// Parameter:   Name="text", Value="This is an applet test"</PRE><P>
+</A>
+<A NAME="997269">
+<PRE>Applet applet = new Applet("NervousText.class", 400, 75);</PRE><P>
+</A>
+<A NAME="997270">
+<PRE>applet.addParam("text", "This is an applet test.");</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="997530">
+Related Information
+</A>
+</H2>
+<A NAME="997536">
+<a href="javause4.htm#418658">Dynamic HTML from Java</a>, <a href="javause.htm#10346">Using the Java&#153; Cartridge</a>,  <a href="javause1.htm#418129">Java Web Toolkit Overview</a>, <a href="appover1.htm#418246">Invoking an Application</a>, <a href="appover1.htm#418250">How the URL is Interpreted</a><P>
+</A><A NAME="997527">
+<P>
+</A> <P>
+ 
+<HR>
+<A HREF="javax.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to"> Go to the top of the section</A><P>
+<A HREF="javax2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

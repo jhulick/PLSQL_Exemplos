@@ -1,0 +1,4 @@
+SELECT LEFT(<coluna>,<numero>)
+FROM tabela
+
+*em MySQL mostrar os caracteres a esquerda apartir do caractere(numero) informado.

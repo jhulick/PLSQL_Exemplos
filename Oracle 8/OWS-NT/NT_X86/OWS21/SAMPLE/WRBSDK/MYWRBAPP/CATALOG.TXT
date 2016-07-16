@@ -1,0 +1,13 @@
+O <STRONG>Lawn Wrangler</STRONG> é o seu bilhete para a perfeição suburbana.
+0001-0001 Lawn Wrangler Standard $19.95
+O <STRONG>Lawn Wranger Deluxe</STRONG> é exactamente como o standard, só que melhor.
+0002-0002 Lawn Wrangler Deluxe $29.95
+O <STRONG>Super Lawn Wrangler Deluxe</STRONG> é realmente esplêndido.
+0010-0030 Super Lawn Wrangler Deluxe $39.95
+A <STRONG>Cowabunga Machine</STRONG> cobre o seu jardim com uma camada de matéria vegetal húmida, aduba-o e fertiliza-o. Encomende a sua ainda hoje!
+0020-0040 Cowabunga Machine $154.95
+O <STRONG>Belfry</STRONG> é simplesmente excelente. Indispensável para o Verão!
+0020-0041 Belfry $55.95
+O <STRONG>Garden Ferret</STRONG> afasta as doninhas indesejáveis do seu jardim. Também resulta lindamente com lagartos!
+0020-0042 Garden Ferret $19.95
+

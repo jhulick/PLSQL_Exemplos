@@ -1,0 +1,88 @@
+<HTML>
+<HEAD>
+<TITLE> Upgrading Oracle Web Server 2.0 to 2.1</TITLE>
+<!-- Created by: William Chan,  9-Sep-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+
+<IMG SRC="/ows-img/owsadmin.gif" width=560 height=55 ALT="Oracle WebServer Administration">
+
+<h2>
+<font color="#BB0000">
+UPGRADE the Oracle Web Server 2.0 to 2.1
+</font>
+</h2>
+
+<IMG SRC="/ows-img/iconmngr.gif" width=32 height=32 align=left hspace=10>
+<BR>
+<P>
+<FORM ACTION="/ows-abin/wlupgrad" METHOD="POST">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="OWS20to21">
+This page <STRONG> will</STRONG>:
+<UL>
+<LI>UPGRADE <EM>all</EM> the Web Server Listener under the Oracle Web Server 
+2.0 area to Oracle Web Server 2.1
+<LI>UPGRADE <EM>all</EM> the Web Server Listener's default Cartridges (such
+ as JAVA, SSI, OWA)  to Oracle Web Server 2.1
+<LI>UPGRADE <EM>all</EM> the PL/SQL Agent's Database Connection Descriptor (DCD) 
+under the Oracle Web Server 2.0 area to Oracle Web Server 2.1 (<STRONG>NOTE:</STRONG> DCD 
+<EM>OWA_DBA</EM> & <EM>OWA_DEFAULT_SERVICE</EM> will NOT be upgraded given 
+the fact that they should be created during the Oracle Web Server 2.1 
+installation
+</UL>
+<BR>
+Before you proceed, you <STRONG>MUST</STRONG>:
+<UL>
+<LI> <STRONG>fresh</STRONG> install the Oracle Web Server 2.1 on the same 
+machine where you run the Oracle Web Server 2.0
+<LI> <STRONG>not have</STRONG> defined any Oracle Web Server 2.1 listener 
+or DCD with the same name 
+of what to be upgraded from Oracle Web Server 2.0.  
+The listener or DCD from the Oracle Web Server 2.0 area with 
+<EM>name conflicts</EM> with Oracle Web Server 2.1 area will <STRONG>NOT
+</STRONG> be upgraded.
+</UL><BR>
+After the upgrade, you <STRONG>SHOULD</STRONG>:
+<UL>
+<LI> use <A HREF="/ows-abin/wrbadmin">Oracle Web Request Broker Admin Manager 2.1</A>
+to update all your upgraded listener's application directory mapping, 
+application setting if necessary.
+<LI> use <A HREF="/ows-abin/agadmin">Oracle PL/SQL Agent Admin Manager 2.1</A>
+to update all your upgraded DCD's log file locations if necessary.
+<LI> use <A HREF="/ows-abin/wladmin">Oracle Web Listener Admin Manager 2.1</A>
+to update all your upgraded listener's directory mapping, log files locations if necessary 
+and restart your listener.
+</UL>
+<HR>
+Please enter the following information:
+<P>
+<TABLE>
+<TR>
+<TD ALIGN=right>Oracle Home (ORACLE_HOME)<br>
+for Oracle Web Server 2.0 : 
+<TD><INPUT TYPE="text" NAME="OHHOME" VALUE="%ORACLE_HOME%" SIZE=50>
+</TABLE><BR>
+<HR>
+<CENTER>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Upgrade Oracle Web Server">
+<INPUT TYPE="reset" VALUE="Reset">
+</CENTER>
+</FORM>
+
+<center>
+<HR>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" width=112 height=25 ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" width=140 height=25 ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" width=110 height=25 ALT="OWS Home" border=0></A>
+
+<p>
+
+<img src="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>

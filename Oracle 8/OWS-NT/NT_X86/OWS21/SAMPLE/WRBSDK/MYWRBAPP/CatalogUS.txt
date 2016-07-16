@@ -1,0 +1,12 @@
+The <STRONG>Lawn Wrangler</STRONG> is your ticket to suburban perfection.
+0001-0001 Lawn Wrangler Standard $19.95
+The <STRONG>Lawn Wranger Deluxe</STRONG> is just like the standard, only better.
+0002-0002 Lawn Wrangler Deluxe $29.95
+The <STRONG>Super Lawn Wrangler Deluxe</STRONG> is nothing short of sublime.
+0010-0030 Super Lawn Wrangler Deluxe $39.95
+The <STRONG>Cowabunga Machine</STRONG> mulches, composts, and fertilizes your garden. Order yours today!
+0020-0040 Cowabunga Machine $154.95
+The <STRONG>Belfry</STRONG> The <STRONG>Belfry</STRONG> is simply cool. A must for summer!
+0020-0041 Belfry $55.95
+The <STRONG>Garden Ferret</STRONG> roots out unwanted weasels from your garden. Works great on lizards too!
+0020-0042 Garden Ferret $19.95

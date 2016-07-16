@@ -1,0 +1,5 @@
+CHARINDEX ( expression1 ,expression2 [ , start_location ] ) 
+
+Pesquisa na expression2 a expression1 e retorna a posição inicial da string, se for localizada. A pesquisa inicia em start_location.
+
+SELECT CHARINDEX('Id=', XMLNFE) FROM TNFEESTADUAL

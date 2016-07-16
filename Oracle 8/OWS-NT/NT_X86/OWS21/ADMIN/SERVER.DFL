@@ -1,0 +1,104 @@
+[NetInfo]
+MaxConnectCount         =  338
+DNSResolution           =  LAZY
+;
+;
+; Log Information
+;
+; Set values for ...
+;      LogDir           ... Place for all log files
+;      LogInfoFile      ... Information (Audit) Log file
+;      LogErrorFile     ... Error Log File
+;
+[Log]
+LogTimeStyle        = GMT
+LogErrorFile        = %OWS21%\log\LogError
+;
+;
+; Server Parameters
+;
+; Set values for ...
+;       RequestTimeout  ... Time out for incoming requests
+;       ResponseTimeout ... Time out for outgoing responses
+;       ScriptTimeout   ... Time out for Script response time
+;
+[Server]
+InitialFile        = index.html
+DefaultMIMEType    = application/octet-stream
+DefaultCharset     = iso-8859-1
+; UserDir            = public_html
+PreferredLanguage  = en
+ImageMap           = map
+UseDirIndexing     = FALSE
+CGITimeout         = 900
+;
+;
+; Directory Mappings
+;
+; List each mapping from a physical directory to a
+; virtual directory, including the indicator whether
+; the directory contains scripts or whether the
+; subdirectories should be mapped recursively (R) or
+; non-recursively (N).
+;
+[DirMaps]
+; This first line which has %OWS21%\doc needs to be here to keep
+; the virtual path ordering correct.
+%OWS21%\new\    NR      /
+%OWS21%\bin\    CN      /ows-bin/
+%OWS21%\doc\    NR      /ows-doc/
+%OWS21%\img\    NR      /ows-img/
+%OWS21%\sample\wrbsdk\mywrbapp\ NR      /sample/wrbsdk/mywrbapp/
+;
+;
+; File Cache
+;
+; List the full virtual filename path or wild-card
+; expression denoting one or more files in the Server’s
+; virtual file system.
+;
+;[FileCache]
+;/products/*
+;/products/xr25/Version*.c
+;/employees/list/phones
+;
+;
+; Language Extensions
+;
+; List for each combination of language type
+; and character set one or more unique
+; extensions.
+;
+[LangExt]
+en              iso-8859-1                      eng
+en              unicode-1-1                     engU uc
+fr-CA           iso-8859-1                      frc
+fr-FR           iso-8859-1                      fr
+jp-JP           iso-2022-jp                     jp
+jp-JP           unicode-1-1-utf-8               jpU
+;
+;
+; MIME Types
+;
+; List for each combination of MIME Type
+; and representation one or more unique
+; extensions.
+;
+[MIMETypes]
+text/html       htm html HTM HTML
+image/jpeg      jpg jpeg JPG JPEG
+image/gif       gif GIF
+appl/text       doc DOC
+text/plain  txt ksh lst TXT
+application/pdf pdf PDF
+application/postscript ps PS
+
+;
+[Encodings]
+compress        Z
+gzip            gz
+;
+;
+;The ordering of the DynApps should not be changed
+[DynApps]
+%OWS21%\bin\ndwfss.dll          oracle_adp_init

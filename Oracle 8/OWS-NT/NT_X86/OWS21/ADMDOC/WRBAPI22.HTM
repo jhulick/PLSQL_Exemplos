@@ -1,0 +1,143 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi21.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi23.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426211">
+WRBReturnHTTPError()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426212">
+<code>WRBReturnHTTPError()</code> sends a standard HTTP error to a client in response to the current HTTP request. The <code>nErrorCode</code> parameter must specify a standard HTTP error code of type <a href="wrbapi26.htm#426847">WRBErrorCode</a>. You may specify a custom error message to be displayed to the client. If you pass a NULL error message pointer, <code>WRBReturnHTTPError()</code> uses the standard HTTP error message for the specified error code.<P>
+</A><A NAME="426214">
+If you set the <code>close</code> parameter to <code>TRUE</code>, the function sends a complete HTTP header to the client. You can set this parameter to <code>FALSE</code> if you want to write additional HTTP header information, such as <code>Set-Cookie:</code> headers, before completing the HTTP header.<P>
+</A><A NAME="426218">
+If you set <code>close</code> to <code>FALSE</code>, you must subsequently call <code><a href="wrbapi3.htm#425345">WRBCloseHTTPHeader()</a></code> to finish writing the HTTP header to the client.<P>
+</A><A NAME="426219">
+<B><EM>Note</EM></B> 
+</A>
+<A NAME="426220">
+Currently, you must make any <code>WRBReturnHTTPError() </code>call for a given HTTP request before your first call to <code>WRBClientWrite()</code>.<P>
+</A><HR>
+<H2>
+<A NAME="426221">
+Syntax
+</A>
+</H2>
+<A NAME="426222">
+<PRE>ssize_t WRBReturnHTTPError( void *WRBCtx,<br>                            WRBErrorCode nErrorCode,<br>                            char *szErrorMesg,<br>                            boolean close );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426257">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="426225">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="426227">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="426229">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="426231">
+WRBCtx<BR>
+</A><td><A NAME="426233">
+void *<BR>
+</A><td><A NAME="426235">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="426237">
+nErrorCode<BR>
+</A><td><A NAME="426239">
+WRBErrorCode<BR>
+</A><td><A NAME="426241">
+An HTTP status number identifying the nature of the error.<BR>
+</A>
+<tr><td><A NAME="426243">
+szErrorMessage<BR>
+</A><td><A NAME="426245">
+char *<BR>
+</A><td><A NAME="426247">
+A pointer to the error message string that you want to display to the client.<BR>
+</A>
+<tr><td><A NAME="426249">
+close<BR>
+</A><td><A NAME="426251">
+boolean<BR>
+</A><td><A NAME="426253">
+When this parameter is set to TRUE, WRBReturnHTTPError() outputs a marker that indicates the end of the HTTP header data. If you specify FALSE, you must call <a href="wrbapi3.htm#425345">WRBCloseHTTPHeader()</a> explicitly.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="426258">
+Return Values
+</A>
+</H2>
+<A NAME="426259">
+<code>WRBReturnHTTPError()</code> returns the number bytes successfully written to the client.<P>
+</A><HR>
+<H2>
+<A NAME="426260">
+Usage
+</A>
+</H2>
+<A NAME="426261">
+You can call <code>WRBReturnHTTPError()</code> from your Authorize or Exec function in response to an invalid request, or to notify the client of a cartridge error.<P>
+</A><HR>
+<H2>
+<A NAME="426262">
+Examples
+</A>
+</H2>
+<A NAME="426263">
+See the MyWRBApp sample function <a href="mywrbap3.htm#422368">MyWRBApp_Exec()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="426264">
+Related Information
+</A>
+</H2>
+<A NAME="426271">
+See also <code><a href="wrbapi3.htm#425345">WRBCloseHTTPHeader()</a></code> and <code><a href="wrbapi23.htm#426279">WRBReturnHTTPRedirect()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi21.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi23.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,167 @@
+/* Copyright (c) Oracle Corporation 1992, 1996.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    netc23.dei
+
+  DESCRIPTION
+    This script removes the Windows 32 SQL*Net files and un-registers the
+    product.
+
+  OWNER
+    Etna Flores
+
+  MODIFIED    DD-MMM-YY  Reason
+   dstiefel   22-FEB-96  Merge NT/95 for 2.3.2
+   ljiang     9/95       Modified for Easy Configuration
+   dlau       07-AUG-95  Modified for SQLNET 2.2
+*****************************************************************************/
+{
+  {
+  /* OS variables */
+   if (platform() == "nt")
+	 prefix = "nt";
+   else
+ 	 prefix = "w95";
+
+  /* Check Product Dependencies */
+  doit = execute("%installer_home%\%operating_system%.dei");
+  } [
+    'UNBOUND_VARIABLE: signal('failure,instantiate(nls("instver_too_early2", "The version of the Installer currently running is %%installer_version%%. The product(s) you have chosen to deinstall were installed with a later version of the Installer. Please use a later version of the Installer to deinstall these product(s).")));
+   ]
+
+ if (doit)
+   {
+    net2_deinstall_registry = nls("net2_deinstall_registry","Unregistering %%registry_label%%...");
+    net2_deinstall_message = nls("net2_deinstall_message","Deinstalling %%registry_label%% Message Files...");
+    net2_deinstall_tns = nls("net2_deinstall_tns","Deinstalling %%registry_label%% Executables...");
+    net2_deinstall_script = nls("net2_deinstall_script","Deinstalling %%registry_label%% Installation Scripts...");
+    net2_deinstall_sample = nls("net2_deinstall_sample","Deinstalling %%registry_label%% Sample Files...");
+    net2_deinstall_easycfg = nls("net2_deinstall_easycfg","Deinstalling SQL*Net Easy Configuration Files...");
+    net2_deinstall_help = nls("net2_deinstall_help","Deinstalling SQL*Net Help Files...");
+
+    app_prompt = instantiate( nls("app_prompt","Stop all Oracle applications that are using %%registry_label%% before continuing with this deinstallation."));
+    app_content = nls("app_content","Stop Applications");
+    app_help = instantiate( nls("app_help","%%registry_label%% is being used. Stop all Oracle applications that are using %%registry_label%% before continuing with deinstallation."));
+
+    chkdeinst_prompt = nls("chkdeinst_prompt", "You may have Oracle Names Server and/or SQL*Net Server installed. Removing %%registry_label%% Client software will disable those products. If you continue to deinstall %%registry_label%%, you should also deinstall Oracle Names Server and SQL*Net Server.");
+
+  ezcfg = nls("ezcfg","SQL*Net Easy Configuration");
+
+  deinstall_easycfg_prompt = nls("deinstall_easycfg_prompt","%registry_label% will now be deinstalled.
+
+Do you also wish to deinstall %ezcfg% and SQL*Net configuration files?
+");
+  deinstall_easycfg_label = nls("deinstall_easycfg_label","Deinstall %ezcfg%?");
+  deinstall_easycfg_help = nls("deinstall_easycfg_help","The Oracle Installer detects %ezcfg% and SQL*Net configuration files on this machine. Your SQL*Net configuration files will be removed if you deinstall %ezcfg%. Do you still wish to deinstall %ezcfg%?
+
+YES deinstalls %registry_label%, %ezcfg%, and SQL*Net configuration files.
+
+NO deinstalls %registry_label% but keeps %ezcfg% and SQL*Net configuration files.
+
+CANCEL terminates the deinstallation of %registry_label%.");
+
+    ui_product(registry_label);
+
+    complain = FALSE;
+    if (platform() == "nt")
+    {
+/*
+      if (registered("ntnames20"))
+        if (not(member(registration("selected_registries"),registration("ntnames20"))))
+	      information_dialog(instantiate(chkdeinst_prompt));
+*/
+      if (registered("%prefix%netsrv23"))
+          complain = TRUE;
+    } /* NT */
+    else  /* 95 */
+    {
+      complain = FALSE;  /* Win 95 client doesn't have the other products */ 
+    }
+
+    /* remove client only stuff */
+
+    ui_action(instantiate(net2_deinstall_easycfg));
+    remove(cfg23);
+
+    permit_retry_operations = FALSE;
+
+/*
+    if (exists("%oracle_home%\network\cfg\sqlnetv2.cfg"))
+    {
+      remove_file("%oracle_home%\network\admin\tnsnames.ora");
+    }
+    ['INVALID_FILE_NAME, 'PERMISSION_DENIED, 'WRITE_ERROR, 'OS_ERROR: continue();]
+*/
+    {
+    remove_file("%oracle_home%\network\admin\tnsnames.old");
+    }
+    ['INVALID_FILE_NAME, 'PERMISSION_DENIED, 'WRITE_ERROR, 'OS_ERROR: continue();]
+/*    
+    {
+    remove_file("%oracle_home%\network\cfg\sqlnetv2.cfg");
+    }
+    ['INVALID_FILE_NAME, 'PERMISSION_DENIED, 'WRITE_ERROR, 'OS_ERROR: continue();]
+*/
+    {
+    remove_file("%oracle_home%\network\cfg\sqlnetv2.old");
+    }
+    ['INVALID_FILE_NAME, 'PERMISSION_DENIED, 'WRITE_ERROR, 'OS_ERROR: continue();]
+/*
+    {
+    remove_file("%oracle_home%\network\admin\sqlnetv2.ora");
+    }
+    ['INVALID_FILE_NAME, 'PERMISSION_DENIED, 'WRITE_ERROR, 'OS_ERROR: continue();]
+*/
+    if (complain)
+      { /* Leave common stuff */
+      }
+    else
+    {
+      ui_action(instantiate(net2_deinstall_tns));
+      { remove(tns); }
+      ['PERMISSION_DENIED:{
+            information_dialog(app_prompt, app_content,
+            app_help);
+            signal('FAILURE, instantiate( "Deinstallation terminated.  Please stop all Oracle applications that are using %%registry_label%%."));
+            }
+      ]
+
+      permit_retry_operations = TRUE;
+
+      ui_action(instantiate(net2_deinstall_message));
+      remove(msb);
+
+      ui_action(instantiate(net2_deinstall_sample));
+      remove(sample);
+
+      if (exists("%oracle_home%\network\admin\sqlnet.ora"))
+      {
+        remove_file("%oracle_home%\network\admin\sqlnet.ora");
+      }
+      ['INVALID_FILE_NAME, 'PERMISSION_DENIED, 'WRITE_ERROR, 'OS_ERROR: continue();]
+
+    }  /* common */
+
+    /* Deinstall Dependent Products */
+    if (registered("w32netclt23"))
+    {
+      if (registered("w32rsf73"))
+        {
+          dependent = registration("w32rsf73");
+          unreference(dependent, current_registry);
+          deinstall(dependent);
+        }
+    }
+
+    permit_retry_operations = TRUE;
+
+    ui_action(instantiate(net2_deinstall_script));
+    remove(deinstl);
+
+    ui_action(instantiate(net2_deinstall_registry));
+    unregister(current_registry);
+
+    permit_retry_operations = FALSE;
+
+  }
+}

@@ -1,0 +1,58 @@
+/* Copyright (c) Oracle Corporation 1992, 1996.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    dec23.ins
+
+  DESCRIPTION
+    This script performs the installation tasks for the Windows 32 DEC
+    product.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY  Reason
+    dstiefel  28-MAY-96  Created.
+*****************************************************************************/
+{
+  if (doit)
+  {
+    if (install_dependent)
+      install(dependent);
+
+    ui_product(product_label);
+
+    ui_action(instantiate(net2_install_script));
+    copy(deinstl);
+
+    ui_action(instantiate(net2_install_dll));
+
+    { 
+      copy(dll);
+
+    if( platform() == "nt") {
+     if (doSmartStart)
+	ss_decrypt_file(product_key,
+			"%s_location%v7/NET23/DEC/NTDNT.DLL",
+			"%oracle_home%\bin\NTDNT.DLL");
+    } /* NT */
+    }
+    ['WRITE_ERROR:{ 
+	    information_dialog(instantiate(app_prompt), 
+			       app_content,
+			       instantiate(app_help));
+	    signal('FAILURE, instantiate("Installation terminated.  Please stop all Oracle applications that are using %%product_label%%."));
+	    }
+    ]
+ 
+     /* Register Product and Dependencies */
+
+    ui_action(instantiate(net2_register));
+    register(current_product);
+
+    if (install_dependent)
+      reference(dependent,current_product);
+
+    if (member(selected_products,current_product))
+      reference(current_product);
+  }
+}

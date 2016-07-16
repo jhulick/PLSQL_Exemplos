@@ -1,0 +1,231 @@
+<HTML>
+<HEAD>
+<TITLE>
+Setting Up a Secure Oracle WebServer
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="420076">
+Setting Up a Secure Oracle WebServer
+</A>
+</H1>
+<HR><P><A NAME="421061">
+You can up an Oracle WebServer process to accept secure connections on a particular TCP/IP <a href="gloss.htm#422250">port</a> by configuring it to use the Secure Sockets Layer (SSL) on that port. SSL is an emerging standard for encrypted data transmission--see Chapter 3, "The Secure Sockets Layer" in <em><a href="owsintro.pdf">Introduction to the Oracle WebServer</a></em> for an introduction to the terms and concepts involved in this kind of security.<P>
+</A><A NAME="420160">
+To set up your Oracle WebServer to use SSL, you must do the following:<P>
+</A><OL TYPE=1>
+<A NAME="420090">
+<LI>Generate a <a href="gloss.htm#421293">certificate</a> request.<P>
+</A>
+<A NAME="420091">
+<LI>Send the request to VeriSign, Inc., a Certifying Authority (<a href="gloss.htm#421196">CA</a>).<P>
+</A>
+<A NAME="420092">
+<LI>Physically secure and prepare your WebServer host machine.<P>
+</A>
+<A NAME="420093">
+<LI>Install the certificate granted you by the CA.<P>
+</A>
+<A NAME="420889">
+<LI>Activate SSL on at least one WebServer port.<P>
+</A>
+</OL>
+<HR>
+<H3>
+<A NAME="420892">
+Generating a Certificate Request
+</A>
+</H3>
+<A NAME="420096">
+To generate a certificate request, run the interactive utility <code>genreq</code> and enter the information for which it prompts you. When the prompt specifies a default value, you can just press return to enter that value, or enter a different value if you prefer. For an example of how to use genreq, see the sample <code>genreq</code> session that accompanies this document. To run <code>genreq</code>, do the following:<P>
+</A><OL TYPE=1>
+<A NAME="420193">
+<LI>Type <code>genreq</code> to start the utility.<P>
+</A>
+<A NAME="420908">
+<LI>Type <code>G</code> to begin creating a certificate request.<P>
+</A>
+<A NAME="420910">
+<LI>When prompted, type a password, used in generating the <a href="gloss.htm#421346">private key</a>. Just choose a random string of characters--you need only remember this string long enough to repeat it in the next step.<P>
+</A>
+<A NAME="420914">
+<LI>Retype the password for confirmation.<P>
+</A>
+<A NAME="420917">
+<LI>Choose the public exponent you want to use in generating the <a href="gloss.htm#421202">key pair</a>. The only two recognized exponents are 3 and 65537, commonly called Fermat 4 or F4.<P>
+</A>
+<A NAME="420918">
+<LI>Enter the size in bits of the modulus you want to use in generating the key pair. For the version of genreq sold in the United States of America, the size may be from 1 to 1024. The default size is 768 bits and the maximum is 1024 bits. A modulus size between these two values is recommended.<P>
+</A>
+<A NAME="420214">
+For versions of <code>genreq</code> sold outside the USA, the maximum (and default) modulus size is 512 bits.<P>
+</A>
+<A NAME="420215">
+<LI>Choose one of three methods for generating a random seed to use in generating the key pair:<P>
+</A>
+<ul type=square>
+<A NAME="420218">
+<LI>F--<code>genreq</code> prompts you to enter the full pathname of a file in your local file system. This can be any file that is at least 256 bytes in size, does not contain any secret information, and has contents that cannot easily be guessed.
+</A>
+<A NAME="420248">
+<LI>K--<code>genreq</code> prompts you to enter random keystrokes. <code>genreq</code> uses the variation in time between keystrokes to generate the seed. Don't use the keyboard's autorepeat capability, and don't wait longer than two seconds between keystrokes. <code>genreq</code> prompts you when you have typed enough keystrokes. You must delete any unused characters typed after this prompt.
+</A>
+<A NAME="420249">
+<LI>B--genreq prompts you to enter both a file name and random keystrokes. This option is recommended.
+</A>
+</ul>
+<A NAME="420252">
+<LI>Enter the name of a file in which to store your WebServer's distinguished name. You can choose the default, or enter any filename with a <code>.der</code> extension. <code>genreq</code> creates this file in the current directory, though you may later move it to any convenient location.<P>
+</A>
+<A NAME="420253">
+<LI>Enter the name of a file in which to store your WebServer's private key. You can choose the default, or enter any filename with a <code>.der</code> extension. <code>genreq</code> creates this file in the current directory, though you may later move it to any convenient location.<P>
+</A>
+<A NAME="420254">
+<LI>Enter the name of a file in which to store the certificate request. You can choose the default, or enter any filename with a <code>.pkc</code> extension.<P>
+</A>
+<A NAME="420257">
+<LI>Enter the requested identification information for you organization:<P>
+</A>
+</OL>
+<ul type=disc><A NAME="420269">
+<LI>Common Name--the fully qualified host name of your organization's Internet point of presence as defined by the Domain Name Service (<a href="gloss.htm#421200">DNS</a>), for example, <code>www.oracle.com</code>.
+</A>
+<A NAME="420258">
+<LI>Email Address--the email address where the CA can contact you.
+</A>
+<A NAME="420259">
+<LI>Organization--the official, legal name of your company or organization. Most CAs require you to verify this name by providing official documents, such as a business license.
+</A>
+<A NAME="420260">
+<LI>Organizational Unit--(optional) the name of the group, division, or other unit of your organization responsible for your Internet presence, or an informal or shortened name for your organization.
+</A>
+<A NAME="420261">
+<LI>Locality--(optional) the city, principality, or country where your organization is located.
+</A>
+<A NAME="420262">
+<LI>State or Province--the full name of the state or province where your organization is located. VeriSign does not accept abbreviations.
+</A>
+<A NAME="420263">
+<LI>Country--the two-character ISO-format abbreviation for the country where your organization is located. The country code for the United States is "US."
+</A>
+<A NAME="420954">
+<LI>Email Address--the email address where VeriSign can contact you.
+</A>
+<A NAME="420961">
+<LI>The name and version number of the application for which you are getting the certificate (you should accept the default value).
+</A>
+<A NAME="420276">
+When you have entered all the requested information, <code>genreq</code> responds with <code>Thank you</code>, and processes the data you have entered. When it is finished, it outputs <code>done</code> and returns you to the main menu.<P>
+</A>
+</ul><OL TYPE=1>
+<A NAME="420255">
+<LI>Type <code>Q</code> to quit the program.<P>
+</A>
+</OL>
+<HR>
+<H3>
+<A NAME="420251">
+Requesting a Certificate
+</A>
+</H3>
+<A NAME="420099">
+To request a certificate, email the request generated by <code>genreq</code> to VeriSign, Inc. a subsidiary of RSA Data Security, Inc.<P>
+</A><A NAME="420108">
+The certification process can take time, from a few days to several weeks. The more organized and complete your paperwork, the better your chances are for quick certification.<P>
+</A><HR>
+<H3>
+<A NAME="420109">
+Preparing Your WebServer Host Machine
+</A>
+</H3>
+<A NAME="420110">
+For your WebServer to be secure as advertised to clients, you must make sure that no unauthorized person has access to your WebServer's host machine. Here are some suggestions:<P>
+</A><ul type=disc><A NAME="420111">
+<LI>Place the machine in a locked server room.
+</A>
+<A NAME="420112">
+<LI>Limit distribution of keys or combinations to the server room to a few trusted individuals.
+</A>
+<A NAME="420113">
+<LI>Set up a secure area of the machine's file system that can be accessed only by the root user. This is where you will store your private key and your certificate when you receive it.
+</A>
+<A NAME="420114">
+<LI>Set a secure root password on the machine, using at least six characters and mixing numbers, legal punctuation marks, and mixed-case letters. Try not to use a character string that is a proper name or a word in any language. Change passwords frequently, and never write a password on paper.
+</A>
+<A NAME="420115">
+<LI>Strictly limit the programs that are installed and allowed to run on the machine.
+</A>
+<A NAME="420116">
+<LI>Limit TCP/IP connections to the machine to port 443, the default port for secure connections. Disable all other ports.
+</A>
+</ul><A NAME="420117">
+To learn how to implement these suggestions on your WebServer machine, see your machine's operating system reference manual.<P>
+</A><HR>
+<H3>
+<A NAME="420118">
+Installing Your Certificate
+</A>
+</H3>
+<A NAME="420119">
+When you receive your certificate from VeriSign, you must use the <a href="/ows-adoc/Intro.html">Oracle Web Server Manager</a> to install it.<P>
+</A><OL TYPE=1>
+<A NAME="420120">
+<LI>Use your email reader to save the message from the CA containing the certificate to a file with a <code>.der</code> extension, such as <code>cert.der</code>.<P>
+</A>
+<A NAME="420296">
+<LI>Use a text editor to remove the header information before the BEGIN CERTIFICATE line and the footer information after the END CERTIFICATE line. <em>Do not</em> delete the BEGIN CERTIFICATE and END CERTIFICATE lines themselves.<P>
+</A>
+<A NAME="420295">
+<LI>Using your web browser, go to the <em>Oracle WebServer Administration</em> page.<P>
+</A>
+<A NAME="420121">
+<LI>Follow the link to the <em>Oracle Web Listener Administration Form</em>.<P>
+</A>
+<A NAME="420122">
+<LI>Select a Web Listener process from the list and click its Configure button to go to the <em>Oracle Web Listener Advanced Configuration Form</em>.<P>
+</A>
+<A NAME="420123">
+<LI>Follow the link to the <em>Oracle Web Listener Configure Security Form</em>.<P>
+</A>
+<A NAME="420124">
+<LI>Go to the Secure Sockets Layer section of the form and follow the instructions.<P>
+</A>
+<A NAME="420977">
+<LI>Go back to the Oracle Web Listener Advanced Configuration Form.<P>
+</A>
+<A NAME="420980">
+<LI>Go to the Addresses and Ports section.<P>
+</A>
+<A NAME="420981">
+<LI>Set the Security pull-down menu to SSL in the entry for at least one port. <P>
+</A>
+<A NAME="420985">
+Note: For increased security, it is best to activate SSL only on port 443.<P>
+</A>
+<A NAME="420976">
+<LI>Go back to the <em>Oracle Web Listener Administration Form</em> and repeat the process for all Web Listener processes that you want to make secure.<P>
+</A>
+</OL>
+<A NAME="421039">
+<P>
+</A>
+
+<HR>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Go to the roadmap"> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Go to the index"> Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,5 @@
+StoreProcedure que dá todas as informacoes de uma tabela
+
+SP_HELP <nome da tabela>
+
+SP_HELP SMATRICPLCOMPL

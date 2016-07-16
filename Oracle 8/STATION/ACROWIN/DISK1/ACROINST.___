@@ -1,0 +1,192 @@
+;
+; This file automates the Acrobat install process.
+; To enable this file, rename it from ACROINST.___ to ACROINST.INI.
+; It must be on DISK1 of the installer disk set.
+;
+
+[Install Options]
+;
+; This section specifies which pieces of the installer user interface
+; are used.
+;
+
+;
+; DisplayLicense=1 | 0
+; Display or do not display the electronic end-user license agreement.
+; Default: Display
+;
+DisplayLicense=1
+
+;
+; DisplayRegPrompt=1 | 0
+; Display or do not display the windows that says "This is a good time
+; to fill out your registration card..."
+; Default: Display
+;
+DisplayRegPrompt=1
+
+;
+; DisplayParametersDialog=1 | 0
+; Display or do not display the 2 dialogs that allow the user to
+; determine which pieces of the app to install (Program, ATM, PDFWriter, etc.)
+; Default: Display
+;
+DisplayParametersDialog=1
+
+;
+; PromptForDiskettes=1 | 0
+; Display or do not display prompts to put a diskette into a drive.
+; Not really useful to turn off prompts for diskettes, but is useful
+; for server-based installs.  Use with the DiskXPath settings below.
+; Default: Prompt
+;
+PromptForDiskettes=1
+
+;
+; UseWinIniUserName=1 | 0
+; Pre-fill the user name and organization fields of the personalization dialog
+; with the values stored by Microsoft installers in WIN.INI.
+; If 1, the UserName= and Organization= settings below are ignored.
+; If a user name string is found in WIN.INI, and the serial number is 
+; specified below, the personalization dialog will not appear.
+;
+UseWinIniUserName=1
+
+;
+; UserName=
+; Pre-fill the user name field of the personalization dialog
+; with this string.
+; If a user name string is specified here, and the serial number is 
+; specified below, the personalization dialog will not appear.
+; Default: blank
+;
+UserName=
+
+;
+; Organization=
+; Pre-fill the organization field of the personalization dialog
+; with this string.
+; Default: blank
+;
+Organization=
+
+;
+; SerNo=
+; Specify the serial number for installation.
+; Default: blank
+;
+SerNo=
+
+;
+; DisplayStatusWindows=1 | 0
+; Display or do not display the status window contain the progress bar.
+; Default: Display
+;
+DisplayStatusWindows=1
+
+;
+; DisplayWarnings=1 | 0
+; Display or do not display warning messages.
+; Default: Display
+;
+DisplayWarnings=1
+
+;
+; DisplayErrors=1 | 0
+; Display or do not display error messages.
+; Default: Display
+;
+DisplayErrors=1
+
+;
+; AddProgramIconForProgram=1 | 0
+; Add or do not add a Program Manager icon for the executable file.
+; Default: Add
+;
+AddProgramIconForProgram=1
+
+;
+; AddProgramIconForReadme=1 | 0
+; Add or do not add a Program Manager icon for the readme file.
+; Default: Add
+;
+AddProgramIconForReadme=1
+
+;
+; GroupName=Adobe Acrobat
+; The Program Manager group into which Acrobat is installed.
+; Default: Adobe Acrobat
+;
+GroupName=Adobe Acrobat
+
+;
+; OverwriteNewerFiles=0 | 1
+; Overwrite or do not overwrite existing, newer versions of files (e.g., OLE2.DLL).
+; Default: Do not overwrite
+;
+OverwriteNewerFiles=0
+
+[Install Parameters]
+;
+; This section specifies which components are installed, and where the disk
+; images are found.
+;
+
+;
+; InstallProgram=1 | 0
+; Install or do not install the Acrobat program.
+; If zero, the InstallPDFWriter, InstallSampleDocs, and InstallSearch settings
+; are ignored.
+; Default: Install
+;
+InstallProgram=1
+
+;
+; InstallATM=0 | 1
+; Install or do not install Adobe Type Manager.
+; Default: Do not install
+;
+InstallATM=0
+
+;
+; InstallPDFWriter=1 | 0
+; Install or do not install PDFWriter.
+; Default: Install
+;
+InstallPDFWriter=1
+
+;
+; InstallSampleDocs=1 | 0
+; Install or do not install sample PDF documents.
+; Default: Install
+;
+InstallSampleDocs=1
+
+;
+; InstallSearch=1 | 0
+; Install or do not install Acrobat Search.
+; Default: Install
+;
+InstallSearch=1
+
+;
+; TargetPath=C:\ACROEXCH
+; Specifies the drive and directory into which Acrobat is installed.
+; Default: C:\ACROEXCH for Exchange; C:\ACRO_LE for Exchange LE; C:\READER for Reader
+;
+TargetPath=C:\ACROEXCH
+
+;
+; Disk1Path=
+; Specifies the pathname for the image of disk 1..16.
+; Only useful for a server-based install.  You can specify up 
+; to 16 disk paths for Disk1 through Disk 16, plus the path for
+; the ATM install diskette.
+;
+Disk1Path=
+Disk2Path=
+Disk3Path=
+Disk4Path=
+ATMDiskPath=
+
+

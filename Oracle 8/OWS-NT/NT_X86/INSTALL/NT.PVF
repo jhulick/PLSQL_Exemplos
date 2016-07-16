@@ -1,0 +1,73 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    nt.pvf - V3 post version analysis script for Windows NT products.
+
+  DESCRIPTION
+    This script performs post version analysis functionality.  In particular,
+    it analyzes the 'products_for_installation' list so that the Installer
+    can report which products need to be implicitly installed as a consequence
+    of the user's current configuration and product selection. 
+
+  OWNER
+    Kush Jain
+
+  MODIFIED    DD-MMM-YY  Reason
+    zzerhoun  18-SEP-95  display user advertisement first
+    zzerhoun  29-MAR-95  display advertisement
+    kjain     18-FEB-94  Created.
+*****************************************************************************/
+{
+  { ui_graphics("%product_home%\usrad%nls_abbreviation%.bmp"); } 
+  ['default:
+    { ui_graphics("%product_home%\adv%nls_abbreviation%.bmp"); }
+    ['FILE_NOT_FOUND:
+      { ui_graphics("%installer_home%\adv%nls_abbreviation%.bmp"); }
+      [ 'default:      
+	{ ui_graphics("%installer_home%\advus.bmp"); }
+        [ 'default:continue();]
+      ]
+    ]
+  ]
+
+  if (user_action == 'install)
+    {
+      prod_not_empty = not(empty(products_for_installation));
+      if (verbose) 
+	{
+          iter_pfi = products_for_installation;
+	  extras = list();
+	  {
+	    while (not(empty(iter_pfi)))
+	      {
+		if (not(member(selected_products,
+			       first(iter_pfi))))
+		  {
+		    prodlab = product_interface_label(first(iter_pfi));
+		    ver = product_version(first(iter_pfi));
+		    add(extras,instantiate(version_string));
+		  }
+
+		iter_pfi = rest(iter_pfi);
+	      }
+
+	    if (not(empty(extras)))
+	      {
+		extrastring = implode(extras,", ");
+
+		required_products_prompt = nls("required_products_prompt","The following product(s) are required and will be installed in addition to the ones you have chosen:%carriage_return%%carriage_return%%%extrastring%%");
+		required_products_content = nls("required_products_content","Required Products");
+
+		information_dialog(instantiate(required_products_prompt),
+				   required_products_content,
+				   instantiate(required_products_prompt));
+	      }
+	  }
+
+	}
+    }
+	[ 'UNBOUND_VARIABLE: continue(); ] /* products_for_installation */
+			                   /* could possibly be unbound */
+
+  return(0);
+}

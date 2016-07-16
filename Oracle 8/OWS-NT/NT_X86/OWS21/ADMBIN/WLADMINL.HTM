@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE> Oracle Web Listener Administration </TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 21-Feb-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<IMG SRC="/ows-img/icnwblist.gif" width=64 height=64 border=0 align=right>
+<IMG SRC="/ows-img/wladmin.gif" width=560 height=55 ALT="Oracle Web Listener Administration">
+<BR clear=right>
+
+<STATUS>
+
+<H2>
+<font color=#BB0000">
+<EM>Oracle Web Listener Home Page</EM>
+</font>
+</H2>
+
+From here, you can do the following:
+<UL>
+<LI><STRONG>Create</STRONG> a new <EM>Oracle Web Listener</EM> to run on your
+    machine by clicking the <EM>Create Listener...</EM> button.
+
+<P>
+
+<LI><STRONG>Modify</STRONG> existing
+    <EM>Oracle Web Listener</EM>s by selecting the
+    <EM>Configure</EM> link below.
+
+<P>
+
+<LI><STRONG>Start</STRONG>, <STRONG>Stop</STRONG> or <STRONG>Delete</STRONG> existing
+    <EM>Oracle Web Listener</EM>s by selecting the appropriate link below.
+
+
+<P>
+
+<LI><STRONG>Learn</STRONG> how to get a 
+<A HREF="/ows-adoc/sslsetup.htm">digital certificate</A> for your 
+WebServer so that you can use SSL to encrypt datastreams for a safer
+connection. Oracle WebServer initially supports certificates issued
+by <A HREF="http://www.verisign.com/">Verisign</A>.
+</UL>
+<HR>
+ <FORM ACTION="/ows-abin/wladmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="INTRO">
+
+The <EM>Oracle Web Listener</EM> can listen on multiple ports. You can
+create a Listener configured to run on a single port or multiple
+ports. This choice is merely to make the listener creation process
+very simple for the single-port case. After you have created a
+listener, the distinction no longer exists.
+<BR>
+<STRONG>Create</STRONG> a new Oracle Web Listener for:
+<PRE><INPUT TYPE="radio" NAME="MULTIPORT" VALUE="NO" CHECKED> a single port         <INPUT TYPE="radio" NAME="MULTIPORT" VALUE="YES"> multiple ports               <INPUT TYPE="submit" name="SUBMIT_BUTTON" value="Create Listener...">
+</PRE></FORM>
+<HR>
+Below are listed the <EM>Oracle Web Listeners</EM> on this machine. Each is identified by its unique <STRONG>Listener Name</STRONG>.
+
+<P>
+<UL>
+<SERVERS>
+</UL>
+<HR>
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" ALT="Listener Home" border=0></A>
+<A HREF="/ows-adoc/listadm.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+ <P>
+<IMG SRC="/ows-img/tag3.gif"></center>
+</BODY>
+</HTML>

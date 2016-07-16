@@ -1,0 +1,87 @@
+/* Copyright (c) Oracle Corporation 1992, 1996.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+   nmp23.dei
+   
+  DESCRIPTION
+    This script removes the Windows 32 bit NMP files and un-registers the
+    product.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY  Reason
+    dstiefel  22-FEB-96  Merge NT/95 for 2.3.2
+    dlau      07-AUG-95  Modified for SQLNET 2.2
+    eflores   06-APR-94  Modified for Windows NT.
+    zkhan     11-AUG-93  Modified for SQLNET and for using V3.0.9.3.2 or later
+			of the installer.
+    trodgers  28-JAN-92  Created.
+*****************************************************************************/
+{
+  {
+  /* OS variables */
+   if (platform() == "nt")
+	 prefix = "nt";
+   else
+ 	 prefix = "w95";
+
+  /* Check Product Dependencies */
+   doit = execute("%installer_home%\%operating_system%.dei");
+  }
+   [
+    'UNBOUND_VARIABLE: signal('failure,instantiate(nls("instver_too_early2", "The version of the Installer currently running is %%installer_version%%. The product(s) you have chosen to deinstall were installed with a later version of the Installer. Please use a later version of the Installer to deinstall these product(s).")));
+   ]
+
+  if (doit)
+   {
+    net2_deinstall_registry = nls("net2_deinstall_registry","Unregistering %%registry_label%%...");
+    net2_deinstall_script = nls("net2_deinstall_script","Deinstalling %%registry_label%% Installation Scripts...");
+    net2_deinstall_dll = nls("net2_deinstall_dll","Deinstalling %%registry_label%% DLL's...");
+
+   if (registered("w32nmp23"))
+    {
+      if (registered("%prefix%netsrv23"))
+	{
+	  dependent = registration("%prefix%netsrv23");
+	  unreference(dependent, current_registry);
+	  deinstall(dependent);
+	}
+
+      if (registered("w32netclt23"))
+	{
+	  dependent = registration("w32netclt23");
+	  unreference(dependent, current_registry);
+	  deinstall(dependent);
+	}
+     }
+
+    /* Unregister Product */
+    ui_product(registry_label);
+
+    /* Remove Files */
+    ui_action(instantiate(net2_deinstall_dll));
+
+    app_prompt = instantiate(nls("app_prompt","Stop all Oracle applications that are using %%registry_label%% before continuing with deinstallation."));
+    app_content = nls("app_content","Stop Applications");
+    app_help = instantiate( nls("app_help","%%registry_label%% is being used. Stop all Oracle applications that are using %%registry_label%% before continuing with deinstallation."));
+    
+    { remove(dll); }
+    ['PERMISSION_DENIED:{ 
+	    information_dialog(app_prompt, app_content,
+	    app_help);
+	    signal('FAILURE,instantiate("Deinstallation terminated.  Please stop all Oracle applications that are using %%registry_label%%."));
+	    }
+    ]
+
+    ui_action(instantiate(net2_deinstall_registry));
+    unregister(current_registry);
+
+    ui_action(instantiate(net2_deinstall_script));
+    remove(deinstl);
+  }
+}
+
+
+
+ 

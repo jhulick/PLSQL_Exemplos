@@ -1,0 +1,6 @@
+ALIAS_%addendum%=%database_alias%.%domain%
+%database_alias%.%domain%_PROTOCOL=SPX
+%database_alias%.%domain%_COMMUNITY=%comm_label%.%domain%
+%database_alias%.%domain%_SERVICE=%serv_name%
+%database_alias%.%domain%_SID=%data_inst%
+

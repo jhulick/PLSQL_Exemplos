@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<TITLE>
+Example PL/SQL Agent Web Pages
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaex3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaex5.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418233">
+OVERLOAD PL/SQL Web Page Example
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418234">
+As explained under <em>Overloading Subprograms</em> in  the "Overview of the Oracle7 Server, SQL, and PL/SQL" in the Introduction to the Oracle WebServer, PL/SQL allows you to overload procedures and functions that are in PL/SQL packages (standalone procedures and functions cannot be overloaded). In overloading, multiple procedures or functions have the same name, but are distinguished by the fact that they take different parameters.<P>
+</A><A NAME="418235">
+Here is a simple example of overloading:<P>
+</A><A NAME="418236">
+<PRE>create or replace package overload is</PRE><P>
+</A>
+<A NAME="418237">
+<PRE>procedure proc1(charval in varchar2);</PRE><P>
+</A>
+<A NAME="418238">
+<PRE>procedure proc1(numval in number);</PRE><P>
+</A>
+<A NAME="418239">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="418240">
+<PRE>create or replace package body overload is</PRE><P>
+</A>
+<A NAME="418241">
+<PRE>procedure proc1(charval in varchar2) is</PRE><P>
+</A>
+<A NAME="418242">
+<PRE>begin</PRE><P>
+</A>
+<A NAME="418243">
+<PRE>htp.print('The character value is '||charval);</PRE><P>
+</A>
+<A NAME="418244">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="418245">
+<PRE>procedure proc1(numval in number);</PRE><P>
+</A>
+<A NAME="418246">
+<PRE>htp.print('The number value is '||numval);</PRE><P>
+</A>
+<A NAME="418247">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="418248">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="418249">
+<b>Note:</b> The PL/SQL Agent's support for overloading is slightly more restrictive than that of PL/SQL in itself. Normally, in PL/SQL, two overloaded procedures can take parameters with all of the same names, as long as they differ in datatype. Since the PL/SQL Agent derives its data from HTML, which does not support datatypes, the names of the parameters must be different to distinguish them. For example, consider the following:<P>
+</A><A NAME="418250">
+<PRE>create or replace package overload is</PRE><P>
+</A>
+<A NAME="418251">
+<PRE>procedure proc1(val in varchar2);</PRE><P>
+</A>
+<A NAME="418252">
+<PRE>procedure proc1(val in number);</PRE><P>
+</A>
+<A NAME="418253">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="418254">
+If many situations, PL/SQL would be able to distinguish between the two versions of proc1 by whether the parameter passed to the procedure was a number or a varchar2. However, if the val parameter is taken from HTML input, it will have no datatype and the PL/SQL Agent cannot determine which procedure to call. This package will generate an error. <P>
+</A><A NAME="418773">
+To avoid the error, name the parameters of the procedures differently. For example: val1 for the first version and val2 for the second.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaex3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaex5.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

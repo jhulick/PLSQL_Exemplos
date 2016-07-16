@@ -1,0 +1,37 @@
+TOP=$(ORACLE_HOME)/ows21
+#
+# Java compiler, header and document generators
+#
+JAVAC     = javac
+JAVAH     = javah
+JAVADOC   = javadoc
+
+#
+# Java flags
+#
+JAVADEBUG = -debug
+
+#
+# Java compile rule
+#
+%.class  : %.java
+	$(JAVAC) $(JAVACFLAGS) $<
+
+JAVACFLAGS = $(CLASSDIR)
+
+CLASSDIR = -classpath $(TOP)/java/oracle.zip:$(TOP)/java/classes.zip:.
+
+.SUFFIXES:
+.SUFFIXES:.class .java $(.SUFFIXES)
+
+CLASS_TARGETS = banner.class form.class frame.class list.class srcview.class table.class toc.class trailer.class file.class EmployeeReport.class HelloWorld.class
+
+all: $(CLASS_TARGETS)
+
+#
+# Cleanup
+#
+
+clean :
+	$(RM) *~ $(CLASS_TARGETS) core
+

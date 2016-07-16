@@ -1,0 +1,287 @@
+<HTML>
+<HEAD>
+<TITLE>
+Example PL/SQL Agent Web Pages
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaex4.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaex6.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418774">
+Multivalued Parameter PL/SQL Web Page Example
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418493">
+The following code illustrates how to use a PL/SQL table to pass a multivalued parameter.<P>
+</A><A NAME="418395">
+<PRE>CREATE OR REPLACE PROCEDURE sample2_form</PRE><P>
+</A>
+<A NAME="418396">
+<PRE>  IS</PRE><P>
+</A>
+<A NAME="418397">
+<PRE>BEGIN</PRE><P>
+</A>
+<A NAME="418398">
+<PRE>   htp.htmlopen;</PRE><P>
+</A>
+<A NAME="418399">
+<PRE>   htp.headopen;</PRE><P>
+</A>
+<A NAME="418400">
+<PRE>   htp.title('Sample 2 Form');</PRE><P>
+</A>
+<A NAME="418401">
+<PRE>   htp.headclose;</PRE><P>
+</A>
+<A NAME="418402">
+<PRE>   htp.bodyopen;</PRE><P>
+</A>
+<A NAME="418403">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418404">
+<PRE>   htp.img('/ows-img/ows.gif');</PRE><P>
+</A>
+<A NAME="418405">
+<PRE>   htp.header(1,'Sample 2 Form');</PRE><P>
+</A>
+<A NAME="418406">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418407">
+<PRE></PRE><P>
+</A>
+<A NAME="418408">
+<PRE>   htp.em('Click on a few people. Then click "Go":');</PRE><P>
+</A>
+<A NAME="418409">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418410">
+<PRE></PRE><P>
+</A>
+<A NAME="418411">
+<PRE>   htp.formopen('sample2_result');</PRE><P>
+</A>
+<A NAME="418412">
+<PRE>   htp.formhidden('COLS','dummy');</PRE><P>
+</A>
+<A NAME="418413">
+<PRE>   htp.formcheckbox('COLS','Mill');</PRE><P>
+</A>
+<A NAME="418414">
+<PRE>   htp.print('Mill');</PRE><P>
+</A>
+<A NAME="418415">
+<PRE>   htp.nl;</PRE><P>
+</A>
+<A NAME="418416">
+<PRE>   htp.formcheckbox('COLS','Hobbes');</PRE><P>
+</A>
+<A NAME="418417">
+<PRE>   htp.print('Hobbes');</PRE><P>
+</A>
+<A NAME="418418">
+<PRE>   htp.nl;</PRE><P>
+</A>
+<A NAME="418419">
+<PRE>   htp.formcheckbox('COLS','Locke');</PRE><P>
+</A>
+<A NAME="418420">
+<PRE>   htp.print('Locke');</PRE><P>
+</A>
+<A NAME="418421">
+<PRE>   htp.nl;</PRE><P>
+</A>
+<A NAME="418422">
+<PRE>   htp.formcheckbox('COLS','Kropotkin');</PRE><P>
+</A>
+<A NAME="418423">
+<PRE>   htp.print('Kropotkin');</PRE><P>
+</A>
+<A NAME="418424">
+<PRE>   htp.nl;</PRE><P>
+</A>
+<A NAME="418425">
+<PRE>   htp.formcheckbox('COLS','Marx');</PRE><P>
+</A>
+<A NAME="418426">
+<PRE>   htp.print('Marx');</PRE><P>
+</A>
+<A NAME="418427">
+<PRE>   htp.nl;</PRE><P>
+</A>
+<A NAME="418428">
+<PRE>   htp.formcheckbox('COLS','Nietzsche');</PRE><P>
+</A>
+<A NAME="418429">
+<PRE>   htp.print('Nietzsche');</PRE><P>
+</A>
+<A NAME="418430">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418431">
+<PRE>   htp.formsubmit(NULL,'Go');</PRE><P>
+</A>
+<A NAME="418432">
+<PRE>   htp.formclose;</PRE><P>
+</A>
+<A NAME="418433">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418434">
+<PRE>   htp.anchor('/sample/bin/show-sample-source.sh?FILENAME=/owa/tables.sql','Show Source');</PRE><P>
+</A>
+<A NAME="418435">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418436">
+<PRE>   htp.address('(c)1996 Oracle Corporation');</PRE><P>
+</A>
+<A NAME="418437">
+<PRE>   htp.bodyclose;</PRE><P>
+</A>
+<A NAME="418438">
+<PRE>   htp.htmlclose;</PRE><P>
+</A>
+<A NAME="418439">
+<PRE>END;</PRE><P>
+</A>
+<A NAME="418440">
+<PRE>/</PRE><P>
+</A>
+<A NAME="418441">
+<PRE>show errors</PRE><P>
+</A>
+<A NAME="418442">
+<PRE> </PRE><P>
+</A>
+<A NAME="418443">
+<PRE>CREATE OR REPLACE PROCEDURE sample2_result</PRE><P>
+</A>
+<A NAME="418444">
+<PRE>  (cols IN owa_util.ident_arr)</PRE><P>
+</A>
+<A NAME="418445">
+<PRE>  IS</PRE><P>
+</A>
+<A NAME="418446">
+<PRE>     col_counter INTEGER;</PRE><P>
+</A>
+<A NAME="418447">
+<PRE>BEGIN</PRE><P>
+</A>
+<A NAME="418448">
+<PRE>   htp.htmlopen;</PRE><P>
+</A>
+<A NAME="418449">
+<PRE>   htp.headopen;</PRE><P>
+</A>
+<A NAME="418450">
+<PRE>   htp.title('Sample 2 Results');</PRE><P>
+</A>
+<A NAME="418451">
+<PRE>   htp.headclose;</PRE><P>
+</A>
+<A NAME="418452">
+<PRE>   htp.bodyopen;</PRE><P>
+</A>
+<A NAME="418453">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418454">
+<PRE>   htp.img('/ows-img/ows.gif');</PRE><P>
+</A>
+<A NAME="418455">
+<PRE>   htp.header(1, 'Sample 2 Results');</PRE><P>
+</A>
+<A NAME="418456">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418457">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418458">
+<PRE>   col_counter := 2;</PRE><P>
+</A>
+<A NAME="418459">
+<PRE>   LOOP</PRE><P>
+</A>
+<A NAME="418460">
+<PRE>      htp.print(cols(col_counter)|| ' has some very interesting writings.');</PRE><P>
+</A>
+<A NAME="418461">
+<PRE>      htp.paragraph;</PRE><P>
+</A>
+<A NAME="418462">
+<PRE>      col_counter := col_counter + 1;</PRE><P>
+</A>
+<A NAME="418463">
+<PRE>   END LOOP;</PRE><P>
+</A>
+<A NAME="418464">
+<PRE>EXCEPTION</PRE><P>
+</A>
+<A NAME="418465">
+<PRE>   WHEN no_data_found</PRE><P>
+</A>
+<A NAME="418466">
+<PRE>     THEN</PRE><P>
+</A>
+<A NAME="418467">
+<PRE>      htp.paragraph;</PRE><P>
+</A>
+<A NAME="418468">
+<PRE>      htp.anchor('/sample/bin/show-sample-source.sh?FILENAME=/owa/tables.sql','Show Source');</PRE><P>
+</A>
+<A NAME="418469">
+<PRE>      htp.line;</PRE><P>
+</A>
+<A NAME="418470">
+<PRE>      htp.address('(c)1996 Oracle Corporation');</PRE><P>
+</A>
+<A NAME="418471">
+<PRE>      htp.bodyclose;</PRE><P>
+</A>
+<A NAME="418472">
+<PRE>      htp.htmlclose;</PRE><P>
+</A>
+<A NAME="418473">
+<PRE>END;</PRE><P>
+</A>
+<A NAME="418474">
+<PRE>/</PRE><P>
+</A>
+<A NAME="418475">
+<PRE>show errors</PRE><P>
+</A>
+<A NAME="418476">
+  <P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaex4.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaex6.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

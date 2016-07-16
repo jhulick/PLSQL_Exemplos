@@ -1,0 +1,853 @@
+<HTML>
+<HEAD>
+<TITLE> Oracle Web Listener Advanced Configuration </TITLE>
+<!-- Changed by: Eric Esselink, 01-Jun-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/icnwblist.gif" width=64 height=64 align=right border=0></A>
+<IMG SRC="/ows-img/wlmdsrvr.gif" width=560 height=55 ALT="Oracle Web Listener Advanced Configuration">
+
+<BR clear=right>
+
+<FORM ACTION="/ows-abin/wladmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" name="FORM_CODE" value="MOD_REQ">
+<INPUT TYPE="hidden" name="orig_name" value="%s">
+<INPUT TYPE="hidden" name="orig_root" value="%s">
+<INPUT TYPE="hidden" name="DocRoot" value="x">
+
+<STATUS>
+
+<H2>
+<font color="#BB0000">
+<EM>Oracle Web Listener Advanced Configuration for Listener 
+<LISTENER>
+</EM>
+</font>
+</H2>
+
+On this form are listed most of the parameters with which you can customize
+your <EM>Oracle Web Listener</EM>.  The only other parameters are found on
+the <STRONG>Security</STRONG> form and can be linked to below.
+<P>
+
+At the bottom of each parameter section are
+three buttons : <EM>Copy Listener</EM>, <EM>Modify Listener</EM>, and
+<EM>Delete Listener</EM>.  You do not need to select a button from a particular
+section in order for the changes to be made.  Selecting any of the buttons
+will submit the entire form for changes.  However, changes to the
+<STRONG>Security</STRONG> form do need to be submitted from the
+<STRONG>Security</STRONG> form.
+
+<P>
+
+<A HREF="/ows-adoc/listadv.htm#Copying_an_Existing_Web_Listener"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+Selecting the <EM>Copy Listener</EM> button requires that you first
+change the <STRONG>Listener Name</STRONG> and the <STRONG>port
+numbers</STRONG> listed in the <STRONG>Network Parameters</STRONG>
+section on this page.  The entire configuration from this page will be
+submitted as a new <EM>Oracle Web Listener</EM>, leaving the existing
+Web Listener intact.  <EM>The Log Info File, and Error
+File parameters for the new Web Listener will be set to the default
+values.</EM>
+
+<P>
+
+<A HREF="/ows-adoc/listadv.htm#Modifying_a_Web_Listener"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+Selecting the <EM>Modify Listener</EM> button causes the configuration
+parameters from this page to rewrite the existing Web Listener configuration.
+
+<P>
+
+<A HREF="/ows-adoc/listadv.htm#Deleting_a_Web_Listener"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+Selecting the <EM>Delete Listener</EM> button allows you to delete the
+configuration setup for this <EM>Oracle Web Listener</EM>.
+
+<P>
+
+<STRONG>You must start or restart each listener you configure on this
+form from the Listener Administration (Listener Home) front page for
+the changes to take effect.</STRONG>
+
+<P> 
+
+The global navigation bar is provided both here and at the bottom of the page.
+<HR>
+
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" width=112 height=25 ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" width=140 height=25 ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" width=110 height=25 ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" width=120 height=25 ALT="Listener Home" border=0>
+</A><A HREF="/ows-adoc/listadv.htm">
+<IMG SRC="/ows-img/navhelp.gif" width=111 height=25 ALT="Help" border=0></A>
+</center>
+
+<hr>
+
+<H2>
+<font color="#BB0000">
+<EM>Oracle Web Listener Configuration Parameters</EM>
+</font>
+</H2>
+
+The configuration parameters of the <EM>Oracle Web Listener</EM> are
+divided into the following categories:
+
+<UL>
+<LI> <A HREF="#NetInfo">Network Parameters</A>
+<LI> <A HREF="#Log">Log File Parameters</A>
+<LI> <A HREF="#Listener">Miscellaneous Listener Parameters</A>
+<LI> <A HREF="#DirMaps">Directory Mappings</A>
+<LI> <A HREF="#FileCache">File Cache Definitions</A>
+<LI> <A HREF="#LangExt">Language Extensions</A>
+<LI> <A HREF="#MIMETypes">MIME Types</A>
+<LI> <A HREF="#Encodings">Encoding Extensions</A>
+<LI> <A HREF="/ows-abin/wladmin.exe?FORM_CODE=GO_SEC&%s">Security: Access Control and Encryption</A>
+<LI> <A HREF="/ows-abin/wrbadmin.exe?FORM_CODE=INTRO&%s">Web Request Broker</A>
+<LI> <A HREF="/ows-abin/wladmin.exe?FORM_CODE=GO_SSI&%s">Live HTML</A>
+</UL>
+
+<HR>
+
+<H2>
+<font color="#BB0000">
+<A NAME="NetInfo">
+<A HREF="/ows-adoc/listadv.htm#Network_Parameters"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/icnnetpr.gif" align=center>
+<EM>Network Parameters</EM>
+</A>
+</font>
+</H2>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Listener Name</EM>
+</font>
+</H3>
+
+You must set a name for your <EM>Oracle Web Listener</EM>. This can be
+any string of your choosing, <STRONG>no longer than 6 alphanumeric
+characters</STRONG> which would <STRONG>uniquely</STRONG> identify a
+particular Listener.
+
+<P>
+
+Please enter a value for the <STRONG>Listener Name</STRONG>:
+
+<INPUT TYPE="text" SIZE="6" NAME="ListenerName" VALUE="%s" MAXLENGTH="6"><BR>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<A NAME="MultiPort">
+<EM>Addresses and Ports</EM>
+</A>
+</font>
+</H3>
+
+The <EM>The Oracle Web Listener</EM> supports communication through
+multiple address/port combinations, each of which is related to a
+domain name, a base directory and an information log file.
+<P>
+
+<UL> 
+
+<LI>The <STRONG>Proxy Switch</STRONG> enables or disables proxying on the 
+current address/port combination. Proxying is off by default.
+
+<P>
+
+<LI> The <STRONG>Address</STRONG> field denotes the IP address on
+which the Oracle Web Listener listens to requests. Use ANY to tell the 
+Listener to listen on all addresses assigned to
+the machine. The default is "ANY".
+
+<P>
+
+<LI>
+The <STRONG>Port</STRONG> field contains the port number on which
+listens for requests to the corresponding address. The range of available 
+ports is from 1 to 65535. There is no default.
+
+<P>
+
+<LI>
+The <STRONG> Security</STRONG> field must be set to SSL when the port
+number in this combination is assigned to be an SSL port. Otherwise,
+the default value NONE must be used. 
+
+<P>
+
+<LI>
+The <STRONG>Host Name</STRONG> field denotes the name the Listener
+will use when referring to itself for requests that pass through this
+combination. There is no default.
+
+<P>
+
+<LI> The <STRONG>Base Directory</STRONG> field denotes the prefix
+directory name that the Listener will prepend to a URL prior to
+servicing the request. The default is '/' signifying that the URL will
+be serviced as is.
+
+<P>
+
+<LI> The <STRONG>Log Information File</STRONG> field is the <A
+HREF="#Log">Log</A> file to which the Listener writes its entries for
+information messages related to this address/port combination. The default path for the log information file is  <SAMPLE>&lt;OWS20&gt;\log\sv&lt;Listener_Name&gt;.log</SAMPLE>
+
+</UL>
+<P>
+
+<PRE>
+Proxy   Address           Port    Security      Host Name         Base Directory     Log Info File
+OFF ON
+<MultiPort_READ>
+<INPUT TYPE="radio" NAME=[MultiPort].1.7" VALUE="OFF" CHECKED> <INPUT TYPE="radio" NAME=[MultiPort].1.7" VALUE="ON"> <INPUT TYPE="text" size="15" NAME="[MultiPort].1.1"> <INPUT TYPE="text" size="5" NAME="[MultiPort].1.2"> <SELECT NAME="[MultiPort].1.3" SIZE=1>
+<OPTION SELECTED>NONE
+<OPTION>SSL
+</SELECT> <INPUT TYPE="text" size="15" NAME="[MultiPort].1.4" SIZE="15"> <INPUT TYPE="text" size="15" NAME="[MultiPort].1.5"> <INPUT TYPE="text" size="35" NAME="[MultiPort].1.6">
+<INPUT TYPE="radio" NAME=[MultiPort].2.7" VALUE="OFF" CHECKED> <INPUT TYPE="radio" NAME=[MultiPort].2.7" VALUE="ON"> <INPUT TYPE="text" size="15" NAME="[MultiPort].2.1"> <INPUT TYPE="text" size="5" NAME="[MultiPort].2.2"> <SELECT NAME="[MultiPort].2.3" SIZE=1>
+<OPTION SELECTED>NONE
+<OPTION>SSL
+</SELECT> <INPUT TYPE="text" size="15" NAME="[MultiPort].2.4" SIZE="15"> <INPUT TYPE="text" size="15" NAME="[MultiPort].2.5"> <INPUT TYPE="text" size="35" NAME="[MultiPort].2.6">
+<INPUT TYPE="radio" NAME=[MultiPort].3.7" VALUE="OFF" CHECKED> <INPUT TYPE="radio" NAME=[MultiPort].3.7" VALUE="ON"> <INPUT TYPE="text" size="15" NAME="[MultiPort].3.1"> <INPUT TYPE="text" size="5" NAME="[MultiPort].3.2"> <SELECT NAME="[MultiPort].3.3" SIZE=1>
+<OPTION SELECTED>NONE
+<OPTION>SSL
+</SELECT> <INPUT TYPE="text" size="15" NAME="[MultiPort].3.4" SIZE="15"> <INPUT TYPE="text" size="15" NAME="[MultiPort].3.5"> <INPUT TYPE="text" size="35" NAME="[MultiPort].3.6">
+<INPUT TYPE="radio" NAME=[MultiPort].4.7" VALUE="OFF" CHECKED> <INPUT TYPE="radio" NAME=[MultiPort].4.7" VALUE="ON"> <INPUT TYPE="text" size="15" NAME="[MultiPort].4.1"> <INPUT TYPE="text" size="5" NAME="[MultiPort].4.2"> <SELECT NAME="[MultiPort].4.3" SIZE=1>
+<OPTION SELECTED>NONE
+<OPTION>SSL
+</SELECT> <INPUT TYPE="text" size="15" NAME="[MultiPort].4.4" SIZE="15"> <INPUT TYPE="text" size="15" NAME="[MultiPort].4.5"> <INPUT TYPE="text" size="35" NAME="[MultiPort].4.6">
+<INPUT TYPE="radio" NAME=[MultiPort].5.7" VALUE="OFF" CHECKED> <INPUT TYPE="radio" NAME=[MultiPort].5.7" VALUE="ON"> <INPUT TYPE="text" size="15" NAME="[MultiPort].5.1"> <INPUT TYPE="text" size="5" NAME="[MultiPort].5.2"> <SELECT NAME="[MultiPort].5.3" SIZE=1>
+<OPTION SELECTED>NONE
+<OPTION>SSL
+</SELECT> <INPUT TYPE="text" size="15" NAME="[MultiPort].5.4" SIZE="15"> <INPUT TYPE="text" size="15" NAME="[MultiPort].5.5"> <INPUT TYPE="text" size="35" NAME="[MultiPort].5.6">
+</PRE>
+
+<HR>
+
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Maximum Connections</EM>
+</font>
+</H3>
+
+You may limit the number of simultaneous connections to your
+<EM>Oracle Web Listener</EM>.  After the maximum count is reached, the
+Web Listener ignores any new requests.  The highest and optimal value
+for this parameter is 338.
+
+<P>
+
+Please enter a value for the <STRONG>Max Connect Count</STRONG>:
+<INPUT TYPE="text" SIZE="5" NAME="MaxConnectCount" VALUE="%s" MAXLENGTH="3">
+
+<HR>
+<H3>
+<font color="#BB0000">
+<EM>DNS Resolution</EM>
+</font>
+</H3>
+
+<STRONG>DNS Resolution</STRONG> indicates whether and when your 
+<EM>Oracle Web Listener</EM>
+will resolve hostnames using the Domain Name Service(DNS). You can have the
+Web Listener ALWAYS resolve the name, NEVER resolve the name, be LAZY and
+only resolve the name on demand, or if set to LAZY_WITH_CGI, resolve
+the name only on demand for CGI applications.
+
+<P>
+
+Please select the value for <STRONG>DNS Resolution</STRONG>:
+
+<SELECT NAME="DNSResolution" SIZE=1>
+<OPTION %s> ALWAYS
+<OPTION %s> LAZY
+<OPTION %s> LAZY_WITH_CGI
+<OPTION %s> NEVER
+</SELECT>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Redirection Server</EM>
+</font>
+</H3>
+
+When the maximum number of simultaneous connections that a listener can 
+server is reached, subsequent requests can be redirected to an alternate
+listener. Note that the Redirection Server should be able to serve the
+requests. 
+
+<p>
+
+Please enter the URL of the <STRONG>Redirection Server</STRONG>:
+<INPUT TYPE="text" SIZE="30" NAME="RedirectionServer" VALUE="%s">
+
+<HR>
+
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+
+<HR>
+
+<A NAME="Log">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listadv.htm#Log_File_Parameters"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/icnlogfl.gif" width=64 height=64 align=center>
+<EM>Log File Parameters</EM>
+</font>
+</H2>
+</A>
+
+<HR>
+
+The <EM>Oracle Web Listener</EM> writes informative tracing 
+messages to the <STRONG>Log Info File</STRONG> for a particular address/port 
+combination. See <A HREF="#MultiPort"> Addresses and Ports </A> above. It 
+also writes error messages to 
+<STRONG>Log Error File</STRONG>, which is common for all address/port 
+combinations.  There are no defaults for these parameters.
+  
+<P>
+
+<H3>
+<font color="#BB0000">
+<EM>Log Error File</EM>
+</font>
+</H3>
+
+Please enter the value for <STRONG>Log Error File</STRONG>:
+<INPUT TYPE="text" NAME="LogErrorFile" SIZE="50" VALUE="%s"><BR>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Log Time Style</EM>
+</font>
+</H3>
+
+The <STRONG>Log Time Style</STRONG> parameter indicates whether the 
+server should use
+local time or Greenwich Mean Time for timestamps in logfiles.
+
+<BR>
+
+Please select the value for the <STRONG>Log Time Style</STRONG>: 
+
+<SELECT NAME="LogTimeStyle" SIZE=1>
+<OPTION %s>LOCAL
+<OPTION %s>GMT
+</SELECT>
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+<HR>
+
+<A NAME="Listener">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listadv.htm#Miscellaneous_Listener_Parameters"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/iconmisc.gif" width=64 height=64 align=center>
+<EM>Miscellaneous Listener Parameters</EM>
+</font>
+</H2>
+</A>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Configuration Directory</EM>
+</font>
+</H3>
+
+The configuration file for a given <EM>Oracle Web Listener</EM> will
+take the name sv&lt;Listener_Name&gt;.cfg (i.e. svMYLSNR.cfg for a
+listener named MYLSNR).  A directory name needs to be provided for the
+location of this configuration file.  <P>
+ 
+Please enter a value for the <STRONG>Configuration Directory</STRONG> :
+<INPUT TYPE="text" SIZE="50" NAME="ServerRoot" VALUE="%s"><BR>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Initial File</EM>
+</font>
+</H3>
+
+The <STRONG>Initial File</STRONG> denotes the default file in a 
+directory that the <EM>Oracle Web Listener</EM> accessed when client
+requests do not specify a file name.
+
+<P>
+
+For example, if <STRONG>Initial File</STRONG> is set to
+<SAMP>index.html</SAMP>, then a request for
+<SAMP>http://myhost/mydir</SAMP>
+will return the file <SAMP>http://myhost/mydir/index.html</SAMP>.
+
+<P>
+
+Please enter a value for the <STRONG>Initial File</STRONG>:
+<INPUT TYPE="text" NAME="InitialFile" VALUE="%s"><BR>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Default MIME Type</EM>
+</font>
+</H3>
+
+The <STRONG>Default MIME Type</STRONG> is the MIME type that the Web Listener
+will use if it does not support the MIME type specified in a URL's file name.
+
+<P>
+
+Please enter a value for the <STRONG>Default MIME Type</STRONG>:
+<INPUT TYPE="text" SIZE="30" NAME="DefaultMIMEType" VALUE="%s"><BR>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Default Character Set</EM>
+</font>
+</H3>
+
+The <STRONG>Default Character Set</STRONG> is the character set type that
+the Web Listener will use if it does not recognize the language requested
+in the URL's file extension.
+
+<P>
+
+(See the <A HREF="#LangExt">Language Extensions</A> section below for 
+more information).
+
+<P>
+
+Please enter a value for the <STRONG>Default Character Set</STRONG>:
+<INPUT TYPE="text" NAME="DefaultCharset" VALUE="%s"><BR>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Preferred Language</EM>
+</font>
+</H3>
+
+The <STRONG>Preferred Language</STRONG> is the language that the Web Listener
+&quot;prefers&quot; if given a file name extension with a choice of languages.
+
+<P>
+
+(See the <A HREF="#LangExt">Language Extensions</A> section below for 
+more information).
+
+<P>
+
+Please enter a value for the <STRONG>Preferred Language</STRONG>:
+<INPUT TYPE="text" NAME="PreferredLanguage" VALUE="%s"><BR>
+
+<HR>
+<H3>
+<font color="#BB0000">
+<EM>Image Map Extension</EM>
+</font>
+</H3>
+
+The <STRONG>Image Map</STRONG> parameter specifies the suffix that the
+<EM>Oracle Web Listener </EM>uses to recognize image map files.
+
+<P>
+
+Please enter a value for the <STRONG>Image Map</STRONG>:
+<INPUT TYPE="text" NAME="ImageMap" VALUE="%s"><BR>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Directory Indexing</EM>
+</font>
+</H3>
+
+The <STRONG>Use Directory Indexing</STRONG> parameter tells the
+listener whether to use directory indexing (TRUE) or not
+(FALSE). Directory indexing refers to the listener's ability to return
+a list of files in a directory if the server cannot find a file
+requested from that directory.
+
+<P>
+
+Please select the value for <STRONG>Use Directory Indexing</STRONG>:
+<SELECT NAME="UseDirIndexing">
+<OPTION %s>FALSE
+<OPTION %s>TRUE
+</SELECT>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Service Timeout</EM>
+</font>
+</H3>
+
+<EM>This parameter valid only for Windows NT and Windows95 systems.</EM>
+
+<P>
+
+The <STRONG>Service Timeout</STRONG> parameter denotes the number of
+seconds the control panel services waits for a start, stop or continue
+operation to finish before reporting a failure.
+
+<P>
+
+Please enter a value for the <STRONG>Service Timeout</STRONG>:
+<INPUT TYPE="text" SIZE="15" NAME="ServiceTimeout" VALUE="%s">
+
+<HR> 
+
+<H3>
+<font color="#BB0000">
+<EM>CGI Timeout</EM>
+</font>
+</H3>
+
+The <STRONG>CGI Timeout</STRONG> denotes the number of seconds the
+<EM>Oracle Web Listener</EM> allows a CGI or WinCGI application to
+complete before terminating the script's execution.
+
+<P>
+
+Please enter a value for the <STRONG>CGI Timeout</STRONG>:
+<INPUT TYPE="text" SIZE="15" NAME="CGITimeout" VALUE="%s">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Keep Alive Timeout</EM>
+</font>
+</H3>
+
+The <STRONG>Keep Alive Timeout</STRONG> denotes the number of seconds
+the <EM>Oracle Web Listener</EM> keeps a connection open without any
+activity on that connection. If this field is left blank, the default
+value is taken to be 10 seconds.
+
+<P>
+Please enter a value for the <STRONG>Keep Alive Timeout</STRONG>:
+<INPUT TYPE="text" SIZE="15" NAME="KeepAliveTimeout" VALUE="%s"><BR> 
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<EM>Rescan Interval</EM>
+</font>
+</H3>
+
+The <STRONG>Rescan Interval</STRONG> denotes the number of seconds
+after which a directory is automatically rescanned regardless of
+whether it has been modified. If this field is left blank, the default
+value is taken to be 0 seconds, which denotes that a directory is
+rescanned only when its last modification time has changed.
+
+<P>
+Please enter a value for the <STRONG>Rescan Interval</STRONG>:
+<INPUT TYPE="text" SIZE="15" NAME="RescanInterval" VALUE="%s">
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+<HR>
+
+<A NAME="DirMaps">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listadv.htm#Directory_Mappings"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/icndirmp.gif" width=64 height=64 align=center>
+<EM>Directory Mappings</EM>
+</font>
+</H2>
+</A>
+
+The <STRONG>Directory Mappings</STRONG> specify the translation of
+directories from the file system into the Listener's virtual file
+system.  Each line contains one mapping as well as a two-letter
+flag. The first letter of the flag indicates whether the directory is
+"normal", that is, contains no scripts (N), contains CGI scripts (C),
+or contains WinCGI scripts (W). The second letter distinguishes
+whether the subdirectories should be mapped recursively (R), or
+non-recursively (N).
+
+<P> 
+
+The <EM>Oracle Web Listener</EM> performs Dynamic Directory Rescans,
+scanning files in a directory as needed. It can recognize and rescan
+changes when you add, delete, or modify a file in its virtual file
+system.
+
+<P>
+
+The ordering of the directory mappings is important.  The
+parameters in this section must be ordered such that the parent
+virtual directories are listed before subsequent virtual
+subdirectories.  The first directory mapping in this section must,
+therefore, reference the virtual root directory (or &quot;/&quot;).
+When you submit this form, the directory mappings will be sorted (by
+Virtual Directory) for you.  <EM>Any mappings with an empty field for
+File-System Directory or Virtual Directory will be removed</EM>.
+
+<P>
+
+<STRONG>Be sure to add a trailing slash to each file-system and virtual 
+directory name. </STRONG>
+
+<PRE>
+File-System Directory                   Flag       Virtual Directory
+<DirMaps_READ>
+<INPUT TYPE="text" size="35" NAME="[DirMaps].1.1"> <SELECT NAME="[DirMaps].1.2" SIZE=1>
+   <OPTION> NR
+   <OPTION> NN
+   <OPTION> CR
+   <OPTION> CN
+   <OPTION> WR
+   <OPTION> WN		
+</SELECT> <INPUT TYPE="text" size="20" NAME="[DirMaps].1.3">
+<INPUT TYPE="text" size="35" NAME="[DirMaps].2.1"> <SELECT NAME="[DirMaps].2.2" SIZE=1>
+   <OPTION> NR
+   <OPTION> NN
+   <OPTION> CR
+   <OPTION> CN
+   <OPTION> WR
+   <OPTION> WN		
+</SELECT> <INPUT TYPE="text" size="20" NAME="[DirMaps].2.3">
+<INPUT TYPE="text" size="35" NAME="[DirMaps].3.1"> <SELECT NAME="[DirMaps].3.2" SIZE=1>
+   <OPTION> NR
+   <OPTION> NN
+   <OPTION> CR
+   <OPTION> CN
+   <OPTION> WR
+   <OPTION> WN		
+</SELECT> <INPUT TYPE="text" size="20" NAME="[DirMaps].3.3">
+<INPUT TYPE="text" size="35" NAME="[DirMaps].4.1"> <SELECT NAME="[DirMaps].4.2" SIZE=1>
+   <OPTION> NR
+   <OPTION> NN
+   <OPTION> CR
+   <OPTION> CN
+   <OPTION> WR
+   <OPTION> WN		
+</SELECT> <INPUT TYPE="text" size="20" NAME="[DirMaps].4.3">
+<INPUT TYPE="text" size="35" NAME="[DirMaps].5.1"> <SELECT NAME="[DirMaps].5.2" SIZE=1>
+   <OPTION> NR
+   <OPTION> NN
+   <OPTION> CR
+   <OPTION> CN
+   <OPTION> WR
+   <OPTION> WN		
+</SELECT> <INPUT TYPE="text" size="20" NAME="[DirMaps].5.3">
+</PRE>
+
+<hr>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+<HR>
+
+<A NAME="FileCache">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listadv.htm#File_Cache_Definitions"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/icnfcach.gif" width=64 height=64 align=center>
+<EM>File Cache Definitions</EM>
+</font>
+</H2>
+</A>
+
+The <STRONG>FileCache</STRONG> section lists files that will be kept
+open for the life of the running Web Listener.  Files can be specified exactly,
+specified by using the wildcard, '*', or by specifying an entire directory.
+
+<P>
+
+Please remember to specify virtual filenames and directories, not actual ones.
+
+<P>
+
+<PRE>
+Virtual File/Directory
+<FileCache_READ>
+<INPUT TYPE="text" size="30" NAME="[FileCache].1">
+<INPUT TYPE="text" size="30" NAME="[FileCache].2">
+<INPUT TYPE="text" size="30" NAME="[FileCache].3">
+<INPUT TYPE="text" size="30" NAME="[FileCache].4">
+<INPUT TYPE="text" size="30" NAME="[FileCache].5">
+</PRE>
+
+<hr>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+<HR>
+
+<A NAME="LangExt">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listadv.htm#Language_Extensions"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/icnlangx.gif" width=64 height=64 align=center>
+<EM>Language Extensions</EM>
+</font>
+</H2>
+</A>
+
+The <STRONG>Language Extensions</STRONG> section specifies the file name 
+extensions
+which the Web Listener will recognize and which languages and character sets
+those extensions map to.  One or more file extensions can be specified
+for each language type and character set.
+
+<P>
+
+Three technical notes about the values below:
+
+<OL>
+<LI>Extensions are case-sensitive.
+<LI>Language identifiers are described in RFC 1766.
+<LI>Character sets are described in RFC 1521.
+</OL>
+
+<P>
+
+<PRE>
+Language Type  Character Set          File Extension(s)
+<LangExt_READ>
+<INPUT TYPE="text" size="11" NAME="[LangExt].1.1"> <INPUT TYPE="text" size="20" NAME="[LangExt].1.2"> <INPUT TYPE="text" size="30" NAME="[LangExt].1.3">
+<INPUT TYPE="text" size="11" NAME="[LangExt].2.1"> <INPUT TYPE="text" size="20" NAME="[LangExt].2.2"> <INPUT TYPE="text" size="30" NAME="[LangExt].2.3">
+<INPUT TYPE="text" size="11" NAME="[LangExt].3.1"> <INPUT TYPE="text" size="20" NAME="[LangExt].3.2"> <INPUT TYPE="text" size="30" NAME="[LangExt].3.3">
+<INPUT TYPE="text" size="11" NAME="[LangExt].4.1"> <INPUT TYPE="text" size="20" NAME="[LangExt].4.2"> <INPUT TYPE="text" size="30" NAME="[LangExt].4.3">
+<INPUT TYPE="text" size="11" NAME="[LangExt].5.1"> <INPUT TYPE="text" size="20" NAME="[LangExt].5.2"> <INPUT TYPE="text" size="30" NAME="[LangExt].5.3">
+</PRE>
+
+<hr>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+<HR>
+
+<A NAME="MIMETypes">
+<H2>
+<A HREF="/ows-adoc/listadv.htm#MIME_Types"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/iconmime.gif" width=64 height=64 align=center>
+<font color="#BB0000">
+<EM>MIME Types</EM>
+</font>
+</H2>
+</A>
+
+The <STRONG>Mime Types</STRONG> (Multipurpose Internet Mail Extension) section 
+allows you to specify the mapping of MIME types to
+corresponding file name extensions.  Extensions are case-sensitive.
+
+<P>
+
+<PRE>
+Mime Type              File Extension(s)
+<MIMETypes_READ>
+<INPUT TYPE="text" size="20" NAME="[MIMETypes].1.1"> <INPUT TYPE="text" size="30" NAME="[MIMETypes].1.2">
+<INPUT TYPE="text" size="20" NAME="[MIMETypes].2.1"> <INPUT TYPE="text" size="30" NAME="[MIMETypes].2.2">
+<INPUT TYPE="text" size="20" NAME="[MIMETypes].3.1"> <INPUT TYPE="text" size="30" NAME="[MIMETypes].3.2">
+<INPUT TYPE="text" size="20" NAME="[MIMETypes].4.1"> <INPUT TYPE="text" size="30" NAME="[MIMETypes].4.2">
+<INPUT TYPE="text" size="20" NAME="[MIMETypes].5.1"> <INPUT TYPE="text" size="30" NAME="[MIMETypes].5.2">
+</PRE>
+
+<hr>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+<HR>
+
+<A NAME="Encodings">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listadv.htm#Encoding_Extensions"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<IMG SRC="/ows-img/icnencxt.gif" width=64 height=64 align=center>
+<EM>Encoding Extensions</EM>
+</font>
+</H2>
+</A>
+
+The <STRONG>Encoding Extensions</STRONG> section specifies the encoding types
+known to the Web Listener and the corresponding file name extensions.
+Extensions are case sensitive.
+
+<P>
+
+<PRE>
+Encoding		File Extension(s)
+<Encodings_READ>
+<INPUT TYPE="text" size="20" NAME="[Encodings].1.1"> <INPUT TYPE="text" size="30" NAME="[Encodings].1.2"> 
+<INPUT TYPE="text" size="20" NAME="[Encodings].2.1"> <INPUT TYPE="text" size="30" NAME="[Encodings].2.2">
+<INPUT TYPE="text" size="20" NAME="[Encodings].3.1"> <INPUT TYPE="text" size="30" NAME="[Encodings].3.2">
+<INPUT TYPE="text" size="20" NAME="[Encodings].4.1"> <INPUT TYPE="text" size="30" NAME="[Encodings].4.2">
+<INPUT TYPE="text" size="20" NAME="[Encodings].5.1"> <INPUT TYPE="text" size="30" NAME="[Encodings].5.2">
+</PRE>
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Listener">
+<HR>
+
+</FORM>
+<center>
+
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" width=112 height=25 ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" width=140 height=25 ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" width=110 height=25 ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" width=120 height=25 ALT="Listener Home" border=0></A>
+<A HREF="/ows-abin/wrbadmin.exe">
+<IMG SRC="/ows-img/wrbhome.gif" ALT="WRB Admin Home" width=135 height=25 border=0></A>
+<A HREF="/ows-adoc/listadv.htm">
+<IMG SRC="/ows-img/navhelp.gif" width=111 height=25 ALT="Help" border=0></A>
+
+<P>
+
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>

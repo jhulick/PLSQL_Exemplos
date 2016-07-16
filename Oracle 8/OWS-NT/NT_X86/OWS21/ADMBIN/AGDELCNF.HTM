@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE> Database Connection Descriptor Deletion</TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 20-Feb-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<A HREF="/ows-abin/agadmin.exe">
+<IMG SRC="/ows-img/icnagent.gif" width=64 height=64 border=0 align=right></A>
+<IMG SRC="/ows-img/agdelcnf.gif" width=560 height=55 ALT="PS/SQL Agent Confirm DCD Deletion">
+<BR clear=right>
+
+<H2>
+<font color="#BB0000">
+<EM>Delete DCD (Database Connection Descriptor)</EM>
+</font>
+</H2>
+
+<FORM ACTION="/ows-abin/agadmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="DELETE_SVC">
+<INPUT TYPE="hidden" NAME="owa_service" VALUE="%s">
+
+Are you sure you want to delete service <STRONG>
+<SERVICE NAME>
+</STRONG>?
+
+<P>
+
+Deleting the DCD does not affect the PL/SQL Agent Database User.  It only
+eliminates the existence of the service in the PL/SQL Agent (OWA) configuration file.
+
+<P>
+
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Confirm Delete">
+</FORM>
+
+<HR>
+
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/agadmin.exe">
+<IMG SRC="/ows-img/aghome.gif" ALT="Agent Home" border=0></A>
+
+<P>
+
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>

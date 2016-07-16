@@ -1,0 +1,292 @@
+
+        =======================================================
+        =======================================================
+        ==  Release Notes for SQL-Station                    ==
+        ==  First Edition, V1.1                              ==
+        ==  May 8, 1997                                      ==
+        ==                                                   ==
+        ==  Copyright (C) 1996, 1997 PLATINUM technology, inc==
+        ==                                                   ==
+        ==  If you have support questions, please call       ==
+        ==  PLATINUM Tech Support at (800)833-7528           ==
+        ==  and ask for support for SQL-Station.             ==
+        ==                                                   ==
+        ==  internet:  techsup@platinum.com                  ==
+        ==             www.platinum.com                      ==
+        ==                                                   ==
+        =======================================================
+        =======================================================
+        
+        Contents
+        -------------------------------------------------------
+
+        These Release Notes contain important information about
+        PLATINUM SQL-Station.  They include the
+        following sections:
+
+        I.   Installing SQL-Station
+        II.  Technical Notes and Known Problems
+        III. New Features
+        IV.  Problems Fixed in this Release
+        V.   Contacting PLATINUM technology
+
+
+        =======================================================
+        I.  Installing SQL-Station
+        -------------------------------------------------------
+        Before you install SQL-Station, verify that your
+        system meets the following minimum requirements:
+
+         - IBM-PC or compatible, 486DX or higher
+         - Windows NT or 95  
+         - At least 8 Megabytes RAM
+         - ORACLE Version 7.1 or higher, AND/OR 
+           Microsoft SQL Server 4.0 or higher,  AND/OR
+           Sybase SQL Server 4.8 or higher with 32 bit database
+           connectivity
+         - At least 45 Megabytes of disk space (for the whole suite)
+
+        IMPORTANT NOTE FOR EXISTING Watch-PL USERS:
+        If you choose to install the version of Debugger
+        on this CD, you should install it in a different
+        directory than the existing Watch-PL installation if
+        you want to preserve Watch-PL.
+              
+        To install SQL-Station, follow these steps:
+
+        1.  Insert the CD-ROM into your CD-ROM drive, or diskette
+            #1 in the floppy drive.
+
+        2.  (Windows NT 3.51): From File Manager, select File, Run.
+            (Windows 95): From the Start Menu, select Run.
+
+        3.  Enter d:\setup (where d: is the letter of the
+            CD-ROM drive or floppy drive in step 1).
+
+        4.  Follow the prompts as they display.
+
+        
+        You are prompted to install copies of the
+        following products:
+
+        -  Coder V2.1
+        -  Debugger V2.1
+        -  Plan Analyzer for Oracle V2.3.2
+        -  On-line documentation
+
+        (Products not purchased can also be installed for a 30 day
+         evaluation.)
+        
+
+        Check whichever products you want to install.
+
+        In addition to the client-side installation, you can choose 
+        to perform a server-side installation for each product.
+        The server-side installation creates some objects
+        on the selected server.  If you choose not to
+        do the server-side installations, you can perform them at
+        any point by selecting each individual product's Server 
+        Install program from the SQL-Station folder/group.
+
+        If you have Microsoft Developer's Studio or Visual
+        Basic installed on your machine, you are prompted
+        whether to integrate SQL-Station with it.  If you
+        choose YES, a SQL-Station menu item is added to your
+        Visual Basic/Developer's Studio menubar.
+        
+        Instructions for performing the server-side installation
+        for each product are located in the online help for
+        each product, or in the Adobe Acrobat Reader (tm) version
+        of the User Guides, found in the DOC directory of the
+        CD-ROM (Adobe Acrobat Reader is included on the CD).
+
+        After you have installed SQL-Station successfully,  a
+        SQL-Station icon is installed in the
+        Program Files/PLATINUM folder, and a shortcut is created 
+        in the Start Menu SQL-Station folder (or whatever 
+        program group/Folder you specified during the install).  
+        To invoke SQL-Station, double click the SQL-Station icon
+        (Windows NT 3.51) or select SQL-Station from the 
+        SQL-Station folder on the Start Menu (Windows 95 and NT 4).
+
+       
+        =======================================================
+        II. Technical Notes and Known Problems
+        -------------------------------------------------------
+
+        Additional known problems and fixed problems can be found 
+        in the product specific release notes.  
+
+        - Oracle SQL*Net contains a bug in versions prior 
+          to 2.3.2.16.  If you are using an earlier version
+          of SQL*Net and you use TCP/IP to connect to more than
+          one Oracle server, the client application behaves as
+          if you are connected to the same server twice.
+          Oracle is aware of this bug, and they have fixed it
+          in SQL*Net version 2.3.2.16 and higher.
+
+
+        - If you are upgrading from a previous version of
+          SQL-Station Coder, you must update any previous Coder
+          Server-side installations.  To update Server-side
+          installations, simply run the Coder Server Install 
+          program on each server you want to access.
+
+        - The documentation for each component of SQL-Station
+          can be found in the DOC directory on the SQL-Station
+          CD-ROM and can be copied to your hard drive during the
+          installation process.  
+          For specific information about each SQL-Station
+          component, refer to this online documentation, as well
+          as the online help provided with each product.
+
+        - If your Oracle database server uses an NLS_DATE_FORMAT
+          value (or the default Oracle format that is DD-MON-YY)
+          with only 2 digits for the year, Debugger may fail to 
+          show the date correctly for years > 2000.  This applies
+          to other applications in your environment as well. 
+          Changing the setting for the Oracle server to a 4-digit
+          will fix the problem after the instance is restarted.  
+    
+        =======================================================
+        III. New Features
+        ------------------------------------------------------- 
+     
+         This release contains many new features, some of which
+         follow:
+
+          - Integration between SQL-Station and Microsoft 
+            Developer's Studio and Visual Basic.  
+            If you have Developer's Studio or Visual Basic 
+            on your machine, you can choose to
+            integrate them with Station during the SQL-Station 
+            installation. 
+            A SQL-Station menu item is added to your
+            Visual Basic/Developer's Studio menubar.
+
+         Coder:
+
+          - SQL Scripting Facility
+
+          - Web execution and debugging of Web-enabled PL/SQL
+            stored procedures 
+
+          - Customizable Code Templates for: PL/SQL and Transact-SQL 
+            statements and constructs, DDL and comment blocks
+
+          - Database Object Compare utility
+
+          - WHERE Clause specification in the Generate Insert
+            Script utility
+
+          - Syntax highlighting as-you-type in the Edit Window
+
+          - Ability to invoke the SQL Wizards directly from the
+            Catalog Browser
+   
+          - Support for Redo in the Editor
+
+          - Enhanced preferences for Search and Replace
+
+          - Control-Tab switches between open windows in the 
+            application workspace
+
+          - Reports can now be exported to .html format
+
+          - The table Data Grid now supports saving and printing
+
+           
+         Debugger:
+
+          - A new tabbed interface for the Call tree
+            and Watch pane.
+
+          - Support for 'referencing old as <old> ...'
+            in trigger definitions.
+
+          - Complete support for stepping into triggers.
+            The Trigger Maintenance dialog lets you
+            create debug versions of triggers.  Once
+            the debug version is created, you can step 
+            into the trigger from a procedure which has a
+            triggering statement in it.
+
+          - Support for variable names that contain
+            European characters.
+
+          - There is no limit on the number of watch
+            variables in the Watch pane. 
+             
+          Plan Analyzer (for Oracle):
+
+          - Color coding of SQL in the Edit SQL and Plan tabs in 
+            the 32-bit version of Plan Analyzer. Blue is used for  
+            SQL keywords (SELECT, FROM, WHERE etc.). Green is used  
+            to denote hints contained in the SQL. Purple is used for 
+            SQL reserved words (min, max, etc.).
+
+          - Enhanced Snapshot and Capture performance.
+  
+          - Captured SQL can now be formatted for improved readability
+            by wrapping the lines of the SQL statement, if desired.
+
+          - Improved Sort dialog for captured SQL.
+
+          - All data captured using the Snapshot feature is now 
+            retained, even after you close and reopen the 
+            Snapshot dialogs.
+
+          - Double-clicking any captured SQL now causes Plan Analyzer 
+            to automatically generate all three optimization plans 
+            for the SQL. If hints are included, hints plans are also 
+            generated.
+
+          - Plan Analyzer now displays the user name that the SYS user 
+            is emulating when optimizing SQL owned by a different 
+            user.
+
+          - Improved user interface with minimize and maximize buttons 
+            for all of the Capture dialogs.
+
+
+        =======================================================
+        IV. Problems Fixed in this Release
+        -------------------------------------------------------
+
+        For a complete list, check the product specific release notes,
+        in the product folders (Coder, Debugger, PAFO32).  Here is 
+        a list of some of the more important fixes:
+
+        - Disabled toolbar buttons now display correctly under 
+          Windows 95.
+
+        - Debugger screen flashing under certain circumstances has been
+          fixed.
+
+        - Debugger hanging the application upon shutdown under certain
+          circumstances has been fixed.
+
+        - Year 2000 compliance--all the comments, reports and data that
+          SQL-Station generates is now in 4 digit year format.
+
+        - The Catalog Browser now switches focus correctly. Focus 
+          between Data windows and Edit Windows now works correctly.
+  
+        - The Package Lookup dialog now lists multiple names
+          for overloaded procedures or functions.
+         
+        - Focus between Data windows and Edit Windows now
+          works correctly.
+                
+        - The response time of the capture function in Plan Analyzer 
+          has been significantly improved.
+
+
+        =======================================================
+        V. Contacting PLATINUM technology 
+        -------------------------------------------------------
+        We encourage you to report any problems or issues with 
+        PLATINUM SQL-Station.  If you have support questions, 
+        please call (800)833-7528 and ask for support for 
+        the SQL-Station product.
+

@@ -1,0 +1,7 @@
+ALIAS_%addendum%=%database_alias%.%domain%
+%database_alias%.%domain%_PROTOCOL=NMP
+%database_alias%.%domain%_COMMUNITY=%comm_label%.%domain%
+%database_alias%.%domain%_SERVER=%serv_name%
+%database_alias%.%domain%_PIPE=ORAPIPE
+%database_alias%.%domain%_SID=%data_inst%
+

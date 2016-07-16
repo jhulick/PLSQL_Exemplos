@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>Oracle WebServer Sample Applications</title>
+</head>
+
+<body background="/ows-img/orhmbkgn.jpg" text="#000088"
+link="#BB0000" vlink="#BB0000">
+<!-- Created by: Brian Zuzga, 14-Feb-1996 --><!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 --><!-- Changed by: Murugan Pal, 28-Jun-1996 -->
+<p align="center"><img src="/ows-img/sampapps.gif"
+alt="Oracle WebServer Sample Applications"> <em>Note: The sample
+applications are intended to be run from the administrative
+listener (typically port 9999). If you wish to run them from
+another listener you must add the appropriate directory mapping
+entries that are contained in the administrative listener
+configuration file.</em> </p>
+
+<hr>
+
+<h3><img src="/ows-img/icnagent.gif" align="middle"><font
+color="#BB0000"><em>PL/SQL Agent Sample</em></font> </h3>
+
+<p>&nbsp;</p>
+
+<dl>
+    <dt><em><strong>NOTE: </strong></em><em>Before running any of
+        the following Web Agent samples, you first need to
+        install the Web Agent sample database packages first. To
+        install these packages :</em></dt>
+</dl>
+
+<ul>
+    <li><a href="/ows-abin/boot.exe"><em>Create</em></a><em> the
+        DCD's for accessing the database, if you haven't done
+        this already.</em></li>
+    <li><em>Using server manager (svrmgr23),connect to the Oracle
+        Account corresponding to the owa_dba DCD (by default the
+        database user www_dba).</em></li>
+    <li><em>Run the scripts &quot;owains.sql&quot; and &quot;inst.sql&quot;:</em></li>
+</ul>
+
+<dl>
+    <dd><code><em>SVRMGR&gt;@%OWS21%\admin\owains.sql</em></code> </dd>
+    <dd><code><em>SVRMGR&gt;@%OWS21%\sample\owa\inst.sql</em></code> </dd>
+    <dt>&nbsp;</dt>
+    <dt><em>NOTE: If you wish to rerun inst.sql, please run
+        dinst.sql first. </em></dt>
+    <dt><em><br>
+        </em></dt>
+    <dt><strong>Hello World</strong> </dt>
+    <dd>The simplest of sample apps. This just shows how to use
+        the htp/htp packages and a simple select to get the day
+        of the week. <ul>
+            <li><a href="/owa_dba/owa/sample1">Run Sample</a> </li>
+            <li><a href="/sample-src/OWA/simple.sql">PL/SQL
+                Source Code</a> </li>
+        </ul>
+    </dd>
+    <dt><strong>Variable Number of Form Fields with Same Name</strong> </dt>
+    <dd>This sample shows how to pass multiple parameters of with
+        the same name from an HTML form into a PL/SQL procedure. You
+        use PL/SQL tables to do this. <ul>
+            <li><a href="/owa_dba/owa/sample2_form">Run Sample</a> </li>
+            <li><a href="/sample-src/OWA/tables.sql">PL/SQL
+                Source Code</a> </li>
+        </ul>
+    </dd>
+    <dt><strong>HTTP Cookie</strong> </dt>
+    <dd>Oracle WebServer implements HTTP Cookies and this sample
+        will show you how to use them from the PL/SQL agent. Cookies
+        are a way of storing state on the client for future
+        visits to a web site. For instance, a shopping site could
+        keep the items &quot;in your shopping basket&quot; in an
+        HTTP Cookie until you decide to place your order. <ul>
+            <li><a href="/owa_dba/owa/cookiejar">Run Sample</a> </li>
+            <li><a href="/sample-src/OWA/cookies.sql">PL/SQL
+                Source Code</a> </li>
+        </ul>
+    </dd>
+    <dt><strong>Oracle Web Agent Extensions</strong> </dt>
+    <dd>These samples show how to use new extensions available
+        with Oracle Webserver 2.1 <ul>
+            <li><a
+                href="/owa_dba/owa/owaext_demo_table1?p_mon=JUN">Sample
+                to print cells from a table</a> </li>
+            <li><a href="/owa_dba/owa/owaext_demo_table2">A
+                complex demo to print cells and to paginate</a> </li>
+            <li><a href="/owa_dba/owa/owaext_demo_list1.show">Sample
+                to print list in http format</a> </li>
+            <li><a href="/owa_dba/owa/owaext_demo_choose_date">Sample
+                to generate HTML input field for easy input of
+                Oracle Dates </a></li>
+            <li><a href="/owa_dba/owa/owaext_demo_cal">Sample to
+                print a calendar given a query </a></li>
+        </ul>
+    </dd>
+    <dt><strong>Oracle Web Agent - Optimistic Locking Demos</strong> </dt>
+    <dd>These samples show how to use owa_opt_lock PL/SQL package
+        available with Oracle Webserver 2.1 <ul>
+            <li><a
+                href="/owa_dba/owa/owaoptlk_demo_hidden.start_it">Sample
+                using Hidden fields</a> </li>
+            <li><a
+                href="/owa_dba/owa/owaoptlk_demo_pure_checksum.start_it">Sample
+                using PURE checksum</a> </li>
+            <li><a
+                href="/owa_dba/owa/owaoptlk_demo_nonpure_checksum.start_it">Sample
+                using NON-PURE checksum</a> </li>
+        </ul>
+    </dd>
+</dl>
+
+<h3><img src="/ows-img/iconhtml.gif" align="middle"><a
+href="/sample/ssi/sstest.html"> <em>LiveHTML (Server Side
+Includes) Sample</em></a></h3>
+
+<p>This sample shows one how to use the LiveHTML tags that the
+Oracle WebServer supports. The document includes the examples embedded
+in the descriptions for each directive and the appropriate sample
+code to generate each example. </p>
+
+<h3><img src="/ows-img/iconjava.gif" align="middle"><font
+color="#BB0000"><em>Java Samples</em></font></h3>
+
+<dl>
+    <dt><strong>Hello World</strong> </dt>
+    <dd>A rudimentary sample to show the framework necessary to
+        use the HTML producing class libraries included with
+        Oracle WebServer. <ul>
+            <li><a href="/sample/java/run/HelloWorld">Run Sample</a> </li>
+            <li><a href="/sample-src/JAVA/HELLOWORLD.JAVA">Java
+                Source Code</a> </li>
+        </ul>
+    </dd>
+    <dt><strong>More Interesting Features</strong> </dt>
+    <dd>A more complex example showcasing browser sensitive HTML
+        classes. The source is available through the link on the bottom
+        of every page. <ul>
+            <li><a href="/sample/java/run/frame">Run Sample</a> </li>
+            <li>Source code available at the bottom of each page
+                of Java sample. </li>
+        </ul>
+        <h3><img src="/ows-img/iconwrb.gif" align="middle"><font
+        color="#BB0000"><em>WRB SDK Sample</em></font></h3>
+        <p>A skeleton application that shows the basic functions
+        and structure necessary to produce a WRBSDK module. </p>
+        <ul>
+            <li><a href="/sample/wrbsdk/hello">Running Sample</a><br>
+                (Note: this application utilizes dynamic
+                authentication. When it prompts for
+                authentication information, enter a valid Windows
+                NT Username for user ID and the Username's
+                password.) </li>
+            <li><a href="/sample-src/WRBSDK/helloworld.c">Sample
+                C Code</a> </li>
+            <li><a href="/sample-src/WRBSDK/Makefile">Makefile
+                for Sample</a> </li>
+        </ul>
+        <p><a href="/">[Return to the Oracle WebServer Product
+        Home Page]</a> </p>
+        <hr>
+        <address>
+            (c)1996 Oracle Corporation 
+        </address>
+    </dd>
+</dl>
+</body>
+</html>

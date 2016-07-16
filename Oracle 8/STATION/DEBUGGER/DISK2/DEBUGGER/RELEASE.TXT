@@ -1,0 +1,507 @@
+
+        =======================================================
+        =======================================================
+        ==  Notas da Versão Revista para o                   ==
+        ==  PLATINUM SQL-Station Debugger Versão 2.1         ==
+        ==  15 de Março de 1997                              ==
+        ==                                                   ==
+        ==   -Copyright (C) 1996  PLATINUM technology, inc   ==
+        ==                                                   ==
+        ==  Se precisar de esclarecimentos, contacte a nossa ==
+        ==  equipa de desenvolvimento através do             ==
+        ==  (800) 833-PLAT (7528) e solicite assistência     ==
+        ==  para o produto SQL-Station Debugger.             ==
+        ==                                                   ==
+        ==                                                   ==
+        ==                                                   ==
+        ==  internet:  techsup@platinum.com                  ==
+        ==             www.platinum.com                      ==
+        ==             ftp.platinum.com                      ==
+        ==             compuserve: go platinum               ==
+        =======================================================
+        =======================================================
+
+        Indíce de matérias
+        -------------------------------------------------------
+
+        Estas Notas da Versão Revista contêm informações
+        importantes sobre PLATINUM SQL-Station Debugger 
+        Versão 2.1.
+        Incluem as seguintes secções:
+
+        I.   Instalação do SQL-Station Debugger
+        II.  Notas técnicas
+        III. Novas funcionalidades no SQL-Station Debugger 2.0
+        IV.  Funcionalidades não documentadas
+        V.   Correcções de bugs
+        VI.  Problemas técnicos conhecidos
+        VII. Contactar a PLATINUM technology
+
+
+        =======================================================
+        I.  Instalação do SQL-Station Debugger
+        -------------------------------------------------------
+        Antes de instalar o SQL-Station Debugger, verifique
+        se o seu sistema possui os requisitos mínimos seguintes:
+
+         - IBM PC ou compatível, 486DX ou superior
+         - Windows NT ou Windows 95
+         - 8 Megabytes de RAM
+         - ORACLE Versão 7.1 ou posterior
+         - Pelo menos 5 Megabytes de espaço em disco
+         - SQL-Station Coder versão 2.0 (instalada anteriormente 
+           ou em modo concorrente)
+
+        Para instalar o SQL-Station Debugger, siga estes passos:
+
+        1.  Insira a disquete 1 na unidade de disquetes 
+            (normalmente A: ou B:).
+
+        2.  No Windows NT 3.51, no File Manager, seleccione File,
+            Run. No Windows 95, no menu Iniciar, seleccione Executar
+        3.  Escreva A:\setup (em que A: é a letra da unidade 
+            de disquetes no passo 1).
+
+        4.  Siga as instruções à medida que aparecem.
+
+        Depois de instalar o SQL-Station Debugger com êxito, 
+        é instalado um ícone do Debugger no grupo de programas 
+        PLATINUM (ou qualquer grupo de programas que tenha 
+        especificado durante a instalação). Para invocar o 
+        SQL-Station Debugger, seleccione duas vezes com o rato 
+        no respectivo ícone.
+
+
+        =======================================================
+        II. Notas técnicas 
+        -------------------------------------------------------
+        
+	1. Preparação do servidor de base de dados para a 
+         instalação do servidor (SQLDEBUG):
+
+	   A instalação do servidor permite ao DBA escolher 
+         os tablespaces por omissão e temporários na lista 
+         de tablespaces existentes na base de dados. Antes de 
+         efectuar a instalação do servidor, o DBA poderá pretender 
+         criar um novo tablespace para as tabelas do proprietário 
+         da aplicação (SQLDEBUG). O espaço necessário para instalar 
+         as tabelas no tablespace é somente 1MB. No entanto, 
+         o DBA poderá pretender atribuir mais espaço, visto 
+         que os requisitos de espaço aumentam à medida que as
+         tabelas são preenchidas.
+
+
+	2. O SQL-Station Debugger suporta todos os tipos de dados
+         de PL/SQL, à excepção dos seguintes:
+
+           - long
+           - tabela de pl/sql
+           - tipos ancorados que referenciam pacotes
+           - variáveis de cursor
+           - variáveis de cursor implícitas
+   
+           Os tipos de dados acima indicados não aparecerão na janela
+           de visualização. No entanto, para as constantes de pacote 
+           que são globais para o bloco em execução presentemente,
+           pode acrescentá-las directamente à janela de visualização,
+           escrevendo-as na caixa de lista de avaliação de variáveis 
+           globais. 
+
+  3. A depuração de um trigger exclui temporariamente a versão 
+     revista do catálogo. Por este motivo, não deve depurar 
+     triggers de produção.
+
+        4. Não pode depurar objectos de procedimentos codificados. Para
+           depurá-los, deve primeiro descodificar os objectos
+           de procedimentos.
+        
+        5. Todas as variáveis escalares declaradas com a utilização do
+           tipo de estrutura de referência de variável (nome_variável%TYPE) 
+           podem ser observadas desde que a variável referenciada esteja
+           no mesmo procedimento, função ou pacote.
+
+        6. A janela SQL Editor é agora referida como janela Edit.
+
+        7. Ao seleccionar um ícone do código do objecto no Catalog Browser
+           abrirá uma janela Edit separada (anteriormente a janela SQL 
+           Editor).
+
+        8. NOTA PARA OS ADMINISTRADORES DA BASE DE DADOS:
+
+		   A instalação do servidor pede a senha do DBA
+		   na caixa de diálogo inicial (o nome de
+		   utilizador assumido na caixa de diálogo é SYS).
+   Este procedimento cria o proprietário da aplicação
+   e concede determinados privilégios a este proprietário
+   (que, por omissão, é SQLDEBUG).
+
+           O ficheiro de comandos CREATE.SQL, localizado no 
+           directório de instalação do Debugger, efectua o seguinte 
+           sobre o schema do DBA (o nome de entrada em sessão
+           utilizado na caixa de diálogo acima indicada):
+
+	   - Concede um conjunto de privilégios ao proprietário da 
+           aplicação. Quando entra em sessão como proprietário da 
+           aplicação, o DBA tem acesso total às funcionalidades de 
+           manutenção fornecidas no menu Maintenance (incluindo a 
+           manutenção de objectos pertencentes a outros utilizadores).
+ 
+           UMA VEZ QUE O PROPRIETÁRIO DA APLICAÇÃO TEM DETERMINADOS 
+	     PRIVILÉGIOS DE DBA, OS UTILIZADORES NORMAIS NÃO DEVERÃO 
+	     SABER A SENHA DO SCHEMA DO PROPRIETÁRIO DA APLICAÇÃO.
+	     (O NOME POR OMISSÃO PARA O SCHEMA DO PROPRIETÁRIO 
+	     DA APLICAÇÃO É SQLDEBUG.)
+			 
+			 O conjunto de privilégios concedidos ao proprietário
+			 da aplicação é:
+
+			 1. ligar
+			 2. seleccionar qualquer tabela com opção admin
+			 3. conceder qualquer privilégio
+			 4. criar sinónimo público
+			 5. suprimir sinónimo público
+			 6. tablespace ilimitado
+			 7. suprimir qualquer procedimento
+			 8. criar qualquer procedimento
+			 9. suprimir qualquer procedimento
+			10. alterar qualquer procedimento 
+			11. executar qualquer procedimento 
+			12. criar qualquer trigger
+			13. alterar qualquer trigger
+			14. suprimir qualquer trigger
+		
+	   - Cria um perfil de grupo PTSQL_DEBUG_ROLE e concede os
+		 privilégios seguintes a este perfil:
+
+			1. criar qualquer procedimento 
+			2. suprimir qualquer procedimento 
+			3. alterar qualquer procedimento 
+			4. executar qualquer procedimento 
+			5. criar qualquer trigger 
+			6. alterar qualquer trigger
+			7. suprimir qualquer trigger
+			 
+			 O ficheiro de comandos INSTALL.SQL, localizado no 
+			 directório de instalação do Debugger, instala os
+			 seguintes objectos no schema do proprietário da 
+			 aplicação:
+
+	   - Cria uma tabela chamada PTSQL_PLAN_TABLE e concede 
+             privilégios de manipulação de dados sobre ela a PUBLIC. A
+             tabela é utilizada para obter o plano de execução de 
+             instruções de SQL (o utilizador pode definir uma opção no
+             SQL Editor para visualizar o plano de execução).
+
+	   - Cria uma tabela chamada PTSQL_TYPES e concede seleccione os 
+             privilégios sobre ela como PUBLIC. A tabela é utilizada como
+             correspondência entre os tipos nativos do Oracle e os tipos de
+             dados internos do SQL-Station Debugger.
+
+	   - Cria um conjunto de vistas cujos nomes começam com 
+             PTSQL_. Estas vistas são equivalentes às vistas Oracle 
+             ALL_, mas são optimizadas para um acesso mais rápido 
+             através do Catalog Browser do SQL-Station Debugger.
+
+	   - Cria um pacote chamado PTSQL_CODE. Este pacote contém a lógica 
+             para efectuar o "reverse engineering" de todos os objectos do 
+             catálogo Oracle. 
+	   
+	   - Cria um pacote chamado PTSQL_SEARCH. Este pacote contém a lógica
+ para encontrar padrões dentro do catálogo Oracle.
+
+           O ficheiro de comandos DBGINST.SQL, localizado no directório
+           de instalação do Debugger, instala os seguintes objectos no schema
+           do proprietário da aplicação:
+	
+	   - Cria uma tabela chamada PTSQL_DBG_TRIGGERS e concede privilégios
+             de manipulação de dados sobre ela a PUBLIC. A tabela só é 
+             utilizada com o Oracle Server versão 7.1 e anteriores. 
+             Estas versões do Oracle não permitem mais do que um trigger do 
+             mesmo tipo no catálogo. Como resultado, o texto do trigger é 
+             deslocado para esta tabela antes de ser iniciada a depuração. A
+             tabela está bloqueada durante este processo, impedindo quaisquer
+             violações à integridade dos dados.
+
+	   - Cria uma tabela chamada PTSQL_DBG_IGNORE e concede privilégios 
+             de manipulação de dados sobre ela a PUBLIC. A tabela é utilizada
+             pela funcionalidade de exclusão de módulos que permite que os
+             utilizadores excluam selectivamente objectos da depuração.
+
+	   - Cria uma sequência chamada PTSQL_DBG_SEQ. A sequência é utilizada
+             para gerar um nome exclusivo para versões de depuração de objectos
+             cujos nomes contêm mais de 26 caracteres. O mecanismo normal de
+             nomeação de versões de depuração que anexa 'X#Z$' ao nome não pode
+             ser aplicado a estes objectos, porque o Oracle limita o
+             comprimento dos nomes dos objectos de código a 30 caracteres. 
+             Como consequência, o depurador gera um nome que compreende 'X#Z$'
+             seguido por um número de sequência exclusivo.
+
+	   - Cria duas tabelas, PTSQL_DBG_OBJS e PTSQL_FREE_SEQ_NUMS, e um
+             trigger, PTSQL_DBG_OBJS_AFTER_DELETE. Estes efectuam a 
+             correspondência entre o nome de depuração e o nome da versão 
+             revista dos objectos cujos nomes têm mais de 26 caracteres.
+
+	   - Cria um pacote chamado PTSQL_DBG_MAINT. Este pacote contém a lógica
+             utilizada pelas caixas de diálogo de manutenção.
+
+	   - Cria um pacote chamado PTSQL_DEBUG. Este pacote contém a lógica
+             utilizada em cada passo do processo de depuração.
+
+	   - Cria um pacote chamado PTSQL_DEPEND. Este pacote contém a lógica
+             utilizada para gerar a árvore de dependências na janela de 
+             depuração.
+
+
+
+        =======================================================
+        III. Novas funcionalidades no SQL-Station Debugger 2.0
+        -------------------------------------------------------
+
+        Os seguintes melhoramentos foram acrescentados desde a versão
+        anterior do SQL-Station Debugger (Watch-PL):
+
+        · Suporte para variáveis de registo locais.
+
+        · Suporte para a cláusula Pragma Restrict.
+
+        · Melhoramentos na GUI, incluindo melhoramentos ao mecanismo
+          Progress.
+
+        · Suporte de granularidade que permite terminar nas condições
+          ELSIF, instruções GOTO, cláusulas de excepção, instruções de
+          ciclo, etc.
+
+        · Suporte para entrar nas funções.
+
+        · Suporte para sinónimos, incluindo a capacidade de depurar um
+          objecto referenciado pelo respectivo sinónimo.
+
+        · A capacidade de depurar objectos do sistema de ficheiros que
+          têm dependências sobre objectos do catálogo.
+
+		
+		. Suporte melhorado para editar objectos de código na janela 
+		  de depuração. Pode mudar da janela de depuração para a janela 
+		  de edição, utilizando o botão da barra de ferramentas 'Edit Code'.
+		  
+		  O NOME DO SCHEMA TEM DE SER EXPLICITAMENTE ESPECIFICADO NO 
+		  CÓDIGO DE OBJECTO QUANDO SÃO DEPURADOS OBJECTOS EM SCHEMAS 
+		  DIFERENTES DAQUELE QUE É REFERIDO PELA JANELA DE EDIÇÃO. 
+
+        =======================================================
+        IV. Funcionalidades não documentadas
+        -------------------------------------------------------
+     
+        · TRIGGERS
+          O SQL-Station Debugger permite-lhe entrar num trigger quando
+          este está activado. Pode fazê-lo durante o processo de depuração
+          de um procedimento armazenado e quando existe uma versão de 
+          depuração do trigger no servidor. Para distribuir uma versão de
+          depuração do trigger, utilize a caixa de diálogo Trigger Maintenance.
+          Quando entrar na instrução que activa o trigger, entrará no trigger.
+
+        
+        · SESSÕES DE DEPURAÇÃO
+          Cada vez que selecciona Run ou Restart durante uma sessão de
+          depuração, o SQL-Station Debugger verifica a indicação de data do
+          objecto original. Se a indicação de data tiver mudada desde a 
+          criação da versão de depuração, é apresentada uma caixa de mensagem
+          dando-lhe a opção de continuar com a versão de depuração actual ou
+          de recompilar a versão de depuração para reflectir quaisquer novas 
+          alterações no objecto.
+
+
+        · GRUPOS DE ENTRADAS EM SESSÃO
+          Pode criar grupos de entradas em sessão e, em seguida, entrar
+          em sessão no grupo inteiro introduzindo simplesmente a senha 
+          de cada membro do grupo quando solicitada.
+
+          Criação de um novo grupo de entradas em sessão:
+          Na caixa de diálogo Login do PLATINUM SQL-Station Debugger,
+          seleccione o botão Groups. Aparece a caixa de diálogo Group
+          Connect. Para criar um novo grupo principal (nível superior), 
+          seleccione duas vezes com o rato Add New Group ou destaque 
+          Add New Group e seleccione o botão Add. Escreva o nome do novo
+          grupo no campo da caixa de diálogo Add New Group e seleccione OK. 
+          Se um grupo existente estiver destacado quando selecciona o botão
+          Add, pode criar um grupo novo escolhendo Primary Group na caixa de
+          diálogo Insert Element Into List.
+
+          Adição de entradas em sessão a um grupo:
+          Destaque o nome do grupo e seleccione o botão Add. Escolha Group
+          Item na caixa de diálogo Insert Element into List e seleccione OK.
+          Na caixa de diálogo New Item, introduza uma cadeia de caracteres de
+          ligação e um nome de entrada em sessão nos campos adequados e 
+          seleccione OK. Com este método, pode acrescentar todas as entradas
+          em sessão que pretender. 
+
+          Subgrupos:
+          Os grupos podem ter subgrupos. Para acrescentar um subgrupo a 
+          um grupo, destaque o nome do grupo, seleccione Add, 
+          escolha Group Item e seleccione OK. Na caixa de diálogo New Item,
+          introduza um nome de grupo no campo Connect String/Group Name.
+          Não introduza nada no campo Login Name. Seleccione OK. O SQL-
+          Station Debugger acrescenta o grupo nomeado como um subgrupo do
+          grupo principal seleccionado. Se o grupo nomeado ainda não existir,
+          o SQL-Station Debugger criá-lo-á simultaneamente como grupo principal
+          e subgrupo.
+
+          Entrada em sessão como um grupo:
+          Para entrar em sessão como um grupo, especifique o nome do grupo 
+          no campo Connect String da caixa de diálogo Login e seleccione
+          Connect. (Se estiver a trabalhar na caixa de diálogo Group Connect,
+          destaque o nome do grupo e seleccione Connect.) O SQL-Station 
+          Debugger solicita-lhe, em seguida, que introduza a senha para cada
+          entrada em sessão que faça do grupo. Se pretender ignorar uma entrada
+          em sessão específica, prima Escape ou seleccione Cancel quando lhe for
+          pedida a senha.
+
+
+        · VISUALIZAÇÃO DE VARIÁVEIS NA SECÇÃO WATCH 
+          Durante uma sessão de depuração, pode escolher quais as variáveis que
+          pretende visualizar na secção Watch. Para visualizar variáveis
+          específicas, siga estes passos:
+          1. Defina os pontos de quebra e escolha Run para ir para o primeiro
+             ponto de quebra. Neste ponto, todas as variáveis dentro do âmbito
+             são acrescentadas à Variable Tree, localizada à esquerda da secção
+             Watch. Por omissão, todas as variáveis locais são acrescentadas
+             automaticamente à secção Watch.
+          2. Para acrescentar variáveis adicionais à secção Watch, expanda a
+             Variable Tree, para que a variável em que está interessado fique
+             visível, e efectue um dos seguintes procedimentos:
+             · Seleccione com o rato a variável e seleccione o botão Add
+               directamente por cima da Árvore de Variável. 
+               Seleccione com o rato a variável e escolha Debug, Add Variable
+               na barra de menus.
+             · Seleccione com o rato a variável e, em seguida, seleccione com 
+               o botão direito do rato Add Variable.
+             
+          O valor actual de cada variável seleccionada é apresentado na secção
+          Watch em cada passo do processo de depuração.
+
+          Notas:
+             · Para acrescentar todas as variáveis à secção Watch, seleccione
+               o nível superior da Variable Tree("All Variables") e siga as 
+               instruções do ponto 2 anterior. Para retirar uma variável da 
+               secção Watch, seleccione o botão à esquerda do respectivo nome
+               para destacá-lo e, em seguida, seleccione o botão Delete à 
+               direita do campo Expression. Pode seleccionar vários botões 
+               antes de seleccionar o botão Delete.
+         
+        · INSTALAÇÃO EM REDE
+          Durante o processo de instalação, o software do cliente pode ser
+          instalado localmente ou numa localização especificada de uma rede.
+
+   
+        · INSTALAÇÃO DO GUIA PRÁTICO
+          Um ícone para instalar o guia prático está localizado no Program
+          Manager.
+
+  
+        · GRANT DEBUG ROLE
+          O Grant Debug Role permite aos utilizadores depurar objectos de 
+          código noutros schemas de utilizador. Durante a instalação do 
+          servidor, é criado um perfil de grupo chamado PTSQL_DEBUG_ROLE, 
+          que tem privilégios necessários para depurar objectos de outros
+          utilizadores. A caixa de diálogo Grant Debug Role é, em seguida,
+          apresentada e o DBA tem a oportunidade de conceder este perfil de 
+          grupo aos utilizadores. Para acrescentar utilizadores, seleccione
+          cada um dos nomes de utilizador a quem serão concedidos perfis e
+          seleccione OK.
+ 
+          UMA VEZ QUE ESTE PERFIL DE GRUPO TEM DETERMINADOS PRIVILÉGIOS DE
+          SISTEMA, O DBA DEVE TER CUIDADO AO CONCEDER ESTE PERFIL DE GRUPO 
+          AOS UTILIZADORES. 
+
+          Uma vez instalado, o DBA pode conceder este perfil de grupo a
+          utilizadores executando o comando que se segue na janela EDIT:
+
+            grant PTSQL_DEBUG_ROLE to <nomeutilizador>;
+
+          Para revogar este perfil de grupo aos utilizadores, execute o 
+          comando que se segue na janela EDIT:
+
+            revoke PTSQL_DEBUG_ROLE from <nomeutilizador>;
+          
+          O perfil de grupo tem os seguintes privilégios:
+          1. CREATE ANY PROCEDURE e CREATE ANY TRIGGER: estes privilégios 
+             são necessários para que o utilizador crie a versão de depuração 
+             de um objecto sob um proprietário diferente.
+          2. DROP ANY PROCEDURE e DROP ANY TRIGGER: estes privilégios são 
+             necessários para que o utilizador suprima a versão de depuração 
+             de um objecto sob um proprietário diferente.
+          3. ALTER ANY PROCEDURE e ALTER ANY TRIGGER: estes privilégios são 
+             necessários para que o utilizador execute um comando 
+             'CREATE OR REPLACE <tipo objecto>' sob um proprietário diferente.
+             (Consulte SESSÕES DE DEPURAÇÃO anteriormente para obter mais 
+             informações.)
+          4. EXECUTE ANY PROCEDURE: este privilégio é necessário para que o
+             utilizador execute a versão de depuração de um objecto sob um 
+             proprietário diferente.
+
+
+        =======================================================
+        V. Correcções de bugs
+        -------------------------------------------------------
+
+        1.  O SQL-Station Debugger já não pisca quando é esgotado o tempo 
+            de espera e está aberta uma janela Procedure Execution.
+           
+        2. Pode incluir com êxito a cláusula Pragma Restrict numa versão de
+           depuração de um procedimento.
+
+        3. Já pode utilizar a tecla Esc enquanto uma janela Edit estiver 
+           activa (anteriormente janela SQL Editor).
+
+        4. As chamadas de procedimentos cujos argumentos incluem variáveis 
+           com referências de pacote são agora tratadas correctamente.
+
+        5. As variáveis de registo declaradas utilizando o tipo de estrutura
+           de referência de tabela ("nome_tabela%TYPE") já podem ser 
+           observadas.
+
+        6. O SQL-Station Debugger já trata as mensagens de erro correctamente.
+
+        7. O SQL-Station Debugger procura um dos seguintes ficheiros de 
+           fornecedor da Oracle no seu percurso:
+
+           ORA7NT.DLL
+           ORA71.DLL
+           ORA71NT.DLL
+           ORA72.DLL
+           ORA73.DLL
+
+           Se não encontrar nenhum, o SQL-Station Debugger apresentará
+           uma mensagem de erro e continuará a execução.
+
+
+
+        =======================================================
+        VI. Problemas técnicos conhecidos 
+        -------------------------------------------------------
+       
+        1. As dependências dentro de um pacote de PL/SQL não são 
+           mostradas na Call Tree. 
+
+        2. O depurador poderá não conseguir criar uma versão de depuração 
+           de pacotes Oracle muito grandes - o Oracle tem um limite máximo 
+           para os pacotes Oracle que depende da mistura de instruções 
+           utilizadas. Se a versão de depuração de um pacote exceder este
+           limite, obterá um erro de Oracle PL/SQL 'PLS-00123 Program too
+           large'. A alternativa é dividi-los em módulos mais pequenos.
+        
+  
+        =======================================================
+        VII. Contactar a PLATINUM technology
+        -------------------------------------------------------
+        
+        Agradecemos-lhe que comunique todos os problemas ou questões 
+        relacionados com o PLATINUM SQL-Station Debugger. Contacte
+        a equipa de desenvolvimento ou o Gestor de Produto, caso 
+        tenha problemas ou sugestões, marcando (800) 833-PLAT (7528).
+
+        Se precisar de esclarecimentos técnicos, contacte a nossa equipa
+        de desenvolvimento através do (800) 833-PLAT (7528) ou do
+        (630)620-5000 e solicite assistência para o produto 
+        SQL-Station Debugger.
+

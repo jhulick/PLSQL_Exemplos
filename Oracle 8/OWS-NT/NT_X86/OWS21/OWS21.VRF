@@ -1,0 +1,895 @@
+/* Copyright (c) Oracle Corporation 1995.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    ows21.vrf - V3.1 version analysis/product configuration script
+                for Oracle WebServer 2.1 for Windows NT
+
+  DESCRIPTION
+    This script checks dependencies and environment settings for the
+    installation of Oracle WebServer 2.1 for Windows NT
+
+  OWNER
+    Eric Esselink
+
+  MODIFIED     DD-MMM-YY  Reason
+    mrlai      11/DEC/96 Modified for the upgrade process
+    eesselin   22/NOV/96 Modified for version 21
+    eesselin   26/MAY/96 Modified for version 20
+    Ljiang     11/16/95  Created
+*****************************************************************************/
+/*****************************************************************************
+   Bind string variables & prompt strings...
+*****************************************************************************/
+{
+        /*******************************************************************/
+        /* Shared Oracle code */
+        SHARED_ORACLE_COMPLIANT = TRUE;
+        /* end Shared Oracle code */
+        /*******************************************************************/
+
+        P1 = "%1";
+        P2 = "%2";
+        P3 = "%3";
+        P4 = "%4";
+        P5 = "%5";
+        P6 = "%6";
+        P7 = "%7";
+        P8 = "%8";
+        P9 = "%9";
+
+        execute("%installer_home%\services.vrf");
+
+        { doit = execute("%installer_home%\nt.vrf"); }
+        [
+        'UNBOUND_VARIABLE:
+        {
+                required_version = product_version(ntinstver);
+                temp = explode(required_version,".");
+                required_version = implode(list(first(temp), first(rest(temp)),
+                                          first(rest(rest(temp))),
+                                          first(rest(rest(rest(temp))))),".");
+                signal('failure, instantiate(nls("instver_too_early1","The version of the Installer currently running is %%installer_version%%.  The installation you have chosen requires version %%required_version%% or later.  Please run version %%required_version%% or later in order to perform this installation.")));
+        }
+        ]
+
+        if (doit)
+        {
+            vrf_ratchet = "2.1.0.3.1";
+
+            {
+                ows20 = translate("OWS21", ora_config, product_filename(current_product));
+
+                if (not(exists(ows20)))
+                        signal('UNBOUND_ENVIRONMENT_VARIABLE);
+            }
+            [ 'OS_ERROR, 'INVALID_FILE_NAME, 'FILE_NOT_FOUND,
+              'PERMISSION_DENIED, 'UNBOUND_ENVIRONMENT_VARIABLE:
+                {
+                        ows20 = "%oracle_home%\OWS20";
+                }
+            ]
+
+            {
+                set_ows21 = FALSE;
+
+                ows21 = translate("OWS21", ora_config, product_filename(current_product));
+
+                if (not(exists(ows21)))
+                        signal('UNBOUND_ENVIRONMENT_VARIABLE);
+            }
+            [ 'OS_ERROR, 'INVALID_FILE_NAME, 'FILE_NOT_FOUND,
+              'PERMISSION_DENIED, 'UNBOUND_ENVIRONMENT_VARIABLE:
+                {
+                        ows21 = "%oracle_home%\OWS21";
+                        set_ows21 = TRUE;
+                }
+            ]
+
+            {
+                owssid = translate("ORACLE_SID", ora_config, product_filename(current_product));
+
+                if (not(exists(owssid)))
+                        signal('UNBOUND_ENVIRONMENT_VARIABLE);
+            }
+            [ 'OS_ERROR, 'INVALID_FILE_NAME, 'FILE_NOT_FOUND,
+              'PERMISSION_DENIED, 'UNBOUND_ENVIRONMENT_VARIABLE:
+                {
+                        modify("ORACLE_SID","ORCL", ora_config, product_filename(current_product));
+                }
+            ]
+
+
+            installing_scripts = nls("installing_scripts", "Installing %%product_label%% Installation Scripts...");
+            installing_bin = nls("installing_bin", "Installing %%product_label%% Executables...");
+            installing_msbs = nls("installing_msbs", "Installing %%product_label%% Message Files...");
+            installing_cfg = nls("installing_cfg", "Installing %%product_label%% Initial Configuration Files...");
+            installing_admin = nls("installing_admin", "Installing %%product_label%% SQL Scripts...");
+            installing_admbin = nls("installing_admbin", "Installing %%product_label%% Administration Executables...");
+            installing_admdoc = nls("installing_admdoc", "Installing %%product_label%% Administration Documentation Files...");
+            installing_doc = nls("installing_doc", "Installing %%product_label%% Documentation...");
+            installing_img = nls("installing_img", "Installing %%product_label%% Image Files...");
+            installing_demo = nls("installing_demo", "Installing %%product_label%% Demonstration Files...");
+            installing_help = nls("installing_help", "Installing %%product_label%% Help Files...");
+            installing_new = nls("installing_new", "Installing %%product_label%% New Files...");
+            installing_log = nls("installing_log", "Installing %%product_label%% Log Directory...");
+            installing_sample = nls("installing_sample", "Installing %%product_label%% Sample Files...");
+            installing_java = nls("installing_java", "Installing %%product_label%% Java Files...");
+            installing_wrbsdk = nls("installing_wrbsdk", "Installing %%product_label%% Wrb SDK Files...");
+
+            registering = nls("registering", "Registering %%product_label%%...");
+            modifying_config = nls("modifying_config", "Modifying NT Registry...");
+
+            tcp_prompt = nls("tcp_prompt", "TCP/IP is not installed. Oracle Web Listener will not be started. See HELP for more information.");
+            tcp_help = nls("tcp_help", "TCP/IP is not installed. You can either terminate the installation, install TCP/IP and restart the installation, or continue with the installation, install TCP/IP, then re-configure the default Oracle Web Listener.  Please refer to 'Oracle WebServer Installation Guide for Windows NT' for detailed information.");
+            tcp_content = nls("tcp_content", "TCP/IP");
+
+            install_type_prompt = nls("install_type_prompt", "Please choose the installation procedure:");
+            install_type_help = nls("install_type_help", "Typical installation will install the Oracle WebServer for Windows NT using default values. The Custom installation provides you with the possibilty to choose the way from several options.");
+            install_type_content = nls("install_type_content", "Oracle WebServer Installation Settings");
+
+            host_setting_label = nls("host_setting_label", "Host Name");
+            port_setting_label = nls("port_setting_label", "Port Number");
+            lsnr_setting_label = nls("lsnr_setting_label", "Web Listener Name");
+
+            port_setting_error = nls("port_setting_error", "Port number must be between 0 and 65535.");
+            lsnr_setting_error = nls("lsnr_setting_error", "The length of your Web Listener name must be between 1 and 6 characters.");
+
+            web_setting_prompt = nls("web_setting_prompt", "Enter the host name of your machine, along with the name and port number for the Administration Listener:");
+            web_setting_help = nls("web_setting_help", "Host name is the name of the machine on which the Oracle Web Listener is to reside.  It can either be an actual machine name or an alias in the form of a domain name, such as:  www.oracle.com%carriage_return%%carriage_return%The Web Listener name should contain from 1 to 6 characters.%carriage_return%%carriage_return%Port number specifies the port on which Oracle Web Listeners listen for network messages.  Numbers can range from 0 to 65535 on Windows NT.  The port number must be unique.  For example, 1521 or 1526 can not be used here since they are used by Oracle Sql*Net products.%carriage_return%%carriage_return%The host name and port number you provide here will be used to create the initial Web Listener for Oracle Administration Server.");
+            web_setting_content = nls("web_setting_content", "Administration Listener Settings");
+
+            sec_lsnr_setting_prompt = nls("sec_lsnr_setting_prompt", "Enter the name and port number for the default Web Listener created for general usage:");
+            sec_lsnr_setting_help = nls("sec_lsnr_setting_help", "The general usage Web Listener created here is used by the Oracle Web Listeners to listen to network messages.%carriage_return%%carriage_return%The Web Listener name should contain from 1 to 6 characters.%carriage_return%%carriage_return%Port number can range from 0 to 65535 and must be unique.  For example, 1521 or 1526 can not be used here since they are used by Oracle Sql*Net products.");
+            sec_lsnr_setting_content = nls("sec_lsnr_setting_content", "Default Web Listener Settings");
+
+            gen_lsnr_label = nls("gen_lsnr_label", "HTTP Server Name");
+            ms_listener_prompt = nls("ms_listener_prompt", "Please enter the port number of your Microsoft IIS HTTP Server:");
+            ms_listener_help = nls("ms_listener_help", "Port number specifies the port on which HTTP Servers listen for network messages.  Numbers can range from 0 to 65535 on Windows NT.  %carriage_return%%carriage_return%The port number you provide here will be used to register your Microsoft Internet Information Server with Oracle WebServer.  The port number must be unique.  For example, 1521 or 1526 can not be used here since they are used by Oracle Sql*Net products.");
+            ms_listener_content = nls("ms_listener_content", "Oracle WebServer Migration");
+
+            ns_listener_prompt = nls("ns_listener_prompt", "Please enter the HTTP Server name for your Netscape %%ows_action%% Server:");
+            ns_listener_help = nls("ns_listener_help", "HTTP Server name is the name that you initially assigned to the Netscape server.  The host name you provide here will be used to register your Netscape Server with Oracle WebServer.");
+            ns_listener_content = nls("ns_listener_content", "Oracle WebServer Migration");
+            ns_listener_error = nls("ns_listener_error", "HTTP Server %%comp_name%% does not exist.  Please make sure you have entered the correct name and try again.");
+
+            host_security_label = nls("host_security_label", "Username");
+            pw_security_label = nls("pw_security_label", "Password");
+            cpw_security_label = nls("cpw_security_label", "Confirm Password");
+
+            pwd_invalid_prompt = nls("pwd_invalid_prompt", "Either the second password you entered is different from the first one, or any of the passwords contains spaces or is null.");
+            pwd_invalid_content = nls("pwd_invalid_content", "Invalid Password");
+            pwd_invalid_help = nls("pwd_invalid_help", "The second password is used to verify the first one.  They must be identical, and neither of them can be null or contain spaces.");
+
+            web_security_prompt = nls("web_security_prompt", "Enter the Username and Password for the Administration Listener:");
+            web_security_help = nls("web_security_help", "Administration Listener user performs administration tasks for the Oracle WebServer.%carriage_return%%carriage_return%Null passwords and passwords containing spaces are not allowed.%carriage_return%%carriage_return%Please refer to 'Oracle WebServer User Guide' for more information on administration tasks.");
+            web_security_content = nls("web_security_content", "Administration Listener Login");
+
+            web_failure_of_copy = nls("web_failure_of_copy", "Installation terminated because %%oracle_home%%\bin\wwwlsnr.exe could not be copied.");
+            web_failure_of_service = nls("web_failure_of_service", "Installation terminated.  Please stop all Oracle Web Listeners before installing.");
+
+            web_failure_of_dltlsnr = nls("web_failure_of_dellsnr", "Unable to delete the NT Service for the Oracle Web Listener '%%service_name%%' during the installation, please delete, recreate, and start it later.");
+            web_failure_of_crtlsnr = nls("web_failure_of_crtlsnr", "Unable to create the NT Service for the Oracle Web Listener '%%service_name%%' during the installation, please create and start it later.");
+            web_failure_of_strtlsnr = nls("web_failure_of_strtlsnr", "Unable to start the NT Service for the Oracle Web Listener '%%service_name%%' during the installation, please create and start it later.");
+
+            web_creating_lsnr = nls("web_creating_lsnr", "Creating the NT Service for the Oracle Web Listener...");
+            web_deleting_lsnr = nls("web_deleting_lsnr", "Deleting the NT Service for the old Oracle Web Listener...");
+            web_starting_lsnr = nls("web_starting_lsnr", "Starting the NT Service for the Oracle Web Listener...");
+
+            cpl_inst = nls("cpl_inst", "The control panel must be closed for the installation to proceed.  Please close the control panel to continue with the installation.");
+
+            yes_prompt = nls("yes_prompt", "Yes");
+            no_prompt = nls("no_prompt", "No");
+            ynprompt = list(yes_prompt, no_prompt);
+
+            reinst_prompt = nls("reinst_prompt", "A previous installation of Oracle WebServer 2.1 has been detected on this machine.  What would you like to do?");
+            reinst_complete = nls("reinst_complete", "Complete reinstall (overwrites existing WebServer configuration)");
+            reinst_partial = nls("reinst_partial", "Partial reinstall (preserves existing WebServer configuration)");
+            reinst_choices = list(reinst_partial,reinst_complete);
+            reinst_content = nls("reinst_content", "Reinstall");
+            reinst_help = nls("reinst_help", "Choosing complete reinstall allows you proceed as if you were doing a new installation of Oracle WebServer.  The configuration files for the administration listener and the default listener(e.g. %%ows21%%\admin\svadmin.[cfg,app] and %%ows21%%\admin\svwebsvr.[cfg,app]) will be replaced with the default version.  Your configuration files will be backed up with '.sav' appended to the file names.  The web page for your default Web Listener, %%ows21%%\new\index.html, will also be backed up.  Existing NT registry values used by Oracle WebServer may also be replaced; however, these registry values will not be backed up.%carriage_return%
+Choosing partial reinstall allows you to install only the binary and message files without replacing your existing configuration files and/or NT registry values with the default version.  The default web page will also remain as is.  Any customizations you have made to your listeners will be kept.");
+
+            deinst_ows20_prompt = nls("deinst_ows20_prompt", "Would you like to remove Oracle WebServer 2.0 after Oracle WebServer 2.1 has been installed?");
+            deinst_ows20_content = nls("deinst_ows20_content", "WebServer 2.1 Upgrade");
+            deinst_ows20_help = nls("deinst_ows20_help", "Answering yes allows you to delete the files copied to your system for the Oracle WebServer 2.0 installation after the Oracle WebServer 2.1 has been installed.  The files created by the user after the original installation of Oracle WebServer 2.0 will not be affected.%carriage_return%
+Answering no means that all the files installed with Oracle WebServer 2.0 will be left as is.  You might be able to revert back to Oracle WebServer 2.0 more quickly if you keep the old files.%carriage_return%
+Neither choice will affect the proper installation of Oracle WebServer 2.1");
+            deinstalling_ows20 = nls("deinstalling_ows20", "Deinstall Oracle WebServer 2.0...");
+
+            migrate_info = nls("migrate_info","Please refer to  http://%%dft_host_name%%:%%dft_port_no%%/ows-adoc/migrat.html  for more information on how to migrate any additional Web Listeners to Oracle WebServer 2.1.");
+
+            iis_restart_info = nls("iis_restart_info", "Please restart your Microsoft IIS in order for the new configuration to take effect.");
+            ns_restart_info = nls("ns_restart_info", "Please restart your Netscape %%ows_action%% Server in order for the new configuration to take effect.");
+
+            ows20_upgrade_info = nls("ows20_upgrade_info", "To complete your upgrade of Oracle WebServer 2.0 to 2.1, you must manually move all web page directories and their pages from %%ows20%% to %%ows21%%.  Please see detailed instructions in the CD ROM insert installation booklet.");
+
+            reboot_info = nls("path_needs_changed","In order for the changes to your path to take effect and for Oracle WebServer 2.1 to function properly, you must reboot your machine.");
+
+            /* path_modified should be defined in USER.AVF to indicate
+               whether or not a reboot needs to take place
+               i.e. this is a 1st time install of a Oracle NT product
+             */
+            {
+                path_modified = path_modified;
+            }
+            [
+                'UNBOUND_VARIABLE:
+                    path_modified = false;
+            ]
+            if (path_modified)
+                add(remind_list, instantiate(reboot_info));
+
+            /* default port # */
+            dft_port_no = "9999";
+
+            /* default WebListener name # */
+            dft_lsnr_name = "ADMIN";
+
+            dft_sec_name = "system";
+            dft_sec_pw   = "manager";
+            dft_sec_cpw  = "manager";
+
+            /* stop the *ALL* Oracle Web Listener, if running */
+
+            /***** gather a list of existing OracleWWW* services *****/
+            temp = win32_enumerate_keys("HKEY_LOCAL_MACHINE",
+                                      "System\CurrentControlSet\Services");
+
+            service_list = list();
+            while (not(empty(temp)))
+            {
+                service_name = first(temp);
+
+                if (contains(service_name, "OracleWWW"))
+                    add(service_list, service_name);
+                 temp = rest(temp);
+            }
+
+            temp = service_list;
+
+            while (not(empty(temp)))
+            {
+                service_name = first(temp);
+
+                {
+                    winnt_stop_service(service_name);
+                }
+                [
+                  'DEFAULT:
+                      continue();
+                ]
+
+                temp = rest(temp);
+            }
+
+            /* check if tcpip protocol is installed, if yes, get the host and domain name */
+            {
+                tcp_host_name = win32_get_value("HKEY_LOCAL_MACHINE",
+                                              "System\CurrentControlSet\Services\Tcpip\Parameters",
+                                              "Hostname");
+                if (length(tcp_host_name) == 0) tcp_host_name = "localhost";
+                tcp_domain    = win32_get_value("HKEY_LOCAL_MACHINE",
+                                              "System\CurrentControlSet\Services\Tcpip\Parameters",
+                                              "Domain");
+                if (length(tcp_domain) == 0)
+                {
+                    tcp_domain = "";
+                    dft_host_name = "%tcp_host_name%";
+                }
+                else
+                    dft_host_name = "%tcp_host_name%.%tcp_domain%";
+            }
+            [
+                'default:
+                {
+                    information_dialog(instantiate(tcp_prompt), tcp_content, instantiate(tcp_help));
+                    dft_host_name = "hostname.domain";
+                }
+            ]
+
+            /* check if dba_authorization is set, if no, set it to bypass */
+            {
+                dba_auth = win32_get_value("HKEY_LOCAL_MACHINE",
+                                           "Software\ORACLE",
+                                           "DBA_AUTHORIZATION");
+            }
+            [
+                'FILE_NOT_FOUND,'INVALID_KEY:
+                  win32_set_value("HKEY_LOCAL_MACHINE",
+                                   "Software\ORACLE",
+                                   "DBA_AUTHORIZATION",
+                   "BYPASS");
+                'default: continue();
+            ]
+
+            /* check to see if all of the other Oracle Web Listeners are stoped */
+
+            permit_retry_operations = FALSE; /* this should be the default */
+            {
+                copy_file("%oracle_home%\bin\wwwlsnr.exe", "%oracle_home%\bin\wwwlsnr.sav");
+            }
+            [
+            'FILE_NOT_FOUND,'INVALID_FILE_NAME:
+                continue();
+            'READ_ERROR,'WRITE_ERROR:
+                signal('FAILURE, instantiate(web_failure_of_copy));
+            ]
+            {
+                move_file("%oracle_home%\bin\wwwlsnr.sav", "%oracle_home%\bin\wwwlsnr.exe");
+            }
+            [
+            'OS_ERROR:
+                signal('FAILURE, instantiate(web_failure_of_service));
+            'DEFAULT:
+                continue();
+            ]
+
+            /* if an ows21 is already installed */
+            ora_reinstall = registered("ntows21");
+
+            /* If custom control then display httpd choices */
+            if (not(bootstrap))
+            {
+                /* Define IDs */
+                IDRB1 = 1;
+                IDRB2 = 2;
+                IDRB3 = 3;
+                IDRB4 = 4;
+                IDTG4 = 6;
+                IDAGC = 7;
+                IDLB1 = 8;
+                IDLB2 = 9;
+                IDLB3 = 10;
+                IDLB4 = 11;
+                IDLB5 = 12;
+                IDRGC = 13;
+                IDLBC = 14;
+                IDAVL = 15;
+                IDLVL = 16;
+                IDAVB = 17;
+                IDRB6 = 18;
+                IDLB6 = 19;
+
+                /* See whether you have WebServer 2.0 installed or not */
+                ora_ows = registered("ntows20");
+
+                { evaluate("ns_fasttrack"); }
+                ['UNBOUND_VARIABLE:
+                    {
+                        /* check if NS FastTrack is present */
+                        ns_fasttrack = win32_key_exists("HKEY_LOCAL_MACHINE",
+                                                       "Software\Netscape\Httpd Server");
+                    }
+                ]
+
+                { evaluate("ns_enterprise"); }
+                ['UNBOUND_VARIABLE:
+                    {
+                   /* check if NS Enterprise is present */
+                        ns_enterprise = win32_key_exists("HKEY_LOCAL_MACHINE",
+                                                          "Software\Netscape\Https Server");
+                    }
+                ]
+
+                { evaluate("ms_iis"); }
+                ['UNBOUND_VARIABLE:
+                    {
+                        /* check if MS IIS is present */
+                        ms_iis = win32_key_exists("HKEY_LOCAL_MACHINE",
+                                                  "Software\Microsoft\Inetsrv");
+                    }
+                ]
+
+                install_type_prompt = nls("install_type_prompt",
+                                          "Please select the type of installation you want to perform.");
+                install_type_content = nls("install_type_content","Oracle WebServer 2.1");
+
+               install_ows_help = "";
+               install_iis_help = "";
+               install_fasttrack_help = "";
+               install_enterprise_help = "";
+               install_upgrade_help = "";
+               install_type_help = nls("install_type_help", "%%install_ows_help%%%%install_upgrade_help%%%%install_iis_help%%%%install_fasttrack_help%%%%install_enterprise_help%%");
+
+                install_type_server = nls("install_type_server", "Oracle WebServer 2.1");
+                install_type_upg_server = nls("install_type_upg_server", "Upgrade Oracle WebServer 2.0 to 2.1 (detected)");
+                install_type_ms_server = nls("install_type_ms_server", "Migrate Microsoft IIS to use Oracle WebRequest Broker 2.1 (detected)");
+                install_type_ns_fasttrack = nls("install_type_ns_fasttrack", "Migrate Netscape FastTrack Server to use Oracle WebRequest Broker 2.1 (detected)");
+                install_type_ns_enterprise = nls("install_type_ns_enterprise", "Migrate Netscape Enterprise Server to use Oracle WebRequest Broker 2.1 (detected)");
+                install_disk_space = nls("install_disk_space","There is not enough disk space to install the selected products, do you want to continue ?");
+
+                if (ns_fasttrack || ms_iis || ns_enterprise)
+                {
+                    /* Variable y-coordinates */
+                    y_upg = 10;
+                    y_ms  = 30;
+                    y_nf  = 50;
+                    y_ne  = 70;
+                    base  = 30;
+
+                    /* Hard disk space needs */
+                    hd_sp = 65;
+                    hd_nf = 10;
+                    hd_ne = 10;
+                    hd_ms = 15;
+                    hd_up = 10;
+
+                    if (ms_iis)
+                    {
+                       y_ms  = base;
+                       y_nf  = base + 20;
+                       y_ne  = base + 40;
+                       base = base + 20;
+                    }
+
+                    if (ns_fasttrack)
+                    {
+                        y_nf = base;
+                        y_ne = base + 40;
+                       base = base + 20;
+                    }
+
+                   if (ns_enterprise)
+                   {
+                        y_ne = base;
+                        base = base + 20;
+                   }
+
+                    /* Define items */
+                    ITEMRB1 = list (IDRB1, list('UI_RADIOBUTTON,list(10,10,80,20), install_type_server));
+                    ITEMRB2 = list (IDRB2, list('UI_RADIOBUTTON,list(10,10,80,20), install_type_upg_server));
+                    ITEMRB3 = list (IDRB3, list('UI_RADIOBUTTON,list(10,y_ms,80,20), install_type_ms_server));
+                    ITEMRB4 = list (IDRB4, list('UI_RADIOBUTTON,list(10,y_nf,80,20), install_type_ns_fasttrack));
+                    ITEMRB6 = list (IDRB6, list('UI_RADIOBUTTON,list(10,y_ne,80,20), install_type_ns_enterprise));
+
+                    /* Define radio values for alternate group, the last value being the value of the total group ITEMG4 above */
+                    rval1 = list (IDRB1,hd_sp);
+                    rval2 = list (IDRB2,hd_nf);
+                    rval3 = list (IDRB3,hd_ms);
+                    rval4 = list (IDRB4,hd_up);
+                    rval6 = list (IDRB6,hd_ne);
+
+                    /* Define free space */
+                    ITEMAVL = list(IDAVL,list('UI_LABEL,list(200,120,50,20),implode(list(stringify(free_space("%oracle_home%"),TRUE),"B")),'RIGHT_JUSTIFY));
+
+                    /* Define labels for radio buttons */
+                    ITEMLB1 = list (IDLB1,list('UI_LABEL,list(450,10,50,20), "65 MB",'RIGHT_JUSTIFY));
+                    ITEMLB2 = list (IDLB2,list('UI_LABEL,list(450,y_upg,50,20), "10 MB",'RIGHT_JUSTIFY));
+                    ITEMLB3 = list (IDLB3,list('UI_LABEL,list(450,y_ms,50,20), "15 MB",'RIGHT_JUSTIFY));
+                    ITEMLB4 = list (IDLB4,list('UI_LABEL,list(450,y_nf,50,20), "10 MB",'RIGHT_JUSTIFY));
+                    ITEMLB6 = list (IDLB6,list('UI_LABEL,list(450,y_ne,50,20), "10 MB",'RIGHT_JUSTIFY));
+
+                    /* Define the label for the space required field */
+                    ITEMLBC = list(IDLBC,list('UI_LABEL,list(80,140,100,20),"Space Required  :",list ("palatino",'BOLD','ITALICS')));
+                    ITEMLVL = list(IDLVL,list('UI_LABEL,list(80,120,100,20),"Space Available :",list ("palatino",'BOLD','ITALICS')));
+
+                    /* Define relationships, define parent-child relationships for radio buttons and associated labels */
+                    RELN1 = list (IDRB1, list (IDLB1),'DISABLED,'ENABLED);
+                    RELN2 = list (IDRB2, list (IDLB2),'DISABLED,'ENABLED);
+                    RELN3 = list (IDRB3, list (IDLB3),'DISABLED,'ENABLED);
+                    RELN4 = list (IDRB4, list (IDLB4),'DISABLED,'ENABLED);
+                    RELN6 = list (IDRB6, list (IDLB6),'DISABLED,'ENABLED);
+
+                   /* Create item list */
+                   dialog_items = list (ITEMLBC,ITEMLVL,ITEMAVL);
+                   relns = list();
+                   ows_rg = list();
+                   def_rg = 0;
+                   val_rg = list();
+
+                   if (ora_ows)
+                   {
+                      add (dialog_items,ITEMRB2);
+                      add (dialog_items,ITEMLB2);
+                      add (relns, RELN2);
+                      add (ows_rg,IDRB2);
+                      add (val_rg,rval2);
+
+                      install_upgrade_help = nls("install_upgrade_help", "Upgrade Oracle WebServer 2.0 to Oracle WebServer 2.1%carriage_return%
+    This option upgrades the installed Oracle WebServer 2.0 to Oracle WebServer 2.1.%carriage_return%%carriage_return%");
+                   }
+                   else
+                   {
+                      add (dialog_items,ITEMRB1);
+                      add (dialog_items,ITEMLB1);
+                      add (relns, RELN1);
+                      add (ows_rg,IDRB1);
+                      add (val_rg,rval1);
+
+                      install_ows_help = nls("install_ows_help","Oracle WebServer%carriage_return%
+    This option installs %bundle_name% executables, an administrator web server, a starter web server and support files for an Oracle web server installation.  To upgrade from Oracle WebServer 1.0, please refer to %quotation_mark%Oracle WebServer for Windows NT CD-ROM insert%quotation_mark%.%carriage_return%%carriage_return%");
+                   }
+
+                    if (ms_iis)
+                    {
+                       add (dialog_items,ITEMRB3);
+                       add (dialog_items,ITEMLB3);
+                       add (relns,RELN3);
+                       add (ows_rg,IDRB3);
+                       add (val_rg,rval3);
+                       if (not(ora_ows))
+                        def_rg = 1;
+
+                       install_iis_help = nls("install_iis_help", "Oracle WebServer using Microsoft Internet Information Server%carriage_return%
+    This option migrates a Microsoft Internet Information Server to use the Oracle WebRequest Broker. It does not use any existing Oracle WebServer configuration settings.%carriage_return%");
+                    }
+
+                    if (ns_fasttrack)
+                    {
+                       add (dialog_items,ITEMRB4);
+                       add (dialog_items,ITEMLB4);
+                       add (relns,RELN4);
+                       add (ows_rg,IDRB4);
+                       add (val_rg,rval4);
+                       if (not(ora_ows))
+                       {
+                            if (not(ms_iis))
+                             def_rg = 1;
+                       }
+
+                       install_fasttrack_help = nls("install_fasttrack_help", "Oracle WebServer using Netscape FastTrack Server%carriage_return%
+    This option migrates a Netscape FastTrack Server to use the Oracle WebRequest Broker.  It does not use any existing Oracle WebServer configuration settings.%carriage_return%%carriage_return%");
+                    }
+
+                   if (ns_enterprise)
+                   {
+                      add (dialog_items,ITEMRB6);
+                      add (dialog_items,ITEMLB6);
+                      add (relns,RELN6);
+                      add (ows_rg,IDRB6);
+                      add (val_rg,rval6);
+                      if (not(ora_ows))
+                      {
+                           if (not(ms_iis) && not(ns_fasttrack))
+                             def_rg = 1;
+                      }
+
+                      install_enterprise_help = nls("install_enterprise_help", "Oracle Server using Netscape Enterprise WebServer%carriage_return%
+    This option migrates a Netscape Enterprise Server to use the Oracle WebRequest Broker.  It does not use any existing Oracle WebServer configuration settings.%carriage_return%%carriage_return%");
+                   }
+
+                    /* Define radio group */
+                    ITEMRGC = list(IDRGC,list('UI_RADIOGROUP,list(0,0,0,0),ows_rg,def_rg));
+                    ITEMAGC = list(IDAGC,list('UI_ALTGROUP,list(200,140,50,20),val_rg,"MB"));
+
+                    add (dialog_items,ITEMRGC);
+                    add (dialog_items,ITEMAGC);
+
+                   /* Display custom dialog box */
+                   install_type_dlg = custom_dialog(dialog_items,relns,
+                                                    install_type_content,
+                                                    instantiate(install_type_help));
+
+                   install_type_nr = get_ui_value(install_type_dlg, IDRGC, 'UI_RADIOGROUP);
+
+                  /* Translate array number to item ID */
+                  temp_nr = 0;
+                  tmp_rg = ows_rg;
+                  if (temp_nr == install_type_nr)
+                     install_type = first(tmp_rg);
+                  else
+                  {
+                     while (temp_nr != install_type_nr)
+                     {
+                        temp_nr = temp_nr + 1;
+                        tmp_rg = rest(tmp_rg);
+                     }
+                     install_type = first(tmp_rg);
+                  }
+
+                   hd_ows = 65;
+                   if (install_type == IDRB1)
+                   {
+                       ows_action = "Spyglass";
+                       hd_ows = hd_sp;
+                   }
+
+                   else if (install_type == IDRB2)
+                   {
+                       ows_action = "Upgrade";
+                       hd_ows = hd_up;
+                   }
+
+                   else if (install_type == IDRB3)
+                   {
+                       ows_action = "Microsoft";
+                       hd_ows = hd_ms;
+                   }
+
+                   else if (install_type == IDRB4)
+                   {
+                       ows_action = "FastTrack";
+                       hd_ows = hd_nf;
+                   }
+                   else if (install_type == IDRB6)
+                   {
+                      ows_action = "Enterprise";
+                      hd_ows = hd_ne;
+                   }
+
+               } else {
+               /* neither Netscape nor Microsoft servers exist, so install OWS21 */
+                    if (ora_ows)
+                    {
+                        hd_ows = 10;
+                        ows_action = "Upgrade";
+                    } else {
+                        hd_ows = 65;
+                        ows_action = "Spyglass";
+                    }
+               }
+
+
+               if (free_space("%oracle_home%") < (hd_ows * 1048576) )
+                     information_dialog(install_disk_space,"Not enough disk space");
+            } /* End custom install */
+
+            reinst_ows = reinst_complete;
+
+            if (ows_action == "Upgrade")
+            {
+                deinst_ows20 = single_selection_dialog(deinst_ows20_prompt, ynprompt, yes_prompt, deinst_ows20_content, deinst_ows20_help);
+                if (deinst_ows20 == yes_prompt)
+                    deinst_ows20 = TRUE;
+                else
+                    deinst_ows20 = FALSE;
+            }
+            else if (ora_reinstall == true)
+            {
+                reinst_ows = single_selection_dialog(reinst_prompt, reinst_choices, reinst_partial, reinst_content, instantiate(reinst_help));
+            }
+
+            mark
+            {
+                if (reinst_ows == reinst_complete)
+                {
+                    /* Ask about Admin listener */
+                    host_setting_list = list('label, host_setting_label,
+                                             'default, dft_host_name);
+                    port_setting_list = list('label, port_setting_label,
+                                             'default, dft_port_no);
+                    lsnr_setting_list = list('label, lsnr_setting_label,
+                                             'default, dft_lsnr_name);
+
+                    done = false;
+
+                    while (not(done))
+                    {
+
+                        web_setting_choices = multiple_text_dialog(web_setting_prompt,
+                                                               list(host_setting_list,
+                                                                    lsnr_setting_list,
+                                                                    port_setting_list),
+                                                               web_setting_content,
+                                                               web_setting_help);
+
+                        dft_host_name = first(web_setting_choices);
+                        dft_lsnr_name = first(rest(web_setting_choices));
+                        dft_port_no = first (rest (rest(web_setting_choices)));
+
+                        {
+                            number_dft_port_no = numerify(dft_port_no);
+                        }
+                        [   /* if not a valid number */
+                            'LEXICAL_ERROR:
+                                number_dft_port_no = -1;
+                        ]
+
+                        if ((length(dft_lsnr_name) == 0) || (length(dft_lsnr_name) > 6))
+                        {
+                            information_dialog(lsnr_setting_error);
+                        }
+                        else if ((length(dft_port_no) == 0) || (number_dft_port_no < 0)
+                            || (number_dft_port_no > 65535))
+                        {
+                            information_dialog(port_setting_error);
+                        }
+                        else
+                            done = true;
+                    }
+
+                    /* ask about admin user */
+                    dft_sec_name = "system";
+                    dft_sec_pw = "";
+                    dft_sec_cpw = "";
+
+                    host_security_list = list('label, host_security_label,
+                                              'default, dft_sec_name);
+                    pw_security_list = list('label, pw_security_label,
+                                            'default, dft_sec_pw, 'secure);
+                    cpw_security_list = list('label, cpw_security_label,
+                                             'default, dft_sec_cpw, 'secure);
+
+                    mark
+                    {
+                        web_security_choices = multiple_text_dialog(web_security_prompt,
+                                                               list(host_security_list,
+                                                                    pw_security_list,
+                                                                    cpw_security_list),
+                                                               web_security_content,
+                                                               web_security_help);
+
+                        dft_sec_name = first(web_security_choices);
+                        dft_sec_pw = first(rest(web_security_choices));
+                        dft_sec_cpw = first (rest (rest(web_security_choices)));
+
+                        while ((dft_sec_pw != dft_sec_cpw) || (length(dft_sec_pw) == 0)
+                               || (length(dft_sec_pw) != length(replace(dft_sec_pw, " ", ""))))
+                        {
+                            information_dialog(pwd_invalid_prompt, pwd_invalid_content, pwd_invalid_help, 'NO_CANCEL);
+
+                            web_security_choices = multiple_text_dialog(web_security_prompt,
+                                                                 list(host_security_list,
+                                                                      pw_security_list,
+                                                                      cpw_security_list),
+                                                                 web_security_content,
+                                                                 web_security_help);
+
+                            dft_sec_name = first(web_security_choices);
+                            dft_sec_pw = first(rest(web_security_choices));
+                            dft_sec_cpw = first (rest (rest(web_security_choices)));
+                        }
+
+
+                        sec_lsnr_name = "websvr";
+                        sec_port_no = "80";
+                        if (ows_action == "Spyglass")
+                        {
+                            /* Ask about the default user listener */
+                            port_setting_list = list('label, port_setting_label,
+                                                     'default, sec_port_no);
+                            lsnr_setting_list = list('label, lsnr_setting_label,
+                                                     'default, sec_lsnr_name);
+
+                            done = false;
+                            while (not(done))
+                            {
+                                mark
+                                {
+                                    web_setting_choices = multiple_text_dialog(sec_lsnr_setting_prompt,
+                                                                           list(lsnr_setting_list,
+                                                                                port_setting_list),
+                                                                           sec_lsnr_setting_content,
+                                                                           sec_lsnr_setting_help);
+                                }
+                                sec_lsnr_name = first(web_setting_choices);
+                                sec_port_no = first (rest(web_setting_choices));
+
+                                {
+                                    number_sec_port_no = numerify(sec_port_no);
+                                }
+                                [   /* if not a valid number */
+                                    'LEXICAL_ERROR:
+                                        number_sec_port_no = -1;
+                                ]
+
+                                if ((length(sec_lsnr_name) == 0) || (length(sec_lsnr_name) > 6))
+                                {
+                                    information_dialog(lsnr_setting_error);
+                                }
+                                else if ((length(sec_port_no) == 0) || (number_sec_port_no < 0)
+                                    || (number_sec_port_no > 65535))
+                                {
+                                    information_dialog(port_setting_error);
+                                }
+                                else
+                                    done = true;
+                            }
+                        }
+
+                        if (ows_action == "Microsoft")
+                        {
+                            port_setting_list = list('label, port_setting_label);
+                            /* ask for admin listener port number */
+                            mark
+                            {
+                                ms_listener_choices = multiple_text_dialog(instantiate(ms_listener_prompt),
+                                                                       list(port_setting_list),
+                                                                       ms_listener_content,
+                                                                       ms_listener_help);
+                            } /* end mark */
+                            ms_listener_port = first(ms_listener_choices);
+                        }
+                    } /* mark */
+                } /* end if (reinst_ows21 == reinst_complete) */
+
+
+                if ((ows_action == "FastTrack") || (ows_action == "Enterprise"))
+                {
+                    /* Find ns config directory */
+                    { comp_name = win32_get_value ("HKEY_LOCAL_MACHINE","System\CurrentControlSet\Control\ComputerName\ActiveComputerName","ComputerName"); }
+                    [ 'DEFAULT : signal('failure,instantiate(nls("ms_subkey_not_present","Microsoft ComputerName registry subkey is NOT present"))); ]
+
+                    if (tcp_host_name != "localhost")
+                        comp_name = tcp_host_name;
+
+                    httpd_name = "httpd";
+                    if (ows_action == "FastTrack")
+                        httpd_name = "httpd";
+                    else if (ows_action == "Enterprise")
+                        httpd_name = "https";
+
+                    ns_httpd_keyname = "Software\Netscape\%httpd_name%-%comp_name%";
+
+                    port_setting_list = list('label, port_setting_label);
+                    lsnr_setting_list = list('label, gen_lsnr_label,
+                                             'default, comp_name);
+
+                    { ns_home = win32_get_value("HKEY_LOCAL_MACHINE","Software\Netscape\Admin Server","ConfigurationPath"); }
+                    [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Netscape ConfigurationPath registry subkey is NOT present"))); ]
+
+                    /* find listener port number */
+                    ns_admin_port = translate("Port", "%ns_home%/ns-admin.conf", " ");
+
+
+                    mark
+                    {
+                        if (reinst_ows == reinst_complete)
+                        {
+                            ns_listener_choices = multiple_text_dialog(instantiate(ns_listener_prompt),
+                                                                   list(lsnr_setting_list)
+                                                                   ns_listener_content,
+                                                                   ns_listener_help);
+
+                            comp_name = first(ns_listener_choices);
+                            ns_httpd_keyname = "Software\Netscape\%httpd_name%-%comp_name%";
+
+                            while (not(win32_key_exists("HKEY_LOCAL_MACHINE",ns_httpd_keyname)))
+                            {
+                                information_dialog(instantiate(ns_listener_error));
+
+                                ns_listener_choices = multiple_text_dialog(instantiate(ns_listener_prompt),
+                                                                       list(lsnr_setting_list)
+                                                                       ns_listener_content,
+                                                                       ns_listener_help);
+
+                                comp_name = first(ns_listener_choices);
+                                ns_httpd_keyname = "Software\Netscape\%httpd_name%-%comp_name%";
+                            }
+                        } /* end if (reinst_ows == reinst_complete) */
+                    } /* end mark */
+
+                    /* Get the ns httpd home directory and install the Oracle stuff */
+                    { ns_home = win32_get_value ("HKEY_LOCAL_MACHINE",ns_httpd_keyname,"ConfigurationPath"); }
+                    [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Netscape ConfigurationPath registry subkey is NOT present"))); ]
+
+                    /* Get rid of the trailing config directory */
+                    org_nshome = explode(ns_home,"/");
+                    dest_nshome = list(first(org_nshome));
+                    add(dest_nshome,"/");
+                    org_nshome = rest(org_nshome);
+
+                    while (first(org_nshome) != "config")
+                    {
+                       add (dest_nshome,first(org_nshome));
+                       add (dest_nshome,"/");
+                       org_nshome = rest(org_nshome);
+                    }
+                    ns_home = implode(dest_nshome);
+
+                    /* Get the admin netscape home */
+                    org_nshome = explode(ns_home,"/");
+                    dest_nshome = list(first(org_nshome));
+                    add(dest_nshome,"/");
+                    org_nshome = rest(org_nshome);
+
+                    while (not(contains(first(org_nshome),"%httpd_name%-")))
+                    {
+                       add (dest_nshome,first(org_nshome));
+                       add (dest_nshome,"/");
+                       org_nshome = rest(org_nshome);
+                    }
+                    nshome = implode(dest_nshome);
+
+                    /* find listener port number */
+                    ns_listener_port = translate("Port", "%ns_home%/config/magnus.conf", " ");
+
+                }
+            } /* end mark */
+            return(sum(deinstl, bin, cpl, cfg, admbin, admdoc, admin,doc,log,mesg, img, demo, new, sample, wrbsdk, java) + verify(w32rsf73) + verify(w32util73));
+       }
+        else
+                refresh_map_file = FALSE;
+        return(0);
+}
+

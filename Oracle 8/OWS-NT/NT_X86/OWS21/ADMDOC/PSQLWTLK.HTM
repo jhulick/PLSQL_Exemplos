@@ -1,0 +1,156 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+<A HREF="psqlwtl1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="10346">
+PL/SQL Web Toolkit Reference
+</A>
+</H1>
+<HR><P><A NAME="417929">
+This section describes the <a href="gloss.htm#420774">PL/SQL</a> packages that make up the Oracle WebServer PL/SQL Web Toolkit. The names of the <a href="gloss.htm#420871">package</a>s are mnemonic abbreviations for their descriptions. The descriptions are provided below with the names following in parentheses. <P>
+</A><A NAME="421217">
+This section is divided into the following pages:<P>
+</A><ul type=disc><A NAME="421218">
+<LI><a href="psqlwtl1.htm#418273">Installing the Oracle WebServer PL/SQL Web Toolkit</a>.
+</A>
+<A NAME="421219">
+<LI><a href="psqlwtl2.htm#418319">Procedure and Function Reference - Overview</a>.
+</A>
+<A NAME="421220">
+<LI>The Procedure Reference itself. This is divided into the areas listed below.
+</A>
+</ul><HR>
+<H2>
+<A NAME="417942">
+Hypertext Procedures (HTP)
+</A>
+</H2>
+<A NAME="417944">
+A hypertext procedure generates a line in an HTML document that contains the HTML tag that corresponds to its name. For instance, the htp.anchor procedure generates an anchor tag. The HTP procedures are grouped into the following categories:<P>
+</A><ul type=disc><A NAME="417949">
+<LI><a href="psqlwtl3.htm#418352">Print Procedures</a>
+</A>
+<A NAME="417951">
+<LI><a href="psqlwtl4.htm#418401">Head Related Tags</a>
+</A>
+<A NAME="417952">
+<LI>General <a href="psqlwtl5.htm#418480">Body Tags</a>
+</A>
+<A NAME="417953">
+<LI><a href="psqlwtl6.htm#418908">List Tags</a>
+</A>
+<A NAME="421497">
+<LI><a href="psqlwtl7.htm#419067">Character Format Tags</a>
+</A>
+<A NAME="421501">
+<LI><a href="psqlwtl8.htm#419159">Physical Format Tags</a>
+</A>
+<A NAME="421502">
+<LI><a href="psqlwtl9.htm#419202">Form Tags</a>
+</A>
+<A NAME="421503">
+<LI><a href="psqlwt10.htm#419423">Table Tags</a>
+</A>
+</ul><HR>
+<H2>
+<A NAME="417960">
+Hypertext Functions (HTF)
+</A>
+</H2>
+<A NAME="417962">
+A hypertext function returns the HTML tag that corresponds to its name. However, it is not sufficient to call an HTF function on its own because the HTML tag is not passed to the PL/SQL Agent. The output of an HTF function must be passed to htp.print in order to actually be part of an HTML document. Every hypertext function (HTF) has a corresponding hypertext procedure (HTP) with the same name, parameters, and function. HTF functions are generally used only when you need to nest calls. Go to example.<P>
+</A><A NAME="417970">
+<b>Note:</b> To look up HTF functions, see the entry for the corresponding HTP procedures.<P>
+</A>
+<HR>
+<H2>
+<A NAME="417973">
+OWA Utilities (<a href="psqlwt11.htm#419509">OWA_UTIL</a>)
+</A>
+</H2>
+<A NAME="417975">
+This is a collection of useful utility procedures and functions. It is divided into the following areas:<P>
+</A><ul type=disc><A NAME="421976">
+<LI><a href="psqlwt11.htm#421927">OWA_UTIL HTML Utilities</a>. The purposes of these range from printing a signature tag on HTML pages to retrieving the values of CGI environment variables and performing URL redirects.
+</A>
+<A NAME="421982">
+<LI><a href="psqlwt12.htm#421675">OWA_UTIL Dynamic SQL Utilities</a>. These enable you to produce Web pages with dynamically generated SQL code. 
+</A>
+<A NAME="422041">
+<LI><a href="psqlwt13.htm#421775">OWA_UTIL Date Utilites</a>. These make it easier to properly handle dates, which are simple strings in HTML, but are properly treated as a datatype by the Oracle RDBMS.
+</A>
+</ul><HR>
+<H2>
+<A NAME="422045">
+<a href="psqlwt14.htm#421803">OWA_OPT_LOCK</a>.
+</A>
+</H2>
+<A NAME="422148">
+These enable you to impose optimistic locking strategies so as to prevent lost updates.<P>
+</A><HR>
+<H2>
+<A NAME="417979">
+OWA
+</A>
+</H2>
+<A NAME="417981">
+This is a set of procedures called only by the Oracle PL/SQL Agent itself. You should not include these in your own code. For that reason, these procedures are not described in this documentation.<P>
+</A><HR>
+<H2>
+<A NAME="417984">
+Pattern Matching Utilities (<a href="psqlwt15.htm#421654">OWA_PATTERN</a>)
+</A>
+</H2>
+<A NAME="417986">
+This is a set of procedures and functions you can use to perform string matching and substitution with rich regular expression functionality. <P>
+</A><HR>
+<H2>
+<A NAME="417989">
+Text Manipulation Utilities (<a href="psqlwt16.htm#420005">OWA_TEXT</a>)
+</A>
+</H2>
+<A NAME="417991">
+This is a set of procedures, functions, and datatypes used by OWA_PATTERN for manipulating large data strings. They are externalized so you can use them directly if you wish.<P>
+</A><HR>
+<H2>
+<A NAME="417995">
+Image Map Utilities (<a href="psqlwt17.htm#420085">OWA_IMAGE</a>)
+</A>
+</H2>
+<A NAME="417997">
+This is a set of datatypes and functions for manipulating HTML image maps.<P>
+</A><HR>
+<H2>
+<A NAME="417999">
+Cookie Utilities (<a href="psqlwt18.htm#420125">OWA_COOKIE</a>)
+</A>
+</H2>
+<A NAME="418001">
+This is a set of datatypes, procedures, and functions for manipulating HTML cookies.<P>
+</A>
+
+<HR>
+<A HREF="psqlwtl1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+ 
+

@@ -1,0 +1,131 @@
+<HTML>
+<HEAD>
+<TITLE>
+Example PL/SQL Agent Web Pages
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaex2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaex4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418544">
+DO_QUERY PL/SQL Web Page Example
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418189">
+In this example, the user has already decided to query the EMPNO, ENAME, JOB, and SAL columns. If you like, you can skip ahead to the output.<P>
+</A><A NAME="418190">
+Here is a procedure to process this form submission:<P>
+</A><A NAME="418191">
+<PRE>-- DO_QUERY executes the query on the specified columns and</PRE><P>
+</A>
+<A NAME="418192">
+<PRE>-- tables. The OWA_UTIL.IDENT_ARR datatype is defined as:</PRE><P>
+</A>
+<A NAME="418193">
+<PRE>-- -- type ident_arr is table of varchar2(30) index by binary_integer</PRE><P>
+</A>
+<A NAME="418194">
+<PRE>create or replace procedure do_query(the_table in varchar2,</PRE><P>
+</A>
+<A NAME="418195">
+<PRE>cols in owa_util.ident_arr) is</PRE><P>
+</A>
+<A NAME="418196">
+<PRE>column_list varchar2(32000);</PRE><P>
+</A>
+<A NAME="418197">
+<PRE>col_counter integer;</PRE><P>
+</A>
+<A NAME="418198">
+<PRE>ignore boolean;</PRE><P>
+</A>
+<A NAME="418199">
+<PRE>begin</PRE><P>
+</A>
+<A NAME="418200">
+<PRE>-- For PL/SQL tables, have to just loop through until you hit</PRE><P>
+</A>
+<A NAME="418201">
+<PRE>-- no_data_found. Start the counter at 2 since we put in</PRE><P>
+</A>
+<A NAME="418202">
+<PRE>-- a dummy hidden field.</PRE><P>
+</A>
+<A NAME="418203">
+<PRE>col_counter := 2;</PRE><P>
+</A>
+<A NAME="418204">
+<PRE>loop</PRE><P>
+</A>
+<A NAME="418205">
+<PRE>-- build a comma-delimited list of columns</PRE><P>
+</A>
+<A NAME="418206">
+<PRE>column_list := column_list||cols(col_counter)||',';</PRE><P>
+</A>
+<A NAME="418207">
+<PRE>col_counter := col_counter + 1;</PRE><P>
+</A>
+<A NAME="418208">
+<PRE>end loop;</PRE><P>
+</A>
+<A NAME="418209">
+<PRE>exception</PRE><P>
+</A>
+<A NAME="418210">
+<PRE>when no_data_found</PRE><P>
+</A>
+<A NAME="418211">
+<PRE>then</PRE><P>
+</A>
+<A NAME="418212">
+<PRE>-- strip out the last trailing comma</PRE><P>
+</A>
+<A NAME="418213">
+<PRE>column_list := substr(column_list,1,length(column_list)-1);</PRE><P>
+</A>
+<A NAME="418214">
+<PRE>-- print the table - assumes HTML table support</PRE><P>
+</A>
+<A NAME="418215">
+<PRE>ignore := owa_util.tablePrint(the_table,'BORDER', OWA_UTIL.HTML_TABLE, column_list);</PRE><P>
+</A>
+<A NAME="418216">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="418217">
+<PRE></PRE><P>
+</A>
+<A NAME="418218">
+Then, after selecting the "Execute Query" button, the user would see the following:<P>
+</A><A NAME="418220">
+<p>
+<img src="plaexa1.gif"><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaex2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaex4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

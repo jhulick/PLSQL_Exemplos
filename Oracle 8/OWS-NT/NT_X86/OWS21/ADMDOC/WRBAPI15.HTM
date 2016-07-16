@@ -1,0 +1,133 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi14.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi16.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425880">
+WRBGetParsedContent()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425881">
+<code>WRBGetParsedContent()</code> retrieves the current HTTP request's query string if the request method is GET, or its POST data if the request method is POST. <P>
+</A><A NAME="425882">
+<code>WRBGetParsedContent()</code> parses this data and passes back an array of pointers to <code><a href="wrbapi28.htm#426929">The WRBEntry Structure</a></code> structures. Each <code>WRBEntry</code> structure contains the name and value of a POST data entry. <code>WRBGetParsedContent()</code> also passes back the number of elements in the array.<P>
+</A><A NAME="425886">
+The pointers passed back refer to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425887">
+Syntax
+</A>
+</H2>
+<A NAME="425888">
+<PRE>WRBReturnCode WRBGetParsedContent( void      *WRBCtx,<br>                                   WRBEntry **WRBEntries,<br>                                   int       *numEntries );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425914">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425891">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425893">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425895">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425897">
+WRBCtx<BR>
+</A><td><A NAME="425899">
+void *<BR>
+</A><td><A NAME="425901">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="425903">
+WRBEntries<BR>
+</A><td><A NAME="425905">
+WRBEntry **<BR>
+</A><td><A NAME="425907">
+A pointer to the location where you want the function to put a pointer to the parsed content array. To specify this parameter, you can declare a variable of type <code>WRBEntry *</code>, and pass variable's address.<BR>
+</A>
+<tr><td><A NAME="425909">
+numEntries<BR>
+</A><td><A NAME="425911">
+int *<BR>
+</A><td><A NAME="425913">
+A pointer to the location where you want the function to put the total number of entries.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425915">
+Return Values
+</A>
+</H2>
+<A NAME="425917">
+<code>WRBGetParsedContent()</code> returns a value of type <a href="wrbapi25.htm#426826">WRBReturnCode</a>.<P>
+</A><HR>
+<H2>
+<A NAME="425918">
+Usage
+</A>
+</H2>
+<A NAME="425919">
+You can call <code>WRBGetParsedContent()</code> from your Exec function to get query string or POST data that takes the form of name-value pairs, such as data entered into an HTML form.<P>
+</A><A NAME="425920">
+If the query string or POST data for a request does not take the form of name-value pairs, you can call <code><a href="wrbapi8.htm#425559">WRBGetContent()</a></code> instead to get the data in raw form.<P>
+</A><HR>
+<H2>
+<A NAME="425924">
+Examples
+</A>
+</H2>
+<A NAME="425925">
+See the MyWRBApp sample function <code><a href="mywrbap3.htm#422477">storeInfo()</a></code>.<P>
+</A><HR>
+<H2>
+<A NAME="425926">
+Related Information
+</A>
+</H2>
+<A NAME="425935">
+See also <code><a href="wrbapi8.htm#425559">WRBGetContent()</a></code>, <code><a href="wrbapi13.htm#425784">WRBGetNamedEntry()</a></code>, and <a href="wrbapi28.htm#426929">The WRBEntry Structure</a>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi14.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi16.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

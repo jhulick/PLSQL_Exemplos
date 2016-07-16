@@ -1,0 +1,187 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl5.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418401">
+Head Related Tags
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418402">
+The following procedure tags should be placed between the htp.headOpen and htp.headClose procedure tags. <P>
+</A><A NAME="418404">
+Note: Although this section shows hypertext procedures (HTP), all of them are also available as hypertext functions (HTF).<P>
+</A><HR>
+<H2>
+<A NAME="418405">
+htp.title
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418406">
+Syntax
+</A></DL><A NAME="418407">
+htp.title (ctitle);<P>
+</A><DL COMPACT><DT><A NAME="418408">
+Purpose
+</A></DL><A NAME="418409">
+Prints an HTML tag with the text you pass in as the value of TITLE. Most Web Browsers display the text value enclosed between &lt;TITLE&gt; and &lt;/TITLE&gt; at the top of the document viewing window.<P>
+</A><DL COMPACT><DT><A NAME="418410">
+Parameters
+</A></DL><A NAME="418411">
+ctitle   in varchar2<P>
+</A><DL COMPACT><DT><A NAME="418412">
+Generates
+</A></DL><A NAME="418413">
+&lt;TITLE&gt;<em>ctitle</em>&lt;/TITLE&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418414">
+htp.base
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418415">
+Syntax
+</A></DL><A NAME="418416">
+htp.base (ctarget, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418417">
+Purpose
+</A></DL><A NAME="418418">
+Prints an HTML tag that records the URL of the document<P>
+</A><DL COMPACT><DT><A NAME="418419">
+Parameters
+</A></DL><A NAME="418420">
+ctarget                  in varchar2 DEFAULT NULL<br>cattributest          in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418421">
+Generates
+</A></DL><A NAME="418422">
+Inserts absolute pathname of current document.<P>
+</A><HR>
+<H2>
+<A NAME="418423">
+htp.isindex
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418424">
+Syntax
+</A></DL><A NAME="418425">
+htp.isindex (cprompt, curl);<P>
+</A><DL COMPACT><DT><A NAME="418426">
+Purpose
+</A></DL><A NAME="418427">
+Creates a single entry field with a prompting text, such as "<em>enter value,</em>"     then sends that value to the URL of the page or program.<P>
+</A><DL COMPACT><DT><A NAME="418428">
+Parameters
+</A></DL><A NAME="418429">
+cprompt          in varchar2           DEFAULT NULL<br>curl                  in varchar2          DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418430">
+Generates
+</A></DL><A NAME="418431">
+&lt;ISINDEX PROMPT="<em>cprompt</em>" HREF="<em>curl</em>"&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418432">
+htp.linkRel
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418433">
+Syntax
+</A></DL><A NAME="418434">
+htp.linkRel (crel, curl, ctitle);<P>
+</A><DL COMPACT><DT><A NAME="418435">
+Purpose
+</A></DL><A NAME="418436">
+Prints the HTML tag that gives the relationship described by the hypertext link from the anchor to the target. This is only used when the HREF attribute is present. This tag indicates a relationship between documents, but does not create a link. To do that, use htp.anchor.<P>
+</A><DL COMPACT><DT><A NAME="418437">
+Parameters
+</A></DL><A NAME="418438">
+crel          in varchar2<br>curl          in varchar2<br>ctitle        in varchar2     DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418439">
+Generates
+</A></DL><A NAME="418440">
+&lt;LINK REL="<em>crel</em>" HREF="<em>curl</em>" TITLE="<em>ctitle</em>"&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418441">
+htp.linkRev
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418442">
+Syntax
+</A></DL><A NAME="418443">
+htp.linkRev (crev, curl, ctitle);<P>
+</A><DL COMPACT><DT><A NAME="418444">
+Purpose
+</A></DL><A NAME="418445">
+Gives the relationship described by the hypertext link from the target to the anchor. This is the opposite of htp.linkRel. This tag indicates a relationship between documents, but does not create a link. To do that, use htp.anchor.<P>
+</A><DL COMPACT><DT><A NAME="418446">
+Parameters
+</A></DL><A NAME="418447">
+crev          in varchar2<br>curl          in varchar2<br>ctitle         in varchar2     	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418448">
+Generates
+</A></DL><A NAME="418449">
+&lt;LINK REV="<em>crev</em>" HREF="<em>curl</em>" TITLE="<em>ctitle</em>"&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418450">
+htp.meta
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418451">
+Syntax
+</A></DL><A NAME="418452">
+htp.meta (chttp_equiv, cname, ccontent);<P>
+</A><DL COMPACT><DT><A NAME="418453">
+Purpose
+</A></DL><A NAME="418454">
+Prints an HTML tag that identifies and embeds document meta-information that supplies the Web browser with information about the objects returned in HTTP.<P>
+</A><DL COMPACT><DT><A NAME="418455">
+Parameters
+</A></DL><A NAME="418456">
+chttp_equiv  	 	in varchar2<br>cname	   	in varchar2<br>ccontent   		in varchar2<P>
+</A><DL COMPACT><DT><A NAME="418457">
+Generates
+</A></DL><A NAME="418458">
+&lt;META HTTP-EQUIV="<em>chttp_equiv</em>" NAME ="<em>cname"</em> CONTENT="<em>ccontent</em>"&gt;<P>
+</A><DL COMPACT><DT><A NAME="418459">
+Example
+</A></DL><A NAME="418460">
+htp.meta ('Refresh', NULL, 120);<P>
+</A><A NAME="418461">
+This line produces:<P>
+</A><A NAME="418462">
+&lt;META HTTP-EQUIV="Refresh" CONTENT=120&gt;<P>
+</A><A NAME="418463">
+which on some Web browsers will cause the current URL to be reloaded automatically every 120 seconds.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl5.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

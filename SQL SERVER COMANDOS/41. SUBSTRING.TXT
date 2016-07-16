@@ -1,0 +1,4 @@
+SELECT SUBSTRING(CODLOC,4,6) FROM TPRDLOC
+
+retorna a parte desejada da string
+SUBSTRING(campos,onde deve começar,onde deve terminar)

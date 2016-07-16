@@ -1,0 +1,2 @@
+AND(E) concordancia
+OR(OU) alternancia

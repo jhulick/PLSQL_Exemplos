@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418352">
+Print Procedures
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418355">
+The following print procedures are used in conjunction with htf functions to generate a line in the HTML document being constructed. They can also be passed hard-coded text that will appear in the HTML document as-is. The generated line is passed to the PL/SQL Agent, which sends it to standard output. The Oracle Web Listener takes the contents of standard output and returns it to the Web browser that requested the dynamic HTML document.<P>
+</A><HR>
+<H2>
+<A NAME="418356">
+htp.print
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418357">
+Syntax
+</A></DL><A NAME="418358">
+htp.print (cbuf | dbuf | nbuf);<P>
+</A><DL COMPACT><DT><A NAME="418359">
+Purpose
+</A></DL><A NAME="418360">
+generates a line in an HTML document.<P>
+</A><DL COMPACT><DT><A NAME="418361">
+Parameters
+</A></DL><A NAME="418362">
+cbuf   in varchar2 <em>or<br></em>dbuf   in date<em> or<br></em>nbuf   in number<P>
+</A><DL COMPACT><DT><A NAME="418363">
+Generates
+</A></DL><A NAME="418364">
+Generates a line in an HTML document based on the value passed to it.<P>
+</A><HR>
+<H2>
+<A NAME="418365">
+htp.prn
+</A>
+</H2>
+<A NAME="418366">
+Alias for htp.print<P>
+</A><DL COMPACT><DT><A NAME="418367">
+Syntax
+</A></DL><A NAME="418368">
+htp.prn (cbuf | dbuf | nbuf);<P>
+</A><DL COMPACT><DT><A NAME="418369">
+Purpose
+</A></DL><A NAME="418370">
+Just like htp.print, but doesn't put a new line at the end of the value submitted.<P>
+</A><HR>
+<H2>
+<A NAME="418371">
+htp.prints
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418372">
+Syntax
+</A></DL><A NAME="418373">
+htp.prints (ctext);<P>
+</A><DL COMPACT><DT><A NAME="418374">
+Purpose
+</A></DL><A NAME="418375">
+Generates a line in an HTML document and replaces all occurrences of the following special characters with the shown escape characters. If not replaced, the special characters would be interpreted as HTML control characters, and would produce garbled output. <P>
+</A><A NAME="418376">
+`&lt;` with '&amp;lt;`<br>`&gt;' with '&amp;gt;`<br>`"` with `&amp;quot;`<br>`&amp;` with `&amp;amp;`<P>
+</A><DL COMPACT><DT><A NAME="418377">
+Parameters
+</A></DL><A NAME="418378">
+ctext   in varchar2<P>
+</A><DL COMPACT><DT><A NAME="418379">
+Generates
+</A></DL><A NAME="418380">
+Generates a line in an HTML document based on the value passed to it. This procedure is the same as htp.print or htp.p but first replaces the special characters listed above with escape characters.<P>
+</A><HR>
+<H2>
+<A NAME="418381">
+htp.ps
+</A>
+</H2>
+<A NAME="418382">
+Alias for htp.prints<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

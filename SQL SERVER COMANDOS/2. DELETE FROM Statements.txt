@@ -1,0 +1,8 @@
+DELETE FROM ENDER WHERE ENDERECO IS NULL;
+
+COMMIT WORK;
+
+*Deletará os registros da tabela ENDER que o campo ENDERECO nao for preenchido.
+*Deleta somente os registros da tabela, com condição ou não, mantendo a estrutura da mesma.
+*Caso não haja uma condição,todos os registros da tabela serão deletados,mantendo-se somente
+a estrutura da tabela.

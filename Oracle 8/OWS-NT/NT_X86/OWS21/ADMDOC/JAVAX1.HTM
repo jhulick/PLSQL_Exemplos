@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<TITLE>
+Server-Side Java Examples
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="javax.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="javax.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="javax2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="997304">
+Example of Package Wrapper Generation
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="997305">
+To access the Employee package, you must generate a Java wrapper class for it. This encapsulates the package as a Java class. The functions and procedures in the package will appear as methods in the wrapper class under the same names.<P>
+</A><A NAME="997306">
+PL/SQL datatypes are encapsulated by Java objects. For example, a PL/SQL VARCHAR2 string is encapsulated by a Java PStringBuffer object, and a PL/SQL number is encapsulated by a Java PDouble object.<P>
+</A><A NAME="997307">
+To generate the Java class wrapper for Employee package, execute the following command at a command prompt:<P>
+</A><A NAME="997308">
+<PRE> pl2java scott/tiger@HR_DB Employee</PRE><P>
+</A>
+<A NAME="997309">
+This generates the class wrapper Employee.class in the current directory. The class will have 1 constructor and 2 methods for the Employee package:<P>
+</A><A NAME="997310">
+<PRE> public class Employee {</PRE><P>
+</A>
+<A NAME="997311">
+<PRE>   public Employee(Session session) { ... }</PRE><P>
+</A>
+<A NAME="997312">
+<PRE></PRE><P>
+</A>
+<A NAME="997313">
+<PRE>  public PDouble count_employees(PStringBuffer dept_name)</PRE><P>
+</A>
+<A NAME="997314">
+<PRE>    throws ServerException { ... }</PRE><P>
+</A>
+<A NAME="997315">
+<PRE></PRE><P>
+</A>
+<A NAME="997316">
+<PRE>  public void list_employees(PStringBuffer dept_name,</PRE><P>
+</A>
+<A NAME="997317">
+<PRE>                        PStringBuffer employee_name[],</PRE><P>
+</A>
+<A NAME="997318">
+<PRE>                          PDouble       employee_number[])</PRE><P>
+</A>
+<A NAME="997319">
+<PRE>    throws ServerException { ... }</PRE><P>
+</A>
+<A NAME="997320">
+<PRE>}</PRE><P>
+</A>
+<ul type=disc><A NAME="997473">
+<LI>Notice that the constructor takes a Session object as a parameter to encapsulate the database connection. This is because each time a PL/SQL package, procedure, or function is accessed in a session, it is instantiated. In effect, a copy is created that is the private property of that session. This gives the package a stable state for that session, while leaving it free to have another state when called by another session.
+</A>
+</ul><HR>
+<H2>
+<A NAME="997474">
+Related Information
+</A>
+</H2>
+<A NAME="997481">
+<a href="javause2.htm#418913">Creating Java Wrappers for PL/SQL Packages (the pl2java Utility)</a>, <a href="javause.htm#10346">Using the Java&#153; Cartridge</a>, <a href="javause1.htm#418129">Java Web Toolkit Overview</a><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="javax.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="javax.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="javax2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,138 @@
+<HTML>
+<HEAD>
+<TITLE>
+Completing Your WebServer Installation
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Completing_Your_WebServer_Installation">
+Completing Your WebServer Installation
+</A>
+</H1>
+<HR><P><A NAME="509744">
+Once you have installed the Oracle WebServer software, you must create and configure three components:<P>
+</A><ul type=disc><A NAME="510422">
+<LI>An Oracle Web Listener process.
+</A>
+<A NAME="510210">
+<LI>A Database Connection Descriptor (DCD) for the administration server.
+</A>
+<A NAME="510211">
+<LI>A default DCD.
+</A>
+</ul><A NAME="509775">
+To complete your WebServer installation, use your web browser to edit the <em>Oracle WebServer Installation</em> form.<P>
+</A><HR>
+<A NAME="Creating_a_Web_Listener">
+<H2>Creating a Web Listener</H2>
+</A>
+<A NAME="510430">
+To create your first non-administration Web Listener, an HTTP engine that can service client requests for hypermedia documents, go to the Creating an Oracle Web Listener section of the form and do the following:<P>
+</A><OL TYPE=1>
+<A NAME="510431">
+<LI>In the Listener Name field, enter an alphanumeric name of no more than six characters that will uniquely identify the new Web Listener process.<P>
+</A>
+<A NAME="510439">
+<LI>In the <code>Host Name</code> field, enter the name that the Web Listener will use to identify itself when processing requests. You should use either the machine's primary hostname, on an alias, such as <code>www.blob.com</code>, by which you want to identify your Web Listener on the Internet. See your operating system documentation to learn how to define a hostname alias.<P>
+</A>
+<A NAME="510432">
+<LI>In the <code>Port Number</code> field, enter the number of the TCP/IP port on which the Listener should accept connections. Port numbers greater than zero and less than 1024 require the Web Listener to run with root privileges. Web Listeners with user privileges may use port numbers between 1024 and 65535.<P>
+</A>
+<A NAME="510433">
+<LI>In the <code>User ID</code> field, enter the name or number of the user whose privileges the Web Listener will assume. Use an operating system user ID, not an Oracle7 username.<P>
+</A>
+<A NAME="510434">
+<LI>In the <code>Group ID</code> field, enter the name or number of the group whose privileges the Web Listener will assume.<P>
+</A>
+<A NAME="510435">
+<LI>Click the Create Listener button.<P>
+</A>
+</OL>
+<A NAME="510436">
+Note: Beware of assigning privileged user identities such as <code>oracle</code> and group identities such as <code>dba</code> to a Web Listener, because programs it launches to handle browser requests, such as Web Request Broker (WRB) cartridges, inherit the Web Listener's privileges. For security, you might consider assigning your Web Listeners an unprivileged user identity such as <code>nobody</code>.<P>
+</A><HR>
+<A NAME="Creating_an_Administration_DCD">
+<H2>Creating an Administration DCD</H2>
+</A>
+<A NAME="509768">
+When you install your WebServer, the installer starts a special Web Listener process, called the <em>administration server</em>, that allows you to run the WebServer Manager to configure and maintain the WebServer. To enable the WebServer Manager's database configuration features, you must define a special Database Connection Descriptor, called the <em>administration DCD</em>.<P>
+</A><A NAME="510365">
+To create the administration DCD, called <code>OWA_DBA</code>, go to the Creating an Oracle Database Connection Descriptor section of the <em>Oracle WebServer Installation</em> form and do the following:<P>
+</A><OL TYPE=1>
+<A NAME="509782">
+<LI>Click the <code>OWA_DBA</code> radio button.<P>
+</A>
+<A NAME="509787">
+<LI>In the <code>Username</code> field, enter the username of the Oracle database user whose identity the DCD will assume when it connects to the database. Use an Oracle7 username, not an operating system username.<P>
+</A>
+<A NAME="509789">
+<LI>In the <code>Password</code> field, enter a password for this user.<P>
+</A>
+<A NAME="509790">
+<LI>Confirm this password by retyping it in the <code>Confirm</code> field.<P>
+</A>
+<A NAME="509791">
+<LI>If DCD specifies a remote database, <em>and</em> the username you entered is new and has not yet been registered with that database, you must also enter a username that's already registered with the database and a password for that username in the <code>Existing DBA Username</code> and <code>Existing DBA Password</code> fields. The DCD will use this username and password the first time it connects to the database.<P>
+</A>
+<A NAME="510145">
+<LI>If the DCD specifies a local database, enter the directory where the database is installed in the <code>ORACLE_HOME</code> field.<P>
+</A>
+<A NAME="509813">
+<LI>If the DCD specifies a local database, enter its ORACLE_SID in the <code>ORACLE_SID</code> field.<P>
+</A>
+<A NAME="509814">
+<LI>If the DCD specifies a remote database, enter in the <code>SQL*Net V2 Service</code> field the name of the SQL*Net V2 service that <code>OWA_DBA</code> will use to connect to the database.<P>
+</A>
+<A NAME="509841">
+<LI>Click the Create Service button.<P>
+</A>
+</OL>
+<A NAME="509829">
+Note: You don't need to enter a value in the <code>Port Number</code> field; this value is chosen automatically for <code>OWA_DBA</code>.<P>
+</A><HR>
+<A NAME="Creating_a_Default_DCD">
+<H2>Creating a Default DCD</H2>
+</A>
+<A NAME="509823">
+When a URL that invokes the PL/SQL Agent does not specify a DCD to use, the PL/SQL Agent passes the request to a default DCD called <code>OWA_DEFAULT_SERVICE</code>.<P>
+</A><A NAME="510134">
+To create the default DCD, go back to the beginning of the form and do the following:<P>
+</A><OL TYPE=1>
+<A NAME="509825">
+<LI>Click the <code>OWA_DEFAULT_SERVICE</code> radio button.<P>
+</A>
+<A NAME="509826">
+<LI>Choose a username and password for the default DCD and enter them in the <code>Username</code> and <code>Password</code> fields; retype the password in the <code>Confirm</code> field. You must choose a username that has access to the database data this DCD will use.<P>
+</A>
+<A NAME="509827">
+<LI>If the default DCD specifies a local database, enter the directory where the database is installed in the <code>ORACLE_HOME</code> field.<P>
+</A>
+<A NAME="509828">
+<LI>In the <code>Port Number</code> field, enter the TCP/IP port number on which the DCD will accept connections.<P>
+</A>
+<A NAME="509831">
+<LI>If the default DCD specifies a local database, enter its ORACLE_SID in the <code>ORACLE_SID</code> field.<P>
+</A>
+<A NAME="509835">
+<LI>If the default DCD will connect to a remote database, enter in the SQL*Net V2 Service field the name of the SQL*Net V2 service that <code>OWA_DEFAULT_SERVICE</code> will use to connect to the database.<P>
+</A>
+<A NAME="509845">
+<LI>Click the Create Service button.<P>
+</A>
+</OL>
+<A NAME="509869">
+<P>
+</A>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

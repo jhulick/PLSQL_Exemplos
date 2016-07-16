@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+<TITLE>
+The MyWRBApp Sample Cartridge
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="mywrbapp.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="mywrbapp.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="mywrbap2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="422138">
+Programming Tasks Illustrated by the MyWRBApp Sample Cartridge
+</A>
+</H1>
+<HR SIZE=5>
+<HR>
+<H2>
+<A NAME="422140">
+Setting up and initializing a WRB cartridge
+</A>
+</H2>
+<A NAME="422141">
+All WRB cartridges must implement an entry-point function to initialize a function dispatch table that the WRB applications engine can use to call the cartridge functions.<P>
+</A><A NAME="422145">
+The <code><a href="mywrbap3.htm#422334">MyWRBApp_Entry()</a></code> function sets up this function dispatch table for the MyWRBApp cartridge.<P>
+</A><A NAME="422146">
+After the entry-point function returns, if the cartridge has defined an Init cartridge function, the WRB application engine calls the Init function to perform any other one-time setup that the cartridge needs. The Init function may allocate an application context structure of any type and pass a pointer to it back to the WRB application engine for that WRBX. The WRB application engine subsequently passes this pointer to every cartridge function that runs in that WRBX.<P>
+</A><A NAME="422150">
+The <code><a href="mywrbap3.htm#422338">MyWRBApp_Init()</a></code> function allocates and initializes an application context structure (<a href="mywrbap2.htm#422284">myappctx</a>) that the MyWRBApp cartridge uses to keep track of state data between cartridge function calls.<P>
+</A><HR>
+<H2>
+<A NAME="422153">
+Cleaning up after a WRB cartridge before terminating
+</A>
+</H2>
+<A NAME="422154">
+If a WRB cartridge defines an Init function, it should also define a Shutdown function to free any resources allocated by Init. Before terminating a WRBX, the WRB application engine for that WRBX calls this Shutdown function. When Shutdown returns, the WRBX may terminate at any time.<P>
+</A><A NAME="422158">
+In the MyWRBApp cartridge, <code><a href="mywrbap3.htm#422346">MyWRBApp_Shutdown()</a></code> frees the application context structure allocated by <code><a href="mywrbap3.htm#422338">MyWRBApp_Init()</a></code>.<P>
+</A><HR>
+<H2>
+<A NAME="422163">
+Sharing data among multiple execution instances (WRBXs) of a cartridge
+</A>
+</H2>
+<A NAME="422164">
+Because several copies of a WRB cartridge can run at once (in multiple WRBXs), any data that a cartridge can modify that is shared among WRBXs must be protected from corruption.<P>
+</A><A NAME="422165">
+MyWRBApp uses a memory-mapped data file to store the usernames and passwords of registered users. All WRBXs of the MyWRBApp cartridge share this data file. To protect the integrity of the data file, MyWRBApp uses the advisory file and record locking facilities of the host operating system. The cartridge encapsulates calls to these facilities in special-purpose <a href="mywrbap2.htm#422302">locking macros</a>, defined in MyWRBApp.h.<P>
+</A><A NAME="422167">
+Several MyWRBApp functions use these macros to lock sections of the data file for reading or writing. <code><a href="mywrbap3.htm#422393">editUserData()</a></code>, for example, uses them to lock a single data block for reading and writing, while <code><a href="mywrbap3.htm#422506">mapdata()</a></code> uses them to lock the entire file for reading and writing.<P>
+</A><HR>
+<H2>
+<A NAME="422175">
+Collecting registration data from users
+</A>
+</H2>
+<A NAME="422176">
+A WRB cartridge that requires users to authenticate themselves before using the cartridge must maintain a list of valid users in some form. A cartridge that also allows users to register their own usernames with the cartridge and provide other information about themselves, such as address or phone number, must implement a mechanism for collecting and storing this information.<P>
+</A><A NAME="422177">
+MyWRBApp illustrates one way to do this, using a memory-mapped data file in the host file system that is shared among WRBXs. The <code><a href="mywrbap3.htm#422380">newUser()</a></code>, <code><a href="mywrbap3.htm#422385">getUserData()</a></code>, and <code><a href="mywrbap3.htm#422393">editUserData()</a></code> functions, and the functions that they call, manipulate this data file.<P>
+</A><A NAME="422192">
+See also <a href="mywrbap1.htm#422195">Authenticating registered users</a> and <a href="mywrbap1.htm#422163">Sharing data among multiple execution instances (WRBXs) of a cartridge</a>.<P>
+</A><HR>
+<H2>
+<A NAME="422195">
+Authenticating registered users
+</A>
+</H2>
+<A NAME="422196">
+WRB cartridges that perform their own authentication must implement an Authorize cartridge function. To authenticate a client, <code><a href="mywrbap3.htm#422350">MyWRBApp_Authorize()</a></code> verifies that the username/password pair given by the client is already registered with the cartridge.<P>
+</A><HR>
+<H2>
+<A NAME="422201">
+Parsing URLs and other HTTP data
+</A>
+</H2>
+<A NAME="422202">
+In handling requests, WRB cartridges must have access to request URLs and other HTTP data from the Listener. <code><a href="mywrbap3.htm#422350">MyWRBApp_Authorize()</a></code> and <code><a href="mywrbap3.htm#422360">MyWRBApp_Exec()</a></code> illustrate how to do this using various WRB API functions<P>
+</A><HR>
+<H2>
+<A NAME="422210">
+Parsing CGI data
+</A>
+</H2>
+<A NAME="422211">
+To process HTML forms, WRB cartridges must get access to Listener CGI data. The MyWRBApp functions <code><a href="mywrbap3.htm#422380">newUser()</a></code>, <code><a href="mywrbap3.htm#422393">editUserData()</a></code>, <code><a href="mywrbap3.htm#422413">placeOrder()</a></code>, and <code><a href="mywrbap3.htm#422424">confirmOrder()</a></code> illustrate how to do this using the WRB API functions <code>WRBGetParsedContent()</code> and <code>WRBGetNamedEntry()</code>.<P>
+</A><HR>
+<H2>
+<A NAME="422225">
+Maintaining persistent client state data (using cookies)
+</A>
+</H2>
+<A NAME="422226">
+Many WRB cartridge developers want their cartridges to keep track of client data that persists from one HTTP request to the next. A way to do this is to use <em>cookies</em>, data objects that are created by the cartridge, stored in the client browser, and passed back to the cartridge with subsequent requests.<P>
+</A><A NAME="422227">
+The MyWRBApp cartridge uses cookies to store information about the items that a client orders from a catalog. When a user marks an item on the MyWRBApp catalog form and submits the form, the cartridge sends back to user's browser a cookie of the form <em>part-number</em>=<em>quantity</em>, where <em>part-number</em> and <em>quantity</em> identify an item and the quantity of that item that the user has marked.<P>
+</A><A NAME="422228">
+The user may then leave and return to the catalog page many times, adding or removing items from the order, and the cookies keep track of the order. When the user finally confirms the order, MyWRBApp signals the browser to delete the cookies its local storage.<P>
+</A><A NAME="422238">
+The MyWRBApp functions <code><a href="mywrbap3.htm#422404">getCatalog()</a></code>, <code><a href="mywrbap3.htm#422413">placeOrder()</a></code>, <code><a href="mywrbap3.htm#422424">confirmOrder()</a></code>, and the functions they call illustrate how to send cookies to the client, how to get cookies from the Listener, and how to parse the cookies themselves.<P>
+</A><HR>
+<H2>
+<A NAME="422240">
+Creating HTML documents dynamically and sending them to clients
+</A>
+</H2>
+<A NAME="422241">
+The primary reason for writing server-side web applications is to be able to respond to HTTP requests with dynamically generated content. The MyWRBApp functions <code><a href="mywrbap3.htm#422404">getCatalog()</a></code>, <code><a href="mywrbap3.htm#422413">placeOrder()</a></code>, <code><a href="mywrbap3.htm#422452">formatUserData()</a></code>, and <code><a href="mywrbap3.htm#422460">userDataError()</a></code> illustrate how to generate HTML dynamically and send it to clients using the WRB API function <code>WRBClientWrite()</code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="mywrbapp.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="mywrbapp.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="mywrbap2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

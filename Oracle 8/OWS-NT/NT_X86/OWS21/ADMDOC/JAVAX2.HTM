@@ -1,0 +1,758 @@
+<HTML>
+<HEAD>
+<TITLE>
+Server-Side Java Examples
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="javax.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="javax1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="javax3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="997325">
+Example of Java Database Access
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="997326">
+This section outlines a Java program that uses a PL/SQL package to look up all employees from a database and generates a report in HTML. In our example, you have an "EMP" database table and an "Employee" PL/SQL package that looks up employee information from that table. This table and package are created by user "scott" with password "tiger" in database "HR_DB".<P>
+</A><A NAME="997329">
+Since this is a somewhat complex example, it is divided into the following areas:<P>
+</A><ul type=disc><A NAME="997330">
+<LI><a href="javax2.htm#996892">PL/SQL Code Used by Java Application</a>
+</A>
+<A NAME="997333">
+<LI><a href="javax2.htm#996953">Overriding Default Value Sizes</a>
+</A>
+<A NAME="997605">
+<LI><a href="javax2.htm#996976">Java Code to Access Database</a>
+</A>
+<A NAME="997334">
+<LI><a href="javax2.htm#997006">Invoking the Employee Package</a>
+</A>
+</ul><HR>
+<H2>
+<A NAME="996892">
+PL/SQL Code Used by Java Application
+</A>
+</H2>
+<A NAME="996893">
+Here is the SQL and PL/SQL source code that defines the objects used by this example.<P>
+</A><A NAME="996894">
+<PRE>CREATE TABLE EMP (</PRE><P>
+</A>
+<A NAME="996895">
+<PRE>  emp_name    VARCHAR2(30) NOT NULL,</PRE><P>
+</A>
+<A NAME="996896">
+<PRE>  emp_number      NUMBER(10),</PRE><P>
+</A>
+<A NAME="996897">
+<PRE>  emp_dept   VARCHAR2(30) NOT NULL</PRE><P>
+</A>
+<A NAME="996898">
+<PRE>);</PRE><P>
+</A>
+<A NAME="996899">
+<PRE>CREATE OR REPLACE package Employee as</PRE><P>
+</A>
+<A NAME="996900">
+<PRE>  type string_table is table of varchar2(30) index by binary_integer;</PRE><P>
+</A>
+<A NAME="996901">
+<PRE>  type number_table is table of number(10) index by binary_integer;</PRE><P>
+</A>
+<A NAME="996902">
+<PRE>  function count_employees(dept_name in varchar2) </PRE><P>
+</A>
+<A NAME="996903">
+<PRE>return number;</PRE><P>
+</A>
+<A NAME="996904">
+<PRE></PRE><P>
+</A>
+<A NAME="996905">
+<PRE>  procedure list_employees(</PRE><P>
+</A>
+<A NAME="996906">
+<PRE>    dept_name                   in   varchar2,</PRE><P>
+</A>
+<A NAME="996907">
+<PRE>    employee_name      out     string_table,</PRE><P>
+</A>
+<A NAME="996908">
+<PRE>    employee_no              out   number_table</PRE><P>
+</A>
+<A NAME="996909">
+<PRE>  );</PRE><P>
+</A>
+<A NAME="996910">
+<PRE></PRE><P>
+</A>
+<A NAME="996911">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="996912">
+<PRE></PRE><P>
+</A>
+<A NAME="996913">
+<PRE>CREATE OR REPLACE package body Employee as</PRE><P>
+</A>
+<A NAME="996914">
+<PRE></PRE><P>
+</A>
+<A NAME="996915">
+<PRE>  function count_employees(</PRE><P>
+</A>
+<A NAME="996916">
+<PRE>    dept_name          in    varchar2</PRE><P>
+</A>
+<A NAME="996917">
+<PRE>  ) return number as</PRE><P>
+</A>
+<A NAME="996918">
+<PRE>    employee_count    number;</PRE><P>
+</A>
+<A NAME="996919">
+<PRE>  begin</PRE><P>
+</A>
+<A NAME="996920">
+<PRE></PRE><P>
+</A>
+<A NAME="996921">
+<PRE>    select count(*)</PRE><P>
+</A>
+<A NAME="996922">
+<PRE>    into   employee_count</PRE><P>
+</A>
+<A NAME="996923">
+<PRE>    from   EMP</PRE><P>
+</A>
+<A NAME="996924">
+<PRE>    where  EMP_DEPT = dept_name;</PRE><P>
+</A>
+<A NAME="996925">
+<PRE></PRE><P>
+</A>
+<A NAME="996926">
+<PRE>    return employee_count;</PRE><P>
+</A>
+<A NAME="996927">
+<PRE></PRE><P>
+</A>
+<A NAME="996928">
+<PRE>  end;</PRE><P>
+</A>
+<A NAME="996929">
+<PRE></PRE><P>
+</A>
+<A NAME="996930">
+<PRE>  procedure list_employees(</PRE><P>
+</A>
+<A NAME="996931">
+<PRE>    dept_name                in      varchar2,</PRE><P>
+</A>
+<A NAME="996932">
+<PRE>    employee_name    out       string_table,</PRE><P>
+</A>
+<A NAME="996933">
+<PRE>    employee_no            out     number_table</PRE><P>
+</A>
+<A NAME="996934">
+<PRE>  ) as</PRE><P>
+</A>
+<A NAME="996935">
+    i number;<P>
+</A><A NAME="996936">
+    cursor employee_rec(dept_name varchar2) is<P>
+</A><A NAME="996937">
+    select EMP_NAME, EMP_NUMBER<P>
+</A><A NAME="996938">
+    from   EMP<P>
+</A><A NAME="996939">
+    where  EMP_DEPT = dept_name;<P>
+</A><A NAME="996940">
+  begin<P>
+</A><A NAME="996941">
+<P>
+</A><A NAME="996942">
+<PRE>    i := 1;</PRE><P>
+</A>
+<A NAME="996943">
+<PRE>    for employee in employee_rec(dept_name) loop</PRE><P>
+</A>
+<A NAME="996944">
+<PRE>      employee_name(i) := employee.EMP_NAME;</PRE><P>
+</A>
+<A NAME="996945">
+<PRE>      employee_no(i)   := employee.EMP_NUMBER;</PRE><P>
+</A>
+<A NAME="996946">
+<PRE>      i := i + 1;</PRE><P>
+</A>
+<A NAME="996947">
+<PRE>    end loop;</PRE><P>
+</A>
+<A NAME="996948">
+<PRE></PRE><P>
+</A>
+<A NAME="996949">
+<PRE>  end;</PRE><P>
+</A>
+<A NAME="996950">
+<P>
+</A><A NAME="996951">
+end;<P>
+</A><A NAME="996952">
+For reference, the commands themselves are considered SQL, but the code inside the packages is PL/SQL. Since PL/SQL is a superset of SQL, you can think of it all as PL/SQL. This example uses the oracle.html package to generate dynamic HTML. That package is documented under Dynamic HTML from Java.<P>
+</A><HR>
+<H2>
+<A NAME="996953">
+Overriding Default Value Sizes
+</A>
+</H2>
+<A NAME="996954">
+When a PL/SQL function returns a value whose size is variable - for example VARCHAR2, LONG, RAW, or LONG RAW - the size of the value is set by default to 255 bytes. In the wrapper class, you may change the default size by setting the following variable for the PL/SQL function in question:<P>
+</A><A NAME="996955">
+<PRE>&lt;function name&gt;_&lt;overload number&gt;_return_length</PRE><P>
+</A>
+<A NAME="996956">
+The overload number is the number of other functions that exist with the same name as this one. To find out about overloading of functions in PL/SQL, see Overloading Subprograms. For more information on overload numbers specifically, see the PL/SQL User's Guide and Reference. You can find out what the overload number of a function is by using the Oracle7 Server standard package dbms_describe, as covered in the Oracle7 Server Administrator's Guide. For non-overloaded functions, the overload number is 0.<P>
+</A><A NAME="996957">
+<PRE> For example, assume the following PL/SQL package:</PRE><P>
+</A>
+<A NAME="996958">
+<PRE> CREATE OR REPLACE package Employee as</PRE><P>
+</A>
+<A NAME="996959">
+<PRE>  function employee_name (</PRE><P>
+</A>
+<A NAME="996960">
+<PRE>    employee_number    in      number</PRE><P>
+</A>
+<A NAME="996961">
+<PRE>  ) return varchar2;</PRE><P>
+</A>
+<A NAME="996962">
+<PRE></PRE><P>
+</A>
+<A NAME="996963">
+<PRE>END;</PRE><P>
+</A>
+<A NAME="996964">
+ By default, the length of the return value is 255 bytes. You can change this using the code shown below:<P>
+</A><A NAME="996965">
+<PRE> public class EmployeeReport {</PRE><P>
+</A>
+<A NAME="996966">
+<PRE>  public static void main(String args[]) {</PRE><P>
+</A>
+<A NAME="996967">
+<PRE>    Session session = new Session("scott", "tiger", "HR_DB");</PRE><P>
+</A>
+<A NAME="996968">
+<PRE>    Employee employee = new Employee(session);</PRE><P>
+</A>
+<A NAME="996969">
+<PRE>    PDouble pEmployeeNumber = new PDouble((double)12345);</PRE><P>
+</A>
+<A NAME="996970">
+<PRE>    // Set VARCHAR2 return length for function employee_name to 50     employee.employee_name_0_return_length = 50;</PRE><P>
+</A>
+<A NAME="996971">
+<PRE>    System.out.println("Employee ID: " + pEmployeeNumber +</PRE><P>
+</A>
+<A NAME="996972">
+<PRE>                " name: " + employee.employee_name(pEmployeeNumber));   }</PRE><P>
+</A>
+<A NAME="996973">
+<PRE>}</PRE><P>
+</A>
+<A NAME="996974">
+Similarly, when a PL/SQL function returns a PL/SQL table, its default\ length is 40. You can change that length by changing the following variable in the wrapper class:<P>
+</A><A NAME="996975">
+<PRE>&lt;function name&gt;_&lt;overload number&gt;_return_arraylength</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="996976">
+Java Code to Access Database
+</A>
+</H2>
+<A NAME="996977">
+The first thing that you have to do in the EmployeeReport program is to connect to a database. You do this by using the following code to create a Session object:<P>
+</A><A NAME="996978">
+<PRE>import oracle.html.*;</PRE><P>
+</A>
+<A NAME="996979">
+<PRE>import oracle.rdbms.*;     // ADD: import Oracle classes which deal                                        //with database</PRE><P>
+</A>
+<A NAME="996980">
+<PRE>public class EmployeeReport {</PRE><P>
+</A>
+<A NAME="996981">
+<PRE>  public static void main (String args[]) {</PRE><P>
+</A>
+<A NAME="996982">
+<PRE>    HtmlHead hd = new HtmlHead("Employee Listing");</PRE><P>
+</A>
+<A NAME="996983">
+<PRE>    HtmlBody bd = new HtmlBody();</PRE><P>
+</A>
+<A NAME="996984">
+<PRE>    HtmlPage hp = new HtmlPage(hd, bd);</PRE><P>
+</A>
+<A NAME="996985">
+<PRE>    hp.printHeader();</PRE><P>
+</A>
+<A NAME="996986">
+<PRE></PRE><P>
+</A>
+<A NAME="996987">
+<PRE>    // ADD: defines Oracle session properties like ORACLE_HOME</PRE><P>
+</A>
+<A NAME="996988">
+<PRE></PRE><P>
+</A>
+<A NAME="996989">
+<PRE>    Session.setProperty("ORACLE_HOME", "/user/oracle");</PRE><P>
+</A>
+<A NAME="996990">
+<PRE>    Session.setProperty("TNS_ADMIN", "/user/oracle/network/admin");</PRE><P>
+</A>
+<A NAME="996991">
+<PRE></PRE><P>
+</A>
+<A NAME="996992">
+<PRE>    // ADD: creates a database session and logon</PRE><P>
+</A>
+<A NAME="996993">
+<PRE>    Session session;</PRE><P>
+</A>
+<A NAME="996994">
+<PRE>    try {</PRE><P>
+</A>
+<A NAME="996995">
+<PRE>      session = new Session("scott", "tiger", "HR_DB");</PRE><P>
+</A>
+<A NAME="996996">
+<PRE>    } catch (ServerException e) {</PRE><P>
+</A>
+<A NAME="996997">
+<PRE>      bd.addItem(new SimpleItem("Logon fails: " + e.getSqlerrm()));</PRE><P>
+</A>
+<A NAME="996998">
+<PRE>      hp.print();</PRE><P>
+</A>
+<A NAME="996999">
+<PRE>      return;</PRE><P>
+</A>
+<A NAME="997000">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997001">
+<PRE>    hp.print()</PRE><P>
+</A>
+<A NAME="997002">
+<PRE>  }</PRE><P>
+</A>
+<A NAME="997003">
+<PRE>}</PRE><P>
+</A>
+<A NAME="997004">
+<PRE></PRE><P>
+</A>
+<A NAME="997005">
+To handle any errors raised, put the operation in a "try {...} catch (...) {... }" block and trap any ServerExceptions.<P>
+</A><HR>
+<H2>
+<A NAME="997006">
+Invoking the Employee Package
+</A>
+</H2>
+<A NAME="997007">
+To invoke the Employee package, you need to create a new instance of the corresponding wrapper class. Then you can call the procedures and functions in the package by invoking the methods in the wrapper class. Add the following code to the program:<P>
+</A><A NAME="997008">
+<PRE>import oracle.html.*;</PRE><P>
+</A>
+<A NAME="997009">
+<PRE>import oracle.rdbms.*;</PRE><P>
+</A>
+<A NAME="997010">
+<PRE>import oracle.plsql.*;       </PRE><P>
+</A>
+<A NAME="997011">
+<PRE>// ADD: import Oracle classes which deal </PRE><P>
+</A>
+<A NAME="997012">
+<PRE>//with PL/SQL data types</PRE><P>
+</A>
+<A NAME="997013">
+<PRE>public class EmployeeReport {</PRE><P>
+</A>
+<A NAME="997014">
+<PRE>     public static void main (String args[]) {</PRE><P>
+</A>
+<A NAME="997015">
+<PRE>     HtmlHead hd = new HtmlHead("Employee Listing");</PRE><P>
+</A>
+<A NAME="997016">
+<PRE>     HtmlBody bd = new HtmlBody();</PRE><P>
+</A>
+<A NAME="997017">
+<PRE>     HtmlPage hp = new HtmlPage(hd, bd);</PRE><P>
+</A>
+<A NAME="997018">
+<PRE>     hp.printHeader();</PRE><P>
+</A>
+<A NAME="997019">
+<PRE></PRE><P>
+</A>
+<A NAME="997020">
+<PRE>    Session.setProperty("ORACLE_HOME", "/user/oracle");</PRE><P>
+</A>
+<A NAME="997021">
+<PRE>    Session.setProperty("TNS_ADMIN", "/user/oracle/network/admin");</PRE><P>
+</A>
+<A NAME="997022">
+<PRE></PRE><P>
+</A>
+<A NAME="997023">
+<PRE>    Session session;</PRE><P>
+</A>
+<A NAME="997024">
+<PRE>    try {</PRE><P>
+</A>
+<A NAME="997025">
+<PRE>      session = new Session("scott", "tiger", "HR_DB");</PRE><P>
+</A>
+<A NAME="997026">
+<PRE>    } catch (ServerException e) {</PRE><P>
+</A>
+<A NAME="997027">
+<PRE>      bd.addItem(new SimpleItem("Logon fails: " + e.getSqlerrm()));</PRE><P>
+</A>
+<A NAME="997028">
+<PRE>      hp.print();</PRE><P>
+</A>
+<A NAME="997029">
+<PRE>      return;</PRE><P>
+</A>
+<A NAME="997030">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997031">
+<PRE></PRE><P>
+</A>
+<A NAME="997032">
+<PRE>    // ADD: create a new instance of Employee package</PRE><P>
+</A>
+<A NAME="997033">
+<PRE>    Employee employee = new Employee(session);</PRE><P>
+</A>
+<A NAME="997034">
+<P>
+</A><A NAME="997035">
+<PRE>    // ADD: find the department name from the input parameter</PRE><P>
+</A>
+<A NAME="997036">
+<PRE>    String deptName = null;</PRE><P>
+</A>
+<A NAME="997037">
+<PRE>    if ((args.length &lt; 1) || !args[0].startsWith("DEPT=")) {</PRE><P>
+</A>
+<A NAME="997038">
+<PRE>      bd.addItem(new SimpleItem("No department name given"));</PRE><P>
+</A>
+<A NAME="997039">
+<PRE>      hp.print();</PRE><P>
+</A>
+<A NAME="997040">
+<PRE>      return;</PRE><P>
+</A>
+<A NAME="997041">
+<PRE>    } else {</PRE><P>
+</A>
+<A NAME="997042">
+<PRE>      deptName = args[0].substring(5);</PRE><P>
+</A>
+<A NAME="997043">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997044">
+<PRE></PRE><P>
+</A>
+<A NAME="997045">
+<PRE>    // ADD: create objects to encapsulate PL/SQL values that are</PRE><P>
+</A>
+<A NAME="997046">
+<PRE>    // used as parameters</PRE><P>
+</A>
+<A NAME="997047">
+<PRE>    PStringBuffer pDeptName = new PStringBuffer(30, deptName);</PRE><P>
+</A>
+<A NAME="997048">
+<PRE>    PStringBuffer pEmployeeName[];</PRE><P>
+</A>
+<A NAME="997049">
+<PRE>    PDouble       pEmployeeNumber[];</PRE><P>
+</A>
+<A NAME="997050">
+<PRE>    PDouble          pEmployeeCount;</PRE><P>
+</A>
+<A NAME="997051">
+<PRE></PRE><P>
+</A>
+<A NAME="997052">
+<PRE>    // ADD: print report header</PRE><P>
+</A>
+<A NAME="997053">
+<PRE>    bd.addItem("Department " + pDeptName + ":")</PRE><P>
+</A>
+<A NAME="997054">
+<PRE>      .addItem(SimpleItem.Paragraph);</PRE><P>
+</A>
+<A NAME="997055">
+<PRE></PRE><P>
+</A>
+<A NAME="997056">
+<PRE>    // ADD: call Employee package to count the number of employees in</PRE><P>
+</A>
+<A NAME="997057">
+<PRE>  // the department</PRE><P>
+</A>
+<A NAME="997058">
+<PRE>    try {</PRE><P>
+</A>
+<A NAME="997059">
+<PRE>      pEmployeeCount = employee.count_employees(pDeptName);</PRE><P>
+</A>
+<A NAME="997060">
+<PRE>    } catch (ServerException e) {</PRE><P>
+</A>
+<A NAME="997061">
+<PRE>      bd.addItem("Fail to retrieve employee information for department " +</PRE><P>
+</A>
+<A NAME="997062">
+<PRE>                deptName + ": " + e.getSqlerrm());</PRE><P>
+</A>
+<A NAME="997063">
+<PRE>      hp.print();</PRE><P>
+</A>
+<A NAME="997064">
+<PRE>      return;</PRE><P>
+</A>
+<A NAME="997065">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997066">
+<PRE>    int employeeCount = (int)pEmployeeCount.doubleValue();</PRE><P>
+</A>
+<A NAME="997067">
+<PRE>    if (employeeCount == 0) {</PRE><P>
+</A>
+<A NAME="997068">
+<PRE>      bd.addItem("No employee found under department " + deptName);</PRE><P>
+</A>
+<A NAME="997069">
+      hp.print();<P>
+</A><A NAME="997070">
+      return;<P>
+</A><A NAME="997071">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997072">
+<PRE></PRE><P>
+</A>
+<A NAME="997073">
+<PRE>    // ADD: allocate the arrays for employee names and numbers</PRE><P>
+</A>
+<A NAME="997074">
+<PRE>    pEmployeeName     = new PStringBuffer[employeeCount];</PRE><P>
+</A>
+<A NAME="997075">
+<PRE>    pEmployeeNumber   = new PDouble[employeeCount];</PRE><P>
+</A>
+<A NAME="997076">
+<PRE></PRE><P>
+</A>
+<A NAME="997077">
+<PRE>    // ADD: allocate the buffers to retrieve employee information</PRE><P>
+</A>
+<A NAME="997078">
+<PRE>    for(int i = 0; i &lt; employeeCount; i++) {</PRE><P>
+</A>
+<A NAME="997079">
+<PRE>      // max length of employee name is 30 (characters)</PRE><P>
+</A>
+<A NAME="997080">
+<PRE>      pEmployeeName[i]   = new PStringBuffer(30);</PRE><P>
+</A>
+<A NAME="997081">
+<PRE>      pEmployeeNumber[i] = new PDouble();</PRE><P>
+</A>
+<A NAME="997082">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997083">
+<PRE></PRE><P>
+</A>
+<A NAME="997084">
+<PRE>    // ADD: call Employee package to look up employees in the dept</PRE><P>
+</A>
+<A NAME="997085">
+<PRE>    try {</PRE><P>
+</A>
+<A NAME="997086">
+<PRE>      employee.list_employees(pDeptName, pEmployeeName, pEmployeeNumber);</PRE><P>
+</A>
+<A NAME="997087">
+<PRE>    } catch (ServerException e) {</PRE><P>
+</A>
+<A NAME="997088">
+<PRE>      bd.addItem("Fail to retrieve employee information for department " +</PRE><P>
+</A>
+<A NAME="997089">
+<PRE>          deptName + ": " + e.getSqlerrm());</PRE><P>
+</A>
+<A NAME="997090">
+<PRE>      hp.print();</PRE><P>
+</A>
+<A NAME="997091">
+<PRE>      return;</PRE><P>
+</A>
+<A NAME="997092">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997093">
+<PRE></PRE><P>
+</A>
+<A NAME="997094">
+<PRE>    // ADD: generate report</PRE><P>
+</A>
+<A NAME="997095">
+<PRE>    DynamicTable tab = new DynamicTable(2);</PRE><P>
+</A>
+<A NAME="997096">
+<PRE>    TableRow row = new TableRow();</PRE><P>
+</A>
+<A NAME="997097">
+<PRE>    row.addCell(new TableHeaderCell("Employee Name"))</PRE><P>
+</A>
+<A NAME="997098">
+<PRE>       .addCell(new TableHeaderCell("Employee Number"));</PRE><P>
+</A>
+<A NAME="997099">
+<PRE>    tab.addRow(row);</PRE><P>
+</A>
+<A NAME="997100">
+<PRE></PRE><P>
+</A>
+<A NAME="997101">
+<PRE>    for (int i = 0; i &lt; employeeCount; i++) {</PRE><P>
+</A>
+<A NAME="997102">
+<PRE>      row = new TableRow();</PRE><P>
+</A>
+<A NAME="997103">
+<PRE>      if (pEmployeeNumber[i].isNull())</PRE><P>
+</A>
+<A NAME="997104">
+<PRE>     row.addCell(new TableDataCell(pEmployeeName[i].toString()))</PRE><P>
+</A>
+<A NAME="997105">
+<PRE>        .addCell(new TableDataCell("new employee"));</PRE><P>
+</A>
+<A NAME="997106">
+<PRE>      else</PRE><P>
+</A>
+<A NAME="997107">
+<PRE>       row.addCell(new TableDataCell(pEmployeeName[i].toString()))</PRE><P>
+</A>
+<A NAME="997108">
+<PRE>        .addCell(new TableDataCell(pEmployeeNumber[i].toString()));</PRE><P>
+</A>
+<A NAME="997109">
+<PRE>      tab.addRow(row);</PRE><P>
+</A>
+<A NAME="997110">
+<PRE>    }</PRE><P>
+</A>
+<A NAME="997111">
+<PRE>    hp.addItem(tab);</PRE><P>
+</A>
+<A NAME="997112">
+<PRE>    hp.print();</PRE><P>
+</A>
+<A NAME="997113">
+<PRE></PRE><P>
+</A>
+<A NAME="997114">
+<PRE>    // ADD: logoff from database</PRE><P>
+</A>
+<A NAME="997115">
+<PRE>    try {</PRE><P>
+</A>
+<A NAME="997116">
+<PRE>      session.logoff();</PRE><P>
+</A>
+<A NAME="997117">
+<PRE>    } catch (ServerException e);</PRE><P>
+</A>
+<A NAME="997118">
+<PRE>  }</PRE><P>
+</A>
+<A NAME="997119">
+<PRE>}</PRE><P>
+</A>
+<A NAME="997120">
+There are a few aspects of the preceding code worth pointing out:<P>
+</A><OL TYPE=1>
+<A NAME="997121">
+<LI>You must create an instance of Employee package before you can invoke the procedures and functions in it. When initiating the package, you need to specify the database session where the instance of the package is to be created.<P>
+</A>
+<A NAME="997122">
+<LI>Before you invoke a PL/SQL procedure or function, you have to create Java instance variables for the PL/SQL values that are to be used as parameters (like "pDeptName" in the above example). PL/SQL tables map to Java arrays. Remember to allocate the array as well as the individual elements in the array.<P>
+</A>
+<A NAME="997123">
+<LI>When you access a PL/SQL value, remember that the value may be NULL unless database constraints prevent this. If the value is NULL, and you try to retrieve it using the value methods (such as doubleValue() of PDouble), it throws a NullValueException runtime condition. It is better to ensure the value is not NULL before retrieving the value or to try the NullValueException.<P>
+</A>
+<A NAME="997124">
+<LI>All classes that encapsulate PL/SQL values have toString() methods and therefore can be concatenated. For an example of this, see the report-header-generation section above.<P>
+</A>
+</OL>
+<ul type=disc><A NAME="997490">
+<LI>You should try to logoff from the database explicitly when the session is no longer needed. When a session is no longer needed, the session is disconnected when Java performs garbage collection. Java does not, however, guarantee that any garbage objects will be collected immediately when they become garbage. In fact, Java's garbage collector waits until the program idles, which for a busy Web site could be infrequent, or until resources are low, before it collects garbage objects. Therefore, it is better to issue a disconnect statement to free up database resources explicitly.
+</A>
+</ul><HR>
+<H2>
+<A NAME="997491">
+Related Information
+</A>
+</H2>
+<A NAME="997497">
+<a href="javause3.htm#418506">Database Access from Java</a>, <a href="javause2.htm#418913">Creating Java Wrappers for PL/SQL Packages (the pl2java Utility)</a>, <a href="javause.htm#10346">Using the Java&#153; Cartridge</a>, <a href="javause1.htm#418129">Java Web Toolkit Overview</a>, <a href="plaguse.htm#996890">Using The PL/SQL Agent</a>, <a href="psqlwtlk.htm#10346">The PL/SQL Web Toolkit Reference</a>, <a href="plaex.htm#10346">Example PL/SQL Agent Web Pages</a>, <a href="appover1.htm#418246">Invoking an Application</a><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="javax.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="javax1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="javax3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,191 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    nt.vrf - V3 common version analysis script for nt products
+
+  DESCRIPTION
+    This script performs common version analysis functionality across product
+    VRF scripts.
+
+    The variable 'doit' is set to a boolean indictating whether the
+    installation is to proceed.
+
+    The variable 'version_status' is set to one of four values:
+    'upgrade,'downgrade,'reinstall and 'new_install.
+
+    Optionally, upon calling this script the custom_version_analysis variable
+    can be set to TRUE, which causes a customized version analysis to be
+    asked when required.  To use this feature, the following variables must be
+    set prior to calling this script:
+
+    custom_version_analysis = TRUE;
+    custom_version_analysis_reinstall_prompt = "Reinstall prompt";
+    custom_version_analysis_reinstall_content = "Reinstall content";
+    custom_version_analysis_reinstall_help = "Reinstall help";
+    custom_version_analysis_upgrade_prompt = "Upgrade prompt";
+    custom_version_analysis_upgrade_content = "Upgrade content";
+    custom_version_analysis_upgrade_help = "Upgrade help";
+    custom_version_analysis_downgrade_prompt = "Downgrade prompt";
+    custom_version_analysis_downgrade_content = "Downgrade content";
+    custom_version_analysis_downgrade_help = "Downgrade help";
+    custom_version_analysis_choice_reinstall = "Text shown for an reinstall";
+    custom_version_analysis_choice_upgrade = "Text shown for an upgrade";
+    custom_version_analysis_choice_downgrade = "Text shown for an downgrade";
+    custom_version_analysis_choice_fresh = "Text shown for a fresh install";
+    custom_version_analysis_choice_skip = "Text shown to skip install";
+
+  MODIFIED    DD-MMM-YY  Reason
+    ekabatch  12-NOV-95  Modified for Battlestar Beta II Release.
+    kjain     16-FEB-94  Created from unix.vrf.
+*****************************************************************************/
+
+{
+  product_label = product_interface_label(current_product);
+
+  ui_product(product_label);
+  analyze_depend = nls("analyze_depend",
+		       "Analyzing %%product_label%% Dependencies...");
+  ui_action(instantiate(analyze_depend));
+
+  { 
+    /* Check to make sure the required version of the Installer is running */
+
+    required_version = product_version(ntinstver);
+
+    if (earlier_version(installer_version,required_version,4))
+      {
+        temp = explode(required_version,".");
+        required_version = implode(list(first(temp),first(rest(temp)),
+                                        first(rest(rest(temp))),
+                                        first(rest(rest(rest(temp))))),".");
+	information_dialog(instantiate(instver_too_early));
+	return(FALSE);
+      }
+  }
+    [ 'UNBOUND_VARIABLE: continue(); ]
+
+  mark
+    if (registered(product_name(current_product)))
+      {
+        registry = registration(product_name(current_product));
+        current_version = product_version(current_product);
+        installed_version = registry_version(registry);
+
+        { evaluate("custom_version_analysis"); }
+        [ 'UNBOUND_VARIABLE: custom_version_analysis = FALSE; ]
+  
+        if (earlier_version(registry,current_version))
+          {
+            version_status = 'UPGRADE;
+
+            if (custom_version_analysis)
+              {
+                custom_version_analysis_choice =  
+           single_selection_dialog(custom_version_analysis_upgrade_prompt,
+                                   list(custom_version_analysis_choice_upgrade,
+                                        custom_version_analysis_choice_fresh,
+                                        custom_version_analysis_choice_skip),
+                                   custom_version_analysis_choice_upgrade,
+                                   custom_version_analysis_upgrade_content,
+                                   custom_version_analysis_upgrade_help);
+
+                if (custom_version_analysis_choice ==
+                    custom_version_analysis_choice_skip)
+                  doit = FALSE;
+                else
+                  {
+                    doit = TRUE;
+
+                    if (custom_version_analysis_choice ==
+                         custom_version_analysis_choice_fresh)
+                      version_status = 'NEW_INSTALL;
+                  }
+              }
+            else if (verbose)
+	      doit = yesno_dialog(instantiate(reinstall_prompt01),TRUE,
+				  instantiate(reinstall_content01),
+				  instantiate(reinstall_help01));
+	    else
+	      doit = TRUE;
+
+            if (not(doit))
+              if (internally_called)
+                information_dialog(instantiate(reinstall_prompt02),
+                                   instantiate(reinstall_content02),
+                                   instantiate(reinstall_help02));
+          }
+        else
+          {
+            if (later_version(registry,current_version))
+              version_status = 'DOWNGRADE;
+            else
+              version_status = 'REINSTALL;
+
+            if (custom_version_analysis)
+              {
+                if (version_status == 'DOWNGRADE)
+                  custom_version_analysis_choice =  
+         single_selection_dialog(custom_version_analysis_downgrade_prompt,
+                                 list(custom_version_analysis_choice_skip,
+                                      custom_version_analysis_choice_downgrade,
+                                      custom_version_analysis_choice_fresh),
+                                 custom_version_analysis_choice_skip,
+                                 custom_version_analysis_downgrade_content,
+                                 custom_version_analysis_downgrade_help);
+                else
+                  custom_version_analysis_choice =  
+         single_selection_dialog(custom_version_analysis_reinstall_prompt,
+                                 list(custom_version_analysis_choice_reinstall,
+                                      custom_version_analysis_choice_fresh,
+                                      custom_version_analysis_choice_skip),
+                                 custom_version_analysis_choice_reinstall,
+                                 custom_version_analysis_reinstall_content,
+                                 custom_version_analysis_reinstall_help);
+
+                if (custom_version_analysis_choice ==
+                    custom_version_analysis_choice_skip)
+                  doit = FALSE;
+                else
+                  {
+                    doit = TRUE;
+
+                    if (custom_version_analysis_choice ==
+                         custom_version_analysis_choice_fresh)
+                      version_status = 'NEW_INSTALL;
+                  }
+              }
+            else if (member(selected_products,current_product))
+              if (version_status == 'DOWNGRADE)
+                doit = yesno_dialog(instantiate(reinstall_prompt03),FALSE,
+                                    instantiate(reinstall_content03),
+                                    instantiate(reinstall_help03));
+              else
+		{
+		  if (verbose)
+		    doit = yesno_dialog(instantiate(reinstall_prompt04),FALSE,
+					instantiate(reinstall_content04),
+					instantiate(reinstall_help04));
+		  else
+		    doit = TRUE;
+		}
+            else
+              doit = FALSE;
+          }
+      }
+    else
+      {
+        version_status = 'NEW_INSTALL;
+        doit = TRUE;
+      }
+
+  if (doit)
+    {
+      if (not(member(products_for_installation,current_product)))
+	add(products_for_installation,current_product);
+    }
+  else if (member(selected_products,current_product))
+    ui_action(instantiate(nls("cancel_install",
+                              "Cancelling Installation of %%product_label%%...")));
+
+  return(doit);
+}

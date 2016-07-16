@@ -1,0 +1,3 @@
+DBCC SHRINKFILE (CorporeRM_log, 10, truncateonly)
+
+DUMP TRAN CorporeRM WITH NO_LOG

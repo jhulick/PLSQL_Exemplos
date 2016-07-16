@@ -1,0 +1,154 @@
+/* debug.pc
+   This program is the back end of the DBMS_PIPE version of the
+   Debug package.  It should be running in another window from
+   the PL/SQL session which you are trying to debug.
+   For more information, see Chapter 16 of _Oracle8 PL/SQL Programming
+   by Scott Urman. */
+
+/* C and SQL header files */
+#include <stdio.h>
+EXEC SQL INCLUDE sqlca;
+
+EXEC SQL BEGIN DECLARE SECTION;
+  /* Username and password to connect to the database */
+  char *v_Connect = "example/example";
+
+  /* Status variables used in the calls to DBMS_PIPE */
+  int v_Status;
+  VARCHAR v_Code[6];
+
+  /* Variables send and received along pipes. */
+  VARCHAR v_ReturnPipeName[31];
+  VARCHAR v_Description[100];
+  VARCHAR v_Value[100];
+EXEC SQL END DECLARE SECTION;
+
+/* Error handling function. */
+void sqlerror();
+
+int main() {
+
+  /* Set up the error handling. */
+  EXEC SQL WHENEVER SQLERROR DO sqlerror();
+
+  /* Connect to the database. */
+  EXEC SQL CONNECT :v_Connect;
+
+  printf("Debug ready for input.\n");
+
+  /* Main loop.  The only way we'll break out of the loop is if
+     we receive the 'STOP' message or if an error occurs. */
+  for (;;) {
+    /* Sleep until a message is received over the 'Debug' pipe.
+       The timeout is not specified, so the default will be
+       used. */
+    EXEC SQL EXECUTE
+      BEGIN
+        :v_Status := DBMS_PIPE.RECEIVE_MESSAGE('DebugPipe');
+      END;
+    END-EXEC;
+
+    if (v_Status == 0) {
+      /* Successful retrieval of the message.  We now need to get
+         the first data element, to decide what to do with it. */
+      v_Code.len = 6;
+      EXEC SQL EXECUTE
+        BEGIN
+          DBMS_PIPE.UNPACK_MESSAGE(:v_Code);
+        END;
+      END-EXEC;
+      v_Code.arr[v_Code.len] = '\0';
+
+      if (!strcmp(v_Code.arr, "STOP")) {
+        /* STOP message received.  Break out of the loop. */
+        break;
+      } /* End of STOP processing */
+
+      else if (!strcmp(v_Code.arr, "TEST")) {
+        /* TEST message received.  Send back a handshake over the 
+           same pipe. */
+        EXEC SQL EXECUTE
+          BEGIN
+            DBMS_PIPE.PACK_MESSAGE('Handshake');
+            :v_Status := DBMS_PIPE.SEND_MESSAGE('DebugPipe');
+          END;
+        END-EXEC;
+
+        if (v_Status != 0) {
+          /* Error message.  Print it out. */
+          printf("Error %d while responding to TEST message\n",
+                 v_Status);
+        }
+      } /* End of TEST processing */
+
+      else if (!strcmp(v_Code.arr, "DEBUG")) {
+        /* DEBUG message received.  Unpack the return pipe,
+           description, and output value. */
+        v_ReturnPipeName.len = 30;
+        v_Description.len = 100;
+        v_Value.len = 100;
+        EXEC SQL EXECUTE
+          BEGIN
+            DBMS_PIPE.UNPACK_MESSAGE(:v_ReturnPipeName);
+            DBMS_PIPE.UNPACK_MESSAGE(:v_Description);
+            DBMS_PIPE.UNPACK_MESSAGE(:v_Value);
+          END;
+        END-EXEC;
+
+        /* Null-terminate the output variables. */
+        v_Description.arr[v_Description.len] = '\0';
+        v_Value.arr[v_Value.len] = '\0';
+
+        /* Echo the debugging info to the screen. */
+        printf("%s: %s\n", v_Description.arr, v_Value.arr);
+
+        /* Send the handshake message back. */
+        EXEC SQL EXECUTE
+          BEGIN
+            DBMS_PIPE.PACK_MESSAGE('Processed');
+            :v_Status := DBMS_PIPE.SEND_MESSAGE(:v_ReturnPipeName);
+          END;
+        END-EXEC;
+
+        if (v_Status != 0) {
+          /* Error message.  Print it out. */
+          printf("Error %d while sending handshake message\n",
+                 v_Status);
+        }
+      } /* End of DEBUG processing */
+    } /* End of successful retreive of a message */
+
+    else if (v_Status == 1) {
+      /* The RECEIVE_MESSAGE call timed out.  Loop back to
+         wait again. */
+      continue;
+    }
+
+    else {
+      /* The RECEIVE_MESSAGE call exited with an error.
+         Print it, and exit. */
+      printf("Main loop RECEIVE_MESSAGE Error. Status = %d\n",
+             v_Status);
+      EXEC SQL ROLLBACK WORK RELEASE;
+      exit(1);
+    }
+
+  }  /* End of main loop */
+    
+  /* Disconnect from the database. */
+  EXEC SQL COMMIT WORK RELEASE;
+}
+
+
+/* Error handling function.  Print the error to the screen,
+   and exit. */
+void sqlerror() {
+
+  printf("SQL Error!\n");
+  printf("%.*s\n", sqlca.sqlerrm.sqlerrml,
+                   sqlca.sqlerrm.sqlerrmc);
+
+  EXEC SQL WHENEVER SQLERROR CONTINUE;
+
+  EXEC SQL ROLLBACK RELEASE;
+} 

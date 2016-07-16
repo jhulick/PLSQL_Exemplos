@@ -1,0 +1,667 @@
+/* Copyright (c) Oracle Corporation 1994.  All Rights Reserved */
+
+/************************************************************************
+  NAME
+    user.stp - user-defined .stp script
+
+  DESCRIPTION
+    This script allows users access to their own customizable .stp script.
+    It can be used to bypass the installer window and perform a predefined
+    installation (e.g. complete, typical, minimal, or custom)
+    It initializes boolean 'web_install', string 'install_type', and
+    string 'bundle_name' (Personal Oracle7,Personal Oracle7 Entreprise,
+    Workgroup Oracle7 NT, Workgroup Oracle7 Netware, Entreprise Oracle7 Nt,
+    and Entreprise Oracle7 Netware).
+
+  MODIFIED    MM/DD/YY  Reason
+   mrlai      12/11/96  Modified for the upgrade process
+   eesselin   10/05/96  Modified for Oracle WebServer
+    PTajiki   05/09/96  Modified for ORacle7.7 Workgroup Server
+    ljiang    8/17/95   Modified for Windows NT Enterprise Server
+    PTajiki   10/07/95  Modified for Battlestar Beta release.
+    zzerhoun  07/06/95  Modified for Battlestar Beta Release
+    zzerhoun  01/11/95  Modified Typical Install to Launch Windows Installer
+    zzerhoun  12/12/94  Created.
+**************************************************************************/
+
+{
+
+   if(platform() == "nt")
+     prefix = "nt";
+   else
+     prefix = "w95";
+
+/*************************************************************************/
+/*  Generic Section: Across Bundles                                      */
+/*  Initialize name variables for each product bundle                    */
+/*************************************************************************/
+
+  P_O7 = "Personal Oracle7 for Windows";
+  P_O7_E = "Personal Oracle7 for Windows";
+  P_O7_W_NT = "Personal Oracle7 for Windows NT";
+  P_O7_95 = "Personal Oracle7 for Windows 95";
+  W_O7_W_NT = "Oracle7 Workgroup Server for Windows NT";
+  W_O7_95 = "Oracle7 Workgroup Server for Windows 95";
+  W_O7_NW = "Oracle7 Workgroup Server for Netware";
+  E_O7_W_NT = "Oracle WebServer for Windows NT";
+  E_O7_NW = "Oracle7 Server for Netware";
+  SA_O71_W_NT = "Oracle7 Standalone for Windows NT";
+
+
+/**** Installation to the web; by default, assume FALSE ****/
+
+web_install = FALSE;
+
+bundle_name = E_O7_W_NT;
+
+
+/**** These NLS declarations are used in po7path.vrf ****/
+
+if((prefix == "w95")&&(bundle_name == P_O7_95))
+  {
+
+   identifying_boot_drive = nls("identifying_boot_drive",
+                               "Identifying the Boot Drive...");
+   reboot_msg = nls("reboot_msg", "The addition made to your Windows 95 path variable will not take effect until you restart the system.");
+
+   set_path_long_prompt = nls("set_path_long_prompt", "In order for Personal Oracle7's console programs and third party applications to function properly with Personal Oracle7 for Windows 95, the following system modification should be made:
+
+   Add '%%oracle_home%%\BIN' to the PATH statement in your '%%boot_drive%%:\AUTOEXEC.BAT' file.
+
+   Note that adding '%%oracle_home%%\BIN' will cause the PATH statement to exceed 128 characters.  Some older DOS programs may fail with a PATH length in excess of 128 characters.
+
+   Would you like this modification to be made automatically?");
+    set_path_long_content = nls("set_path_long_content", "Path Configuration");
+    set_path_long_help = nls("set_path_long_help", "Personal Oracle7 for Windows 95 console (MS-DOS Prompt) programs, such as Import and Export, and third party products that access Oracle databases may not function properly unless '%%oracle_home%%\BIN' is on the PATH.  The PATH variable in %boot_drive%:\AUTOEXEC.BAT does not currently include the directory '%%oracle_home%%\BIN'.%carriage_return%%carriage_return%The Installer has also detected that adding '%%oracle_home%%\BIN' to the PATH will cause the PATH to exceed a length of 128 characters.  Some older DOS programs may fail with a PATH length in excess of 128 characters.%carriage_return%%carriage_return%Select 'Yes' if you want the Installer to modify your '%boot_drive%:\AUTOEXEC.BAT' file to add this directory to the PATH.  Choose 'No' if you want to modify '%boot_drive%:\AUTOEXEC.BAT' yourself.%carriage_return%%carriage_return%If you choose 'Yes', you will need to restart your computer for the change to your PATH variable to take effect.");
+
+    set_path_prompt = nls("set_path_prompt", "In order for Personal Oracle7's console programs and third party applications to function properly with Personal Oracle7 for Windows 95, the following system modification should be made:
+
+   Add '%%oracle_home%%\BIN' to the PATH statement in your '%%boot_drive%%:\AUTOEXEC.BAT' file.
+
+   Would you like this modification to be made automatically?");
+    set_path_content = nls("set_path_content", "Path Configuration");
+    set_path_help =  nls("set_path_help", "Personal Oracle7 for Windows 95 console (MS-DOS Prompt) programs, such as Import and Export, and third party products that access Oracle databases may not function properly unless '%%oracle_home%%\BIN' is on the PATH.  The PATH variable in %boot_drive%:\AUTOEXEC.BAT does not currently include the directory '%%oracle_home%%\BIN'.%carriage_return%%carriage_return%Select 'Yes' if you want the Installer to modify your '%%boot_drive%%:\AUTOEXEC.BAT' file to add this directory to the PATH. Choose 'No' if you want to modify '%%boot_drive%%:\AUTOEXEC.BAT' yourself.%carriage_return%%carriage_return%If you choose 'Yes', you will need to restart your computer for the change to your PATH variable to take effect.");
+    yesr_prompt = nls("yesr_prompt", "Yes (Recommended)");
+    yes_prompt = nls("yes_prompt", "Yes");
+    no_prompt = nls("no_prompt", "No");
+    path_to_add="%oracle_home%\BIN";
+    execute("po7path.vrf");
+
+
+  }/**** end of nls strings for po7path.vrf ****/
+
+
+ /* server installation type */
+ server_edition = 0; /* 0 indicates Workgroup edition */
+                     /* 1 indicates Enterprise edition */
+
+  /* Protocol Type Strings */
+  protocol_type_prompt = nls("protocol_type_prompt",
+                             "Please choose the default network protocol for %%bundle_name%%:");
+
+  protocol_type_tcp = nls("protocol_type_tcp","TCP/IP");
+  protocol_type_nmp = nls("protocol_type_nmp","Named Pipes");
+  protocol_type_spx = nls("protocol_type_spx","SPX");
+
+  protocol_type_content = nls("protocol_type_content",
+                              "%%bundle_name%% Network Protocol Options");
+
+  protocol_type_helpt = nls("protocol_type_helpt",
+                            "Choose '%protocol_type_tcp%' to install SQL*Net %protocol_type_tcp%.");
+  protocol_type_helpp = nls("protocol_type_helpp",
+                            "Choose '%protocol_type_nmp%' to install SQL*Net %protocol_type_nmp%.");
+  protocol_type_helpx = nls("protocol_type_helpx",
+                            "Choose '%protocol_type_spx%' to install SQL*Net %protocol_type_spx%.");
+
+
+  ui_action(nls("install_type_action","Checking Type of Installation..."));
+
+/**** Oracle WebServer for NT 2.1 ****/
+
+if(bundle_name == E_O7_W_NT)
+{
+   /* Define IDs */
+   IDRB1 = 1;
+   IDRB2 = 2;
+   IDRB3 = 3;
+   IDRB4 = 4;
+   IDRB5 = 5;
+   IDTG4 = 6;
+   IDAGC = 7;
+   IDLB1 = 8;
+   IDLB2 = 9;
+   IDLB3 = 10;
+   IDLB4 = 11;
+   IDLB5 = 12;
+   IDRGC = 13;
+   IDLBC = 14;
+   IDAVL = 15;
+   IDLVL = 16;
+   IDAVB = 17;
+   IDRB6 = 18;
+   IDLB6 = 19;
+
+   install_type_prompt = nls("install_type_prompt",
+                             "Please select the type of installation you want to perform.");
+   install_type_content = nls("install_type_content","Oracle WebServer");
+
+   install_ows_help = "";
+   install_iis_help = "";
+   install_fasttrack_help = "";
+   install_enterprise_help = "";
+   install_upgrade_help = "";
+   install_custom_help = nls("install_custom_help", "Custom%carriage_return%
+    This option lets you manually install and de-install individual products of the %bundle_name%.  The custom installation has more installation options (like installing on top of Microsoft IIS or Netscape FastTrack).  A valid product license is required for each selected product prior to installation.");
+   install_type_help = nls("install_type_help", "%%install_ows_help%%%%install_upgrade_help%%%%install_iis_help%%%%install_fasttrack_help%%%%install_enterprise_help%%%%install_custom_help%%");
+
+   install_type_server = nls("install_type_server", "Oracle WebServer 2.1");
+   install_type_upg_server = nls("install_type_upg_server", "Upgrade Oracle WebServer 2.0 to 2.1 (detected)");
+   install_type_ms_server = nls("install_type_ms_server", "Migrate Microsoft IIS to use Oracle WebRequest Broker 2.1 (detected)");
+   install_type_ns_fasttrack = nls("install_type_ns_fasttrack", "Migrate Netscape FastTrack Server to use Oracle WebRequest Broker 2.1 (detected)");
+   install_type_ns_enterprise = nls("install_type_ns_enterprise", "Migrate Netscape Enterprise Server to use Oracle WebRequest Broker 2.1 (detected)");
+   install_type_custom = nls("install_type_custom","Custom Installation");
+   install_disk_space = nls("install_disk_space","There is not enough disk space to install the selected products, do you want to continue ?");
+
+   /* Httpd Detection circuits */
+
+   /* check if NS FastTrack is present */
+   ns_fasttrack = win32_key_exists("HKEY_LOCAL_MACHINE",
+                                  "Software\Netscape\Httpd Server");
+
+   /* check if NS Enterprise is present */
+   ns_enterprise = win32_key_exists("HKEY_LOCAL_MACHINE",
+                                  "Software\Netscape\Https Server");
+
+   /* check if MS IIS is present */
+   ms_iis = win32_key_exists("HKEY_LOCAL_MACHINE",
+                             "Software\Microsoft\Inetsrv");
+
+   /* check if OWS 2.0 is present, since function 'registered' doesn't work in this script yet */
+   {
+      temp = win32_get_value("HKEY_LOCAL_MACHINE",
+                                "Software\ORACLE","OWS20");
+      if (length(temp) == 0)
+        ora_ows = FALSE;
+      else
+        ora_ows = TRUE;
+   }
+   [
+      'INVALID_KEY,'FILE_NOT_FOUND,'OS_ERROR: ora_ows = FALSE;
+   ]
+
+   /* Variable y-coordinates */
+   y_upg = 10;
+   y_ms  = 30;
+   y_nf  = 50;
+   y_ne  = 70;
+   y_ct  = 90;
+   base  = 30;
+
+   /* Hard disk space needs */
+   hd_sp = 65;
+   hd_nf = 10;
+   hd_ne = 10;
+   hd_ms = 15;
+   hd_up = 10;
+   hd_ct = 65;
+
+   if (ms_iis)
+   {
+      y_ms  = base;
+      y_nf  = base + 20;
+      y_ne  = base + 40;
+      y_ct  = base + 60;
+      base = base + 20;
+   }
+
+   if (ns_fasttrack)
+   {
+      y_nf = base;
+      y_ne = base + 20;
+      y_ct = base + 40;
+      base = base + 20;
+   }
+
+   if (ns_enterprise)
+   {
+        y_ne = base;
+        y_ct = base + 20;
+        base = base + 20;
+   }
+
+   y_ct = base;
+
+   /* Define items */
+   ITEMRB1 = list (IDRB1, list('UI_RADIOBUTTON,list(10,10,80,20), install_type_server));
+   ITEMRB2 = list (IDRB2, list('UI_RADIOBUTTON,list(10,10,80,20), install_type_upg_server));
+   ITEMRB3 = list (IDRB3, list('UI_RADIOBUTTON,list(10,y_ms,80,20), install_type_ms_server));
+   ITEMRB4 = list (IDRB4, list('UI_RADIOBUTTON,list(10,y_nf,80,20), install_type_ns_fasttrack));
+   ITEMRB5 = list (IDRB5, list('UI_RADIOBUTTON,list(10,y_ct,80,20), install_type_custom));
+   ITEMRB6 = list (IDRB6, list('UI_RADIOBUTTON,list(10,y_ne,80,20), install_type_ns_enterprise));
+
+   /* Define radio values for alternate group, the last value being the value of the total group ITEMG4 above */
+   rval1 = list (IDRB1,hd_sp);
+   rval2 = list (IDRB2,hd_nf);
+   rval3 = list (IDRB3,hd_ms);
+   rval4 = list (IDRB4,hd_up);
+   rval5 = list (IDRB5,hd_ct);
+   rval6 = list (IDRB6,hd_ne);
+
+   /* Define free space */
+   ITEMAVL = list(IDAVL,list('UI_LABEL,list(200,120,50,20),implode(list(stringify(free_space("%oracle_home%"),TRUE),"B")),'RIGHT_JUSTIFY));
+
+   /* Define labels for radio buttons */
+   ITEMLB1 = list (IDLB1,list('UI_LABEL,list(450,10,50,20), "65 MB",'RIGHT_JUSTIFY));
+   ITEMLB2 = list (IDLB2,list('UI_LABEL,list(450,y_upg,50,20), "10 MB",'RIGHT_JUSTIFY));
+   ITEMLB3 = list (IDLB3,list('UI_LABEL,list(450,y_ms,50,20), "15 MB",'RIGHT_JUSTIFY));
+   ITEMLB4 = list (IDLB4,list('UI_LABEL,list(450,y_nf,50,20), "10 MB",'RIGHT_JUSTIFY));
+   ITEMLB5 = list (IDLB5,list('UI_LABEL,list(450,y_ct,50,20), "65 MB",'RIGHT_JUSTIFY));
+   ITEMLB6 = list (IDLB6,list('UI_LABEL,list(450,y_ne,50,20), "10 MB",'RIGHT_JUSTIFY));
+
+   /* Define the label for the space required field */
+   ITEMLBC = list(IDLBC,list('UI_LABEL,list(80,140,100,20),"Space Required  :",list ("palatino",'BOLD','ITALICS')));
+   ITEMLVL = list(IDLVL,list('UI_LABEL,list(80,120,100,20),"Space Available :",list ("palatino",'BOLD','ITALICS')));
+
+   /* Define relationships, define parent-child relationships for radio buttons and associated labels */
+   RELN1 = list (IDRB1, list (IDLB1),'DISABLED,'ENABLED);
+   RELN2 = list (IDRB2, list (IDLB2),'DISABLED,'ENABLED);
+   RELN3 = list (IDRB3, list (IDLB3),'DISABLED,'ENABLED);
+   RELN4 = list (IDRB4, list (IDLB4),'DISABLED,'ENABLED);
+   RELN5 = list (IDRB5, list (IDLB5),'DISABLED,'ENABLED);
+   RELN6 = list (IDRB6, list (IDLB6),'DISABLED,'ENABLED);
+
+   /* Create item list */
+   dialog_items = list (ITEMLBC,ITEMLVL,ITEMAVL);
+   relns = list();
+   ows_rg = list();
+   def_rg = 0;
+   val_rg = list();
+
+   if (ora_ows)
+   {
+      add (dialog_items,ITEMRB2);
+      add (dialog_items,ITEMLB2);
+      add (relns, RELN2);
+      add (ows_rg,IDRB2);
+      add (val_rg,rval2);
+
+      install_upgrade_help = nls("install_upgrade_help", "Upgrade Oracle WebServer 2.0 to Oracle WebServer 2.1%carriage_return%
+    This option upgrades the installed Oracle WebServer 2.0 to Oracle WebServer 2.1.%carriage_return%%carriage_return%");
+   }
+   else
+   {
+      add (dialog_items,ITEMRB1);
+      add (dialog_items,ITEMLB1);
+      add (relns, RELN1);
+      add (ows_rg,IDRB1);
+      add (val_rg,rval1);
+
+      install_ows_help = nls("install_ows_help","Oracle WebServer%carriage_return%%carriage_return%
+    This option installs %bundle_name% executables, an administrator web server, a starter web server and support files for an Oracle web server installation.  To upgrade from Oracle WebServer 1.0, please refer to %quotation_mark%Oracle WebServer for Windows NT CD-ROM Insert%quotation_mark%.%carriage_return%%carriage_return%");
+   }
+
+   if (ms_iis)
+   {
+      add (dialog_items,ITEMRB3);
+      add (dialog_items,ITEMLB3);
+      add (relns,RELN3);
+      add (ows_rg,IDRB3);
+      add (val_rg,rval3);
+      if (not(ora_ows))
+        def_rg = 1;
+
+      install_iis_help = nls("install_iis_help", "Oracle WebServer using Microsoft Internet Information Server%carriage_return%
+    This option migrates a Microsoft Internet Information Server to use the Oracle WebRequest Broker.  It does not use any existing Oracle WebServer configuration settings.%carriage_return%");
+   }
+
+   if (ns_fasttrack)
+   {
+      add (dialog_items,ITEMRB4);
+      add (dialog_items,ITEMLB4);
+      add (relns,RELN4);
+      add (ows_rg,IDRB4);
+      add (val_rg,rval4);
+      if (not(ora_ows))
+      {
+           if (not(ms_iis))
+             def_rg = 1;
+      }
+
+      install_fasttrack_help = nls("install_fasttrack_help", "Oracle WebServer using Netscape FastTrack Server%carriage_return%
+    This option migrates a Netscape FastTrack WebServer to use the Oracle WebRequest Broker.  It does not use any existing Oracle WebServer configuration settings.%carriage_return%%carriage_return%");
+   }
+
+   if (ns_enterprise)
+   {
+      add (dialog_items,ITEMRB6);
+      add (dialog_items,ITEMLB6);
+      add (relns,RELN6);
+      add (ows_rg,IDRB6);
+      add (val_rg,rval6);
+      if (not(ora_ows))
+      {
+           if (not(ms_iis) && not(ns_fasttrack))
+             def_rg = 1;
+      }
+
+      install_enterprise_help = nls("install_enterprise_help", "Oracle WebServer using Netscape Enterprise Server%carriage_return%
+    This option migrates a Netscape Enterprise WebServer to use the Oracle WebRequest Broker.  It does not use any existing Oracle WebServer configuration settings.%carriage_return%%carriage_return%");
+   }
+
+   /* add custom option to radio group */
+   add(dialog_items, ITEMRB5);
+   add(dialog_items, ITEMLB5);
+   add(relns, RELN5);
+   add(ows_rg, IDRB5);
+   add(val_rg, rval5);
+
+   /* Define radio group */
+   ITEMRGC = list(IDRGC,list('UI_RADIOGROUP,list(0,0,0,0),ows_rg,def_rg));
+   ITEMAGC = list(IDAGC,list('UI_ALTGROUP,list(200,140,50,20),val_rg,"MB"));
+
+   add (dialog_items,ITEMRGC);
+   add (dialog_items,ITEMAGC);
+
+  /* Display custom dialog box */
+  install_type_dlg = custom_dialog(dialog_items,relns,install_type_content,
+                                   instantiate(install_type_help));
+
+  install_type_nr = get_ui_value(install_type_dlg, IDRGC, 'UI_RADIOGROUP);
+
+  /* Translate array number to item ID */
+  temp_nr = 0;
+  tmp_rg = ows_rg;
+  if (temp_nr == install_type_nr)
+     install_type = first(tmp_rg);
+  else
+  {
+     while (temp_nr != install_type_nr)
+     {
+        temp_nr = temp_nr + 1;
+        tmp_rg = rest(tmp_rg);
+     }
+     install_type = first(tmp_rg);
+  }
+
+  /* Determine type of install */
+  hd_ows = 65;
+  bootstrap = TRUE;
+  selected_products = list("ntows21","ntinstall");
+  win_products = list();
+  if (install_type == IDRB1)
+  {
+      ows_action = "Spyglass";
+      hd_ows = hd_sp;
+  }
+
+  else if (install_type == IDRB2)
+  {
+      ows_action = "Upgrade";
+      hd_ows = hd_up;
+  }
+
+  else if (install_type == IDRB3)
+  {
+      ows_action = "Microsoft";
+      hd_ows = hd_ms;
+  }
+
+  else if (install_type == IDRB4)
+  {
+      ows_action = "FastTrack";
+      hd_ows = hd_nf;
+  }
+
+  else if (install_type == IDRB6)
+  {
+      ows_action = "Enterprise";
+      hd_ows = hd_ne;
+  }
+
+  else if(install_type == IDRB5)
+  {
+      bootstrap = FALSE;
+  }
+
+  if (free_space("%oracle_home%") < (hd_ows * 1048576) )
+        information_dialog(install_disk_space,"Not enough disk space");
+
+  }/* End of if() where bundle_name is E_O7_W_NT */
+
+/***** Oracle7 Workgroup Server ****/
+
+if((bundle_name == W_O7_W_NT) || (bundle_name == W_O7_95))
+  {
+   install_type_prompt = nls("install_type_prompt",
+                           "Please select the type of installation you want to perform.");
+   install_type_content = nls("install_type_content","Oracle7 Workgroup Server");
+   install_type_help = nls("install_type_help","Database Server%carriage_return%   This installation option automatically installs Oracle7 Workgroup Server executables, a starter database, networking services, and support files for a basic database server install.%carriage_return%%carriage_return%Standard Client%carriage_return%   This installation option automatically installs networking services and support files required for most common client/server configurations.%carriage_return%%carriage_return%Selective Product Install%carriage_return%   This installation option lets you manually install and de-install individual products of the Oracle7 Workgroup Server. A valid product license is required for each selected product prior to installation.");
+
+   install_type_server = nls("install_type_server", "Database Server");
+   install_type_std_client = nls("install_type_std_client", "Standard Client");
+   install_type_admin = nls("install_type_admin", "Administrator Setup");
+   install_type_app_user = nls("install_type_app_user","Application User Setup");
+   install_type_custom = nls("install_type_custom","Selective Product Install");
+
+   install_type_choices = list(install_type_server, install_type_std_client,
+                              install_type_custom);
+
+
+  /* give the user choices */
+  install_type = single_selection_dialog(install_type_prompt,
+         install_type_choices,
+         install_type_server,
+         install_type_content,
+         install_type_help);
+
+   if(install_type != install_type_custom)
+     {
+      bootstrap = TRUE;
+
+      if( (install_type == install_type_std_client) )
+        {
+         /* ask the user if the role is application or adiministrator */
+         install_type_prompt = nls("install_type_prompt",
+                                 "Please select the type of client installation you want to perform.");
+         install_type_content1 = nls("install_type_content1","Client Setup");
+         install_type_help = nls("install_type_help","Administrator Setup%carriage_return%   This installation option automatically installs the Oracle7 Database Administration Tools, networking services, and support files required for performing administration tasks on the Oracle7 Workgroup Server database. %carriage_return%%carriage_return%Application User Setup%carriage_return%   This installation option automatically installs networking services and support files required for database application users to connect and interact with an Oracle7 Workgroup Server database.");
+         install_type_choices = list(install_type_admin,
+                                     install_type_app_user);
+
+         install_type = single_selection_dialog(install_type_prompt,
+                                                install_type_choices,
+                                                install_type_admin,
+                                                install_type_content,
+                                                install_type_help);
+        }
+
+      if(install_type == install_type_server)
+        {
+         selected_products = list(
+                                  "ntoem10",
+                                  "ntcfg23",
+                                  "ntrdbms73",
+                                  "ntobject20",
+                                  "w32util73",
+                                  "ntnetsrv23",
+                                  "w32netclt23",
+                                  "w32rsf73",
+                                  "w32tcp23",
+                                  "w32nmp23",
+                                  "ntinstall"
+                                 );
+        }
+      else if(install_type == install_type_admin)
+        {
+         selected_products = list(
+                                  "ntoem10",
+                                  "ntcfg23",
+                                  "ntobject20",
+                                  "w32netclt23",
+                                  "w32rsf73",
+                                  "w32tcp23",
+                                  "w32nmp23",
+                                  "ntinstall"
+                                 );
+        }
+      else if(install_type == install_type_app_user)
+        {
+         selected_products = list(
+                                  "ntcfg23",
+                                  "ntobject20",
+                                  "w32netclt23",
+                                  "w32rsf73",
+                                  "w32tcp23",
+                                  "w32nmp23",
+                                  "ntinstall"
+                                 );
+        }
+     }/* if install_type == install_type_custom */
+  }/* if bundle_name != W_O7_W_NT || W_O7_95 */
+
+
+
+/**** Personal Oracle7 ****/
+
+
+if((bundle_name == P_O7_W_NT) || (bundle_name == P_O7_95))
+  {
+
+/*************************************************************************/
+/*  Generic Section: Across Platforms                                    */
+/*  Initialize nls strings for all (2) possible install types            */
+/*  Initialize nls strings for install_type help messages                */
+/*                                                                       */
+/*  Initialize nls strings for protocol types                            */
+/*  Initialize nls strings for protocol_type help messages               */
+/*************************************************************************/
+
+   rdbms = nls("rdbms","Oracle7 DBMS");
+   util = nls("util","Oracle7 Utilities");
+   oci = nls("oci","Oracle Call Interface");
+   sqlplus = nls("sqlplus","SQL*Plus");
+   sqlnet = nls("sqlnet","SQL*Net V2");
+   framework = nls("framework","Personal Oracle7 Navigator");
+   online_doc = nls("online_hlp","Online Documentation");
+   ora_inst = nls("ora_inst","Oracle Installer");
+
+
+/*************************************************************************/
+/*  Specific Section                                                     */
+/*  Specify install types to offer user                                  */
+/*  Specify corresponding,overall  help message                          */
+/*************************************************************************/
+
+
+
+      install_type_prompt = instantiate(nls("install_type_prompt",
+                            "Please choose the installation to be performed.  For a description of the components installed for each option, select Help."));
+      install_type_content = nls("install_type_content", "Installation Options");
+
+      install_type_listdv = implode(list("       %oci%",
+                                         "       %rdbms%",
+                                         "       %util%",
+                                         "       %framework%",
+                                         "       %ora_inst%",
+                                         "       %sqlnet%",
+                                         "       %sqlplus%",
+                                         "       %online_doc%"),
+                            carriage_return);
+      install_type_listdp = implode(list("       %rdbms%",
+                                         "       %util%",
+                                         "       %ora_inst%",
+                                         "       %online_doc%"),
+                            carriage_return);
+
+
+
+      install_type_develop = nls("install_type_develop","Application Developer (Complete)");
+      install_type_enduser = nls("install_type_enduser","Runtime (Database Only)");
+      install_type_custom = nls("install_type_custom","Custom");
+      install_type_chained = nls("install_type_chained","Chained Install");
+
+      install_type_helpdv = instantiate(nls("install_type_helpdv",
+                           "'%%install_type_develop%%' installs all components of Personal Oracle7.  These components are as follows:%carriage_return%%%install_type_listdv%%%carriage_return%Select this option if you are performing application development and would like to install all necessary components.%carriage_return%"));
+      install_type_helpdp = instantiate(nls("install_type_helpdp",
+                        "'%%install_type_enduser%%' installs:%carriage_return%%%install_type_listdp%%%carriage_return%Select this option if you would like to install the minimum number of components necessary to run the Oracle7 DBMS.  Note that this option does not install the Personal Oracle7 Navigator user interface, nor the networking components.%carriage_return%"));
+      install_type_helpc = instantiate(nls("install_type_helpc",
+                       "'%%install_type_custom%%'%carriage_return%Select this option to choose individual Personal Oracle7 components to install and/or deinstall."));
+
+      install_type_choices = list(install_type_develop,
+                                install_type_enduser,
+                                install_type_custom);
+
+      install_type_default = install_type_develop;
+
+      {
+      install_type_help = instantiate(instantiate(nls("install_type_help","The following are descriptions of the types of installations that can be performed:%carriage_return%%carriage_return%%install_type_helpdv%%carriage_return%%install_type_helpdp%%carriage_return%%install_type_helpc%")));
+      }
+       [ 'LEXICAL_ERROR: install_type_help = "lexical error: install_type_help";]
+
+
+/*************************************************************************/
+/*  Generic Section: Across Platforms                                    */
+/*  Get user selection of install type                                   */
+/*  Skip user selection if chained installation                          */
+/*************************************************************************/
+
+  {
+   if(install_type != install_type_chained)
+     signal('UNBOUND_VARIABLE);
+  }
+  ['UNBOUND_VARIABLE:
+    {
+      install_type = single_selection_dialog(install_type_prompt,
+                                             install_type_choices,
+                                             install_type_default,
+                                             install_type_content,
+                                             install_type_help);
+      continue();
+    }
+  ]
+
+  if(install_type != install_type_custom)
+    {
+     bootstrap = TRUE;
+
+/*************************************************************************/
+/*  Specific Section                                                     */
+/*  Interpret user selection on install type                             */
+/*  If custom install, always terminate (bring up installer window)      */
+/*  Otherwise always set bootstrap to TRUE                               */
+/*  Specify 'selected_products' based on 'bundle_name' & 'install_type'  */
+/*************************************************************************/
+
+
+     if (install_type == install_type_develop)
+        selected_products = list("ntrdbms73",
+                                 "w32util73",
+                                 "ntinstall",
+                                 "w32oci73",
+                                 "ntnetsrv23",
+                                 "w32netclt23",
+                                 "ntpdfdoc73",
+                                 "w32plus33",
+                                 "nthlpdoc73",
+                                 "ntdbint72"
+                                );
+      else if (install_type == install_type_enduser)
+        selected_products = list("ntinstall",
+                                 "w32util73",
+                                 "ntrdbms73"
+                                );
+
+    }/* if install_type != install_type_custom */
+  }/* if bundle_name != P_O7_W_NT || P_O7_95 */
+
+  if(prefix == "w95")
+    doSmartStart = FALSE;
+
+  bstarcn = nls("bstarcn","Battlestar Console");
+  bstarag = nls("bstarag","Battlestar Agent");
+  rdbms = nls("rdbms","Oracle7 Server");
+  sqlnet = nls("sqlnet","SQL*Net V1 Protocol");
+
+  /* Chain to windows client install */
+  client_install = FALSE;
+}

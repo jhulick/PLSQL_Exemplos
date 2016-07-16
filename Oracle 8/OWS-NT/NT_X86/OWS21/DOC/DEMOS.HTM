@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>Oracle WebServer Demos</title>
+</head>
+
+<body background="/ows-img/orhmbkgn.jpg" text="#000088"
+link="#BB0000" vlink="#BB0000">
+<!-- Changed by: Eric Esselink, 19-Nov-1996 -->
+<p align="center"><img src="/ows-img/ows.gif"
+alt="Oracle WebServer" width="560" height="116"> </p>
+
+<h2 align="center"><font color="#BB0000"><em>Oracle WebServer
+Demonstrations</em> </font></h2>
+
+<p>The Oracle WebServer demo directory contains source-code for
+one demo using the PL/SQL Agent. </p>
+
+<ul>
+    <li><strong>Oracle Travel</strong> demonstrates a complex
+        train ticket purchasing application. <br>
+        <a href="/owa_dba/owa/tr.splash"><img
+        src="/ows-img/icntravl.gif" alt="Demo" border="0">Take
+        the train now!</a> </li>
+</ul>
+
+<hr>
+
+<h2><img src="/ows-img/icnagent.gif" align="center" width="64"
+height="64"> <font color="#BB0000"><em>How to install</em> </font></h2>
+
+<p>The <a href="/owa_dba/owa/tr.splash"><strong>Travel Demo</strong></a>
+is automatically installed into the OWA_DBA DCD, which runs on
+the Administration Listener. If you would like to install it
+using a different DCD, you must follow the following steps. </p>
+
+<ol>
+    <li><h3><a href="/ows-abin/agadmin.exe"><font color="#BB0000"><em>Create
+        a new DCD</em></font></a><font color="#BB0000"> </font></h3>
+    </li>
+    <li><h3><a href="/ows-abin/wladmin.exe"><font color="#BB0000"><em>Reconfigure
+        Oracle Web Listener</em> </font></a></h3>
+        <p>If your listener does not have a virtual directory
+        named <strong>/tr-img/</strong>, you must create it using
+        the Oracle Web Listener administration screen. The
+        directory should be mapped to the physical directory <code>&lt;OWS21&gt;\demo\img\</code>
+        . </p>
+        <p>If you are running OWA through CGI, add the following
+        entry to the Directory Mappings section of the Advanced Listener Configuration: </p>
+        <p><code>&lt;OWS21&gt;\bin\ CR /demo/</code> </p>
+        <p>If you are running OWA as a cartridge, add the
+        following entry to the Applications and Directories
+        section of the WRB Configruation: </p>
+        <p><code>/demo/owa OWA &lt;OWS21&gt;\bin</code> </p>
+        <p>This assumes you already have a database user <code>demo</code>. </p>
+        <p><font size="4"><em><strong>After changing or adding
+        the listener configuration you will need to reload, or
+        stop&amp;start, the WebListener !</strong></em></font></p>
+    </li>
+    <li><h3><font color="#BB0000"><em>Install Database Objects</em> </font></h3>
+        <p>Using server manager (svrmgr23), connect to the Oracle
+        account corresponding to the DCD created in step 1. Run
+        the script &quot;demoins.sql&quot;: </p>
+        <pre>
+	SVRMGR&gt; @%ows21%\demo\demoins
+</pre>
+        <p><em>NOTE: If you wish to rerun demoins, please run </em><em><b>demodrop.sql</b></em><em>
+        first.</em> </p>
+        <p>NOTE: If you fail to create the TR and TRU packages
+        due to insufficient free space in the shared pool (SGA),
+        either increase the <b>init.ora</b> parameter shared_pool_size
+        and restart Oracle7, or issue the following command while
+        connected as INTERNAL to defragment the shared pool: </p>
+        <pre>
+	alter system flush shared_pool;
+
+</pre>
+        <p><em>Then reconnect to the demo user, and run </em><em><b>trui.sql</b></em><em>.
+        You do not have to run trdrop.sql or demodrop.sql first.</em> </p>
+    </li>
+    <li><h3><font color="#BB0000"><em>Reload Web Listener</em> </font></h3>
+        <p>Stop and then restart the Oracle Web Listener from the
+        Oracle Web Listener Administration page. This will cause
+        it to reload its configuration file, which is necessary
+        in order for the above directory mapping changes to take
+        effect. </p>
+    </li>
+    <li><h3><a href="/demo/owa/tr.splash"><font color="#BB0000"><em>Run
+        the Demo!</em> </font></a></h3>
+        <p>Connect to the demo from the WebServer Home Page or
+        with the following URL: </p>
+        <pre>
+	http://your.host:port/demo/owa/tr.splash
+</pre>
+        <ul>
+            <li><b>your.host</b> is your official hostname </li>
+            <li><b>port</b> is the TCP port for the Oracle Web
+                Listener </li>
+            <li><b>demo</b> is the service name(s) created in
+                step 1 </li>
+        </ul>
+        <p><em>Note: If you are unable to connect to the demo at
+        this point, check the logfiles in </em><a
+        href="/ows-log/"><em>&lt;OWS21&gt;\log</em></a><em> for
+        possible diagnostics. Also, make sure you are specifying
+        the right port in the URL. If you do not get the demo
+        images loaded correctly, manually check the Oracle Web
+        Listener configuration and repeat step 4. Use &quot;View
+        source&quot; in your browser to see where the images are
+        expected to be.</em> </p>
+        <p><em>Warning: The TR demo implements a detailed audit
+        trail in the TX_DATA table, which grows rapidly under
+        heavy use. It is safe to truncate the table periodically,
+        or disable the audit trail by manually editing the
+        procedure &quot;tx.put&quot; in the file</em><em><b>
+        trbuild.sql</b></em><em>, commenting out the insert
+        statement.</em> </p>
+    </li>
+</ol>
+
+<p><a href="/">[Return to the Oracle WebServer Product Home Page]</a> </p>
+</body>
+</html>

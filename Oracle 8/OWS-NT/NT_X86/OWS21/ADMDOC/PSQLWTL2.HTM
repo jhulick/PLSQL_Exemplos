@@ -1,0 +1,90 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418319">
+Procedure and Function Reference - Overview
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418320">
+The PL/SQL Web Toolkit Procedure and Function Reference describes each procedure and function in the packages that make up the PL/SQL Web Toolkit. Please note that for every htp procedure that generates HTML tags, a corresponding htf function exists with identical parameters. The difference is that the function passes its output to the point where it was called and is therefore good for nesting in other procedures or functions. All parameters for which default values are given are optional.<P>
+</A><A NAME="418321">
+The description of each procedure or function is broken down into the following parts. Note that items for which no "generates" entry is shown are available only as procedures.<P>
+</A><HR>
+<H2>
+<A NAME="418322">
+Parameters Passed into Procedures and Functions
+</A>
+</H2>
+<A NAME="418324">
+All parameters passed into a hypertext procedure or function are of data type varchar2 (varying-length character string), integer, or date. The data type is indicated by the first letter of the parameter's name, "c" for character (varchar2), "n" for number (integer), and "d" for date. For example:<P>
+</A><A NAME="418325">
+<PRE>cname in varchar2</PRE><P>
+</A>
+<A NAME="418326">
+The "c" in cname indicates a character data type (varchar2).<P>
+</A>
+<A NAME="418327">
+<PRE>nsize in integer</PRE><P>
+</A>
+<A NAME="418328">
+The "n" in nsize indicates a number data type (integer).<P>
+</A>
+<A NAME="418329">
+<PRE>dbuf in date</PRE><P>
+</A>
+<A NAME="418330">
+The "d" in dbuf indicates a date data type (date).<P>
+</A>
+<A NAME="418331">
+As in BNF notation, a vertical bar (|) in the syntax diagram means "or". <P>
+</A><A NAME="418332">
+Note: Many HTML 3.0 tags have a large number of optional attributes that, if passed as individual parameters to the hypertext procedures or functions would make the calls quite cumbersome. In addition, some browsers support non-standard attributes. Therefore, each hypertext procedure or function that generates an HTML tag has as its last parameter <em>cattributes,</em> an optional parameter<em>.</em> This parameter enables you to pass the exact text of the desired HTML attributes to the PL/SQL procedure.<P>
+</A><A NAME="418335">
+For example, the syntax for htp.em is:<P>
+</A><A NAME="418336">
+<PRE>htp.em (ctext, cattributes);</PRE><P>
+</A>
+<A NAME="418337">
+A call that uses HTML 3.0 attributes might look like the following:<P>
+</A><A NAME="418338">
+<PRE>htp.em('This is an example','ID="SGML_ID" LANG="en"');</PRE><P>
+</A>
+<A NAME="418339">
+This line would generate the following:<P>
+</A><A NAME="418340">
+<PRE>&lt;EM ID="SGML_ID" LANG="en"&gt;This is an example&lt;/EM&gt;</PRE><P>
+</A>
+ <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

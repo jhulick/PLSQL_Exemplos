@@ -1,0 +1,217 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi23.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi25.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="420842">
+WRBSetAuthorization()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="422617">
+<code>WRBSetAuthorization()</code> sends a challenge to the client browser that issued the current HTTP request and sets up an authentication realm for the browser to use in prompting the user for a username and password for the current request URI.<P>
+</A><HR>
+<H2>
+<A NAME="422534">
+WRB Authentication Schemes
+</A>
+</H2>
+<A NAME="422645">
+These are the possible values for the <code>nScheme</code> parameter:<p>
+<table border=3>
+<tr><th><A NAME="422539">
+<H5>Scheme
+</H5>
+</A>
+<th><A NAME="422541">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="422543">
+WRB_AUTH_BASIC_EXIST<BR>
+</A><td><A NAME="422545">
+Specifies an existing <a href="gloss.htm#421032">basic authentication</a> scheme defined in the Web Listener configuration.<BR>
+</A>
+<tr><td><A NAME="422547">
+WRB_AUTH_BASIC_NEW<BR>
+</A><td><A NAME="422549">
+Specifies an new basic authentication scheme.<BR>
+</A>
+<tr><td><A NAME="422551">
+WRB_AUTH_DIGEST_EXIST<BR>
+</A><td><A NAME="422553">
+Specifies an existing <a href="gloss.htm#421113">digest authentication</a> scheme defined in the Web Listener configuration.<BR>
+</A>
+<tr><td><A NAME="422555">
+WRB_AUTH_DIGEST_NEW<BR>
+</A><td><A NAME="422557">
+Specifies a new digest authentication scheme.<BR>
+</A>
+<tr><td><A NAME="422559">
+WRB_AUTH_DOMAIN<BR>
+</A><td><A NAME="422561">
+Specifies <a href="gloss.htm#421686">domain-based restriction</a> using an existing group of domains defined by the <a href="/ows-abin/wladmin.exe">Web Listener administration</a> pages.<BR>
+</A>
+<tr><td><A NAME="422563">
+WRB_AUTH_IP<BR>
+</A><td><A NAME="422565">
+Specifies <a href="gloss.htm#420993">IP-based restriction</a> using an existing group of IP addresses defined by the <a href="/ows-abin/wladmin.exe">Web Listener administration</a> pages.<BR>
+</A>
+
+</table>
+<P>
+</A><HR>
+<H2>
+<A NAME="421137">
+Syntax
+</A>
+</H2>
+<A NAME="420849">
+<PRE>WRBReturnCode WRBSetAuthorization( void *WRBCtx, <br>                                   WRBAuthScheme nScheme,<br>                                   char *szRealm, <br>                                   boolean bAndOrFlag );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="421730">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="421719">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="421721">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="421723">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="421725">
+WRBCtx<BR>
+</A><td><A NAME="421727">
+void *<BR>
+</A><td><A NAME="421729">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="421744">
+nScheme<BR>
+</A><td><A NAME="421746">
+WRBAuthScheme<BR>
+</A><td><A NAME="421748">
+The type of authentication or restriction you want to set up with the client (see <a href="wrbapi24.htm#422534">WRB Authentication Schemes</a>).<BR>
+</A>
+<tr><td><A NAME="421738">
+szRealm<BR>
+</A><td><A NAME="421740">
+char *<BR>
+</A><td><A NAME="422611">
+The name of an authentication realm for the client browser to use in prompting the user for a username and password. This parameter must not be NULL if WRBAuthScheme specifies authentication. If nScheme specifies restriction, this parameter must specify an existing group of domains or IP addresses defined in the Web Listener configuration.<BR>
+</A>
+<tr><td><A NAME="421732">
+bAndOrFlag<BR>
+</A><td><A NAME="421734">
+boolean<BR>
+</A><td><A NAME="421736">
+If set to FALSE in both of two successive calls to WRBSetAuthorization(), this parameter specifies that clients must satisfy both specified schemes. If set to TRUE in both calls, this parameter specifies that clients need only satisfy one of the specified schemes.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="422092">
+Return Values
+</A>
+</H2>
+<A NAME="421715">
+<code>WRBSetAuthorization()</code> returns a value of type <a href="wrbapi25.htm#426826">WRBReturnCode</a>.<P>
+</A><HR>
+<H2>
+<A NAME="423292">
+Usage
+</A>
+</H2>
+<A NAME="423778">
+You can call <code>WRBSetAuthorization()</code> from your Init or Authorize cartridge function. To set the authentication scheme for your cartridge globally once and for all, call <code>WRBSetAuthorization()</code> from Init.<P>
+</A><A NAME="423779">
+To control access to your cartridge in more detail, call <code>WRBSetAuthorization()</code> from Authorize--if, for example, you want to assign different authentication schemes or realms to different URIs. If you should call <code>WRBSetAuthorization())</code> from both functions, calls made from Authorize supersede those made from Init.<P>
+</A><A NAME="423780">
+You can also use <code>WRBSetAuthorization()</code> to apply a restriction scheme to the current request URI. If you specify <code>WRB_AUTH_DOMAIN</code> for <code>nScheme</code>, you must use the <code>szRealm</code> parameter to specify an existing group of domains defined by the <a href="/ows-abin/wladmin.exe">Web Listener administration</a> pages.<P>
+</A><A NAME="423781">
+Similarly, if you specify <code>WRB_AUTH_IP</code>, <code>szRealm</code> must specify an existing group of IP addresses defined in the Web Listener configuration.<P>
+</A><HR>
+<H3>
+<A NAME="423782">
+Using two schemes
+</A>
+</H3>
+<A NAME="423988">
+You can call <code>WRBSetAuthorization()</code> twice in succession to specify that both an existing authentication scheme and a restriction scheme be applied in authorizing clients. If you set <code>bAndOrFlag</code> to <code>FALSE</code> in both calls, the client must satisfy both schemes to be authorized; if you set <code>bAndOrFlag</code> to <code>TRUE</code>, the client need only satisfy one of the two schemes.<P>
+</A><A NAME="423999">
+<B><EM>Note</EM></B> 
+</A>
+<A NAME="424005">
+Both specified schemes must be existing schemes defined in the Web Listener configuration.<P>
+</A><HR>
+<H2>
+<A NAME="423294">
+Examples
+</A>
+</H2>
+<A NAME="423295">
+This example illustrates how to set up authentication for your cartridge to require clients to satisfy an existing authentication scheme <em>and</em> an existing restriction scheme that are defined in the Web Listener configuration:<P>
+</A><A NAME="424159">
+<PRE>WRBReturnCode ret;<br> <br>ret = WRBSetAuthorization(WRBCtx,<br>                          WRB_AUTH_BASIC_EXIST,<br>                          "goodguys",<br>                          FALSE);<br>if (ret != WRB_DONE)<br>    return (ret);<br> <br>ret = WRBSetAuthorization(WRBCtx,<br>                          WRB_AUTH_IP,<br>                          "goodaddrs",<br>                          FALSE);<br>if (ret != WRB_DONE)<br>    return (ret);<br></PRE><P>
+</A>
+<A NAME="424158">
+See also the MyWRBApp sample function <a href="mywrbap3.htm#422355">MyWRBApp_Authorize()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="423296">
+Related Information
+</A>
+</H2>
+<A NAME="423297">
+See also <code><a href="wrbapi20.htm#426119">WRBGetUserID()</a></code>, <code><a href="wrbapi16.htm#425943">WRBGetPassword()</a></code>, and <code><a href="wrbapi6.htm#425473">WRBGetClientIP()</a></code>.<P>
+</A><HR>
+<H2>
+<A NAME="423316">
+Related Information
+</A>
+</H2>
+<A NAME="423317">
+See also <code><a href="wrbapi22.htm#426211">WRBReturnHTTPError()</a></code>, <code><a href="wrbapi23.htm#426279">WRBReturnHTTPRedirect()</a></code>, <code><a href="wrbapi21.htm#426168">WRBLogMessage()</a></code>, and <code><a href="wrbapi2.htm#425292">WRBClientWrite()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi23.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi25.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

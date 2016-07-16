@@ -1,0 +1,164 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using LiveHTML
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="lhtuserf.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="lhtuserf.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="lhtuser2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418306">
+LiveHTML Reference
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418307">
+This page provides a reference on the LiveHTML commands.The general command format is given, followed by a list of the possible commands, and then detailed explanations of each command. For more general information, see Using LiveHTML.<P>
+</A><HR>
+<H2>
+<A NAME="418311">
+Command Format
+</A>
+</H2>
+<A NAME="418312">
+LiveHTML code is formatted as SGML comments, so that it is ignored should the file ever find its way to the browser unparsed. The format for LiveHTML<P>
+</A><A NAME="418314">
+codes, therefore, is the following:<P>
+</A><A NAME="418315">
+<PRE>&lt;!--#command tag1="value1" tag2="value2" --&gt;</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="418316">
+Command List
+</A>
+</H2>
+<A NAME="418317">
+The tags are arguments to the commands, most of which actually only accept one of the possible tags. The possible commands are listed below. Commands are followed by detailed explanations, including the relevant tags:<P>
+</A><ul type=disc><A NAME="418320">
+<LI>config. This command sets parameters for how the included files or scripts are to be parsed and therefore is normally the first LiveHTML command in a file.
+</A>
+<A NAME="418828">
+<LI>include. This command specifies that a file is to be included in the generated HTML page at this point.
+</A>
+<A NAME="418829">
+<LI>echo. This command gives the value of an environment variable.
+</A>
+<A NAME="418830">
+<LI>fsize. This command produces the size of the file.
+</A>
+<A NAME="418324">
+<LI>flastmod. This command produces the last modification date of the file.
+</A>
+<A NAME="418325">
+<LI>exec. This command causes execution of a script.
+</A>
+</ul><HR>
+<H2>
+<A NAME="418326">
+Command Details
+</A>
+</H2>
+<A NAME="418327">
+config. This command sets parameters for how the file or script is to be parsed and therefore is normally the first LiveHTML command in a file. The possible tags are:<P>
+</A><ul type=disc><A NAME="418330">
+<LI>errmsg. This specifies the error message that is sent to the client if an error occurs while parsing this document. Here is an example:
+</A>
+<A NAME="418331">
+<PRE>&lt;!--#config errmsg="A parse error occurred in the music_lookup file"--&gt;</PRE><P>
+</A>
+<A NAME="418332">
+<LI>timefmt. This specifies a date format. LiveHTML files frequently include timestamps. The conventions follow the strftime library call supported in most versions of Unix, even if the WebServer is not running on a Unix platform.
+</A>
+<A NAME="418333">
+<LI>sizefmt. This specifies the format used when displaying a file size. The possibilities are bytes, which gives the absolute size in bytes, and abbrev, which gives the size in kilobytes or megabytes as appropriate.
+</A>
+<A NAME="418334">
+<LI>cmdecho. This specifies whether non-CGI scripts subsequently executed have their output incorporated into this HTML page. The possible values are ON and OFF. ON specifies that the output is included. The default is OFF.
+</A>
+<A NAME="418335">
+<LI>cmdprefix. Specifies a string that will be prepended to each line of the script output.
+</A>
+<A NAME="418336">
+<LI>cmdpostfix. Specifies a string that will be appended to each line of the script output.
+</A>
+</ul><A NAME="418820">
+include. This command specifies that a file is to be included in the generated HTML page at this point. The file can any of the following:<P>
+</A><ul><ul type=square>
+<A NAME="418339">
+<LI> another LiveHTML file like the current one.
+</A>
+<A NAME="418340">
+<LI>a regular HTML file.
+</A>
+<A NAME="418341">
+<LI>an ASCII file.
+</A>
+<A NAME="418342">
+which of these it is determined, as usual, by the extension. The possible tags are:<P>
+</A>
+</ul>
+</ul><ul type=disc><A NAME="418343">
+<LI> virtual. This gives a virtual path to the file. The directory mappings for virtual paths are set by the WebServer administrator using WebServer Manager.
+</A>
+<A NAME="418344">
+<LI>- file. This gives a pathname relative to the current directory. References to parent directories or uses of absolute pathnames are forbidden.
+</A>
+</ul><A NAME="418825">
+echo. This gives the value of an environment variable. This variable is either one of the standard CGI environment variables or one of the LiveHTML extensions, which currently are all standard Server Side Include variables. There is only one tag, var, and it must be present. It provides the name of the variable. The LiveHTML environment variables are as follows:<P>
+</A><ul type=disc><A NAME="418346">
+<LI>DOCUMENT_NAME. The current filename.
+</A>
+<A NAME="418347">
+<LI>DOCUMENT_URL. The virtual path to this file.
+</A>
+<A NAME="418348">
+<LI>QUERY_STRING_UNESCAPED. If the client sent a query string, this is an unescaped version of it, with all shell-special characters escaped with \.
+</A>
+<A NAME="418349">
+<LI>DATE_LOCAL The current date and local time zone in the format specified by the most recent config timefmt command.
+</A>
+<A NAME="418351">
+<LI>DATE_GMT. Same as the above, but in Greenwich mean time.
+</A>
+<A NAME="418352">
+<LI>LAST_MODIFIED. The last modification date of the file, given in the format specified in the last config timefmt command.
+</A>
+</ul><A NAME="418354">
+ fsize. This produces the size of the file in the format specified in the most recent config filesize command. Tags are the same as for include.<P>
+</A><A NAME="418355">
+flastmod. This produces the last modification date of the file in the format specified in the most recent config timefmt command. Tags are the same as for include.<P>
+</A><A NAME="418356">
+exec. This is the command to execute a script. The tags specify whether or not the script is CGI.<P>
+</A><ul type=disc><A NAME="418357">
+<LI>cmd. This specifies a non-CGI script. Execution is passed to the Operating System, and the given string is parsed as though it were entered at a command-line interface. The full path of the script must be given. The non-CGI environment variables specified under echo above can be referenced. Whether the output of the script is included in the HTML page that the parser outputs, is determined by the most recently executed config cmdecho.
+</A>
+<A NAME="418359">
+<LI>cgi. This specifies a CGI script. The value given will be the virtual path of the script. URL locations are automatically converted into HTML anchors.
+</A>
+</ul> <P>
+ 
+<HR>
+ 
+<A HREF="lhtuserf.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="lhtuserf.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="lhtuser2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi6.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi8.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425517">
+WRBGetConfigVal()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425518">
+<code>WRBGetConfigVal()</code> returns a pointer to the value of a specified cartridge configuration parameter. It does not read the configuration file directly, but retrieves the value from the cartridge configuration data that the Web Listener loaded at start-up, or when signalled to reload its own configuration data.<P>
+</A><A NAME="425519">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425520">
+Syntax
+</A>
+</H2>
+<A NAME="425521">
+<PRE>char *WRBGetConfigVal( void *WRBCtx, char *name );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425541">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425524">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425526">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425528">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425530">
+WRBCtx<BR>
+</A><td><A NAME="425532">
+void *<BR>
+</A><td><A NAME="425534">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="425536">
+name<BR>
+</A><td><A NAME="425538">
+char *<BR>
+</A><td><A NAME="425540">
+The name of the configuration parameter of which you want the value.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425542">
+Return Values
+</A>
+</H2>
+<A NAME="425543">
+<code>WRBGetConfigVal()</code> returns a pointer to the value of the configuration parameter specified by <code>name</code>.<P>
+</A><HR>
+<H2>
+<A NAME="425544">
+Usage
+</A>
+</H2>
+<A NAME="425545">
+You can call <code>WRBGetConfigVal()</code> from any cartridge function whenever you need the current value of a configurable parameter. Your cartridge therefore does not need to maintain local copies of these parameters in static data or in its application context structure.<P>
+</A><HR>
+<H2>
+<A NAME="425546">
+Examples
+</A>
+</H2>
+<A NAME="425547">
+See the MyWRBApp sample function <a href="mywrbap3.htm#422377">MyWRBApp_Reload()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="425548">
+Related Information
+</A>
+</H2>
+<A NAME="425552">
+See also <code><a href="wrbapi4.htm#425395">WRBGetAppConfig()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi6.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi8.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

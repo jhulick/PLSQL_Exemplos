@@ -1,0 +1,122 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using The PL/SQL Agent
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaguse.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaguse.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaguse2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="997887">
+Establishing a Database Connection Using DCDs
+</A>
+</H1>
+<HR SIZE=5>
+DCDs are files that contain information the PL/SQL Agent uses to connect to the database. The DCD is specified as part of the URL in a HTTP request. This enables you to run the same application under different privileges by using different DCDs. For an example of how a DCD is specified in a URL, see <a href="plaguse3.htm#998027">Example of PL/SQL Agent Parameter Passing Using GET</a>. This page describes the content of the DCD.<p>
+<A NAME="998172">
+Generally, you should use WebServer Manager to create the DCDs as described in <a href="usingwsm.htm#420716">PL/SQL Agent Administration</a>. If necessary, you can create or edit the files directly; they are ASCII text.<P>
+</A><HR>
+<H2>
+<A NAME="997902">
+DCD Contents
+</A>
+</H2>
+<A NAME="997905">
+The fields of the DCD are listed below. Click on any field to move to its description.<P>
+</A><ul type=disc><A NAME="997913">
+<LI><a href="plaguse1.htm#997948"><em>username</em></a> 
+</A>
+<A NAME="997917">
+<LI><a href="plaguse1.htm#997951"><em>password</em></a> 
+</A>
+<A NAME="997921">
+<LI><a href="plaguse1.htm#997956">ORACLE_HOME</a>
+</A>
+<A NAME="997925">
+<LI><a href="plaguse1.htm#997961"><em>ORACLE_SID</em></a> 
+</A>
+<A NAME="997929">
+<LI><a href="plaguse1.htm#997966"><em>SQL*Net V2 Service Name or Connect String</em></a> 
+</A>
+<A NAME="997933">
+<LI><a href="plaguse1.htm#997971"><em>owa_err_page</em></a> 
+</A>
+<A NAME="997937">
+<LI><a href="plaguse1.htm#997977"><em>owa_valid_ports</em></a> 
+</A>
+<A NAME="997941">
+<LI><a href="plaguse1.htm#997982"><em>owa_log_dir</em></a> 
+</A>
+<A NAME="997945">
+<LI><a href="plaguse1.htm#998206"><em>owa_nls_lang</em></a> 
+</A>
+</ul><DL COMPACT><DT><A NAME="997948">
+ username
+</A><DD>All SQL and PL/SQL statements are executed by the database under the auspices of some database user. This name identifies that user. The username determines the schema (logical section of a database) that the PL/SQL Agent connects to, the actions it can perform, the resources (disk space and so on) it can use, and the level of monitoring of its activities that the Oracle RDBMS performs. For more information, see "Overview of the Oracle7 Server, SQL, and PL/SQL" in the Introduction to the Oracle WebServer.<P>
+<DT><A NAME="997951">
+password 
+</A><DD>This is provided if you want to password protect the DCD, ensuring that only certain people connect as the user identified by username. Keep in mind, however, that the users who connect to the database as username still will be able to do only what the application gives them the ability to specify through URLs.<P>
+<DT><A NAME="997953">
+
+</A><DT><A NAME="997956">
+ORACLE_HOME 
+</A><DD>This is the root of the Oracle7 Server code tree in the OS file system.<P>
+<DT><A NAME="997961">
+ORACLE_SID 
+</A><DD>The name of the Oracle database to which the PL/SQL Agent connects, if it is a local database.<P>
+<DT><A NAME="997966">
+SQL*Net V2 Service Name or Connect String 
+</A><DD>The name of the Oracle database to which the PL/SQL Agent connects, if it is a remote database.<P>
+<DT><A NAME="997971">
+owa_err_page 
+</A><DD>This is the pathname of the HTML document that the PL/SQL Agent is to return to the client's browser when an system error occurs. This is the actual path as understood by the OS, not the virtual path as configured in the Web Listener. If this parameter is omitted, a default page is sent. For more information on system and application errors in the PL/SQL Agent, see <a href="plaguse5.htm#998264">Oracle PL/SQL Agent Error Handling</a>.<P>
+<DT><A NAME="997977">
+owa_valid_ports 
+</A><DD>The valid Web Listener network ports to which the PL/SQL Agent will respond. The network port is, of course, specified in the URL. You must make sure that the URLs your applications generate provide port numbers that are valid for the WRB Cartridge or CGI program they specify.<P>
+<DT><A NAME="997982">
+owa_log_dir 
+</A><DD>The directory where the PL/SQL Agent writes its log status file. This file provides general status and detailed error information for use by the WebServer Administrator.<P>
+<DT><A NAME="998206">
+<b><i>owa_nls_lang </b></i>
+</A><DD><P>
+<DD>The NLS_LANG of the Oracle7 database to which the PL/SQL Agent connects. If not specified, the PL/SQL Agent administration program looks up the database NLS_LANG when the HTTP request is submitted. The NLS_LANG indicates the language to be used. Here is an example:<P>
+<DT><A NAME="998208">
+
+</A><A NAME="998209">
+<PRE>AMERICAN_AMERICA.US7ASCII</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="997990">
+Related Information
+</A>
+</H2>
+<A NAME="997884">
+<a href="appover1.htm#418246">Invoking an Application</a>, <a href="plaguse3.htm#998027">Example of PL/SQL Agent Parameter Passing Using GET</a>, <a href="plaguse4.htm#997064">Example of PL/SQL Agent Parameter Passing Using POST</a>, the <em>Oracle7 Server SQL Reference</em>, the <em>Oracle7 Server Reference</em>, the <em>PL/SQL User's Guide and Reference</em>, and <em>Understanding SQL*Net.</em><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaguse.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaguse.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaguse2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

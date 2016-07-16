@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi4.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi6.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425434">
+WRBGetCharacterEncoding()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425435">
+<code>WRBGetCharacterEncoding()</code> returns a comma-separated list of character-set identifiers indicating the character sets that the client can accept in response to the current request.<P>
+</A><HR>
+<H2>
+<A NAME="425436">
+Syntax
+</A>
+</H2>
+<A NAME="425437">
+<PRE>char *WRBGetCharacterEncoding( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425451">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425440">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425442">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425444">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425446">
+WRBCtx<BR>
+</A><td><A NAME="425448">
+void *<BR>
+</A><td><A NAME="425450">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425452">
+Return Values
+</A>
+</H2>
+<A NAME="425453">
+<code>WRBGetCharacterEncoding()</code> returns a pointer to a comma-separated list of character-set identifiers indicating the character sets that the client can accept in response to the current request.<P>
+</A><HR>
+<H2>
+<A NAME="425454">
+Usage
+</A>
+</H2>
+<A NAME="425455">
+If your cartridge can serve content using more than one character set, your Exec function can call <code>WRBGetCharacterEncoding()</code> to get a list of the character sets that the client prefers. Exec should then choose the first character set in this list in which your cartridge can generate a response.<P>
+</A><HR>
+<H2>
+<A NAME="425456">
+Examples
+</A>
+</H2>
+<A NAME="425457">
+This example shows how you might choose a character set to use in responding to a request:<P>
+</A><A NAME="425458">
+<PRE>#include &lt;string.h&gt;<br> <br>/*<br> * Note: this static array is just a convenience for this example.<br> * A better way to store this info would be in your application<br> * context structure.<br> * You could also make the supported languages configurable, and<br> * get this list using WRBGetConfigVal().<br> */<br>static char *mycharsets[] = {"iso-8859-1", "iso-2022-jp", NULL};<br> <br>char **mcsp;<br>char *clientcharsets;<br>char *charsetp;<br>char *ep;<br>boolean match = FALSE;<br> <br>clientcharsets = WRBGetCharacterEncoding(WRBCtx);<br> <br>while (clientcharsets &amp;&amp; *clientcharsets) {<br>    for (mcsp = mycharsets, charsetp = *mcsp;<br>         charsetp;<br>         mcsp++, charsetp = *mcsp) {<br>        if (!strncmp(clientcharsets, charsetp, strlen(charsetp))) {<br>            match = TRUE;<br>            break;<br>        }<br>    }<br> <br>    if (match)<br>        break;<br> <br>    clientcharsets = strchr(clientcharsets, `,');<br>    clientcharsets++;<br>}<br> <br>if (match) {<br>    /* charsetp points to chosen character set */<br>}<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425462">
+Related Information
+</A>
+</H2>
+<A NAME="425466">
+See also <code><a href="wrbapi11.htm#425698">WRBGetLanguage()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi4.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi6.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

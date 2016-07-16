@@ -1,0 +1,358 @@
+/* Copyright (c) Oracle Corporation 1995.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    ows21.dei - V3.1 version de-installation script for Oracle WebServer 2.1
+                for Windows NT
+
+  DESCRIPTION
+    This script removes Oracle WebServer 2.1 for Windows NT and un-registers
+    the product
+
+  OWNER
+    Eric Esselink
+
+  MODIFIED     DD-MMM-YY  Reason
+    eesselin   22/NOV/96 Modified for version 21
+        eesselin   16/MAY/96 Modified for version 20
+    Ljiang     11/16/95  Created
+*****************************************************************************/
+{
+  { doit = execute("%installer_home%\nt.dei"); }
+  [
+    'UNBOUND_VARIABLE:signal('failure, instantiate(nls("instver_too_early2","The version of the Installer currently running is %%installer_version%%.  The product you have chosen to deinstall was installed with a later version of the Installer.  Please use a later version of the Installer to deinstall this product.")));
+  ]
+
+  if (doit)
+  {
+      /**********************************************************************
+         Ensure that the necessary environment variables are bound
+       **********************************************************************/
+      {
+        ows21 = translate("ows21", ora_config, registry_filename(current_registry));
+        if (not(exists(ows21)))
+          signal('UNBOUND_ENVIRONMENT_VARIABLE);
+      }
+      [ 'OS_ERROR,'INVALID_FILE_NAME,'FILE_NOT_FOUND,
+        'PERMISSION_DENIED,'UNBOUND_ENVIRONMENT_VARIABLE:
+        {
+          variable = "ows21";
+          information_dialog(instantiate(deinstall_prompt02),
+                             instantiate(deinstall_content02),
+                             instantiate(deinstall_help02));
+          doit = FALSE;
+        }
+      ]
+  }
+
+  if (doit)
+  {
+      /**********************************************************************
+         Bind all NLS deinstall strings here...
+       **********************************************************************/
+
+      deinst_scripts = nls("deinst_scripts","Deinstalling %%registry_label%% Installation Scripts...");
+      deinst_bin = nls("deinst_bin","Deinstalling %%registry_label%% Executables...");
+      deinst_msbs = nls("deinst_msbs","Deinstalling %%registry_label%% Message Files...");
+      deinst_cfg = nls("deinst_cfg","Deinstalling %%registry_label%% Configuration Files...");
+      deinst_admin = nls("deinst_admin","Deinstalling %%registry_label%% SQL Scripts...");
+      deinst_admbin = nls("deinst_admbin","Deinstalling %%registry_label%% Administration Executables...");
+      deinst_admdoc = nls("deinst_admdoc","Deinstalling %%registry_label%% Administration Documentation Files...");
+      deinst_doc = nls("deinst_doc","Deinstalling %%registry_label%% Documentation Files...");
+      deinst_img = nls("deinst_img","Deinstalling %%registry_label%% Image Files...");
+      deinst_demo = nls("deinst_demo","Deinstalling %%registry_label%% Demonstration Files...");
+      deinst_help = nls("deinst_help","Deinstalling %%registry_label%% Help Files...");
+      deinst_new = nls("deinst_new","Deinstalling %%registry_label%% New Files...");
+      deinst_sample = nls("deinst_sample","Deinstalling %%registry_label%% Sample Files...");
+      deinst_wrbsdk = nls("deinst_wrbsdk","Deinstalling %%registry_label%% Wrb SDK Files...");
+      deinst_log = nls("deinst_log","Deinstalling %%registry_label%% Log Files...");
+      deinst_java = nls("deinst_java","Deinstalling %%registry_label%% Java Files...");
+
+      remove_listener = nls("remove_listener","Removing Oracle Web Listener...");
+
+      unregistering = nls("unregistering","Unregistering %%registry_label%%...");
+      modifying_config = nls("modifying_config", "Modifying NT Registry...");
+
+      web_failure_of_copy = nls("web_failure_of_copy", "Deinstallation terminated because %%oracle_home%%\bin\wwwlsnr.exe could not be copied.");
+      web_failure_of_service = nls("web_failure_of_service", "Deinstallation terminated.  Please stop all Oracle web listeners before deinstalling.");
+
+      web_failure_of_dltlsnr = nls("web_failure_of_dellsnr", "Unable to delete the NT Service for the Oracle Web Listener...") ;
+
+      web_deleting_lsnr = nls("web_deleting_lsnr", "Deleting the NT Service for the Oracle Web Listener...");
+
+      cpl_deinst = nls("cpl_deinst", "The control panel must be closed for the deinstallation to proceed.  Please close the control panel to continue with the deinstallation.");
+
+     /***** gather a list of existing OracleWWW* services *****/
+
+        temp = win32_enumerate_keys("HKEY_LOCAL_MACHINE",
+                              "System\CurrentControlSet\Services");
+
+    service_list = list();
+    while (not(empty(temp)))
+    {
+        service_name = first(temp);
+
+        if (contains(service_name, "OracleWWW"))
+            add(service_list, service_name);
+         temp = rest(temp);
+    }
+
+    /********************* stop Oracle web listeners *******************/
+
+        temp = service_list;
+    while (not(empty(temp)))
+    {
+        service_name = first(temp);
+
+          {
+              winnt_stop_service(service_name);
+          }
+                  [ 'DEFAULT: continue(); ]
+
+        temp = rest(temp);
+    }
+
+    wait = not(empty(service_list));
+
+    if (wait) { wait_time = 3000; while (wait_time > 0) wait_time = wait_time - 1; }
+
+      permit_retry_operations = FALSE; /* this should be the default */
+      {
+        copy_file("%oracle_home%\bin\wwwlsnr.exe", "%oracle_home%\bin\wwwlsnr.sav");
+      }
+      [
+        'FILE_NOT_FOUND,'INVALID_FILE_NAME:
+          continue();
+        'READ_ERROR,'WRITE_ERROR:
+          signal('FAILURE, instantiate(web_failure_of_copy));
+      ]
+      {
+        move_file("%oracle_home%\bin\wwwlsnr.sav", "%oracle_home%\bin\wwwlsnr.exe");
+      }
+      [
+        'OS_ERROR:
+          signal('FAILURE, instantiate(web_failure_of_service));
+        'DEFAULT:
+          continue();
+      ]
+
+      /********************* stop MS IIS web listeners *******************/
+
+      {
+        winnt_stop_service("w3svc");
+      }
+      [ 'DEFAULT: continue(); ]
+
+
+     /***** gather a list of existing Netscape httpd-* services *****/
+
+        temp = win32_enumerate_keys("HKEY_LOCAL_MACHINE",
+                              "System\CurrentControlSet\Services");
+
+    ns_service_list = list();
+    while (not(empty(temp)))
+    {
+        service_name = first(temp);
+
+        if (contains(service_name, "httpd-"))
+            add(ns_service_list, service_name);
+         temp = rest(temp);
+    }
+
+    /********************* stop Netscape web listeners *******************/
+
+    temp = ns_service_list;
+    while (not(empty(temp)))
+    {
+        service_name = first(temp);
+
+          {
+              winnt_stop_service(service_name);
+          }
+                  [ 'DEFAULT: continue(); ]
+
+        temp = rest(temp);
+    }
+
+    wait = not(empty(ns_service_list));
+
+    if (wait) { wait_time = 2000; while (wait_time > 0) wait_time = wait_time - 1; }
+
+      permit_retry_operations = FALSE; /* this should be the default */
+      {
+        copy_file("%ows21%\bin\wrb.dll", "%ows21%\bin\wrb.sav");
+      }
+      [
+        'FILE_NOT_FOUND,'INVALID_FILE_NAME:
+          continue();
+        'READ_ERROR,'WRITE_ERROR:
+          signal('FAILURE, instantiate(web_failure_of_copy));
+      ]
+      {
+        move_file("%ows21%\bin\wrb.sav", "%ows21%\bin\wrb.dll");
+      }
+      [
+        'OS_ERROR:
+          signal('FAILURE, instantiate(web_failure_of_service));
+        'DEFAULT:
+          continue();
+      ]
+
+      /****************** remove files **********************/
+
+      ui_product(registry_label);
+
+      permit_retry_operations = TRUE;
+
+      ui_action(instantiate(deinst_scripts));
+      remove(deinstl);
+
+      ui_action(instantiate(deinst_bin));
+      remove(bin);
+
+        old_retry = permit_retry_operations;
+        permit_retry_operations = FALSE;
+        done = FALSE;
+        while(not(done))
+        {
+            remove(cpl);
+            done = TRUE;
+        }
+        [
+            'DEFAULT:
+                information_dialog(instantiate(cpl_deinst), 'NO_HELP);
+        ]
+        permit_retry_operations = old_retry;
+
+      ui_action(instantiate(deinst_msbs));
+      remove(mesg);
+
+      ui_action(instantiate(deinst_admin));
+      remove(admin);
+
+      ui_action(instantiate(deinst_admbin));
+      remove(admbin);
+
+      ui_action(instantiate(deinst_admdoc));
+      remove(admdoc);
+
+      ui_action(instantiate(deinst_doc));
+      remove(doc);
+
+      ui_action(instantiate(deinst_img));
+      remove(img);
+
+      ui_action(instantiate(deinst_demo));
+      remove(demo);
+
+      ui_action(instantiate(deinst_new));
+      remove(new);
+
+      ui_action(instantiate(deinst_sample));
+      remove(sample);
+
+      ui_action(instantiate(deinst_wrbsdk));
+      remove(wrbsdk);
+
+      ui_action(instantiate(deinst_log));
+      remove(log);
+
+      ui_action(instantiate(deinst_java));
+      remove(java);
+
+        /* Copy icons over for NT 4.0 or later */
+        ms_ver = operating_system_version();
+        if (ms_ver > "3.51")
+        {
+            remove(icons);
+        }
+
+      /* Delete specials */
+      ui_action(instantiate(deinst_cfg));
+      { remove(cfg); }
+      [ 'DEFAULT: continue(); ]
+
+      { remove(spy); }
+      [ 'DEFAULT: continue(); ]
+
+      { remove(nsapi); }
+      [ 'DEFAULT: continue(); ]
+
+          /* Hard core delete's */
+          entry_exec_string = "cmd.exe /c %quotation_mark%rd %OWS21% /s /q%quotation_mark%";
+          spawn("%entry_exec_string%");
+
+        /********** Delete the NT service for *ALL* Oracle web listeners *********/
+
+      ui_action(instantiate(web_deleting_lsnr));
+
+    temp = service_list;
+    wait = not(empty(service_list));
+
+    while (not(empty(temp)))
+    {
+        service_name = first(temp);
+
+          {
+              winnt_delete_service(service_name);
+          }
+                  [ 'DEFAULT: continue(); ]
+
+        temp = rest(temp);
+    }
+
+          /* Delete Oracle Spyglass/Netscape registry keys */
+          {  modify("OWS_ADPCFG","",ora_config,registry_filename(current_registry)); }
+      [ 'DEFAULT: continue(); ]
+          {  modify("OWS_ADPSO","",ora_config,registry_filename(current_registry)); }
+      [ 'DEFAULT: continue(); ]
+
+      /************** Modify the MS IIS registry ******/
+
+          /* Delete Oracle MS IIS registry keys */
+          {  modify("IIS_ADPCFG","",ora_config,registry_filename(current_registry)); }
+      [ 'DEFAULT: continue(); ]
+          {  modify("USERDBDIR","",ora_config,registry_filename(current_registry)); }
+      [ 'DEFAULT: continue(); ]
+
+          /* deleting virtual path's */
+          { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-abin/,", ""); }
+      [ 'DEFAULT: continue(); ]
+          { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-adoc/,", ""); }
+      [ 'DEFAULT: continue(); ]
+          { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-bin/,", ""); }
+      [ 'DEFAULT: continue(); ]
+          { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-doc/,", ""); }
+      [ 'DEFAULT: continue(); ]
+          { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-img/,", ""); }
+      [ 'DEFAULT: continue(); ]
+          { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-21/,", ""); }
+      [ 'DEFAULT: continue(); ]
+          { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/,", "c:\,,1"); }
+      [ 'DEFAULT: continue(); ]
+
+      /************** Modify the registry and unregister the product *******/
+
+      ui_action(instantiate(modifying_config));
+      modify("OWS21","",ora_config,registry_filename(current_registry));
+
+      if (registered("w32util73"))
+      {
+        dependent = registration("w32util73");
+        unreference(dependent,current_registry);
+        deinstall(dependent);
+      }
+
+      if (registered("w32rsf73"))
+      {
+        dependent = registration("w32rsf73");
+        unreference(dependent,current_registry);
+        deinstall(dependent);
+      }
+
+      ui_action(instantiate(unregistering));
+      unregister(current_registry);
+
+      /*************************************************************/
+      permit_retry_operations = FALSE;
+   }
+}

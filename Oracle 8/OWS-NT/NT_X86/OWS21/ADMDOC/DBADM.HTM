@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<TITLE>
+Starting Up and Shutting Down Databases
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Starting_Up_and_Shutting_Down_Database">
+Starting Up and Shutting Down Databases
+</A>
+</H1>
+<HR><P><A NAME="420077">
+The <em>Oracle WebServer Database Administration Form</em> allows you to start up and shutdown an Oracle7 database. This is useful for controlling the databases to which the Oracle WebServer connects. For more information about starting up and shutting down databases and to learn more about database administration in general, see the <em>Oracle7 Server Administrator's Guide</em>.<P>
+</A><A NAME="420091">
+After selecting a database from the list on the form, you can use the buttons below to start up or shut down the database in several ways:<P>
+</A><HR>
+<A NAME="Start-up_Options">
+<H2>Start-up Options</H2>
+</A>
+<HR>
+<A NAME="Normal">
+<H3>Normal</H3>
+</A>
+<A NAME="420111">
+Clicking the Normal button initiates a normal database start-up procedure. Any errors that occur are reported, and the database remains shut down.<P>
+</A><HR>
+<A NAME="Force">
+<H3>Force</H3>
+</A>
+<A NAME="420113">
+Clicking the Force button initiates an abort operation on a running database and restarts it normally. Use this option on a running database.<P>
+</A><HR>
+<A NAME="Shutdown_Options">
+<H2>Shutdown Options</H2>
+</A>
+<HR>
+<A NAME="Normal1">
+<H3>Normal</H3>
+</A>
+<A NAME="420107">
+Clicking the Normal button blocks any new connection attempts and performs a normal database shutdown. Any active user sessions are allowed to terminate before shutdown.<P>
+</A><HR>
+<A NAME="Immediate">
+<H3>Immediate</H3>
+</A>
+<A NAME="420108">
+Clicking the Immediate button initiates an attempt to shut down the database immediately. Any active user sessions are disconnected, but active calls are allowed to complete before shutdown. All uncommitted transactions are ignored.<P>
+</A><HR>
+<A NAME="Abort">
+<H3>Abort</H3>
+</A>
+<A NAME="420110">
+Clicking the Abort button terminates all active Oracle processes and reclaims the memory used by them. The next start-up operation will attempt to perform instance recovery.<P>
+</A>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

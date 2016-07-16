@@ -1,0 +1,141 @@
+#ifdef RCSID
+static char *RCSid = 
+   "$Header: examp9.pc,v 1.2 1993/10/20 12:01:30 kosinski Exp $ ";
+#endif /* RCSID */
+
+/* Copyright (c) 1991 by Oracle Corporation */
+/*
+   NAME
+     examp9.pc - <one-line expansion of the name>
+   DESCRIPTION
+     <short description of component this file declares/defines>
+   PUBLIC FUNCTION(S)
+     <list of external functions declared/defined - with one-line descriptions>
+   PRIVATE FUNCTION(S)
+     <list of static functions defined in .c file - with one-line descriptions>
+   RETURNS
+     <function return values, for .c file with single function>
+   NOTES
+     <other useful comments, qualifications, etc.>
+   MODIFIED   (MM/DD/YY)
+    rvasired   05/12/92 -  Creation 
+*/
+/************************************************************************
+ *                      						*
+ *  EMBEDDED PL/SQL DEMO                                                *
+ *                                                                      *
+ *  This program shows the use of host variables.  It prompts for the   *
+ *  name of an employee, then executes a PL/SQL block that uses four    *
+ *  SELECT statements to get information about the employee.  The       *
+ *  information returned includes: job title, hire date, number of      *
+ *  people who have served the company longer, salary, number of people *
+ *  who have a higher salary, department number, and number of people   *
+ *  in that department.                                                 *
+ *									*
+ *  Copyright (c) 1989,1992 by Oracle Corporation.                      *
+ ************************************************************************/
+
+#include <stdio.h>
+
+EXEC SQL BEGIN DECLARE SECTION;
+    VARCHAR  empname[11];
+    VARCHAR  jobtype[9];
+    VARCHAR  hired[9];
+    int      salary;
+    int      dept;
+    int      worked_longer;
+    int      higher_sal;
+    int      total_in_dept;
+    VARCHAR  uid[20];
+    VARCHAR  pwd[20];
+EXEC SQL END DECLARE SECTION;
+
+EXEC SQL INCLUDE SQLCA;
+
+main()
+{
+
+	/* Set up userid and password */
+    strcpy (uid.arr,"scott");
+    uid.len=strlen(uid.arr);
+    strcpy (pwd.arr,"tiger");
+    pwd.len=strlen(pwd.arr);
+
+    printf("\n\n\tEmbedded PL/SQL Demo\n\n");
+    printf("Trying to connect...");
+
+    EXEC SQL WHENEVER SQLERROR GOTO errprint;
+
+	/* Connect to ORACLE */
+    EXEC SQL CONNECT :uid IDENTIFIED BY :pwd;
+    printf(" connected.\n");
+
+
+    for (;;)  /* Loop infinitely */
+        {
+        printf("\n** Name of employee? (<return> to end)  ");
+        gets(empname.arr);                   /* Get the name      */
+        if (strlen(empname.arr) == 0)        /* No name entered,  */
+        {
+            EXEC SQL COMMIT WORK RELEASE;    /* so log off ORACLE */
+            exit(0);                         /* and exit program  */
+        }
+	empname.len = strlen(empname.arr);
+
+        /* ---------------------------------- */
+        /* ----- Begin the PL/SQL block ----- */
+        /* ---------------------------------- */
+        EXEC SQL EXECUTE
+
+        BEGIN
+	    SELECT job, hiredate, sal, deptno
+                INTO :jobtype, :hired, :salary, :dept FROM emp
+	        WHERE ename = UPPER(:empname);
+
+		/* Get number of people whose length of *
+		 * service is longer			*/
+	    SELECT count(*) INTO :worked_longer FROM emp
+	        WHERE hiredate < :hired;
+
+		/* Get number of people with a higher salary */
+	    SELECT count(*) INTO :higher_sal FROM emp
+	        WHERE sal > :salary;
+
+		/* Get number of people in the same department */
+	    SELECT count(*) INTO :total_in_dept FROM emp
+	        WHERE deptno = :dept;
+        END;
+
+        END-EXEC;
+        /* -------------------------------- */
+        /* ----- End the PL/SQL block ----- */
+        /* -------------------------------- */
+
+	    /* Properly terminate character strings *
+	     * returned by ORACLE                   */
+	jobtype.arr[jobtype.len] = '\0';
+	hired.arr[hired.len] = '\0';
+
+	    /* Display all the information */
+	printf("\n%s's job is: %s\n", empname.arr,
+            jobtype.arr);
+	printf("Hired on: %s\n", hired.arr);
+	printf("    %d people have served longer\n",
+            worked_longer);
+	printf("Salary is: %d\n", salary);
+	printf("    %d people have a higher salary\n",
+            higher_sal);
+	printf("Department number is: %d\n", dept);
+	printf("    %d people in the department\n",
+            total_in_dept);
+    }  /* End of loop */
+
+errprint:
+	/* We end up here if an error occurs */
+    EXEC SQL WHENEVER SQLERROR CONTINUE;
+    printf("\n\n>>>>> Error during execution:\n");
+	/* Print ORACLE error message and log off the database */
+    printf("%s\n",sqlca.sqlerrm.sqlerrmc);
+    EXEC SQL ROLLBACK RELEASE;
+    exit(1);
+}

@@ -1,0 +1,468 @@
+<HTML>
+<HEAD>
+<TITLE> Oracle Web Listener Advanced Configuration </TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 21-Feb-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+<!-- Changed by: Shehzaad Nakhoda, 27-Mar-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/icnwblist.gif" width=64 height=64 border=0 align=right></A>
+<IMG SRC="/ows-img/wlmdsrvr.gif" width=560 height=55 ALT="Oracle Web Listener Advanced Configuration">
+
+<BR clear=right>
+
+<FORM ACTION="/ows-abin/wladmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" name="FORM_CODE" value="MOD_SEC">
+<INPUT TYPE="hidden" name="ListenerName" value="%s">
+<INPUT TYPE="hidden" name="ServerRoot" value="%s">
+
+<STATUS>
+
+<H2>
+<font color="#BB0000">
+<EM>Oracle Web Listener Security for Listener
+<LISTENER>
+</EM>
+</font>
+</H2>
+
+On this form are listed all of the parameters with which you can secure
+your <EM>Oracle Web Listener</EM>.
+
+<P>
+
+Once you have made your changes, select the <EM>Modify Listener</EM> button
+which can be found in several convenient locations throughout the page.
+
+<P>
+
+Go back to the <A HREF="/ows-abin/wladmin.exe?FORM_CODE=INTRO&%s">
+Oracle Web Listener Advanced Configuration Form</A>.
+
+<HR>
+
+There are <STRONG>four</STRONG> different forms of security which the
+<EM>Oracle Web Listener</EM> provides.  They are:<P>
+
+<UL>
+<LI> <A HREF="#Basic">Basic Authentication</A>
+<LI> <A HREF="#Digest">Digest Authentication</A>
+<LI> <A HREF="#IP">IP-based Restriction</A>
+<LI> <A HREF="#Domain">Domain-based Restriction</A>
+</UL>
+
+After providing information on the privileged users by selecting
+one of the security methods above, you must specify which files are
+protected by which method by selecting the
+
+<UL>
+<LI> <A HREF="#Protection">Protection Section</A>
+</UL>
+
+<P>
+
+Besides these access restriction-based forms of security, the
+<EM>Oracle Web Listener</EM> can also secure the
+communication channel by using the encryption provided by the
+
+<UL>
+<LI> <A HREF="#SSL">Secure Sockets Layer</A>
+</UL>
+
+Select this <A HREF="/ows-adoc/security.htm">Help</A> link for
+help on security for the <EM>Oracle Web Listener</EM>
+
+<HR>
+
+<A NAME="Security">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/security.htm#Configuring_Web_Listener_Security"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<EM>Security</EM>
+</font>
+</H2>
+</A>
+
+<A HREF="/ows-adoc/security.htm#Authentication_Parameters"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+In the Basic and Digest sections below, you can:
+
+<UL>
+<LI>specify <STRONG>users</STRONG> and passwords
+<LI>create <STRONG>groups</STRONG> of one or more users
+<LI>create <STRONG>realms</STRONG> of one or more groups
+</UL>
+
+Once the form has been submitted, the users' password fields will be
+blanked out for security.  If this form is resubmitted, those users
+and their passwords will remain intact.
+
+<P>
+
+For each group, specify a space-delimited list of users.
+
+<P>
+
+For each realm, specify a space-delimited list of groups.
+
+<A NAME="Basic">
+<H3>
+<font color="#BB0000">
+<A HREF="/ows-adoc/security.htm#Basic_Users"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+Basic Users
+</font>
+</H3>
+</A>
+
+<PRE>
+User Name               Password
+<Basic(Users)_READ>
+<INPUT TYPE="text" size="20" NAME="Basic(Users).1.1"> <INPUT TYPE="password" size="20" NAME="Basic(Users).1.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Users).2.1"> <INPUT TYPE="password" size="20" NAME="Basic(Users).2.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Users).3.1"> <INPUT TYPE="password" size="20" NAME="Basic(Users).3.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Users).4.1"> <INPUT TYPE="password" size="20" NAME="Basic(Users).4.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Users).5.1"> <INPUT TYPE="password" size="20" NAME="Basic(Users).5.2">
+
+<H3><font color="#BB0000"><A HREF="/ows-adoc/security.htm#Basic_Groups"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>Basic Groups</font></H3>
+Group Name              User(s)
+<Basic(Groups)_READ>
+<INPUT TYPE="text" size="20" NAME="Basic(Groups).1.1"> <INPUT TYPE="text" size="40" NAME="Basic(Groups).1.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Groups).2.1"> <INPUT TYPE="text" size="40" NAME="Basic(Groups).2.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Groups).3.1"> <INPUT TYPE="text" size="40" NAME="Basic(Groups).3.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Groups).4.1"> <INPUT TYPE="text" size="40" NAME="Basic(Groups).4.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Groups).5.1"> <INPUT TYPE="text" size="40" NAME="Basic(Groups).5.2">
+
+<H3><font color="#BB0000"><A HREF="/ows-adoc/security.htm#Basic_Realms"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>Basic Realms</font></H3>
+Realms                  Group(s)
+<Basic(Realms)_READ>
+<INPUT TYPE="text" size="20" NAME="Basic(Realms).1.1"> <INPUT TYPE="text" size="40" NAME="Basic(Realms).1.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Realms).2.1"> <INPUT TYPE="text" size="40" NAME="Basic(Realms).2.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Realms).3.1"> <INPUT TYPE="text" size="40" NAME="Basic(Realms).3.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Realms).4.1"> <INPUT TYPE="text" size="40" NAME="Basic(Realms).4.2">
+<INPUT TYPE="text" size="20" NAME="Basic(Realms).5.1"> <INPUT TYPE="text" size="40" NAME="Basic(Realms).5.2">
+</PRE>
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<HR>
+<A NAME="Digest"></A>
+<H3><font color="#BB0000"><A HREF="/ows-adoc/security.htm#Digest_Users_Digest_Groups_and_Digest_Realms"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>Digest Users</font></H3>
+<PRE>
+User Name               Password
+<Digest(Users)_READ>
+<INPUT TYPE="text" size="20" NAME="Digest(Users).1.1"> <INPUT TYPE="password" size="20" NAME="Digest(Users).1.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Users).2.1"> <INPUT TYPE="password" size="20" NAME="Digest(Users).2.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Users).3.1"> <INPUT TYPE="password" size="20" NAME="Digest(Users).3.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Users).4.1"> <INPUT TYPE="password" size="20" NAME="Digest(Users).4.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Users).5.1"> <INPUT TYPE="password" size="20" NAME="Digest(Users).5.2">
+
+<H3><font color="#BB0000">Digest Groups</font></H3>
+Group Name              User(s)
+<Digest(Groups)_READ>
+<INPUT TYPE="text" size="20" NAME="Digest(Groups).1.1"> <INPUT TYPE="text" size="40" NAME="Digest(Groups).1.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Groups).2.1"> <INPUT TYPE="text" size="40" NAME="Digest(Groups).2.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Groups).3.1"> <INPUT TYPE="text" size="40" NAME="Digest(Groups).3.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Groups).4.1"> <INPUT TYPE="text" size="40" NAME="Digest(Groups).4.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Groups).5.1"> <INPUT TYPE="text" size="40" NAME="Digest(Groups).5.2">
+
+<H3><font color="#BB0000">Digest Realms</font></H3>
+Realm                   Group(s)
+<Digest(Realms)_READ>
+<INPUT TYPE="text" size="20" NAME="Digest(Realms).1.1"> <INPUT TYPE="text" size="40" NAME="Digest(Realms).1.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Realms).2.1"> <INPUT TYPE="text" size="40" NAME="Digest(Realms).2.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Realms).3.1"> <INPUT TYPE="text" size="40" NAME="Digest(Realms).3.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Realms).4.1"> <INPUT TYPE="text" size="40" NAME="Digest(Realms).4.2">
+<INPUT TYPE="text" size="20" NAME="Digest(Realms).5.1"> <INPUT TYPE="text" size="40" NAME="Digest(Realms).5.2">
+</PRE>
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<HR>
+
+<A NAME="IP">
+<H3>
+<font color="#BB0000">
+<A HREF="/ows-adoc/security.htm#IP-based_Restriction1"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+IP-based restriction
+</font>
+</H3>
+</A>
+
+In the IP section, you can specify the IP Group name, and the corresponding 
+IP address(es).
+ 
+<P>
+
+The list of IP addresses should be a space-delimited list, looking something
+like:
+
+<PRE>
+    +144.25.19.* +144.25.18.*
+</PRE>
+
+<P>
+
+A '+' before an IP address denotes that that particular IP address should 
+be given access.
+
+<BR>
+
+A '-' before an IP address denotes that that particular IP address should 
+be denied access.
+
+<P>
+
+<PRE>
+IP Group               	IP Address(es)
+<IP_READ>
+<INPUT TYPE="text" size="20" NAME="IP.1.1"> <INPUT TYPE="text" size="40" NAME="IP.1.2">
+<INPUT TYPE="text" size="20" NAME="IP.2.1"> <INPUT TYPE="text" size="40" NAME="IP.2.2">
+<INPUT TYPE="text" size="20" NAME="IP.3.1"> <INPUT TYPE="text" size="40" NAME="IP.3.2">
+<INPUT TYPE="text" size="20" NAME="IP.4.1"> <INPUT TYPE="text" size="40" NAME="IP.4.2">
+<INPUT TYPE="text" size="20" NAME="IP.5.1"> <INPUT TYPE="text" size="40" NAME="IP.5.2">
+</PRE>
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<HR>
+
+<A NAME="Domain">
+<H3>
+<font color="#BB0000">
+<A HREF="/ows-adoc/security.htm#Domain-based_Restriction1"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>Domain-based restriction
+</font>
+</H3>
+</A>
+
+In the Domain section, you can specify the Domain Group name, and the 
+corresponding internet domain name(s).
+
+<P>
+
+The list of internet domain names should be a space-delimited list, 
+looking something like:
+
+<PRE>
+    +*us.mycomp.com +*sp.mycomp.com
+</PRE>
+
+<P>
+
+A '+' before a Domain name denotes that that particular internet domain 
+should be given access.
+
+<BR>
+
+A '-' before a Domain name denotes that that particular internet domain should be denied access.
+<P>
+
+<PRE>
+Domain Group            Domain Name(s)
+<Domain_READ>
+<INPUT TYPE="text" size="20" NAME="Domain.1.1"> <INPUT TYPE="text" size="40" NAME="Domain.1.2">
+<INPUT TYPE="text" size="20" NAME="Domain.2.1"> <INPUT TYPE="text" size="40" NAME="Domain.2.2">
+<INPUT TYPE="text" size="20" NAME="Domain.3.1"> <INPUT TYPE="text" size="40" NAME="Domain.3.2">
+<INPUT TYPE="text" size="20" NAME="Domain.4.1"> <INPUT TYPE="text" size="40" NAME="Domain.4.2">
+<INPUT TYPE="text" size="20" NAME="Domain.5.1"> <INPUT TYPE="text" size="40" NAME="Domain.5.2">
+</PRE>
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<HR>
+
+<A NAME="Protection">
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/security.htm#Specifying_Protection_for_Files_and_Directories"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A><EM>Protection</EM>
+</font>
+</H2>
+</A>
+
+After providing information on the privileged users by filling in
+one of the security methods above, you must specify which files are
+protected by which method by selecting.
+
+<P>
+
+In the Protection section, you can:
+
+<UL>
+<LI>specify the file or files to protect
+<LI>specify the method of user authentication (optional)
+<LI>specify the method of host-based restriction (optional)
+</UL>
+
+If both user authentication <STRONG>and</STRONG> host-based restriction
+are required for a particular virtual path, then specify &amp; in the drop-down
+list below.
+
+<P>
+
+If user authentication <STRONG>or</STRONG> host-based restriction
+are required for a particular virtual path, then specify | in the drop-down
+list below.
+
+<P>
+
+<PRE>
+Virtual Path           Basic/Digest    Realm                    &amp;/|      IP/Domain       Group
+<Protection_READ>
+<INPUT TYPE="text" size="20" NAME="[Protection].1.1"> <SELECT NAME="[Protection].1.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].1.3"> <SELECT NAME="[Protection].1.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[Protection].1.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].1.6">
+<INPUT TYPE="text" size="20" NAME="[Protection].2.1"> <SELECT NAME="[Protection].2.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].2.3"> <SELECT NAME="[Protection].2.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[Protection].2.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].2.6">
+<INPUT TYPE="text" size="20" NAME="[Protection].3.1"> <SELECT NAME="[Protection].3.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].3.3"> <SELECT NAME="[Protection].3.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[Protection].3.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].3.6">
+<INPUT TYPE="text" size="20" NAME="[Protection].4.1"> <SELECT NAME="[Protection].4.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].4.3"> <SELECT NAME="[Protection].4.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[Protection].4.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].4.6">
+<INPUT TYPE="text" size="20" NAME="[Protection].5.1"> <SELECT NAME="[Protection].5.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].5.3"> <SELECT NAME="[Protection].5.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[Protection].5.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[Protection].5.6">
+</PRE>
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<HR>
+
+<H2>
+<A NAME="SSL">
+<font color="#BB0000">
+<A HREF="/ows-adoc/security.htm#Securing_TCPIP_Ports_Using_SSL"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<EM>Secure Sockets Layer</EM>
+</font>
+</A>
+</H2> 
+If you are adding
+support for SSL, you must also configure at least one port for SSL in
+the Addresses and Ports section of the Advanced Configuration
+Form. All five parameters below are <STRONG>required</STRONG> for
+enabling SSL.
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+Certificate File
+</font>
+</H3>
+
+This parameter designates the path to the file containing the
+certification file you receive from your Certifying Authority.
+
+<P>
+
+This file must be:
+
+<UL>
+<LI> in ASCII-64 encoded DER format and have a <STRONG>.der</STRONG> 
+extension, <STRONG>or</STRONG>.
+
+<LI> in PEM certificate approval message format and have a 
+<STRONG>.pem</STRONG> extension, <STRONG>or</STRONG>
+
+<LI> in PKCS certificate approval message format and have a 
+<STRONG>.pkc</STRONG> extension.
+</UL>
+
+<P>
+<INPUT TYPE="hidden"  NAME="SSL.1.1" VALUE="CertFile">
+Please enter the <STRONG>Certification File</STRONG>: 
+<INPUT TYPE="text" size="40" NAME="SSL.1.2" VALUE="%s">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+Distinguished Name File
+</font>
+</H3>
+
+This parameter designates the path to the file containing the
+Distinguished Name information, and is created by the
+<STRONG>genreq</STRONG> program. This file must be:
+
+<UL>
+<LI> <STRONG>either</STRONG> in DER format and have a 
+<STRONG>.der</STRONG> extension, 
+
+<LI> <STRONG>or</STRONG> in PEM format and have a <STRONG>.prm</STRONG> 
+extension.
+</UL>
+
+<INPUT TYPE="hidden" NAME="SSL.2.1" VALUE="DistNameFile">
+Please enter the <STRONG>Distinguished Name File</STRONG>: 
+<INPUT TYPE="text" size="40" NAME="SSL.2.2" VALUE="%s">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+Key File
+</font>
+</H3>
+
+This parameter designates the path to the file containing the Private Key, 
+which contains an excrypted version of your RSA private key, and is created 
+by the <STRONG>genreq</STRONG> program.  This file must be:
+
+<UL>
+<LI> <STRONG>either</STRONG> in DER format and have a 
+<STRONG>.der</STRONG> extension, 
+
+<LI> <STRONG>or</STRONG> in PEM format and have a 
+<STRONG>.prm</STRONG> extension.
+</UL>
+
+<INPUT TYPE="hidden" NAME="SSL.3.1" VALUE="KeyFile">
+Please enter the <STRONG>Key File</STRONG>: 
+<INPUT TYPE="text" size="40" NAME="SSL.3.2" VALUE="%s">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+Certifying Authority Directory
+</font>
+</H3>
+
+This parameter designates the path to the directory where additional 
+Certifying Authority (CA) certificate files can be added in the future.
+
+<P>
+
+<INPUT TYPE="hidden" NAME="SSL.4.1" VALUE="CADir">
+Please enter the <STRONG>CA Directory</STRONG>: 
+<INPUT TYPE="text" size="40" NAME="SSL.4.2" VALUE="%s">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+Certificate Revocation List Directory
+</font>
+</H3>
+
+This parameter designates the path to the directory where additional Certificate Revocation List (CRL) files can be added in the future.
+
+<P>
+
+<INPUT TYPE="hidden" NAME="SSL.5.1" VALUE="CRLDir">
+Please enter the <STRONG>CRL Directory</STRONG>: 
+<INPUT TYPE="text" size="40" NAME="SSL.5.2" VALUE="%s">
+
+<HR>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Listener">
+<HR>
+
+</FORM>
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" ALT="Listener Home" border=0></A>
+<A HREF="/ows-adoc/security.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+<p>
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+</BODY>
+</HTML>

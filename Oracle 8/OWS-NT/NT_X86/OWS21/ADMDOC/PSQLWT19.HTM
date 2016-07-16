@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwt18.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="420186">
+OWA_INIT
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="420187">
+This package provides constants that you override to set the time zone used by cookies. Cookies use expiration dates defined in Greenwich Mean Time (GMT)). If you are not on GMT, you can specify your time zone using one of these two constants. If your time zone is recognized by Oracle, which you can determine by consulting Chapter 3 of the <em>Oracle7 Server SQL Reference</em> under "SQL Functions"<em>,</em> you can directly specify it using <em>dbms_server_timezone</em>; otherwise, you can use <em>dbms_server_gmtdiff </em>to give the offset of your time zone from GMT.<P>
+</A><A NAME="420188">
+Change the values shown below and reload the package. <P>
+</A><HR>
+<H2>
+<A NAME="420189">
+Constants
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="420190">
+<b>dbms_server_timezone      constant varchar2(3) := `PST'</b>
+</A></DL><A NAME="420191">
+Text string abbreviation for your timezone.<P>
+</A><DL COMPACT><DT><A NAME="420192">
+<b>dbms_server_gmtdiff          constant number       := NULL</b>
+</A></DL><A NAME="420193">
+Number of hours your timezone diverges from Greenwich Mean Time. A positive number if your timezone is ahead of GMT; otherwise negative.<P>
+</A> <P>
+ 
+<HR>
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to"> Go to the top of the section</A><P>
+<A HREF="psqlwt18.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

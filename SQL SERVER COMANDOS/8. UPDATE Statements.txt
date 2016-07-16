@@ -1,0 +1,12 @@
+UPDATE ENDER SET ENDERECO = '0.000.00.00', DESCRICAO = 'SEM ENDEREÇO' WHERE ENDERECO IS NULL;
+
+COMMIT WORK;
+
+*Atualiza a tabela ENDER no campo ENDERECO para '0.000.00.00', DESCRICAO para 'SEM ENDEREÇO'
+quando o campo ENDERECO nao for preenchido.
+*O UPDATE nao cria registros novos na tabela, apenas altera registros existentes, mediante
+uma condição ou não.
+*Caso não haja tal condição todos os registros da tabela será atualizado com o valor determinado.
+
+UPDATE TPRD SET TPRD.codtb4fat = NULL
+*PARA DESVINCULAR UMA CHAVE

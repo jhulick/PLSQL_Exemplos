@@ -1,0 +1,45 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi26.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi28.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426922">
+The WRBCallbacks Structure
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426923">
+The <code>WRBCallbacks</code> type defines the dispatch table that the WRB application engine uses to call your cartridge functions. See <a href="wrbprog3.htm#421368">The Entry-Point Function</a> for more information.<P>
+</A><A NAME="426927">
+<PRE>struct WRBCallbacks<br>{<br>   WRBReturnCode (*init_WRBCallback)();<br>   WRBReturnCode (*exec_WRBCallback)();<br>   WRBReturnCode (*shut_WRBCallback)();<br> <br>   WRBReturnCode (*reload_WRBCallback)();<br> <br>   char         *(*version_WRBCallback)();<br>   void          (*version_free_WRBCallback)();<br>   sb4           (*authorize_WRBCallback)();<br>};<br>typedef struct WRBCallbacks WRBCallbacks;<br></PRE><P>
+</A>
+ <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi26.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi28.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

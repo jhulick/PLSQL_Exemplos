@@ -1,0 +1,78 @@
+#------------------------------------------------------------------------------
+# MAKEFILE - Makefile for WRB-Application HelloWorld on MS Windows NT
+#
+# Requires MS WIN32 NT tools Nmake.exe (WMAKE)
+#------------------------------------------------------------------------------
+
+####################
+# Nmake macros for building Windows 32-Bit apps
+
+####################
+# Setup CPU type
+CPU=i386
+
+####################
+# Setup Release or debug version
+# NODEBUG=1
+
+#### Macro definition ####
+
+#### Absolute paths
+WRB_DIR         = .\     
+
+!include <.\win32.mak>
+
+####################
+# General macros define
+OBJDIR    = $(WRB_DIR)\    #
+LIBDIR    = $(WRB_DIR)\    #
+EXEDIR  =   $(WRB_DIR)\    #  dir where all the .exe will be put
+
+########################
+# Important executables
+
+SAMPLEDLL   = $(EXEDIR)helloworld.dll
+
+####################
+# Wrb Source file directory list
+
+SAMPLESRC   = $(WRB_DIR)\ 
+
+####################
+# Wrb directory objs
+
+SAMPLEOBJS   = $(OBJDIR)helloworld.obj $(OBJDIR)wrbdll.obj
+
+####################
+# Compiler Macro define
+LOCAL_DEFINE = -D_DLL -DWIN_NT
+LINKOPT = -DLL
+CMP = $(cc) $(cdebug) $(cflags) $(cvarsdll) $(INCLS) $(LOCAL_DEFINE) $(cf) /Fo$(OBJDIR) $<
+
+####################
+# Inference Rules
+{$(SAMPLESRC)}.c.obj:
+    $(CMP)
+
+####################
+# Wrb LIB Library and include files specification
+
+SYSLIBS         = $(conlibsdll)
+NTUSER32LIBS    = user32.lib \
+				  advapi32.lib
+
+WRBLIB  = d:\orant\ows20\wrbsdk\lib\wrb.lib
+INCLS   = -Id:\orant\ows20\wrbsdk\inc
+
+ALLPROGS	= $(SAMPLEDLL) 
+
+####################
+# Main Target
+
+all     : $(ALLPROGS) 
+
+$(SAMPLEDLL): $(SAMPLEOBJS) $(WRBLIB)
+    $(link) $(LINKOPT) $(ldebug) $(linkdebug) $(dllflags) /NODEFAULTLIB:LIBC.LIB -out:$(SAMPLEDLL) $(SAMPLEOBJS) \
+        $(NTUSER32LIBS) \
+        $(SYSLIBS) \
+        $(WRBLIB) 

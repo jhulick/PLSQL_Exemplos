@@ -1,0 +1,13 @@
+ALTER TABLE <nome_da_tabela_a_ser_alterada>
+    ADD <campo1> <TIPO>, //está adicionando um novo campo na tabela.
+    ADD <campo2> <TIPO>,
+    ADD <campo3> <TIPO>
+
+*este tipo de alteração serve para inserir novos campos na tabela, após a criação.
+
+ALTER TABLE <nome_da_tabela_a_ser_alterada>
+    DROP <campo1>, //está deletando este campo da tabela.
+    DROP <campo2>,
+    DROP <campo3>
+
+*este tipo de alteração serve para deletar campos na tabela, após a criação.

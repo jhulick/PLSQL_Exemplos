@@ -1,0 +1,223 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl6.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl8.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="419067">
+Character Format Tags
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="419068">
+The character format tags are used to specify or alter the appearance of the marked text. Character format tags have opening and closing elements, and affect only the text that they surround.<P>
+</A><A NAME="419070">
+Character format tags give hints to the browser as to how a character or character string should appear, but each browser determines its actual appearance. Essentially, they place text into categories such that all text in a given category is given the same special treatment, but the browser determines what that treatment is. For example, the HTML string  &lt;STRONG&gt;Here is some text&lt;/STRONG&gt; might appear as bold in some browsers, or might flash instead. <P>
+</A><A NAME="419071">
+If a specific text attribute, such as bold is desired, a physical format tag may be necessary. See the section, "Physical Format Tags," for more information.<P>
+</A><A NAME="419072">
+Note: All the hypertext procedures (HTP) shown in this section are also available as hypertext functions (HTF).<P>
+</A><HR>
+<H2>
+<A NAME="419073">
+htp.cite
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419074">
+Syntax
+</A></DL><A NAME="419075">
+htp.cite (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419076">
+Purpose
+</A></DL><A NAME="419077">
+Prints a pair of HTML tags that specify the text they surround as a citation. Usually rendered as italics.<P>
+</A><DL COMPACT><DT><A NAME="419078">
+Parameters
+</A></DL><A NAME="419079">
+ctext   		in varchar2<br>cattributes		in varchar2	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419080">
+Generates
+</A></DL><A NAME="419081">
+&lt;CITE <em>cattributes</em>&gt;<em>ctext</em>&lt;/CITE&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419082">
+htp.code
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419083">
+Syntax
+</A></DL><A NAME="419084">
+htp.code (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419085">
+Purpose
+</A></DL><A NAME="419086">
+Prints a pair of HTML tags that specify the text they surround as an example of code output. Usually rendered in monospace format, e.g. Courier.<P>
+</A><DL COMPACT><DT><A NAME="419087">
+Parameters
+</A></DL><A NAME="419088">
+ctext   		in varchar2<br>cattributes		in varchar2	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419089">
+Generates
+</A></DL><A NAME="419090">
+&lt;CODE <em>cattributes</em>&gt;<em>ctext</em>&lt;/CODE&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419091">
+htp.emphasis
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419092">
+Syntax
+</A></DL><A NAME="419093">
+htp.emphasis (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419094">
+Purpose
+</A></DL><A NAME="419095">
+Prints a pair of HTML tags that specify the text they surround as requiring typographic emphasis. This tag is equivalent to htp.em. Usually rendered as italics.<P>
+</A><DL COMPACT><DT><A NAME="419096">
+Parameters
+</A></DL><A NAME="419097">
+ctext   		in varchar2<br>cattributes		in varchar2	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419098">
+
+</A><DT><A NAME="419099">
+Generates
+</A></DL><A NAME="419100">
+&lt;EM <em>cattributes</em>&gt;<em>ctext</em>&lt;/EM&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419101">
+htp.em
+</A>
+</H2>
+<A NAME="419102">
+Alias for htp.emphasis<P>
+</A><HR>
+<H2>
+<A NAME="419103">
+htp.keyboard
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419104">
+Syntax
+</A></DL><A NAME="419105">
+htp.keyboard (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419106">
+Purpose
+</A></DL><A NAME="419107">
+Prints a pair of HTML tags that specify the text they surround as text typed in by the user, which usually is rendered as monospace. This tag is equivalent to htp.kbd.<P>
+</A><DL COMPACT><DT><A NAME="419108">
+Parameters
+</A></DL><A NAME="419109">
+ctext   		in varchar2<br>cattributes		in varchar2	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419110">
+Generates
+</A></DL><A NAME="419111">
+&lt;KBD <em>cattributes</em>&gt;<em>ctext</em>&lt;/KBD&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419112">
+htp.kbd
+</A>
+</H2>
+<A NAME="419113">
+Alias for htp.keyboard<P>
+</A><HR>
+<H2>
+<A NAME="419114">
+htp.sample
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419115">
+Syntax
+</A></DL><A NAME="419116">
+htp.sample (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419117">
+Purpose
+</A></DL><A NAME="419118">
+Prints a pair of HTML tags that specify the text they surround as a sequence of literal characters that must be typed in the exact sequence in which they appear. Usually rendered as monospace font.<P>
+</A><DL COMPACT><DT><A NAME="419119">
+Parameters
+</A></DL><A NAME="419120">
+ctext   		in varchar2<br>cattributes		in varchar2	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419121">
+Generates
+</A></DL><A NAME="419122">
+&lt;SAMP <em>cattributes</em>&gt;<em>ctext</em>&lt;/SAMP&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419123">
+htp.strong
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419124">
+Syntax
+</A></DL><A NAME="419125">
+htp.strong (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419126">
+Purpose
+</A></DL><A NAME="419127">
+Prints a pair of HTML tags that specify the text they surround as needing strong typographic emphasis. Usually rendered as bold.<P>
+</A><DL COMPACT><DT><A NAME="419128">
+Parameters
+</A></DL><A NAME="419129">
+ctext   		in varchar2<br>cattributes		in varchar2	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419130">
+Generates
+</A></DL><A NAME="419131">
+&lt;STRONG <em>cattributes</em>&gt;<em>ctext</em>&lt;/STRONG&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419132">
+htp.variable
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419133">
+Syntax
+</A></DL><A NAME="419134">
+htp.variable (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419135">
+Purpose
+</A></DL><A NAME="419136">
+Prints a pair of HTML tags that specify the text they surround as  a variable name, or a variable that might be entered by the user. Usually rendered as italics.<P>
+</A><DL COMPACT><DT><A NAME="419137">
+Parameters
+</A></DL><A NAME="419138">
+ctext   		in varchar2<br>cattributes		in varchar2		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419139">
+
+</A><DT><A NAME="419140">
+Generates
+</A></DL><A NAME="419141">
+&lt;VAR <em>cattributes</em>&gt;<em>ctext</em>&lt;/VAR&gt;<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl6.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl8.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

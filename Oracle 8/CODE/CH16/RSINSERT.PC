@@ -1,0 +1,140 @@
+/* RSinsert.pc
+   This program receives messages from the RSInserts pipe, and logs
+   them to a file, as described in Chapter 16 of _Oracle8 PL/SQL Programming
+   by Scott Urman. */
+
+/* C and SQL header files */
+#include <stdio.h>
+EXEC SQL INCLUDE sqlca;
+
+EXEC SQL BEGIN DECLARE SECTION;
+  /* Username and password to connect to the database */
+  char *v_Connect = "example/example";
+
+  /* Status variables used in the calls to DBMS_PIPE */
+  int v_Status;
+  VARCHAR v_Code[5];
+
+  /* Variables sent over the pipe - these will be logged. */
+  VARCHAR v_Userid[9];
+  VARCHAR v_Changedate[10];
+  int v_StudentID;
+  VARCHAR v_Department[4];
+  int v_Course;
+  VARCHAR v_Grade[2];
+  short v_Grade_ind;
+EXEC SQL END DECLARE SECTION;
+
+/* File pointer to log file */
+FILE *outfile;
+
+void sqlerror();
+
+int main() {
+
+  /* Set up the error handling. */
+  EXEC SQL WHENEVER SQLERROR DO sqlerror();
+
+  /* Connect to the database. */
+  EXEC SQL CONNECT :v_Connect;
+
+  /* Open the log file. */
+  outfile = fopen("rs.log", "w");
+
+  /* Main loop.  The only way we'll break out of the loop is if we
+     receive the 'STOP' message or if an error occurs. */
+  for (;;) {
+    /* Sleep until a message is received over the 'RSInserts' pipe.
+       The timeout is not specified, so the default will be used. */
+    EXEC SQL EXECUTE
+      BEGIN
+        :v_Status := DBMS_PIPE.RECEIVE_MESSAGE('RSInserts');
+      END;
+    END-EXEC;
+
+    if (v_Status == 0) {
+      /* Successful retreival of the message.  We now need to get
+         the first data element, to decide what to do with it. */
+      v_Code.len = 5;
+      EXEC SQL EXECUTE
+        BEGIN
+          DBMS_PIPE.UNPACK_MESSAGE(:v_Code);
+        END;
+      END-EXEC;
+      v_Code.arr[v_Code.len] = '\0';
+
+      if (!strcmp(v_Code.arr, "STOP")) {
+        /* Stop message received.  Break out of the loop. */
+        break;
+      }
+
+      /* Retreive the rest of the message, which consists of the 
+         userid, date, and new values. */
+      v_Userid.len = 9;
+      v_Changedate.len = 10;    
+      v_Department.len = 4;
+      v_Grade.len = 2;
+      EXEC SQL EXECUTE
+        DECLARE
+          v_ChangeDate DATE;
+        BEGIN
+          DBMS_PIPE.UNPACK_MESSAGE(:v_Userid);
+          DBMS_PIPE.UNPACK_MESSAGE(v_ChangeDate);
+          :v_Changedate := TO_CHAR(v_ChangeDate, 'DD-MON-YY');
+          DBMS_PIPE.UNPACK_MESSAGE(:v_StudentID);
+          DBMS_PIPE.UNPACK_MESSAGE(:v_Department);
+          DBMS_PIPE.UNPACK_MESSAGE(:v_Course);
+          DBMS_PIPE.UNPACK_MESSAGE(:v_Grade:v_Grade_ind);
+        END;
+      END-EXEC;
+
+      /* Null terminate the character strings */
+      v_Userid.arr[v_Userid.len] = '\0';
+      v_Changedate.arr[v_Changedate.len] = '\0';
+      v_Department.arr[v_Department.len] = '\0';
+
+      if (v_Grade_ind == -1)
+        v_Grade.arr[0] = '\0';
+      else
+        v_Grade.arr[v_Grade.len] = '\0';
+
+      /* Print the data to the log file. */
+      fprintf(outfile, "User: %s Timestamp: %s",
+        v_Userid.arr, v_Changedate.arr);
+      fprintf(outfile, " ID: %d Course: %s %d Grade: %s\n",
+        v_StudentID, v_Department.arr, v_Course, v_Grade.arr);
+
+    }
+    else if (v_Status == 1) {
+      /* The RECEIVE_MESSAGE call timed out.  Loop back to wait again. */
+      continue;
+    }
+    else {
+      /* The RECEIVE_MESSAGE call exited with an error.  Print it, and
+         exit. */
+      printf("RECEIVE_MESSAGE Error!  Status = %d\n", v_Status);
+      EXEC SQL ROLLBACK WORK RELEASE;
+      exit(1);
+    }
+
+  }  /* End of main loop */
+    
+  /* Close the file */
+  fclose(outfile);
+
+  /* Disconnect from the database. */
+  EXEC SQL COMMIT WORK RELEASE;
+}
+
+
+/* Error handling function.  Print the error to the screen,
+   and exit. */
+void sqlerror() {
+
+  printf("SQL Error!\n");
+  printf("%.*s\n", sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+
+  EXEC SQL WHENEVER SQLERROR CONTINUE;
+
+  EXEC SQL ROLLBACK RELEASE;
+}

@@ -1,0 +1,2 @@
+select upper(campo)
+from tabela

@@ -1,0 +1,124 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi9.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi11.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425649">
+WRBGetEnvironmentVariable()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425650">
+<code>WRBGetEnvironmentVariable()</code> returns a pointer to the value of a specified<code> </code>environment variable that the Web Listener process inherited when it was started, or a CGI environment variable set by the current request.<P>
+</A><A NAME="425651">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425652">
+Syntax
+</A>
+</H2>
+<A NAME="425653">
+<PRE>char *WRBGetEnvironmentVariable( void *WRBCtx, char *szEnvVar );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425673">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425656">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425658">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425660">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425662">
+WRBCtx<BR>
+</A><td><A NAME="425664">
+void *<BR>
+</A><td><A NAME="425666">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="425668">
+szEnvVar<BR>
+</A><td><A NAME="425670">
+char *<BR>
+</A><td><A NAME="425672">
+The name of environment variable of which you want the value.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425674">
+Return Values
+</A>
+</H2>
+<A NAME="425675">
+<code>WRBGetEnvironmentVariable()</code> returns a pointer to the value of the Web Listener environment variable specified by <code>szEnvVar</code>. It returns NULL if the specified variable is not in the Web Listener environment.<P>
+</A><HR>
+<H2>
+<A NAME="425676">
+Usage
+</A>
+</H2>
+<A NAME="425677">
+You can call <code>WRBGetEnvironmentVariable()</code> from any cartridge function when you need the value of a specific Web Listener environment variable.<P>
+</A><A NAME="425678">
+If you need the value of <code>ORACLE_HOME</code>, however, it's more convenient to call <code><a href="wrbapi14.htm#425841">WRBGetORACLE_HOME()</a></code>.<P>
+</A><HR>
+<H2>
+<A NAME="425682">
+Examples
+</A>
+</H2>
+<A NAME="425683">
+See the MyWRBApp sample function<a href="mywrbap3.htm#422410"> getCatalog()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="425684">
+Related Information
+</A>
+</H2>
+<A NAME="425691">
+See also <code><a href="wrbapi14.htm#425841">WRBGetORACLE_HOME()</a></code> and <code><a href="wrbapi9.htm#426338">WRBGetEnvironment()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi9.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi11.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

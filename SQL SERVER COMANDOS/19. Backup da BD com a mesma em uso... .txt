@@ -1,0 +1,51 @@
+*Se no momento do Bkp da BD estiver acontecendo modificaçães na mesma, o bkp não se concluirá,
+portanto usa-se o sequinte comando SQL para se fazer Bkp com as tabelas em uso:
+
+USE videoaulas //esta indicando a BD que estamos trabalhando.
+
+LOCK TABLES //está travando as sequinte tabelas
+ clientes READ, 
+ forncedores READ, //esta sendo permitido somente o modo de leitura na tabela.
+ produtos READ;
+
+FLUSH TABLES;  //está atualizando o estado das tabelas da BD.
+
+*Depois das tabelas travadas somente com o modo de leitura disponivel, vá na pasta da BD e
+ faça a copia (CTRL+C e CTRL+V).
+
+*Depois do Bkp feito é hora de destravar as tabelas:
+
+USE videoaulas //esta indicando a BD que estamos trabalhando.
+
+UNLOCK TABLES //está destravando as tabelas
+
+FLUSH TABLES;  //está atualizando o estado das tabelas da BD.
+
+*O Bkp foi feito sem precisar mandar os usuarios sair o Sistema.
+
+
+------------------------------*************************************--------------------------
+
+*Caso seja necessário copiar só uma tabela da BD em uso:
+
+USE videoaulas //esta indicando a BD que estamos trabalhando.
+
+LOCK TABLES //está travando as sequinte tabelas
+ clientes READ, //esta sendo permitido somente o modo de leitura na tabela.
+
+BACKUP TABLE clientes TO 'C:\\bkp'; //copia(backup) a tabela(table) clientes para(to) o diretorio informado (C:\\bkp)
+
+UNLOCK TABLES //está destravando as sequinte tabelas
+
+FLUSH TABLES;  //está atualizando o estado das tabelas da BD.
+
+*É obvio que antes é necessario criar a pasta bkp no C:\\.
+
+-----------------------***************************************-------------------------------
+
+*Caso se precisse restaurar um backup use RESTORE:
+
+RESTORE TABLE clientes FROM 'C:\\bkp'
+
+* Restaura(RESTORE) a tabela(TABLE) clientes apartir(FROM) do diretório informado('C:\\bkp').
+* No momento da restauração já é criado os indices.

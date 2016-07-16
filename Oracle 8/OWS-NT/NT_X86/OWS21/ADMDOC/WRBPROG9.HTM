@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<TITLE>
+Writing Applications Using the Web Request Broker API
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbprog8.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbpro10.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="422260">
+The Version cartridge function
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="424870">
+If you implement a Version cartridge function, the WRB application engine calls it on behalf of certain Web Listener utilities. The Version function must allocate and initialize a character string containing your cartridge's version number. Oracle recommends that your version string take the following form:<P>
+</A><A NAME="424871">
+<em>version</em><code>.</code>release<code>.</code>update<P>
+</A>
+<A NAME="426603">
+<em>version</em> should be a number between 0 and 255--incrementing this number indicates a major change in cartridge functionality.<P>
+</A><A NAME="426604">
+<em>release</em> should be a number between 0 and 15--incrementing this number indicates relatively minor changes in cartridge functionality, perhaps including the addition of one or two new features.<P>
+</A><A NAME="426610">
+<em>update</em> should be a number between 0 and 255-incrementing this number indicates bug fixes that correct existing cartridge functionality. This field is optional, and may be omitted when you increment the <em>release</em> field.<P>
+</A><A NAME="426609">
+Note: this cartridge function is optional--if you do implement it, you must also implement a Version_Free function.<P>
+</A><HR>
+<H2>
+<A NAME="422270">
+Syntax
+</A>
+</H2>
+<A NAME="422273">
+<PRE>char *<em>prefix</em>_Version();<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422271">
+Parameters
+</A>
+</H2>
+<A NAME="422276">
+None.<P>
+</A><HR>
+<H2>
+<A NAME="422277">
+Return Values
+</A>
+</H2>
+<A NAME="422278">
+Your Version cartridge function must return a pointer to a character string identifying the version number of your cartridge.<P>
+</A><HR>
+<H2>
+<A NAME="426652">
+Examples
+</A>
+</H2>
+<A NAME="426653">
+An alpha version of your cartridge might define the following version string:<P>
+</A><A NAME="426654">
+<PRE>#define VERSION "0.1"<br><br>char *<br>MyApp_Version()<br>{<br>   char *ver;<br><br>   ver = (char *)malloc(sizeof(VERSION));<br>   strcpy(ver, VERSION);<br>   return(ver);<br>}</PRE><P>
+</A>
+<A NAME="426665">
+A beta version of your cartridge might define <code>VERSION</code> as:<P>
+</A><A NAME="426666">
+<PRE>#define VERSION "0.5"</PRE><P>
+</A>
+<A NAME="426667">
+The first production version of your cartridge might define <code>VERSION</code> as:<P>
+</A><A NAME="426681">
+<PRE>#define VERSION "1.0"</PRE><P>
+</A>
+<A NAME="426682">
+The first bug-fixing version of your cartridge might define <code>VERSION</code> as:<P>
+</A><A NAME="426685">
+<PRE>#define VERSION "1.0.1"</PRE><P>
+</A>
+<A NAME="426686">
+The next minor functionality update release of your cartridge might define <code>VERSION</code> as:<P>
+</A><A NAME="426689">
+<PRE>#define VERSION "1.1"</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422283">
+Related information
+</A>
+</H2>
+<A NAME="422284">
+See <a href="wrbpro10.htm#422285">The Version_Free cartridge function</a>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbprog8.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbpro10.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

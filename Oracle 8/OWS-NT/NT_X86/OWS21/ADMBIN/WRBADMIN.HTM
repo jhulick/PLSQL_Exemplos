@@ -1,0 +1,173 @@
+<HTML>
+<HEAD>
+<TITLE>WRB Cartridge Administration</TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 14-Mar-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+<!-- Changed by: Shehzaad Nakhoda, 22-Apr-1996 -->
+</HEAD>
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+
+<A HREF="/ows-abin/wrbadmin.exe">
+<IMG SRC="/ows-img/icnwrb.gif" width=64 height=64 border=0 align=right>
+</A><IMG SRC="/ows-img/webreqbr.gif" width=560 height=55>
+<br clear=right>
+
+<H2>
+<font color="#BB0000">
+<EM>WRB Cartridge Administration for Listener %s</EM>
+</font>
+</H2>
+<P>
+<A HREF="/ows-abin/wladmin.exe?FORM_CODE=INTRO&%s">Go to Listener Administration for this listener.</A>
+
+<STATUS>
+
+<FORM ACTION="/ows-abin/wrbadmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" NAME="ListenerName" VALUE="%s">
+<INPUT TYPE="hidden" NAME="ServerRoot" VALUE="%s">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="MOD_WRB">
+
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/wrbcradm.htm#Copying_Another_Listeners_WRB_Configuration"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<EM>Copy WRB Configuration</EM>
+</font>
+</H2>
+
+<PRE>
+Copy WRB Configuration from Listener 
+<INPUT TYPE="text" NAME="CopyFromLsnr" SIZE=6 MAXLENGTH=6> <INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Configuration">
+</PRE>
+
+<HR>
+
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/wrbcradm.htm#Configuring_a_New_WRB_Cartridge"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<EM>Cartridges</EM>
+</font>
+</H2>
+
+<PRE>
+Configure a new WRB cartridge 
+<INPUT TYPE="text" NAME="NewCartridge" SIZE=10 MAXLENGTH=10> <INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Create Cartridge...">
+
+
+<A HREF="/ows-adoc/wrbcradm.htm#Modifying_an_Existing_WRB_Cartridge"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>Modify an existing WRB cartridge.
+<UL>
+<CARTRIDGES>
+</UL>
+</PRE>
+
+<HR>
+
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/wrbcradm.htm#Applications_and_Objects"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A><EM>Applications and Objects</EM>
+</font>
+</H2>
+
+<PRE>
+App.       Object Path                              Entry Point      Min     Max     Thread(T/P)
+<Apps_READ>
+<INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[Apps].1.1">  <INPUT TYPE="text" SIZE=45 NAME="[Apps].1.2">  <INPUT TYPE="text" SIZE=15 NAME="[Apps].1.3">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].1.4">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].1.5">  <INPUT TYPE="text" SIZE=1 MAXLENGTH=1 NAME="[Apps].1.6">
+<INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[Apps].2.1">  <INPUT TYPE="text" SIZE=45 NAME="[Apps].2.2">  <INPUT TYPE="text" SIZE=15 NAME="[Apps].2.3">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].2.4">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].2.5">  <INPUT TYPE="text" SIZE=1 MAXLENGTH=1 NAME="[Apps].2.6">
+<INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[Apps].3.1">  <INPUT TYPE="text" SIZE=45 NAME="[Apps].3.2">  <INPUT TYPE="text" SIZE=15 NAME="[Apps].3.3">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].3.4">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].3.5">  <INPUT TYPE="text" SIZE=1 MAXLENGTH=1 NAME="[Apps].3.6">
+<INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[Apps].4.1">  <INPUT TYPE="text" SIZE=45 NAME="[Apps].4.2">  <INPUT TYPE="text" SIZE=15 NAME="[Apps].4.3">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].4.4">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].4.5">  <INPUT TYPE="text" SIZE=1 MAXLENGTH=1 NAME="[Apps].4.6">
+<INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[Apps].5.1">  <INPUT TYPE="text" SIZE=45 NAME="[Apps].5.2">  <INPUT TYPE="text" SIZE=15 NAME="[Apps].5.3">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].5.4">  <INPUT TYPE="text" SIZE=5 MAXLENGTH=5 NAME="[Apps].5.5">  <INPUT TYPE="text" SIZE=1 MAXLENGTH=1 NAME="[Apps].5.6">
+</PRE>
+
+<HR>
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Modify WRB Configuration">
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Delete WRB Configuration"> 
+
+<HR>
+
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/wrbcradm.htm#Applications_and_Directories"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<EM>Applications and Directories</EM>
+</font>
+</H2>
+
+<PRE>
+Virtual Path                App.      Physical Path
+<AppDirs_READ>
+<INPUT TYPE="text" SIZE=23 NAME="[AppDirs].1.1">  <INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[AppDirs].1.2">  <INPUT TYPE="text" SIZE=45 NAME="[AppDirs].1.3">  
+<INPUT TYPE="text" SIZE=23 NAME="[AppDirs].2.1">  <INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[AppDirs].2.2">  <INPUT TYPE="text" SIZE=45 NAME="[AppDirs].2.3">  
+<INPUT TYPE="text" SIZE=23 NAME="[AppDirs].3.1">  <INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[AppDirs].3.2">  <INPUT TYPE="text" SIZE=45 NAME="[AppDirs].3.3">  
+<INPUT TYPE="text" SIZE=23 NAME="[AppDirs].4.1">  <INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[AppDirs].4.2">  <INPUT TYPE="text" SIZE=45 NAME="[AppDirs].4.3">
+<INPUT TYPE="text" SIZE=23 NAME="[AppDirs].5.1">  <INPUT TYPE="text" SIZE=6 MAXLENGTH=10 NAME="[AppDirs].5.2">  <INPUT TYPE="text" SIZE=45 NAME="[AppDirs].5.3">
+</PRE>
+<HR>
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Modify WRB Configuration">
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Delete WRB Configuration"> 
+
+<HR>
+
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/wrbcradm.htm#Protecting_Applications"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<EM>Protecting Applications</EM>
+</font>
+</H2>
+</A>
+<PRE>
+Virtual Path           Basic/Digest    Realm                    &amp;/|      IP/Domain       Group
+<AppProtection_READ>
+<INPUT TYPE="text" size="20" NAME="[AppProtection].1.1"> <SELECT NAME="[AppProtection].1.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].1.3"> <SELECT NAME="[AppProtection].1.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[AppProtection].1.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].1.6">
+<INPUT TYPE="text" size="20" NAME="[AppProtection].2.1"> <SELECT NAME="[AppProtection].2.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].2.3"> <SELECT NAME="[AppProtection].2.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[AppProtection].2.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].2.6">
+<INPUT TYPE="text" size="20" NAME="[AppProtection].3.1"> <SELECT NAME="[AppProtection].3.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].3.3"> <SELECT NAME="[AppProtection].3.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[AppProtection].3.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].3.6">
+<INPUT TYPE="text" size="20" NAME="[AppProtection].4.1"> <SELECT NAME="[AppProtection].4.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].4.3"> <SELECT NAME="[AppProtection].4.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[AppProtection].4.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].4.6">
+<INPUT TYPE="text" size="20" NAME="[AppProtection].5.1"> <SELECT NAME="[AppProtection].5.2"><OPTION> <OPTION>Basic<OPTION>Digest</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].5.3"> <SELECT NAME="[AppProtection].5.4"><OPTION> <OPTION>&<OPTION>|</SELECT> <SELECT NAME="[AppProtection].5.5"><OPTION> <OPTION>IP<OPTION>Domain</SELECT> <INPUT TYPE="text" size="20" NAME="[AppProtection].5.6">
+</PRE>
+
+<HR>
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Modify WRB Configuration">
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Delete WRB Configuration"> 
+
+<HR>
+
+<H2>
+<font color="#BB0000">
+<A HREF="/ows-adoc/wrbcradm.htm#Applications_and_MIME_Types"><IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=RIGHT></A>
+<EM>Applications and MIME Types</EM>
+</font>
+</H2>
+</A>
+<PRE>
+Application    +/-     File Extension(s)
+<AppMimeTypes_READ>
+<INPUT TYPE="text" size="10" MAXLENGTH="10" NAME="[AppMimeTypes].1.1"> <SELECT NAME="[AppMimeTypes].1.2"> <OPTION SELECTED>+<OPTION>-</SELECT> <INPUT TYPE="text" size="30" NAME="[AppMimeTypes].1.3">
+<INPUT TYPE="text" size="10" MAXLENGTH="10" NAME="[AppMimeTypes].2.1"> <SELECT NAME="[AppMimeTypes].2.2"> <OPTION SELECTED>+<OPTION>-</SELECT> <INPUT TYPE="text" size="30" NAME="[AppMimeTypes].2.3">
+<INPUT TYPE="text" size="10" MAXLENGTH="10" NAME="[AppMimeTypes].3.1"> <SELECT NAME="[AppMimeTypes].3.2"> <OPTION SELECTED>+<OPTION>-</SELECT> <INPUT TYPE="text" size="30" NAME="[AppMimeTypes].3.3">
+<INPUT TYPE="text" size="10" MAXLENGTH="10" NAME="[AppMimeTypes].4.1"> <SELECT NAME="[AppMimeTypes].4.2"> <OPTION SELECTED>+<OPTION>-</SELECT> <INPUT TYPE="text" size="30" NAME="[AppMimeTypes].4.3">
+<INPUT TYPE="text" size="10" MAXLENGTH="10" NAME="[AppMimeTypes].5.1"> <SELECT NAME="[AppMimeTypes].5.2"> <OPTION SELECTED>+<OPTION>-</SELECT> <INPUT TYPE="text" size="30" NAME="[AppMimeTypes].5.3">
+</PRE>
+<HR>
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Modify WRB Configuration">
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Delete WRB Configuration"> 
+
+<HR>
+
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wrbadmin.exe">
+<IMG SRC="/ows-img/wrbhome.gif" alt="WRB Admin Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" ALT="Listener Home" border=0></A>
+<A HREF="/ows-adoc/wrbcradm.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+
+<P>
+
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,125 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi5.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425395">
+WRBGetAppConfig()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425396">
+<code>WRBGetAppConfig()</code> retrieves the cartridge configuration data defined in the cartridge configuration file. It does not read the file directly, but passes back the configuration data that the Web Listener loaded at start-up, or when signalled to reload its own configuration data. See <a href="wrbprog8.htm#422073">The Reload cartridge function</a>.<P>
+</A><A NAME="425397">
+<code>WRBGetAppConfig()</code> returns a pointer to an array of pointers, each of which points to a character string of the form:<P>
+</A><A NAME="425398">
+<PRE><em>parameter</em>=<em>value</em></PRE><P>
+</A>
+<A NAME="425399">
+where <em>parameter</em> is the name of a configuration parameter and <em>value</em> is its value. The array is terminated by a NULL pointer.<P>
+</A><A NAME="425400">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425401">
+Syntax
+</A>
+</H2>
+<A NAME="425402">
+<PRE>char **WRBGetAppConfig( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425416">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425405">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425407">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425409">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425411">
+WRBCtx<BR>
+</A><td><A NAME="425413">
+void *<BR>
+</A><td><A NAME="425415">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425417">
+Return Values
+</A>
+</H2>
+<A NAME="425418">
+<code>WRBGetAppConfig()</code> returns a pointer to the first element in an array of pointers to name-value pairs constituting the configuration data for the calling cartridge.<P>
+</A><HR>
+<H2>
+<A NAME="425419">
+Usage
+</A>
+</H2>
+<A NAME="425420">
+If you implement a <a href="wrbprog8.htm#422073">Reload</a> function, it can call <code>WRBGetAppConfig()</code> to load the updated configuration data for your cartridge.<P>
+</A><HR>
+<H2>
+<A NAME="425421">
+Examples
+</A>
+</H2>
+<A NAME="425422">
+This example shows how to loop through your cartridge configuration parameters:<P>
+</A><A NAME="426685">
+<PRE>char **appcfg;<br>char *varp;<br> <br>appcfg = WRBGetAppConfig(WRBCtx);<br> <br>for (varp = *appcfg; varp; appcfg++, varp = *appcfg) {<br>    /* varp points to a "name=value" pair */<br>}<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425423">
+Related Information
+</A>
+</H2>
+<A NAME="425427">
+See also <code><a href="wrbapi7.htm#425517">WRBGetConfigVal()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi3.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi5.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

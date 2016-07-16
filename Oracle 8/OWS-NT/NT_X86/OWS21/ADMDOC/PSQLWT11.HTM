@@ -1,0 +1,397 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwt10.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwt12.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="419509">
+OWA_UTIL 
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="421931">
+The OWA_UTIL Package is a set of useful utility procedures built on top of hypertext functions and hypertext procedures. It is divided into the following areas:<P>
+</A><ul type=disc><A NAME="422070">
+<LI><a href="psqlwt11.htm#421927">OWA_UTIL HTML Utilities</a>. The purposes of these range from printing a signature tag on HTML pages to retrieving the values of CGI environment variables and performing URL redirects.
+</A>
+<A NAME="422063">
+<LI><a href="psqlwt12.htm#421675">OWA_UTIL Dynamic SQL Utilities</a>. These enable you to produce Web pages with dynamically generated SQL code.
+</A>
+<A NAME="422057">
+<LI><a href="psqlwt13.htm#421775">OWA_UTIL Date Utilites</a>. These make it easier to properly handle dates, which are simple strings in HTML, but are properly treated as a datatype by the Oracle RDBMS.
+</A>
+</ul><HR>
+<H2>
+<A NAME="421927">
+OWA_UTIL HTML Utilities
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="419511">
+owa_util.signature
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419512">
+Syntax
+</A></DL><A NAME="419513">
+owa_util.signature;<P>
+</A><DL COMPACT><DT><A NAME="419514">
+Purpose
+</A></DL><A NAME="419515">
+Prints an HTML line followed by a signature line on the  HTML document.<P>
+</A><DL COMPACT><DT><A NAME="419516">
+Parameters
+</A></DL><A NAME="419517">
+none<P>
+</A><DL COMPACT><DT><A NAME="419518">
+Generates
+</A></DL><A NAME="419519">
+Prints a signature line in the HTML document that might look like the following:<br>"This page was produced by the <b>Oracle PL/SQL Agent </b>on August 9, 1995 09:30"<P>
+</A><HR>
+<H2>
+<A NAME="419520">
+owa_util.signature (cname)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419521">
+Syntax
+</A></DL><A NAME="419522">
+owa_util.signature (cname);<P>
+</A><DL COMPACT><DT><A NAME="419523">
+Purpose
+</A></DL><A NAME="419524">
+Allows the programmer to create a signature line on the bottom of the HTML document that has a hypertext link to view the PL/SQL source for that procedure.<P>
+</A><DL COMPACT><DT><A NAME="419525">
+Parameters
+</A></DL><A NAME="419526">
+cname   in varchar2<P>
+</A><DL COMPACT><DT><A NAME="419527">
+
+</A><DT><A NAME="419528">
+Generates
+</A></DL><A NAME="419529">
+Prints a signature line on the bottom of the HTML document that has a link to the actual PL/SQL source for that procedure. The link calls the procedure showsource. The line would look like the following: <P>
+</A><A NAME="419530">
+"This page was produced by the <b>Oracle PL/SQL Agent </b>on 6/14/95 09:30"   <br>View PL/SQL Source<P>
+</A><HR>
+<H2>
+<A NAME="419531">
+owa_util.showsource (cname)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419532">
+Syntax
+</A></DL><A NAME="419533">
+owa_util.showsource (cname);<P>
+</A><DL COMPACT><DT><A NAME="419534">
+Purpose
+</A></DL><A NAME="419535">
+Prints the source of the specified PL/SQL procedure, function, or package. If a procedure or function which belongs to a package is specified, then the entire package is displayed. <P>
+</A><DL COMPACT><DT><A NAME="419536">
+Parameters
+</A></DL><A NAME="419537">
+cname in varchar2<P>
+</A><DL COMPACT><DT><A NAME="419538">
+Generates
+</A></DL><A NAME="419539">
+Generates the source code of the specified PL/SQL procedure.<P>
+</A><HR>
+<H2>
+<A NAME="419540">
+owa_util.showpage
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419541">
+Syntax
+</A></DL><A NAME="419542">
+owa_util.showpage;<P>
+</A><DL COMPACT><DT><A NAME="419543">
+Purpose
+</A></DL><A NAME="419544">
+This procedure allows a user to view the HTML output of a PL/SQL procedure call from SQL*Plus, SQL*DBA, or Oracle Server Manager. The PL/SQL procedure must use HTP and/or HTF to generate the HTML page, and owa_util.showpage must be issued after the PL/SQL procedure has been called and before any other HTP or HTF subprograms are directly or  indirectly called. This method is useful for generating pages filled with static data.Purpose<P>
+</A><A NAME="419545">
+Note that this procedure uses dbms_output and thus is limited to 255 characters per line and an overall buffer size of 1,000,000 bytes.<P>
+</A><DL COMPACT><DT><A NAME="419546">
+Parameters
+</A></DL><A NAME="419547">
+none<P>
+</A><DL COMPACT><DT><A NAME="419548">
+Generates
+</A></DL><A NAME="419549">
+One can use this procedure to generate static pages in SQL*Plus that can then be accessed as a standard HTML page. For example:<P>
+</A><A NAME="419550">
+<PRE>SQL&gt;set serveroutput on<br>SQL&gt;spool gretzky.html<br>SQL&gt;execute hockey.pass('Gretzky")<br>SQL&gt;execute owa_util.showpage<br>SQL&gt;exit</PRE><P>
+</A>
+<A NAME="419551">
+This would generate an HTML page which could be accessed from Web clients.<P>
+</A><HR>
+<H2>
+<A NAME="419553">
+owa_util.get_cgi_env(function)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419554">
+Syntax
+</A></DL><A NAME="419555">
+owa_util.get_cgi_env(param_name in varchar2);<P>
+</A><DL COMPACT><DT><A NAME="419556">
+Purpose
+</A></DL><A NAME="419557">
+Allows programmer to retrieve the value of the specified CGI environment variable in the PL/SQL procedure.<P>
+</A><A NAME="419558">
+Note that param_name is case-insensitive.<P>
+</A><DL COMPACT><DT><A NAME="419559">
+Parameters
+</A></DL><A NAME="419560">
+param_name  in varchar2<P>
+</A><DL COMPACT><DT><A NAME="419561">
+Generates
+</A></DL><A NAME="419562">
+Returns value of specified CGI environment variable for PL/SQL procedure. If the value is not set, returns <em>null</em><P>
+</A><HR>
+<H2>
+<A NAME="419563">
+owa_util.print_cgi_env
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419564">
+Syntax
+</A></DL><A NAME="419565">
+owa_util.print_cgi_env;<P>
+</A><DL COMPACT><DT><A NAME="419566">
+Purpose
+</A></DL><A NAME="419567">
+Enables programmer to print all of the CGI environment variables made available by the PL/SQL Agent to the PL/SQL procedures. This utility is good for testing purposes.<P>
+</A><DL COMPACT><DT><A NAME="419568">
+Parameters
+</A></DL><A NAME="419569">
+none<P>
+</A><DL COMPACT><DT><A NAME="419570">
+Generates
+</A></DL><A NAME="419571">
+Prints CGI environment variables made available by the PL/SQL Agent to the PL/SQL procedures.<P>
+</A><HR>
+<H2>
+<A NAME="419572">
+owa_util.mime_header
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419573">
+Syntax
+</A></DL><A NAME="419574">
+owa_util.mime_header(ccontent_type, bclose_header);<P>
+</A><DL COMPACT><DT><A NAME="419575">
+Purpose
+</A></DL><A NAME="419576">
+Enables programmer to change the default MIME header that the PL/SQL Agent returns.  This <em>must</em> come before any htp.print or htp.prn calls in order to signal the PL/SQL Agent not to use the default. If bcloseheader is TRUE, two newlines are sent, which closes the HTTP header. Otherwise, one newline is sent, and the HTTP header is still open.<P>
+</A><DL COMPACT><DT><A NAME="419577">
+Parameters
+</A></DL><A NAME="419578">
+ccontent_type 		in varchar2<br>bclose_header		in boolean DEFAULT TRUE<P>
+</A><DL COMPACT><DT><A NAME="419579">
+Generates
+</A><A NAME="419580">
+<PRE>Content-type: &lt;ccontent_type&gt;\n\n</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="419581">
+owa_util.redirect_url
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419582">
+Syntax
+</A></DL><A NAME="419583">
+owa_util.redirect_url(curl, bclose_header);<P>
+</A><DL COMPACT><DT><A NAME="419584">
+Purpose
+</A></DL><A NAME="419585">
+Enables programmer to specify that the WebServer visit a specified URL. The URL may specify either a Web page that is returned or a program that is executed. This <em>must</em> come before any htp.print or htp.prn calls in order to signal the PL/SQL Agent to do the redirect. If bcloseheader is TRUE, two newlines are sent, which closes the HTTP header. Otherwise, one newline is sent, and the HTTP header is still open.<P>
+</A><DL COMPACT><DT><A NAME="419586">
+Parameters
+</A></DL><A NAME="419587">
+curl 		in varchar2<br>bclose_header		in boolean DEFAULT TRUE<P>
+</A><DL COMPACT><DT><A NAME="419588">
+Generates
+</A><A NAME="419589">
+<PRE>Location: &lt;curl&gt;\n\n</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="419590">
+owa_util.status_line
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419591">
+Syntax
+</A></DL><A NAME="419592">
+owa_util.status_line(nstatus, creason, bclose_header);<P>
+</A><DL COMPACT><DT><A NAME="419593">
+Purpose
+</A></DL><A NAME="419594">
+Enables programmer to send a standard HTTP status code to the client.  This <em>must</em> come before any htp.print or htp.prn calls, so that the status code is returned as part of the header, rather than as "content data." If bcloseheader is TRUE, two newlines are sent, which closes the HTTP header. Otherwise, one newline is sent, and the HTTP header is still open.<P>
+</A><DL COMPACT><DT><A NAME="419595">
+Parameters
+</A></DL><A NAME="419596">
+nstatus		in integer,<br>creason 		in varchar2 DEFAULT NULL<br>bclose_header		in boolean DEFAULT TRUE<P>
+</A><DL COMPACT><DT><A NAME="419597">
+Generates
+</A><A NAME="419598">
+<PRE>Status: &lt;nstatus&gt; &lt;creason&gt;\n\n</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="419599">
+owa_util.http_header_close
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419600">
+Syntax
+</A></DL><A NAME="419601">
+owa_util.http_header_close;<P>
+</A><DL COMPACT><DT><A NAME="419602">
+Purpose
+</A></DL><A NAME="419603">
+Outputs a newline to close the HTTP header. Use this procedure if you have not explicitly closed the header before by specifying or defaulting bclose_header in a previous header component. The header <em>must</em> be closed before any htp.print or htp.prn calls.<P>
+</A><DL COMPACT><DT><A NAME="419604">
+Parameters
+</A></DL><A NAME="419605">
+none<P>
+</A><DL COMPACT><DT><A NAME="419606">
+Generates
+</A></DL><A NAME="419607">
+A newline, which terminates the header.<P>
+</A><HR>
+<H2>
+<A NAME="419608">
+owa_util.get_owa_service_path (Function)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419609">
+Syntax
+</A></DL><A NAME="419610">
+owa_util.get_owa_service_path;<P>
+</A><DL COMPACT><DT><A NAME="419611">
+Purpose
+</A></DL><A NAME="419612">
+Returns the name of the currently active path with its full virtual path, plus the currently active DCD. For example, a call to get_owa_service_path could return /ows-bin/myservice/owa/.<P>
+</A><DL COMPACT><DT><A NAME="419613">
+Parameters
+</A></DL><A NAME="419614">
+none<P>
+</A><DL COMPACT><DT><A NAME="419615">
+Returns
+</A></DL><A NAME="419616">
+The path including the DCD. The datatype is varchar2.<P>
+</A><HR>
+<H2>
+<A NAME="419617">
+owa_util.tableprint
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419618">
+Syntax
+</A></DL><A NAME="419619">
+owa_util.tablePrint;<P>
+</A><DL COMPACT><DT><A NAME="419620">
+Purpose
+</A></DL><A NAME="419621">
+Enables programmers to print Oracle tables as either preformatted or HTML tables, depending upon Web browser capabilities.  Note that RAW COLUMNS are supported, however LONG RAW are not.  References to LONG RAW columns will print the result 'Not Printable'. In this case, cattributes is the second, rather than the last, parameter.<P>
+</A><DL COMPACT><DT><A NAME="419622">
+Parameters
+</A></DL><A NAME="419623">
+ctable  		in varchar2<br>cattributes                                     in varchar2            DEFAULT NULL<br>ntable_type           in  integer   DEFAULT HTML_TABLE<br>ccolumns   	in varchar2   	DEFAULT `*`<br>cclauses   	in varchar2   	DEFAULT NULL<br>ccol_aliases	in varchar2   	DEFAULT NULL<br>nrow_min   	in number   	DEFAULT 0<br>nrow_max   	in number 	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419624">
+Parameters
+</A></DL><A NAME="419625">
+Note that ntable_type can be either owa_util.html_table  or  owa_util.pre_table.<P>
+</A><DL COMPACT><DT><A NAME="419626">
+Generates
+</A></DL><A NAME="419627">
+Prints out either a preformatted or HTML table. <P>
+</A><DL COMPACT><DT><A NAME="419628">
+Returns
+</A></DL><A NAME="419629">
+True or False as to whether there are more rows available beyond the nrow_max requested.<P>
+</A><DL COMPACT><DT><A NAME="419630">
+Example
+</A></DL><A NAME="419631">
+For browsers that don't support HTML tables, create the following procedure:<P>
+</A><A NAME="419632">
+<PRE>create or replace procedure showemps is <br>  ignore_more boolean; <br>begin <br>  ignore_more := owa_util.tablePrint('emp', 'BORDER', OWA_UTIL.PRE_TABLE); <br>end; <br> and requesting a URL like this example: http://myhost:8080/ows-bin/hr/owa/showemps <br> <br>returns to the client: <br>&lt;PRE&gt; <br>------------------------------------------------------------------------ <br>| EMPNO |  ENAME |    JOB    |  MGR |  HIREDATE |  SAL | COMM | DEPTNO | <br>------------------------------------------------------------------------ <br>| 7369  | SMITH  | CLERK     | 7902 | 17-DEC-80 | 800  |      | 20     | <br>| 7499  | ALLEN  | SALESMAN  | 7698 | 20-FEB-81 | 1600 | 300  | 30     | <br>| 7521  | WARD   | SALESMAN  | 7698 | 22-FEB-81 | 1250 | 500  | 30     | <br>| 7566  | JONES  | MANAGER   | 7839 | 02-APR-81 | 2975 |      | 20     | <br>| 7654  | MARTIN | SALESMAN  | 7698 | 28-SEP-81 | 1250 | 1400 | 30     | <br>| 7698  | BLAKE  | MANAGER   | 7839 | 01-MAY-81 | 2850 |      | 30     | <br>| 7782  | CLARK  | MANAGER   | 7839 | 09-JUN-81 | 2450 |      | 10     | <br>| 7788  | SCOTT  | ANALYST   | 7566 | 09-DEC-82 | 3000 |      | 20     | <br>| 7839  | KING   | PRESIDENT |      | 17-NOV-81 | 5000 |      | 10     | <br>| 7844  | TURNER | SALESMAN  | 7698 | 08-SEP-81 | 1500 | 0    | 30     | <br>| 7876  | ADAMS  | CLERK     | 7788 | 12-JAN-83 | 1100 |      | 20     | <br>| 7900  | JAMES  | CLERK     | 7698 | 03-DEC-81 | 950  |      | 30     | <br>| 7902  | FORD   | ANALYST   | 7566 | 03-DEC-81 | 3000 |      | 20     | <br>| 7934  | MILLER | CLERK     | 7782 | 23-JAN-82 | 1300 |      | 10     | <br>------------------------------------------------------------------------ <br>&lt;/PRE&gt;</PRE><P>
+</A>
+<A NAME="419633">
+To view just the employees in department 10, and only their employee ids, names, and salaries, create the following procedure:<P>
+</A><A NAME="419634">
+<PRE>create or replace procedure showemps_10 is <br>   ignore_more boolean; <br>begin <br> ignore_more := owa_util.tablePrint<br>	('EMP', 'BORDER', OWA_UTIL.PRE_TABLE, <br>       'empno, ename, sal', <br>       'where deptno=10 order by empno', <br>       'Employee Number, Name, Salary'); <br>end; </PRE><P>
+</A>
+<A NAME="419635">
+A request for a URL like http://myhost:8080/ows-bin/hr/owa/showemps_10  would return the following to the client: <P>
+</A><A NAME="419636">
+<PRE>&lt;PRE&gt;  <br>------------------------------------- <br>| Employee Number |  Name  | Salary | <br>------------------------------------- <br>| 7782            | CLARK  | 2450   | <br>| 7839            | KING   | 5000   | <br>| 7934            | MILLER | 1300   | <br>------------------------------------- <br>&lt;/PRE&gt;</PRE><P>
+</A>
+<A NAME="419637">
+For browsers that do support HTML tables, to view the department table in an HTML table, create the following procedure:<P>
+</A><A NAME="419638">
+<PRE>create or replace procedure showdept is <br> ignore_more boolean; <br>begin <br>   ignore_more := owa_util.tablePrint('dept', 'BORDER'); <br>end; </PRE><P>
+</A>
+<A NAME="419639">
+A request for a URL like http://myhost:8080/ows-bin/hr/owa/showdept would return the following to the client:<P>
+</A><A NAME="419640">
+<PRE><br>&lt;TABLE BORDER&gt; <br>&lt;TR&gt; <br>&lt;TH&gt;DEPTNO&lt;/TH&gt; <br>&lt;TH&gt;DNAME&lt;/TH&gt; <br>&lt;TH&gt;LOC&lt;/TH&gt; <br>&lt;/TR&gt; <br>&lt;TR&gt; <br>&lt;TD ALIGN="LEFT"&gt;10&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;ACCOUNTING&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;NEW YORK&lt;/TD&gt; <br>&lt;/TR&gt; <br>&lt;TR&gt; <br>&lt;TD ALIGN="LEFT"&gt;20&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;RESEARCH&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;DALLAS&lt;/TD&gt; <br>&lt;/TR&gt; <br>&lt;TR&gt; <br>&lt;TD ALIGN="LEFT"&gt;30&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;SALES&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;CHICAGO&lt;/TD&gt; <br>&lt;/TR&gt; <br>&lt;TR&gt; <br>&lt;TD ALIGN="LEFT"&gt;40&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;OPERATIONS&lt;/TD&gt; <br>&lt;TD ALIGN="LEFT"&gt;BOSTON&lt;/TD&gt; <br>&lt;/TR&gt; <br>&lt;/TABLE&gt; </PRE><P>
+</A>
+<A NAME="419641">
+which a Web browser can format to look like this:<P>
+</A><A NAME="421661">
+<p>
+<table border=3>
+<tr><td>DEPTNO<p>
+<td>DNAME<p>
+<td>LOC<p>
+
+<tr><td>10<p>
+<td>ACCOUNTING<p>
+<td>NEW YORK<p>
+
+<tr><td>20<p>
+<td>RESEARCH<p>
+<td>DALLAS<p>
+
+<tr><td>30<p>
+<td>SALES<p>
+<td>CHICAGO<p>
+
+
+</table>
+<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwt10.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwt12.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

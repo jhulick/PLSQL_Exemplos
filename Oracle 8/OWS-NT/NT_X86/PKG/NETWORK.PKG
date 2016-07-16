@@ -1,0 +1,28 @@
+/*****************************************************************************
+  Copyright (c) Oracle Corporation 1996.  All Rights Reserved 
+
+  NAME
+    network.pkg 
+
+  DESCRIPTION
+    Package file for NT Network products                   
+
+  OWNER
+    David Tom
+
+  MODIFIED    DD-MMM-YY  Reason
+    dlau      28-FEB-96  Modified for SQL*NET 2.3
+    dtom      01-AUG-95  Created
+*****************************************************************************/
+
+{
+  products = list();
+
+  { add(products, net23      ); } ['UNBOUND_VARIABLE: continue();]
+
+  { dflt_product = net23;            } ['UNBOUND_VARIABLE: continue();]
+
+  selection_title  = nls("selection_title",  "SQL*Net Version");
+  selection_prompt = nls("selection_prompt", "Please select the version of SQL*Net product to be installed:");
+  selection_help   = nls("selection_help",   "Select SQL*Net V2 product for installation.%carriage_return%%carriage_return%Items may be selected by clicking on the item with the mouse or by moving the cursor to the item and using the space bar to select the item.");
+}

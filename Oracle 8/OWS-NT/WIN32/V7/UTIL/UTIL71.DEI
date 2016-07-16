@@ -1,0 +1,142 @@
+/* Copyright (c) Oracle Corporation 1992.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    util71.dei - Windows NT V3 de-installation script for database utilities.
+
+  DESCRIPTION
+    This script removes the Windows NT database utilities files and
+    un-registers the product.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY Reason
+  syau        07/01/94 - 7.1.3
+  HA!         04/28/94 - 7.1.2 and 3.0.10.2
+  Hartenstine 04/21/93 - DESKTOP: Adapt to Windows NT
+    trodgers  01-APR-92 Created.
+*****************************************************************************/
+{
+  { doit = execute("%installer_home%\nt.dei"); }
+  [
+    'UNBOUND_VARIABLE: signal('failure,instantiate(nls("instver_too_early2","The version of the Installer currently running is %%installer_version%%. The product(s) you have chosen to deinstall were installed with a later version of the Installer. Please use a later version of the Installer to deinstall these product(s).")));
+  ]
+
+  if (doit)
+    {
+      /**********************************************************************
+         Ensure that the necessary environment variables are bound
+       **********************************************************************/
+
+      {
+        rdbms71 = v7_translate("rdbms71");
+        {
+          if (not(exists(rdbms71)))
+            signal('UNBOUND_ENVIRONMENT_VARIABLE);
+        }
+          [ 'OS_ERROR: signal('UNBOUND_ENVIRONMENT_VARIABLE);
+            'INVALID_FILE_NAME: signal('UNBOUND_ENVIRONMENT_VARIABLE);
+            'PERMISSION_DENIED: signal('UNBOUND_ENVIRONMENT_VARIABLE); ]
+      }
+        [
+          'UNBOUND_ENVIRONMENT_VARIABLE:
+          {
+            variable = "rdbms71";
+            information_dialog(instantiate(deinstall_prompt02),
+                               instantiate(deinstall_content02),
+                               instantiate(deinstall_help02));
+            doit = FALSE;
+          }
+        ]
+
+      {
+        plsql21 = v7_translate("plsql21");
+        {
+          if (not(exists(plsql21)))
+            signal('UNBOUND_ENVIRONMENT_VARIABLE);
+        }
+          [ 'OS_ERROR: signal('UNBOUND_ENVIRONMENT_VARIABLE);
+            'INVALID_FILE_NAME: signal('UNBOUND_ENVIRONMENT_VARIABLE);
+            'PERMISSION_DENIED: signal('UNBOUND_ENVIRONMENT_VARIABLE); ]
+      }
+        [
+          'UNBOUND_ENVIRONMENT_VARIABLE:
+          {
+            variable = "plsql21";
+            information_dialog(instantiate(deinstall_prompt02),
+                               instantiate(deinstall_content02),
+                               instantiate(deinstall_help02));
+            doit = FALSE;
+          }
+        ]
+
+      /**********************************************************************
+         Bind all NLS deinstall strings here...
+       **********************************************************************/
+      unregistering = nls("unregistering","Unregistering %%registry_label%%...");
+      modifying_config = nls("modifying_config","Modifying NT Registry...");
+      deinst_demo = nls("deinst_demo","Deinstalling %%registry_label%% Demonstration files...");
+      deinst_sql = nls("deinst_sql","Deinstalling %%registry_label%% SQL Scripts...");
+      deinst_init = nls("deinst_init","Deinstalling ORACLE7 Initialization File...");
+      deinst_res = nls("deinst_res","Deinstalling %%registry_label%% Resource Files...");
+      deinst_msb = nls("deinst_msb","Deinstalling %%registry_label%% Message Files...");
+      deinst_exe = nls("deinst_exe","Deinstalling %%registry_label%% Executables...");
+      deinst_dll = nls("deinst_dll","Deinstalling %%registry_label%% DLLs...");
+      deinst_script = nls("deinst_script","Deinstalling %%registry_label%% Installation Scripts...");
+
+      /**********************************************************************
+         Continue with the deinstallation
+       **********************************************************************/
+
+      if (registered("ntrsf71"))
+        {
+          dependent = registration("ntrsf71");
+          unreference(dependent,current_registry);
+          deinstall(dependent);
+        }
+
+      ui_product(registry_label);
+
+      ui_action(instantiate(deinst_demo));
+      remove(demo);
+
+      ui_action(instantiate(deinst_sql));
+      remove(sql);
+
+      ui_action(instantiate(deinst_init));
+      remove(init);
+
+      ui_action(instantiate(deinst_res));
+      remove(res);
+
+      ui_action(instantiate(deinst_msb));
+      remove(msg);
+
+      if (not(registered("ntinstall")))
+      remove(uiusmsg);
+
+      ui_action(instantiate(deinst_exe));
+      remove(exec);
+
+      ui_action(instantiate(deinst_dll));
+      remove(dll);
+
+      if (not(registered("ntrdbms71"))) {
+        ui_action(instantiate(deinst_exe));
+        remove(oraexec);
+      }
+
+      ui_action(instantiate(deinst_script));
+      remove(deinstl);
+
+      ui_action(instantiate(unregistering));
+      unregister(current_registry);
+
+      if (not(registered("ntrdbms71")) && not(registered("ntrsf71")))
+      {
+        modify("RDBMS71","",ora_config,"=");
+        modify("PLSQL21","",ora_config,"=");
+      }
+
+    }
+}

@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi13.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi15.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425841">
+WRBGetORACLE_HOME()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425842">
+<code>WRBGetORACLE_HOME()</code> returns a pointer to the value of the <code>ORACLE_HOME</code> environment variable that the Web Listener process inherited when it was started.<P>
+</A><A NAME="425843">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425844">
+Syntax
+</A>
+</H2>
+<A NAME="425845">
+<PRE>char *WRBGetORACLE_HOME( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425859">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425848">
+<H5><b>Parameter
+</b></H5>
+</A>
+<th><A NAME="425850">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425852">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425854">
+WRBCtx<BR>
+</A><td><A NAME="425856">
+void *<BR>
+</A><td><A NAME="425858">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425860">
+Return Values
+</A>
+</H2>
+<A NAME="425861">
+<code>WRBGetORACLE_HOME()</code> returns a pointer to the value of the Web Listener environment variable <code>ORACLE_HOME</code>.<P>
+</A><HR>
+<H2>
+<A NAME="425862">
+Usage
+</A>
+</H2>
+<A NAME="425863">
+It's often convenient for a WRB cartridge to store data files, scripts, or other files it needs in the file system under the <code>ORACLE_HOME</code> directory on the WebServer machine. This allows the cartridge to store files in a central place without using hard-coded pathnames. To do this, you can use the value returned by <code>WRBGetORACLE_HOME()</code> as a path prefix.<P>
+</A><HR>
+<H2>
+<A NAME="425864">
+Examples
+</A>
+</H2>
+<A NAME="425865">
+See the MyWRBApp sample function <a href="mywrbap3.htm#422477">storeInfo()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="425866">
+Related Information
+</A>
+</H2>
+<A NAME="425873">
+See also <code><a href="wrbapi9.htm#426338">WRBGetEnvironment()</a></code> and <code><a href="wrbapi10.htm#425649">WRBGetEnvironmentVariable()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi13.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi15.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

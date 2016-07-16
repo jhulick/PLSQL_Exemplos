@@ -1,0 +1,5709 @@
+%!PS-Adobe-3.0
+%%BoundingBox: (atend)
+%%Pages: (atend)
+%%PageOrder: (atend)
+%%DocumentFonts: (atend)
+%%Creator: Frame 4.0
+%%DocumentData: Clean7Bit
+%%EndComments
+%%BeginProlog
+%
+% Frame ps_prolog 5.0, for use with Frame 5.0 products
+% This ps_prolog file is Copyright (c) 1986-1995 Frame Technology
+% Corporation.  All rights reserved.  This ps_prolog file may be
+% freely copied and distributed in conjunction with documents created
+% using FrameMaker, FrameMaker/SGML and FrameViewer as long as this 
+% copyright notice is preserved.
+%
+% FrameMaker users specify the proper paper size for each print job in the
+% "Print" dialog's "Printer Paper Size" "Width" and "Height~ fields.  If the
+% printer that the PS file is sent to does not support the requested paper
+% size, or if there is no paper tray of the proper size currently installed, 
+% then the job will not be printed.  The following flag, if set to true, will
+% cause the job to print on the default paper in such cases.
+/FMAllowPaperSizeMismatch            false def
+%
+% Frame products normally print colors as their true color on a color printer
+% or as shades of gray, based on luminance, on a black-and white printer. The
+% following flag, if set to true, forces all non-white colors to print as pure
+% black. This has no effect on bitmap images.
+/FMPrintAllColorsAsBlack             false def
+%
+% Frame products can either set their own line screens or use a printer's 
+% default settings. Three flags below control this separately for no 
+% separations, spot separations and process separations. If a flag
+% is true, then the default printer settings will not be changed. If it is
+% false, Frame products will use their own settings from a table based on
+% the printer's resolution.
+/FMUseDefaultNoSeparationScreen      true  def
+/FMUseDefaultSpotSeparationScreen    true  def
+/FMUseDefaultProcessSeparationScreen false def
+%
+% For any given PostScript printer resolution, Frame products have two sets of 
+% screen angles and frequencies for printing process separations, which are 
+% recomended by Adobe. The following variable chooses the higher frequencies
+% when set to true or the lower frequencies when set to false. This is only
+% effective if the appropriate FMUseDefault...SeparationScreen flag is false.
+/FMUseHighFrequencyScreens true def
+%
+% The following is a set of predefined optimal frequencies and angles for various
+% common dpi settings. This is taken from "Advances in Color Separation Using
+% PostScript Software Technology," from Adobe Systems (3/13/89 P.N. LPS 0043)
+% and corrolated with information which is in various PPD (4.0) files.
+%
+% The "dpiranges" figure is the minimum dots per inch device resolution which
+% can support this setting. The "low" and "high" values are controlled by the
+% setting of the FMUseHighFrequencyScreens flag above. The "TDot" flags control
+% the use of the "Yellow Triple Dot" feature whereby the frequency id divided by
+% three, but the dot function is "trippled" giving a block of 3x3 dots per cell.
+%
+% PatFreq is a compromise pattern frequency for ps Level 2 printers which is close
+% to the ideal WYSIWYG pattern frequency of 9 repetitions/inch but does not beat
+% (too badly) against the screen frequencies of any separations for that DPI.
+/dpiranges   [  2540    2400    1693     1270    1200     635      600      0      ] def
+/CMLowFreqs  [ 100.402  94.8683 89.2289 100.402  94.8683  66.9349  63.2456 47.4342 ] def
+/YLowFreqs   [  95.25   90.0    84.65    95.25   90.0     70.5556  66.6667 50.0    ] def
+/KLowFreqs   [  89.8026 84.8528 79.8088  89.8026 84.8528  74.8355  70.7107 53.033  ] def
+/CLowAngles  [  71.5651 71.5651 71.5651 71.5651  71.5651  71.5651  71.5651 71.5651 ] def
+/MLowAngles  [  18.4349 18.4349 18.4349 18.4349  18.4349  18.4349  18.4349 18.4349 ] def
+/YLowTDot    [  true    true    false    true    true     false    false   false   ] def
+/CMHighFreqs [ 133.87  126.491 133.843  108.503 102.523  100.402   94.8683 63.2456 ] def
+/YHighFreqs  [ 127.0   120.0   126.975  115.455 109.091   95.25    90.0    60.0    ] def
+/KHighFreqs  [ 119.737 113.137 119.713  128.289 121.218   89.8026  84.8528 63.6395 ] def
+/CHighAngles [  71.5651 71.5651 71.5651  70.0169 70.0169  71.5651  71.5651 71.5651 ] def
+/MHighAngles [  18.4349 18.4349 18.4349  19.9831 19.9831  18.4349  18.4349 18.4349 ] def
+/YHighTDot   [  false   false   true     false   false    true     true    false   ] def
+/PatFreq     [	10.5833 10.0     9.4055  10.5833 10.0	  10.5833  10.0	   9.375   ] def
+%
+% PostScript Level 2 printers contain an "Accurate Screens" feature which can
+% improve process separation rendering at the expense of compute time. This 
+% flag is ignored by PostScript Level 1 printers.
+/FMUseAcccurateScreens true def
+%
+% The following PostScript procedure defines the spot function that Frame
+% products will use for process separations. You may un-comment-out one of
+% the alternative functions below, or use your own.
+%
+% Dot function
+/FMSpotFunction {abs exch abs 2 copy add 1 gt 
+		{1 sub dup mul exch 1 sub dup mul add 1 sub }
+		{dup mul exch dup mul add 1 exch sub }ifelse } def
+%
+% Line function
+% /FMSpotFunction { pop } def
+%
+% Elipse function
+% /FMSpotFunction { dup 5 mul 8 div mul exch dup mul exch add 
+%		sqrt 1 exch sub } def
+%
+%
+/FMversion (5.0) def 
+/fMLevel1 /languagelevel where {pop languagelevel} {1} ifelse 2 lt def
+/FMPColor
+	fMLevel1 {
+		false
+		/colorimage where {pop pop true} if
+	} {
+		true
+	} ifelse
+def
+/FrameDict 400 dict def 
+systemdict /errordict known not {/errordict 10 dict def
+		errordict /rangecheck {stop} put} if
+% The readline in PS 23.0 doesn't recognize cr's as nl's on AppleTalk
+FrameDict /tmprangecheck errordict /rangecheck get put 
+errordict /rangecheck {FrameDict /bug true put} put 
+FrameDict /bug false put 
+mark 
+% Some PS machines read past the CR, so keep the following 3 lines together!
+currentfile 5 string readline
+00
+0000000000
+cleartomark 
+errordict /rangecheck FrameDict /tmprangecheck get put 
+FrameDict /bug get { 
+	/readline {
+		/gstring exch def
+		/gfile exch def
+		/gindex 0 def
+		{
+			gfile read pop 
+			dup 10 eq {exit} if 
+			dup 13 eq {exit} if 
+			gstring exch gindex exch put 
+			/gindex gindex 1 add def 
+		} loop
+		pop 
+		gstring 0 gindex getinterval true 
+		} bind def
+	} if
+/FMshowpage /showpage load def
+/FMquit /quit load def
+/FMFAILURE { 
+	dup = flush 
+	FMshowpage 
+	/Helvetica findfont 12 scalefont setfont
+	72 200 moveto show
+	72 220 moveto show
+	FMshowpage 
+	FMquit 
+	} def 
+/FMVERSION {
+	FMversion ne {
+		(Frame product version does not match ps_prolog!  Check installation;)
+		(also check ~/fminit and ./fminit for old versions) FMFAILURE
+		} if
+	} def 
+/FMBADEPSF { 
+	(Adobe's PostScript Language Reference Manual, 2nd Edition, section H.2.4)
+	(says your EPS file is not valid, as it calls X              )
+	dup dup (X) search pop exch pop exch pop length 
+	5 -1 roll 
+	putinterval 
+	FMFAILURE
+	} def
+/fmConcatProcs
+	{
+	/proc2 exch cvlit def/proc1 exch cvlit def/newproc proc1 length proc2 length add array def
+	newproc 0 proc1 putinterval newproc proc1 length proc2 putinterval newproc cvx
+}def
+FrameDict begin [
+	/ALDsave
+	/FMdicttop
+	/FMoptop
+	/FMpointsize
+	/FMsaveobject
+	/b
+	/bitmapsave
+	/blut
+	/bpside
+	/bs
+	/bstring
+	/bwidth
+	/c
+	/cf
+	/cs
+	/cynu
+	/depth
+	/edown
+	/fh
+	/fillvals
+	/fw
+	/fx
+	/fy
+	/g
+	/gfile
+	/gindex
+	/grnt
+	/gryt
+	/gstring
+	/height
+	/hh
+	/i
+	/im
+	/indx
+	/is
+	/k
+	/kk
+	/landscape
+	/lb
+	/len
+	/llx
+	/lly
+	/m
+	/magu
+	/manualfeed
+	/n
+	/offbits
+	/onbits
+	/organgle
+	/orgbangle
+	/orgbfreq
+	/orgbproc
+	/orgbxfer
+	/orgfreq
+	/orggangle
+	/orggfreq
+	/orggproc
+	/orggxfer
+	/orgmatrix
+	/orgproc
+	/orgrangle
+	/orgrfreq
+	/orgrproc
+	/orgrxfer
+	/orgxfer
+	/pagesave
+	/paperheight
+	/papersizedict
+	/paperwidth
+	/pos
+	/pwid
+	/r
+	/rad
+	/redt
+	/sl
+	/str
+	/tran
+	/u
+	/urx
+	/ury
+	/val
+	/width
+	/width
+	/ws
+	/ww
+	/x
+	/x1
+	/x2
+	/xindex
+	/xpoint
+	/xscale
+	/xx
+	/y
+	/y1
+	/y2
+	/yelu
+	/yindex
+	/ypoint
+	/yscale
+	/yy
+] { 0 def } forall
+/FmBD {bind def} bind def
+systemdict /pdfmark known {
+	/fMAcrobat true def
+	
+	/FmPD /pdfmark load def
+	
+	
+	/FmPT /show load def
+	
+	
+	currentdistillerparams /CoreDistVersion get 2000 ge {
+	
+		
+		/FmPD2 /pdfmark load def
+		
+		
+		
+		
+		
+		/FmPA { mark exch /Dest exch 5 3 roll 
+				/View [ /XYZ null 6 -2 roll FmDC exch pop null] /DEST FmPD 
+		}FmBD
+	} {
+		
+		/FmPD2 /cleartomark load def
+		/FmPA {pop pop pop}FmBD
+	} ifelse
+} {
+	
+	/fMAcrobat false def
+	/FmPD /cleartomark load def
+	/FmPD2 /cleartomark load def
+	/FmPT /pop load def
+	/FmPA {pop pop pop}FmBD
+} ifelse
+/FmDC {
+	transform fMDefaultMatrix itransform cvi exch cvi exch
+}FmBD
+/FmBx {
+	dup 3 index lt {3 1 roll exch} if 
+	1 index 4 index lt {4 -1 roll 3 1 roll exch 4 1 roll} if
+}FmBD
+/FMnone 0 def
+/FMcyan 1 def
+/FMmagenta 2 def
+/FMyellow 3 def
+/FMblack 4 def
+/FMcustom 5 def
+/fMNegative false def 
+/FrameSepIs FMnone def 
+/FrameSepBlack 0 def
+/FrameSepYellow 0 def
+/FrameSepMagenta 0 def
+/FrameSepCyan 0 def
+/FrameSepRed 1 def
+/FrameSepGreen 1 def
+/FrameSepBlue 1 def
+/FrameCurGray 1 def
+/FrameCurPat null def
+/FrameCurColors [ 0 0 0 1 0 0 0 ] def 
+/FrameColorEpsilon .001 def	
+/eqepsilon {		
+	sub dup 0 lt {neg} if
+	FrameColorEpsilon le
+} bind def
+/FrameCmpColorsCMYK { 
+	2 copy 0 get exch 0 get eqepsilon {
+		2 copy 1 get exch 1 get eqepsilon {
+			2 copy 2 get exch 2 get eqepsilon {
+				3 get exch 3 get eqepsilon
+			} {pop pop false} ifelse
+		}{pop pop false} ifelse
+	} {pop pop false} ifelse
+} bind def
+/FrameCmpColorsRGB { 
+	2 copy 4 get exch 0 get eqepsilon {
+		2 copy 5 get exch 1 get eqepsilon {
+			6 get exch 2 get eqepsilon
+		}{pop pop false} ifelse
+	} {pop pop false} ifelse
+} bind def
+/RGBtoCMYK { 
+	1 exch sub 
+	3 1 roll 
+	1 exch sub 
+	3 1 roll 
+	1 exch sub 
+	3 1 roll 
+	3 copy 
+	2 copy 
+	le { pop } { exch pop } ifelse 
+	2 copy 
+	le { pop } { exch pop } ifelse 
+	dup dup dup 
+	6 1 roll 
+	4 1 roll 
+	7 1 roll 
+	sub 
+	6 1 roll 
+	sub 
+	5 1 roll 
+	sub 
+	4 1 roll 
+} bind def
+/CMYKtoRGB { 
+	dup dup 4 -1 roll add 						  
+	5 1 roll 3 -1 roll add 						  
+	4 1 roll add 								  
+	1 exch sub dup 0 lt {pop 0} if 3 1 roll 	  
+	1 exch sub dup 0 lt {pop 0} if exch 	      
+	1 exch sub dup 0 lt {pop 0} if exch	  		  
+} bind def
+/FrameSepInit {
+	1.0 RealSetgray
+} bind def
+/FrameSetSepColor { 
+	/FrameSepBlue exch def
+	/FrameSepGreen exch def
+	/FrameSepRed exch def
+	/FrameSepBlack exch def
+	/FrameSepYellow exch def
+	/FrameSepMagenta exch def
+	/FrameSepCyan exch def
+	/FrameSepIs FMcustom def
+	setCurrentScreen	
+} bind def
+/FrameSetCyan {
+	/FrameSepBlue 1.0 def
+	/FrameSepGreen 1.0 def
+	/FrameSepRed 0.0 def
+	/FrameSepBlack 0.0 def
+	/FrameSepYellow 0.0 def
+	/FrameSepMagenta 0.0 def
+	/FrameSepCyan 1.0 def
+	/FrameSepIs FMcyan def
+	setCurrentScreen	
+} bind def
+ 
+/FrameSetMagenta {
+	/FrameSepBlue 1.0 def
+	/FrameSepGreen 0.0 def
+	/FrameSepRed 1.0 def
+	/FrameSepBlack 0.0 def
+	/FrameSepYellow 0.0 def
+	/FrameSepMagenta 1.0 def
+	/FrameSepCyan 0.0 def
+	/FrameSepIs FMmagenta def
+	setCurrentScreen
+} bind def
+ 
+/FrameSetYellow {
+	/FrameSepBlue 0.0 def
+	/FrameSepGreen 1.0 def
+	/FrameSepRed 1.0 def
+	/FrameSepBlack 0.0 def
+	/FrameSepYellow 1.0 def
+	/FrameSepMagenta 0.0 def
+	/FrameSepCyan 0.0 def
+	/FrameSepIs FMyellow def
+	setCurrentScreen
+} bind def
+ 
+/FrameSetBlack {
+	/FrameSepBlue 0.0 def
+	/FrameSepGreen 0.0 def
+	/FrameSepRed 0.0 def
+	/FrameSepBlack 1.0 def
+	/FrameSepYellow 0.0 def
+	/FrameSepMagenta 0.0 def
+	/FrameSepCyan 0.0 def
+	/FrameSepIs FMblack def
+	setCurrentScreen
+} bind def
+ 
+/FrameNoSep { 
+	/FrameSepIs FMnone def
+	setCurrentScreen
+} bind def
+/FrameSetSepColors { 
+	FrameDict begin
+	[ exch 1 add 1 roll ]
+	/FrameSepColors  
+	exch def end
+	} bind def
+/FrameColorInSepListCMYK { 
+	FrameSepColors {  
+       		exch dup 3 -1 roll 
+       		FrameCmpColorsCMYK 
+       		{ pop true exit } if
+    	} forall 
+	dup true ne {pop false} if
+	} bind def
+/FrameColorInSepListRGB { 
+	FrameSepColors {  
+       		exch dup 3 -1 roll 
+       		FrameCmpColorsRGB 
+       		{ pop true exit } if
+    	} forall 
+	dup true ne {pop false} if
+	} bind def
+/RealSetgray /setgray load def
+/RealSetrgbcolor /setrgbcolor load def
+/RealSethsbcolor /sethsbcolor load def
+end 
+/setgray { 
+	FrameDict begin
+	FrameSepIs FMnone eq
+		{ RealSetgray } 
+		{ 
+		FrameSepIs FMblack eq 
+			{ RealSetgray } 
+			{ FrameSepIs FMcustom eq 
+			  FrameSepRed 0 eq and
+			  FrameSepGreen 0 eq and
+			  FrameSepBlue 0 eq and {
+			  	RealSetgray
+			  } {
+				1 RealSetgray pop 
+			  } ifelse
+			} ifelse
+		} ifelse
+	end
+} bind def
+/setrgbcolor { 
+	FrameDict begin
+	FrameSepIs FMnone eq
+	{  RealSetrgbcolor }
+	{
+		3 copy [ 4 1 roll ] 
+		FrameColorInSepListRGB
+		{
+				FrameSepBlue eq exch 
+			 	FrameSepGreen eq and exch 
+			 	FrameSepRed eq and
+			 	{ 0 } { 1 } ifelse
+		}
+		{
+			FMPColor {
+				RealSetrgbcolor
+				currentcmykcolor
+			} {
+				RGBtoCMYK
+			} ifelse
+			FrameSepIs FMblack eq
+			{1.0 exch sub 4 1 roll pop pop pop} {
+			FrameSepIs FMyellow eq
+			{pop 1.0 exch sub 3 1 roll pop pop} {
+			FrameSepIs FMmagenta eq
+			{pop pop 1.0 exch sub exch pop } {
+			FrameSepIs FMcyan eq
+			{pop pop pop 1.0 exch sub } 
+			{pop pop pop pop 1} ifelse } ifelse } ifelse } ifelse 
+		} ifelse
+		RealSetgray
+	} 
+	ifelse
+	end
+} bind def
+/sethsbcolor {
+	FrameDict begin
+	FrameSepIs FMnone eq 
+	{ RealSethsbcolor } 
+	{
+		RealSethsbcolor 
+		currentrgbcolor  
+		setrgbcolor 
+	} 
+	ifelse
+	end
+} bind def
+FrameDict begin
+/setcmykcolor where {
+	pop /RealSetcmykcolor /setcmykcolor load def
+} {
+	/RealSetcmykcolor {
+		4 1 roll
+		3 { 3 index add 0 max 1 min 1 exch sub 3 1 roll} repeat 
+		RealSetrgbcolor pop
+	} bind def
+} ifelse
+userdict /setcmykcolor { 
+		FrameDict begin
+		FrameSepIs FMnone eq
+		{ RealSetcmykcolor } 
+		{
+			4 copy [ 5 1 roll ]
+			FrameColorInSepListCMYK
+			{
+				FrameSepBlack eq exch 
+				FrameSepYellow eq and exch 
+				FrameSepMagenta eq and exch 
+				FrameSepCyan eq and 
+				{ 0 } { 1 } ifelse
+			}
+			{
+				FrameSepIs FMblack eq
+				{1.0 exch sub 4 1 roll pop pop pop} {
+				FrameSepIs FMyellow eq
+				{pop 1.0 exch sub 3 1 roll pop pop} {
+				FrameSepIs FMmagenta eq
+				{pop pop 1.0 exch sub exch pop } {
+				FrameSepIs FMcyan eq
+				{pop pop pop 1.0 exch sub } 
+				{pop pop pop pop 1} ifelse } ifelse } ifelse } ifelse 
+			} ifelse
+			RealSetgray
+		}
+		ifelse
+		end
+	} bind put
+fMLevel1 { 
+	
+	
+	
+	/patScreenDict 7 dict dup begin
+		<0f1e3c78f0e1c387> [ 45  { pop } {exch pop} 		.5   2 sqrt] FmBD
+		<0f87c3e1f0783c1e> [ 135 { pop } {exch pop}			.5   2 sqrt] FmBD
+		<cccccccccccccccc> [ 0   { pop } dup				.5   2	   ] FmBD
+		<ffff0000ffff0000> [ 90  { pop } dup				.5   2	   ] FmBD
+		<8142241818244281> [ 45  { 2 copy lt {exch} if pop}	dup .75  2 sqrt] FmBD
+		<03060c183060c081> [ 45  { pop } {exch pop}			.875 2 sqrt] FmBD
+		<8040201008040201> [ 135 { pop } {exch pop}			.875 2 sqrt] FmBD
+	end def
+} { 
+	
+	/patProcDict 5 dict dup begin
+		<0f1e3c78f0e1c387> { 3 setlinewidth -1 -1 moveto 9 9 lineto stroke 
+											4 -4 moveto 12 4 lineto stroke
+											-4 4 moveto 4 12 lineto stroke} bind def
+		<0f87c3e1f0783c1e> { 3 setlinewidth -1 9 moveto 9 -1 lineto stroke 
+											-4 4 moveto 4 -4 lineto stroke
+											4 12 moveto 12 4 lineto stroke} bind def
+		<8142241818244281> { 1 setlinewidth -1 9 moveto 9 -1 lineto stroke
+											-1 -1 moveto 9 9 lineto stroke } bind def
+		<03060c183060c081> { 1 setlinewidth -1 -1 moveto 9 9 lineto stroke 
+											4 -4 moveto 12 4 lineto stroke
+											-4 4 moveto 4 12 lineto stroke} bind def
+		<8040201008040201> { 1 setlinewidth -1 9 moveto 9 -1 lineto stroke 
+											-4 4 moveto 4 -4 lineto stroke
+											4 12 moveto 12 4 lineto stroke} bind def
+	end def
+	/patDict 15 dict dup begin
+		/PatternType 1 def		
+		/PaintType 2 def		
+		/TilingType 3 def		
+		/BBox [ 0 0 8 8 ] def 	
+		/XStep 8 def			
+		/YStep 8 def			
+		/PaintProc {
+			begin
+			patProcDict bstring known {
+				patProcDict bstring get exec
+			} {
+				8 8 true [1 0 0 -1 0 8] bstring imagemask
+			} ifelse
+			end
+		} bind def
+	end def
+} ifelse
+/combineColor {
+    FrameSepIs FMnone eq
+	{
+		graymode fMLevel1 or not {
+			
+			[/Pattern [/DeviceCMYK]] setcolorspace
+			FrameCurColors 0 4 getinterval aload pop FrameCurPat setcolor
+		} {
+			FrameCurColors 3 get 1.0 ge {
+				FrameCurGray RealSetgray
+			} {
+				fMAcrobat not FMPColor graymode and and {
+					0 1 3 { 
+						FrameCurColors exch get
+						1 FrameCurGray sub mul
+					} for
+					RealSetcmykcolor
+				} {
+					4 1 6 {
+						FrameCurColors exch get
+						graymode {
+							1 exch sub 1 FrameCurGray sub mul 1 exch sub
+						} {
+							1.0 lt {FrameCurGray} {1} ifelse
+						} ifelse
+					} for
+					RealSetrgbcolor
+				} ifelse
+			} ifelse
+		} ifelse
+	} { 
+		FrameCurColors 0 4 getinterval aload
+		FrameColorInSepListCMYK {
+			FrameSepBlack eq exch 
+			FrameSepYellow eq and exch 
+			FrameSepMagenta eq and exch 
+			FrameSepCyan eq and
+			FrameSepIs FMcustom eq and
+			{ FrameCurGray } { 1 } ifelse
+		} {
+			FrameSepIs FMblack eq
+			{FrameCurGray 1.0 exch sub mul 1.0 exch sub 4 1 roll pop pop pop} {
+			FrameSepIs FMyellow eq
+			{pop FrameCurGray 1.0 exch sub mul 1.0 exch sub 3 1 roll pop pop} {
+			FrameSepIs FMmagenta eq
+			{pop pop FrameCurGray 1.0 exch sub mul 1.0 exch sub exch pop } {
+			FrameSepIs FMcyan eq
+			{pop pop pop FrameCurGray 1.0 exch sub mul 1.0 exch sub } 
+			{pop pop pop pop 1} ifelse } ifelse } ifelse } ifelse 
+		} ifelse
+		graymode fMLevel1 or not {
+			
+			[/Pattern [/DeviceGray]] setcolorspace
+			FrameCurPat setcolor
+		} { 
+			graymode not fMLevel1 and {
+				
+				dup 1 lt {pop FrameCurGray} if
+			} if
+			RealSetgray
+		} ifelse
+	} ifelse
+} bind def
+/savematrix {
+	orgmatrix currentmatrix pop
+	} bind def
+/restorematrix {
+	orgmatrix setmatrix
+	} bind def
+/fMDefaultMatrix matrix defaultmatrix def
+/fMatrix2 matrix def
+/dpi    72 0 fMDefaultMatrix dtransform
+    dup mul exch   dup mul add   sqrt def
+	
+/freq dpi dup 72 div round dup 0 eq {pop 1} if 8 mul div def
+/sangle 1 0 fMDefaultMatrix dtransform exch atan def
+	sangle fMatrix2 rotate 
+	fMDefaultMatrix fMatrix2 concatmatrix 
+	dup 0 get /sflipx exch def
+	    3 get /sflipy exch def
+/screenIndex {
+	0 1 dpiranges length 1 sub { dup dpiranges exch get 1 sub dpi le {exit} {pop} ifelse } for
+} bind def
+/getCyanScreen {
+	FMUseHighFrequencyScreens { CHighAngles CMHighFreqs} {CLowAngles CMLowFreqs} ifelse
+		screenIndex dup 3 1 roll get 3 1 roll get /FMSpotFunction load
+} bind def
+/getMagentaScreen {
+	FMUseHighFrequencyScreens { MHighAngles CMHighFreqs } {MLowAngles CMLowFreqs} ifelse
+		screenIndex dup 3 1 roll get 3 1 roll get /FMSpotFunction load
+} bind def
+/getYellowScreen {
+	FMUseHighFrequencyScreens { YHighTDot YHighFreqs} { YLowTDot YLowFreqs } ifelse
+		screenIndex dup 3 1 roll get 3 1 roll get { 3 div
+			{2 { 1 add 2 div 3 mul dup floor sub 2 mul 1 sub exch} repeat
+			FMSpotFunction } } {/FMSpotFunction load } ifelse
+			0.0 exch
+} bind def
+/getBlackScreen  {
+	FMUseHighFrequencyScreens { KHighFreqs } { KLowFreqs } ifelse
+		screenIndex get 45.0 /FMSpotFunction load 
+} bind def
+/getSpotScreen {
+	getBlackScreen
+} bind def
+/getCompositeScreen {
+	getBlackScreen
+} bind def
+/FMSetScreen 
+	fMLevel1 { /setscreen load 
+	}{ {
+		8 dict begin
+		/HalftoneType 1 def
+		/SpotFunction exch def
+		/Angle exch def
+		/Frequency exch def
+		/AccurateScreens FMUseAcccurateScreens def
+		currentdict end sethalftone
+	} bind } ifelse
+def
+/setDefaultScreen {
+	FMPColor {
+		orgrxfer cvx orggxfer cvx orgbxfer cvx orgxfer cvx setcolortransfer
+	}
+	{
+		orgxfer cvx settransfer
+	} ifelse
+	orgfreq organgle orgproc cvx setscreen
+} bind def
+/setCurrentScreen {
+	FrameSepIs FMnone eq {
+		FMUseDefaultNoSeparationScreen {
+			setDefaultScreen
+		} {
+			getCompositeScreen FMSetScreen
+		} ifelse
+	} {
+		FrameSepIs FMcustom eq {
+			FMUseDefaultSpotSeparationScreen {
+				setDefaultScreen
+			} {
+				getSpotScreen FMSetScreen
+			} ifelse
+		} {
+			FMUseDefaultProcessSeparationScreen {
+				setDefaultScreen
+			} {
+				FrameSepIs FMcyan eq {
+					getCyanScreen FMSetScreen
+				} {
+					FrameSepIs FMmagenta eq {
+						getMagentaScreen FMSetScreen
+					} {
+						FrameSepIs FMyellow eq {
+							getYellowScreen FMSetScreen
+						} {
+							getBlackScreen FMSetScreen
+						} ifelse
+					} ifelse
+				} ifelse
+			} ifelse
+		} ifelse
+	} ifelse 
+} bind def
+end
+	
+/FMDOCUMENT { 
+	array /FMfonts exch def 
+	/#copies exch def
+	FrameDict begin
+	0 ne /manualfeed exch def
+	/paperheight exch def
+	/paperwidth exch def
+	0 ne /fMNegative exch def 
+	0 ne /edown exch def 
+	/yscale exch def
+	/xscale exch def
+	fMLevel1 {
+		manualfeed {setmanualfeed} if
+		/FMdicttop countdictstack 1 add def 
+		/FMoptop count def 
+		setpapername 
+		manualfeed {true} {papersize} ifelse 
+		{manualpapersize} {false} ifelse 
+		{desperatepapersize} {false} ifelse 
+		{papersizefailure} if
+		count -1 FMoptop {pop pop} for
+		countdictstack -1 FMdicttop {pop end} for 
+		}
+		{2 dict
+		 dup /PageSize [paperwidth paperheight] put
+		 manualfeed {dup /ManualFeed manualfeed put} if
+		 {setpagedevice} stopped {papersizefailure} if
+		}
+	ifelse 
+	
+	FMPColor {
+		currentcolorscreen
+			cvlit /orgproc exch def
+				  /organgle exch def 
+				  /orgfreq exch def
+			cvlit /orgbproc exch def
+				  /orgbangle exch def 
+				  /orgbfreq exch def
+			cvlit /orggproc exch def
+				  /orggangle exch def 
+				  /orggfreq exch def
+			cvlit /orgrproc exch def
+				  /orgrangle exch def 
+				  /orgrfreq exch def
+			currentcolortransfer 
+			fMNegative {
+				1 1 4 { 
+					pop { 1 exch sub } fmConcatProcs 4 1 roll
+				} for
+				4 copy
+				setcolortransfer
+			} if
+			cvlit /orgxfer exch def
+			cvlit /orgbxfer exch def
+			cvlit /orggxfer exch def
+			cvlit /orgrxfer exch def
+	} {
+		currentscreen 
+			cvlit /orgproc exch def
+				  /organgle exch def 
+				  /orgfreq exch def
+				  
+		currenttransfer 
+		fMNegative {
+			{ 1 exch sub } fmConcatProcs
+			dup settransfer
+		} if 
+		cvlit /orgxfer exch def
+	} ifelse
+	end 
+} def 
+/FMBEGINPAGE { 
+	FrameDict begin 
+	/pagesave save def
+	3.86 setmiterlimit
+	/landscape exch 0 ne def
+	landscape { 
+		90 rotate 0 exch dup /pwid exch def neg translate pop 
+	}{
+		pop /pwid exch def
+	} ifelse
+	edown { [-1 0 0 1 pwid 0] concat } if
+	0 0 moveto paperwidth 0 lineto paperwidth paperheight lineto 
+	0 paperheight lineto 0 0 lineto 1 setgray fill
+	xscale yscale scale
+	/orgmatrix matrix def
+	gsave 
+} def 
+/FMENDPAGE {
+	grestore 
+	pagesave restore
+	end 
+	showpage
+	} def 
+/FMFONTDEFINE { 
+	FrameDict begin
+	findfont 
+	ReEncode 
+	1 index exch 
+	definefont 
+	FMfonts 3 1 roll 
+	put
+	end 
+	} def 
+/FMFILLS {
+	FrameDict begin dup
+	array /fillvals exch def
+	dict /patCache exch def
+	end 
+	} def 
+/FMFILL {
+	FrameDict begin
+	 fillvals 3 1 roll put
+	end 
+	} def 
+/FMNORMALIZEGRAPHICS { 
+	newpath
+	1 setlinewidth
+	0 setlinecap
+	0 0 0 sethsbcolor
+	0 setgray 
+	} bind def
+/FMBEGINEPSF { 
+	end 
+	/FMEPSF save def 
+	/showpage {} def 
+% See Adobe's "PostScript Language Reference Manual, 2nd Edition", page 714.
+% "...the following operators MUST NOT be used in an EPS file:" (emphasis ours)
+	/banddevice {(banddevice) FMBADEPSF} def
+	/clear {(clear) FMBADEPSF} def
+	/cleardictstack {(cleardictstack) FMBADEPSF} def 
+	/copypage {(copypage) FMBADEPSF} def
+	/erasepage {(erasepage) FMBADEPSF} def
+	/exitserver {(exitserver) FMBADEPSF} def
+	/framedevice {(framedevice) FMBADEPSF} def
+	/grestoreall {(grestoreall) FMBADEPSF} def
+	/initclip {(initclip) FMBADEPSF} def
+	/initgraphics {(initgraphics) FMBADEPSF} def
+	/quit {(quit) FMBADEPSF} def
+	/renderbands {(renderbands) FMBADEPSF} def
+	/setglobal {(setglobal) FMBADEPSF} def
+	/setpagedevice {(setpagedevice) FMBADEPSF} def
+	/setshared {(setshared) FMBADEPSF} def
+	/startjob {(startjob) FMBADEPSF} def
+	/lettertray {(lettertray) FMBADEPSF} def
+	/letter {(letter) FMBADEPSF} def
+	/lettersmall {(lettersmall) FMBADEPSF} def
+	/11x17tray {(11x17tray) FMBADEPSF} def
+	/11x17 {(11x17) FMBADEPSF} def
+	/ledgertray {(ledgertray) FMBADEPSF} def
+	/ledger {(ledger) FMBADEPSF} def
+	/legaltray {(legaltray) FMBADEPSF} def
+	/legal {(legal) FMBADEPSF} def
+	/statementtray {(statementtray) FMBADEPSF} def
+	/statement {(statement) FMBADEPSF} def
+	/executivetray {(executivetray) FMBADEPSF} def
+	/executive {(executive) FMBADEPSF} def
+	/a3tray {(a3tray) FMBADEPSF} def
+	/a3 {(a3) FMBADEPSF} def
+	/a4tray {(a4tray) FMBADEPSF} def
+	/a4 {(a4) FMBADEPSF} def
+	/a4small {(a4small) FMBADEPSF} def
+	/b4tray {(b4tray) FMBADEPSF} def
+	/b4 {(b4) FMBADEPSF} def
+	/b5tray {(b5tray) FMBADEPSF} def
+	/b5 {(b5) FMBADEPSF} def
+	FMNORMALIZEGRAPHICS 
+	[/fy /fx /fh /fw /ury /urx /lly /llx] {exch def} forall 
+	fx fw 2 div add fy fh 2 div add  translate
+	rotate
+	fw 2 div neg fh 2 div neg translate
+	fw urx llx sub div fh ury lly sub div scale 
+	llx neg lly neg translate 
+	/FMdicttop countdictstack 1 add def 
+	/FMoptop count def 
+	} bind def
+/FMENDEPSF {
+	count -1 FMoptop {pop pop} for 
+	countdictstack -1 FMdicttop {pop end} for 
+	FMEPSF restore
+	FrameDict begin 
+	} bind def
+FrameDict begin 
+/setmanualfeed {
+%%BeginFeature *ManualFeed True
+	 statusdict /manualfeed true put
+%%EndFeature
+	} bind def
+/max {2 copy lt {exch} if pop} bind def
+/min {2 copy gt {exch} if pop} bind def
+/inch {72 mul} def
+/pagedimen { 
+	paperheight sub abs 16 lt exch 
+	paperwidth sub abs 16 lt and
+	{/papername exch def} {pop} ifelse
+	} bind def
+/setpapername { 
+	/papersizedict 14 dict def 
+	papersizedict begin
+	/papername /unknown def 
+		/Letter 8.5 inch 11.0 inch pagedimen
+		/LetterSmall 7.68 inch 10.16 inch pagedimen
+		/Tabloid 11.0 inch 17.0 inch pagedimen
+		/Ledger 17.0 inch 11.0 inch pagedimen
+		/Legal 8.5 inch 14.0 inch pagedimen
+		/Statement 5.5 inch 8.5 inch pagedimen
+		/Executive 7.5 inch 10.0 inch pagedimen
+		/A3 11.69 inch 16.5 inch pagedimen
+		/A4 8.26 inch 11.69 inch pagedimen
+		/A4Small 7.47 inch 10.85 inch pagedimen
+		/B4 10.125 inch 14.33 inch pagedimen
+		/B5 7.16 inch 10.125 inch pagedimen
+	end
+	} bind def
+/papersize {
+	papersizedict begin
+		/Letter {lettertray letter} def
+		/LetterSmall {lettertray lettersmall} def
+		/Tabloid {11x17tray 11x17} def
+		/Ledger {ledgertray ledger} def
+		/Legal {legaltray legal} def
+		/Statement {statementtray statement} def
+		/Executive {executivetray executive} def
+		/A3 {a3tray a3} def
+		/A4 {a4tray a4} def
+		/A4Small {a4tray a4small} def
+		/B4 {b4tray b4} def
+		/B5 {b5tray b5} def
+		/unknown {unknown} def
+	papersizedict dup papername known {papername} {/unknown} ifelse get
+	end
+	statusdict begin stopped end 
+	} bind def
+/manualpapersize {
+	papersizedict begin
+		/Letter {letter} def
+		/LetterSmall {lettersmall} def
+		/Tabloid {11x17} def
+		/Ledger {ledger} def
+		/Legal {legal} def
+		/Statement {statement} def
+		/Executive {executive} def
+		/A3 {a3} def
+		/A4 {a4} def
+		/A4Small {a4small} def
+		/B4 {b4} def
+		/B5 {b5} def
+		/unknown {unknown} def
+	papersizedict dup papername known {papername} {/unknown} ifelse get
+	end
+	stopped 
+	} bind def
+/desperatepapersize {
+	statusdict /setpageparams known
+		{
+		paperwidth paperheight 0 1 
+		statusdict begin
+		{setpageparams} stopped 
+		end
+		} {true} ifelse 
+	} bind def
+/papersizefailure {
+	FMAllowPaperSizeMismatch not
+		{
+(The requested paper size is not available in any currently-installed tray)
+(Edit the PS file to "FMAllowPaperSizeMismatch true" to use default tray)
+		 FMFAILURE } if
+	} def
+/DiacriticEncoding [
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/.notdef /.notdef /.notdef /.notdef /space /exclam /quotedbl
+/numbersign /dollar /percent /ampersand /quotesingle /parenleft
+/parenright /asterisk /plus /comma /hyphen /period /slash /zero /one
+/two /three /four /five /six /seven /eight /nine /colon /semicolon
+/less /equal /greater /question /at /A /B /C /D /E /F /G /H /I /J /K
+/L /M /N /O /P /Q /R /S /T /U /V /W /X /Y /Z /bracketleft /backslash
+/bracketright /asciicircum /underscore /grave /a /b /c /d /e /f /g /h
+/i /j /k /l /m /n /o /p /q /r /s /t /u /v /w /x /y /z /braceleft /bar
+/braceright /asciitilde /.notdef /Adieresis /Aring /Ccedilla /Eacute
+/Ntilde /Odieresis /Udieresis /aacute /agrave /acircumflex /adieresis
+/atilde /aring /ccedilla /eacute /egrave /ecircumflex /edieresis
+/iacute /igrave /icircumflex /idieresis /ntilde /oacute /ograve
+/ocircumflex /odieresis /otilde /uacute /ugrave /ucircumflex
+/udieresis /dagger /.notdef /cent /sterling /section /bullet
+/paragraph /germandbls /registered /copyright /trademark /acute
+/dieresis /.notdef /AE /Oslash /.notdef /.notdef /.notdef /.notdef
+/yen /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+/ordfeminine /ordmasculine /.notdef /ae /oslash /questiondown
+/exclamdown /logicalnot /.notdef /florin /.notdef /.notdef
+/guillemotleft /guillemotright /ellipsis /.notdef /Agrave /Atilde
+/Otilde /OE /oe /endash /emdash /quotedblleft /quotedblright
+/quoteleft /quoteright /.notdef /.notdef /ydieresis /Ydieresis
+/fraction /currency /guilsinglleft /guilsinglright /fi /fl /daggerdbl
+/periodcentered /quotesinglbase /quotedblbase /perthousand
+/Acircumflex /Ecircumflex /Aacute /Edieresis /Egrave /Iacute
+/Icircumflex /Idieresis /Igrave /Oacute /Ocircumflex /.notdef /Ograve
+/Uacute /Ucircumflex /Ugrave /dotlessi /circumflex /tilde /macron
+/breve /dotaccent /ring /cedilla /hungarumlaut /ogonek /caron
+] def
+/ReEncode { 
+	dup 
+	length 
+	dict begin 
+	{
+	1 index /FID ne 
+		{def} 
+		{pop pop} ifelse 
+	} forall 
+	0 eq {/Encoding DiacriticEncoding def} if 
+	currentdict 
+	end 
+	} bind def
+FMPColor 
+	
+	{
+	/BEGINBITMAPCOLOR { 
+		BITMAPCOLOR} def
+	/BEGINBITMAPCOLORc { 
+		BITMAPCOLORc} def
+	/BEGINBITMAPTRUECOLOR { 
+		BITMAPTRUECOLOR } def
+	/BEGINBITMAPTRUECOLORc { 
+		BITMAPTRUECOLORc } def
+	/BEGINBITMAPCMYK { 
+		BITMAPCMYK } def
+	/BEGINBITMAPCMYKc { 
+		BITMAPCMYKc } def
+	}
+	
+	{
+	/BEGINBITMAPCOLOR { 
+		BITMAPGRAY} def
+	/BEGINBITMAPCOLORc { 
+		BITMAPGRAYc} def
+	/BEGINBITMAPTRUECOLOR { 
+		BITMAPTRUEGRAY } def
+	/BEGINBITMAPTRUECOLORc { 
+		BITMAPTRUEGRAYc } def
+	/BEGINBITMAPCMYK { 
+		BITMAPCMYKGRAY } def
+	/BEGINBITMAPCMYKc { 
+		BITMAPCMYKGRAYc } def
+	}
+ifelse
+/K { 
+	FMPrintAllColorsAsBlack {
+		dup 1 eq 2 index 1 eq and 3 index 1 eq and not
+			{7 {pop} repeat 0 0 0 1 0 0 0} if
+	} if 
+	FrameCurColors astore 
+	pop combineColor
+} bind def
+/graymode true def
+fMLevel1 {
+	/fmGetFlip {
+		fMatrix2 exch get mul 0 lt { -1 } { 1 } ifelse
+	} FmBD
+} if
+/setPatternMode {
+	fMLevel1 {
+		2 index patScreenDict exch known {
+			pop pop
+			patScreenDict exch get aload pop 
+			freq 								
+			mul									
+			5 2 roll							
+			fMatrix2 currentmatrix 1 get 0 ne {
+				3 -1 roll 90 add 3 1 roll 		
+				sflipx 1 fmGetFlip sflipy 2 fmGetFlip neg mul
+			} {  								
+				sflipx 0 fmGetFlip sflipy 3 fmGetFlip mul 
+			} ifelse
+			0 lt {exch pop} {pop} ifelse 		
+			fMNegative { 
+				{neg} fmConcatProcs 			
+			} if
+			bind
+			
+			
+			
+			systemdict /setscreen get exec		
+			/FrameCurGray exch def
+		} {
+			/bwidth  exch def
+			/bpside  exch def
+			/bstring exch def
+			/onbits 0 def  /offbits 0 def
+			freq sangle landscape {90 add} if 
+				{/ypoint exch def
+				 /xpoint exch def
+				 /xindex xpoint 1 add 2 div bpside mul cvi def
+				 /yindex ypoint 1 add 2 div bpside mul cvi def
+				 bstring yindex bwidth mul xindex 8 idiv add get
+				 1 7 xindex 8 mod sub bitshift and 0 ne fMNegative {not} if
+				 {/onbits  onbits  1 add def 1}
+				 {/offbits offbits 1 add def 0}
+				 ifelse
+				}
+				setscreen
+			offbits offbits onbits add div fMNegative {1.0 exch sub} if
+			/FrameCurGray exch def
+		} ifelse
+	} { 
+		pop pop
+		dup patCache exch known {
+			patCache exch get
+		} { 
+			dup
+			patDict /bstring 3 -1 roll put
+			patDict 
+			9 PatFreq screenIndex get div dup matrix scale
+			makepattern
+			dup 
+			patCache 4 -1 roll 3 -1 roll put
+		} ifelse
+		/FrameCurGray 0 def
+		/FrameCurPat exch def
+	} ifelse
+	/graymode false def
+	combineColor
+} bind def
+/setGrayScaleMode {
+	graymode not {
+		/graymode true def
+		fMLevel1 {
+			setCurrentScreen
+		} if
+	} if
+	/FrameCurGray exch def
+	combineColor
+} bind def
+/normalize {
+	transform round exch round exch itransform
+	} bind def
+/dnormalize {
+	dtransform round exch round exch idtransform
+	} bind def
+/lnormalize { 
+	0 dtransform exch cvi 2 idiv 2 mul 1 add exch idtransform pop
+	} bind def
+/H { 
+	lnormalize setlinewidth
+	} bind def
+/Z {
+	setlinecap
+	} bind def
+	
+/PFill {
+	graymode fMLevel1 or not {
+		gsave 1 setgray eofill grestore
+	} if
+} bind def
+/PStroke {
+	graymode fMLevel1 or not {
+		gsave 1 setgray stroke grestore
+	} if
+	stroke
+} bind def
+/X { 
+	fillvals exch get
+	dup type /stringtype eq
+	{8 1 setPatternMode} 
+	{setGrayScaleMode}
+	ifelse
+	} bind def
+/V { 
+	PFill gsave eofill grestore
+	} bind def
+/Vclip {
+	clip
+	} bind def
+/Vstrk {
+	currentlinewidth exch setlinewidth PStroke setlinewidth
+	} bind def
+/N { 
+	PStroke
+	} bind def
+/Nclip {
+	strokepath clip newpath
+	} bind def
+/Nstrk {
+	currentlinewidth exch setlinewidth PStroke setlinewidth
+	} bind def
+/M {newpath moveto} bind def
+/E {lineto} bind def
+/D {curveto} bind def
+/O {closepath} bind def
+/L { 
+ 	/n exch def
+	newpath
+	normalize
+	moveto 
+	2 1 n {pop normalize lineto} for
+	} bind def
+/Y { 
+	L 
+	closepath
+	} bind def
+/R { 
+	/y2 exch def
+	/x2 exch def
+	/y1 exch def
+	/x1 exch def
+	x1 y1
+	x2 y1
+	x2 y2
+	x1 y2
+	4 Y 
+	} bind def
+/rarc 
+	{rad 
+	 arcto
+	} bind def
+/RR { 
+	/rad exch def
+	normalize
+	/y2 exch def
+	/x2 exch def
+	normalize
+	/y1 exch def
+	/x1 exch def
+	mark
+	newpath
+	{
+	x1 y1 rad add moveto
+	x1 y2 x2 y2 rarc
+	x2 y2 x2 y1 rarc
+	x2 y1 x1 y1 rarc
+	x1 y1 x1 y2 rarc
+	closepath
+	} stopped {x1 y1 x2 y2 R} if 
+	cleartomark
+	} bind def
+/RRR { 
+	/rad exch def
+	normalize /y4 exch def /x4 exch def
+	normalize /y3 exch def /x3 exch def
+	normalize /y2 exch def /x2 exch def
+	normalize /y1 exch def /x1 exch def
+	newpath
+	normalize moveto 
+	mark
+	{
+	x2 y2 x3 y3 rarc
+	x3 y3 x4 y4 rarc
+	x4 y4 x1 y1 rarc
+	x1 y1 x2 y2 rarc
+	closepath
+	} stopped
+	 {x1 y1 x2 y2 x3 y3 x4 y4 newpath moveto lineto lineto lineto closepath} if
+	cleartomark
+	} bind def
+/C { 
+	grestore
+	gsave
+	R 
+	clip
+	setCurrentScreen
+} bind def
+/CP { 
+	grestore
+	gsave
+	Y 
+	clip
+	setCurrentScreen
+} bind def
+/F { 
+	FMfonts exch get
+	FMpointsize scalefont
+	setfont
+	} bind def
+/Q { 
+	/FMpointsize exch def
+	F 
+	} bind def
+/T { 
+	moveto show
+	} bind def
+/RF { 
+	rotate
+	0 ne {-1 1 scale} if
+	} bind def
+/TF { 
+	gsave
+	moveto 
+	RF
+	show
+	grestore
+	} bind def
+/P { 
+	moveto
+	0 32 3 2 roll widthshow
+	} bind def
+/PF { 
+	gsave
+	moveto 
+	RF
+	0 32 3 2 roll widthshow
+	grestore
+	} bind def
+/S { 
+	moveto
+	0 exch ashow
+	} bind def
+/SF { 
+	gsave
+	moveto
+	RF
+	0 exch ashow
+	grestore
+	} bind def
+/B { 
+	moveto
+	0 32 4 2 roll 0 exch awidthshow
+	} bind def
+/BF { 
+	gsave
+	moveto
+	RF
+	0 32 4 2 roll 0 exch awidthshow
+	grestore
+	} bind def
+/G { 
+	gsave
+	newpath
+	normalize translate 0.0 0.0 moveto 
+	dnormalize scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	closepath 
+	PFill fill
+	grestore
+	} bind def
+/Gstrk {
+	savematrix
+    newpath
+    2 index 2 div add exch 3 index 2 div sub exch 
+    normalize 2 index 2 div sub exch 3 index 2 div add exch 
+    translate
+    scale 
+    0.0 0.0 1.0 5 3 roll arc 
+    restorematrix
+    currentlinewidth exch setlinewidth PStroke setlinewidth
+    } bind def
+/Gclip { 
+	newpath
+	savematrix
+	normalize translate 0.0 0.0 moveto 
+	dnormalize scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	closepath 
+	clip newpath
+	restorematrix
+	} bind def
+/GG { 
+	gsave
+	newpath
+	normalize translate 0.0 0.0 moveto 
+	rotate 
+	dnormalize scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	closepath
+	PFill
+	fill
+	grestore
+	} bind def
+/GGclip { 
+	savematrix
+	newpath
+    normalize translate 0.0 0.0 moveto 
+    rotate 
+    dnormalize scale 
+    0.0 0.0 1.0 5 3 roll arc 
+    closepath
+	clip newpath
+	restorematrix
+	} bind def
+/GGstrk { 
+	savematrix
+    newpath
+    normalize translate 0.0 0.0 moveto 
+    rotate 
+    dnormalize scale 
+    0.0 0.0 1.0 5 3 roll arc 
+    closepath 
+	restorematrix
+    currentlinewidth exch setlinewidth PStroke setlinewidth
+	} bind def
+/A { 
+	gsave
+	savematrix
+	newpath
+	2 index 2 div add exch 3 index 2 div sub exch 
+	normalize 2 index 2 div sub exch 3 index 2 div add exch 
+	translate 
+	scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	restorematrix
+	PStroke
+	grestore
+	} bind def
+/Aclip {
+	newpath
+	savematrix
+	normalize translate 0.0 0.0 moveto 
+	dnormalize scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	closepath 
+	strokepath clip newpath
+	restorematrix
+} bind def
+/Astrk {
+	Gstrk
+} bind def
+/AA { 
+	gsave
+	savematrix
+	newpath
+	
+	3 index 2 div add exch 4 index 2 div sub exch 
+	
+	normalize 3 index 2 div sub exch 4 index 2 div add exch
+	translate 
+	rotate 
+	scale 
+	0.0 0.0 1.0 5 3 roll arc 
+	restorematrix
+	PStroke
+	grestore
+	} bind def
+/AAclip {
+	savematrix
+	newpath
+    normalize translate 0.0 0.0 moveto 
+    rotate 
+    dnormalize scale 
+    0.0 0.0 1.0 5 3 roll arc 
+    closepath
+	strokepath clip newpath
+	restorematrix
+} bind def
+/AAstrk {
+	GGstrk
+} bind def
+/BEGINPRINTCODE { 
+	/FMdicttop countdictstack 1 add def 
+	/FMoptop count 7 sub def 
+	/FMsaveobject save def
+	userdict begin 
+	/showpage {} def 
+	FMNORMALIZEGRAPHICS 
+	3 index neg 3 index neg translate
+	} bind def
+/ENDPRINTCODE {
+	count -1 FMoptop {pop pop} for 
+	countdictstack -1 FMdicttop {pop end} for 
+	FMsaveobject restore 
+	} bind def
+/gn { 
+	0 
+	{	46 mul 
+		cf read pop 
+		32 sub 
+		dup 46 lt {exit} if 
+		46 sub add 
+		} loop
+	add 
+	} bind def
+/cfs { 
+	/str sl string def 
+	0 1 sl 1 sub {str exch val put} for 
+	str def 
+	} bind def
+/ic [ 
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0223
+	0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0223
+	0
+	{0 hx} {1 hx} {2 hx} {3 hx} {4 hx} {5 hx} {6 hx} {7 hx} {8 hx} {9 hx}
+	{10 hx} {11 hx} {12 hx} {13 hx} {14 hx} {15 hx} {16 hx} {17 hx} {18 hx}
+	{19 hx} {gn hx} {0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12}
+	{13} {14} {15} {16} {17} {18} {19} {gn} {0 wh} {1 wh} {2 wh} {3 wh}
+	{4 wh} {5 wh} {6 wh} {7 wh} {8 wh} {9 wh} {10 wh} {11 wh} {12 wh}
+	{13 wh} {14 wh} {gn wh} {0 bl} {1 bl} {2 bl} {3 bl} {4 bl} {5 bl} {6 bl}
+	{7 bl} {8 bl} {9 bl} {10 bl} {11 bl} {12 bl} {13 bl} {14 bl} {gn bl}
+	{0 fl} {1 fl} {2 fl} {3 fl} {4 fl} {5 fl} {6 fl} {7 fl} {8 fl} {9 fl}
+	{10 fl} {11 fl} {12 fl} {13 fl} {14 fl} {gn fl}
+	] def
+/ms { 
+	/sl exch def 
+	/val 255 def 
+	/ws cfs 
+	/im cfs 
+	/val 0 def 
+	/bs cfs 
+	/cs cfs 
+	} bind def
+400 ms 
+/ip { 
+	is 
+	0 
+	cf cs readline pop 
+	{	ic exch get exec 
+		add 
+		} forall 
+	pop 
+	
+	} bind def
+/rip { 
+	   
+	  
+	  bis ris copy pop 
+      is
+      0
+      cf cs readline pop 
+      {       ic exch get exec 
+              add 
+              } forall 
+	  pop pop 
+	  ris gis copy pop 
+	  dup is exch 
+	  
+      cf cs readline pop 
+      {       ic exch get exec 
+              add 
+              } forall 
+	  pop pop
+	  gis bis copy pop 
+	  dup add is exch 
+	  
+      cf cs readline pop 
+      {       ic exch get exec 
+              add 
+              } forall 
+      pop 
+      
+      } bind def
+/rip4 { 
+	   
+	  
+	  kis cis copy pop 
+      is
+      0
+      cf cs readline pop 
+      {       ic exch get exec 
+              add 
+              } forall 
+	  pop pop 
+	  cis mis copy pop 
+	  dup is exch 
+	  
+      cf cs readline pop 
+      {       ic exch get exec 
+              add 
+              } forall 
+	  pop pop
+	  mis yis copy pop 
+	  dup dup add is exch 
+	  
+      cf cs readline pop 
+      {       ic exch get exec 
+              add 
+              } forall 
+	  pop pop
+	  yis kis copy pop 
+	  3 mul is exch 
+	  
+      cf cs readline pop 
+      {       ic exch get exec 
+              add 
+              } forall 
+      pop 
+      
+      } bind def
+/wh { 
+	/len exch def 
+	/pos exch def 
+	ws 0 len getinterval im pos len getinterval copy pop
+	pos len 
+	} bind def
+/bl { 
+	/len exch def 
+	/pos exch def 
+	bs 0 len getinterval im pos len getinterval copy pop
+	pos len 
+	} bind def
+/s1 1 string def
+/fl { 
+	/len exch def 
+	/pos exch def 
+	/val cf s1 readhexstring pop 0 get def
+	pos 1 pos len add 1 sub {im exch val put} for
+	pos len 
+	} bind def
+/hx { 
+	3 copy getinterval 
+	cf exch readhexstring pop pop 
+	} bind def
+/wbytes { 
+      dup dup
+      8 gt { pop 8 idiv mul }
+      { 8 eq {pop} {1 eq {7 add 8 idiv} {3 add 4 idiv} ifelse} ifelse } ifelse
+	} bind def
+/BEGINBITMAPBWc { 
+	1 {} COMMONBITMAPc
+	} bind def
+/BEGINBITMAPGRAYc { 
+	8 {} COMMONBITMAPc
+	} bind def
+/BEGINBITMAP2BITc { 
+	2 {} COMMONBITMAPc
+	} bind def
+/COMMONBITMAPc { 
+		 
+	/cvtProc exch def
+	/depth exch def
+	gsave
+	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/lb width depth wbytes def 
+	sl lb lt {lb ms} if 
+	/bitmapsave save def 
+	cvtProc                
+	/is im 0 lb getinterval def 
+	ws 0 lb getinterval is copy pop 
+	/cf currentfile def 
+	width height depth [width 0 0 height neg 0 height] 
+	{ip} image 
+	bitmapsave restore 
+	grestore
+	} bind def
+/BEGINBITMAPBW { 
+	1 {} COMMONBITMAP
+	} bind def
+/BEGINBITMAPGRAY { 
+	8 {} COMMONBITMAP
+	} bind def
+/BEGINBITMAP2BIT { 
+	2 {} COMMONBITMAP
+	} bind def
+/COMMONBITMAP { 
+	/cvtProc exch def
+	/depth exch def
+	gsave
+	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/bitmapsave save def 
+	cvtProc              
+	/is width depth wbytes string def
+	/cf currentfile def 
+	width height depth [width 0 0 height neg 0 height] 
+	{cf is readhexstring pop} image
+	bitmapsave restore 
+	grestore
+	} bind def
+/ngrayt 256 array def
+/nredt 256 array def
+/nbluet 256 array def
+/ngreent 256 array def
+fMLevel1 {
+/colorsetup {
+	currentcolortransfer
+	/gryt exch def
+	/blut exch def
+	/grnt exch def
+	/redt exch def
+	0 1 255 {
+		/indx exch def
+		/cynu 1 red indx get 255 div sub def
+		/magu 1 green indx get 255 div sub def
+		/yelu 1 blue indx get 255 div sub def
+		/kk cynu magu min yelu min def
+		/u kk currentundercolorremoval exec def
+%		/u 0 def
+		nredt indx 1 0 cynu u sub max sub redt exec put
+		ngreent indx 1 0 magu u sub max sub grnt exec put
+		nbluet indx 1 0 yelu u sub max sub blut exec put
+		ngrayt indx 1 kk currentblackgeneration exec sub gryt exec put
+	} for
+	{255 mul cvi nredt exch get}
+	{255 mul cvi ngreent exch get}
+	{255 mul cvi nbluet exch get}
+	{255 mul cvi ngrayt exch get}
+	setcolortransfer
+	{pop 0} setundercolorremoval
+	{} setblackgeneration
+	} bind def
+}
+{
+/colorSetup2 {
+	[ /Indexed /DeviceRGB 255 
+		{dup red exch get 255 div 
+		 exch dup green exch get 255 div 
+		 exch blue exch get 255 div}
+	] setcolorspace
+} bind def
+} ifelse
+/fakecolorsetup {
+	/tran 256 string def
+	0 1 255 {/indx exch def 
+		tran indx
+		red indx get 77 mul
+		green indx get 151 mul
+		blue indx get 28 mul
+		add add 256 idiv put} for
+	currenttransfer
+	{255 mul cvi tran exch get 255.0 div}
+	exch fmConcatProcs settransfer
+} bind def
+/BITMAPCOLOR { 
+	/depth 8 def
+	gsave
+	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/bitmapsave save def
+	fMLevel1 {	
+		colorsetup
+		/is width depth wbytes string def
+		/cf currentfile def 
+		width height depth [width 0 0 height neg 0 height] 
+		{cf is readhexstring pop} {is} {is} true 3 colorimage 
+	} {
+		colorSetup2
+		/is width depth wbytes string def
+		/cf currentfile def 
+		7 dict dup begin
+			/ImageType 1 def
+			/Width width def
+			/Height height def
+			/ImageMatrix [width 0 0 height neg 0 height] def
+			/DataSource {cf is readhexstring pop} bind def
+			/BitsPerComponent depth def
+			/Decode [0 255] def
+		end image	
+	} ifelse
+	bitmapsave restore 
+	grestore
+	} bind def
+/BITMAPCOLORc { 
+	/depth 8 def
+	gsave
+	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/lb width depth wbytes def 
+	sl lb lt {lb ms} if 
+	/bitmapsave save def 
+	fMLevel1 {	
+		colorsetup
+		/is im 0 lb getinterval def 
+		ws 0 lb getinterval is copy pop 
+		/cf currentfile def 
+		width height depth [width 0 0 height neg 0 height] 
+		{ip} {is} {is} true 3 colorimage
+	} {
+		colorSetup2
+		/is im 0 lb getinterval def 
+		ws 0 lb getinterval is copy pop 
+		/cf currentfile def 
+		7 dict dup begin
+			/ImageType 1 def
+			/Width width def
+			/Height height def
+			/ImageMatrix [width 0 0 height neg 0 height] def
+			/DataSource {ip} bind def
+			/BitsPerComponent depth def
+			/Decode [0 255] def
+		end image	
+	} ifelse
+	bitmapsave restore 
+	grestore
+	} bind def
+/BITMAPTRUECOLORc { 
+	/depth 24 def
+        gsave
+ 	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/lb width depth wbytes def 
+	sl lb lt {lb ms} if 
+	/bitmapsave save def 
+        
+	/is im 0 lb getinterval def	
+	/ris im 0 width getinterval def	
+	/gis im width width getinterval def	
+	/bis im width 2 mul width getinterval def 
+        
+	ws 0 lb getinterval is copy pop 
+	/cf currentfile def 
+	width height 8 [width 0 0 height neg 0 height] 
+	{width rip pop ris} {gis} {bis} true 3 colorimage
+	bitmapsave restore 
+	grestore
+	} bind def
+/BITMAPCMYKc { 
+	/depth 32 def
+        gsave
+ 	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/lb width depth wbytes def 
+	sl lb lt {lb ms} if 
+	/bitmapsave save def 
+        
+	/is im 0 lb getinterval def	
+	/cis im 0 width getinterval def	
+	/mis im width width getinterval def	
+	/yis im width 2 mul width getinterval def 
+	/kis im width 3 mul width getinterval def 
+        
+	ws 0 lb getinterval is copy pop 
+	/cf currentfile def 
+	width height 8 [width 0 0 height neg 0 height] 
+	{width rip4 pop cis} {mis} {yis} {kis} true 4 colorimage
+	bitmapsave restore 
+	grestore
+	} bind def
+/BITMAPTRUECOLOR { 
+        gsave
+		
+		3 index 2 div add exch	
+		4 index 2 div add exch	
+		translate		
+		rotate			
+		1 index 2 div neg	
+		1 index 2 div neg	
+		translate		
+		scale			
+		/height exch def /width exch def
+        /bitmapsave save def 
+        /is width string def
+        /gis width string def
+        /bis width string def
+        /cf currentfile def 
+        width height 8 [width 0 0 height neg 0 height] 
+        { cf is readhexstring pop } 
+        { cf gis readhexstring pop } 
+        { cf bis readhexstring pop } 
+        true 3 colorimage 
+        bitmapsave restore 
+        grestore
+        } bind def
+/BITMAPCMYK { 
+        gsave
+		
+		3 index 2 div add exch	
+		4 index 2 div add exch	
+		translate		
+		rotate			
+		1 index 2 div neg	
+		1 index 2 div neg	
+		translate		
+		scale			
+		/height exch def /width exch def
+        /bitmapsave save def 
+        /is width string def
+        /mis width string def
+        /yis width string def
+        /kis width string def
+        /cf currentfile def 
+        width height 8 [width 0 0 height neg 0 height] 
+        { cf is readhexstring pop } 
+        { cf mis readhexstring pop } 
+        { cf yis readhexstring pop } 
+        { cf kis readhexstring pop } 
+        true 4 colorimage 
+        bitmapsave restore 
+        grestore
+        } bind def
+/BITMAPTRUEGRAYc { 
+	/depth 24 def
+        gsave
+	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/lb width depth wbytes def 
+	sl lb lt {lb ms} if 
+        /bitmapsave save def 
+        
+	/is im 0 lb getinterval def	
+	/ris im 0 width getinterval def	
+	/gis im width width getinterval def	
+	/bis im width 2 mul width getinterval def 
+        ws 0 lb getinterval is copy pop 
+        /cf currentfile def 
+        width height 8 [width 0 0 height neg 0 height] 
+        {width rip pop ris gis bis width gray} image
+        bitmapsave restore 
+        grestore
+        } bind def
+/BITMAPCMYKGRAYc { 
+	/depth 32 def
+        gsave
+	
+	3 index 2 div add exch	
+	4 index 2 div add exch	
+	translate		
+	rotate			
+	1 index 2 div neg	
+	1 index 2 div neg	
+	translate		
+	scale			
+	/height exch def /width exch def
+	/lb width depth wbytes def 
+	sl lb lt {lb ms} if 
+        /bitmapsave save def 
+        
+	/is im 0 lb getinterval def	
+	/cis im 0 width getinterval def	
+	/mis im width width getinterval def	
+	/yis im width 2 mul width getinterval def 
+	/kis im width 3 mul width getinterval def 
+        ws 0 lb getinterval is copy pop 
+        /cf currentfile def 
+        width height 8 [width 0 0 height neg 0 height] 
+        {width rip pop cis mis yis kis width cgray} image
+        bitmapsave restore 
+        grestore
+        } bind def
+/cgray { 
+        /ww exch def
+        /k exch def
+        /y exch def
+        /m exch def
+        /c exch def
+        0 1 ww 1 sub { /i exch def c i get m i get y i get k i get CMYKtoRGB
+				.144 mul 3 1 roll .587 mul 3 1 roll .299 mul add add
+				c i 3 -1 roll floor cvi put } for
+        c
+ 		} bind def
+/gray { 
+        /ww exch def
+        /b exch def
+        /g exch def
+        /r exch def
+        0 1 ww 1 sub { /i exch def r i get .299 mul g i get .587 mul
+			b i get .114 mul add add r i 3 -1 roll floor cvi put } for
+        r
+        } bind def
+/BITMAPTRUEGRAY { 
+        gsave
+		
+		3 index 2 div add exch	
+		4 index 2 div add exch	
+		translate		
+		rotate			
+		1 index 2 div neg	
+		1 index 2 div neg	
+		translate		
+		scale			
+		/height exch def /width exch def
+        /bitmapsave save def 
+        /is width string def
+        /gis width string def
+        /bis width string def
+        /cf currentfile def 
+        width height 8 [width 0 0 height neg 0 height] 
+        { cf is readhexstring pop 
+          cf gis readhexstring pop 
+          cf bis readhexstring pop width gray}  image
+        bitmapsave restore 
+        grestore
+        } bind def
+/BITMAPCMYKGRAY { 
+        gsave
+		
+		3 index 2 div add exch	
+		4 index 2 div add exch	
+		translate		
+		rotate			
+		1 index 2 div neg	
+		1 index 2 div neg	
+		translate		
+		scale			
+		/height exch def /width exch def
+        /bitmapsave save def 
+        /is width string def
+        /yis width string def
+        /mis width string def
+        /kis width string def
+        /cf currentfile def 
+        width height 8 [width 0 0 height neg 0 height] 
+        { cf is readhexstring pop 
+          cf mis readhexstring pop 
+          cf yis readhexstring pop 
+          cf kis readhexstring pop width cgray}  image
+        bitmapsave restore 
+        grestore
+        } bind def
+/BITMAPGRAY { 
+	8 {fakecolorsetup} COMMONBITMAP
+	} bind def
+/BITMAPGRAYc { 
+	8 {fakecolorsetup} COMMONBITMAPc
+	} bind def
+/ENDBITMAP {
+	} bind def
+end 
+	/ALDmatrix matrix def ALDmatrix currentmatrix pop
+/StartALD {
+	/ALDsave save def
+	 savematrix
+	 ALDmatrix setmatrix
+	} bind def
+/InALD {
+	 restorematrix
+	} bind def
+/DoneALD {
+	 ALDsave restore
+	} bind def
+/I { setdash } bind def
+/J { [] 0 setdash } bind def
+%%EndProlog
+%%BeginSetup
+(5.0) FMVERSION
+1 1 0 0 612 792 0 1 15 FMDOCUMENT
+0 0 /Times-Italic FMFONTDEFINE
+1 0 /Times-Roman FMFONTDEFINE
+2 0 /Times-Bold FMFONTDEFINE
+3 0 /Palatino-Roman FMFONTDEFINE
+4 0 /Palatino-Bold FMFONTDEFINE
+5 0 /Palatino-Italic FMFONTDEFINE
+6 0 /Courier FMFONTDEFINE
+32 FMFILLS
+0 0 FMFILL
+1 0.1 FMFILL
+2 0.3 FMFILL
+3 0.5 FMFILL
+4 0.7 FMFILL
+5 0.9 FMFILL
+6 0.97 FMFILL
+7 1 FMFILL
+8 <0f1e3c78f0e1c387> FMFILL
+9 <0f87c3e1f0783c1e> FMFILL
+10 <cccccccccccccccc> FMFILL
+11 <ffff0000ffff0000> FMFILL
+12 <8142241818244281> FMFILL
+13 <03060c183060c081> FMFILL
+14 <8040201008040201> FMFILL
+16 1 FMFILL
+17 0.9 FMFILL
+18 0.7 FMFILL
+19 0.5 FMFILL
+20 0.3 FMFILL
+21 0.1 FMFILL
+22 0.03 FMFILL
+23 0 FMFILL
+24 <f0e1c3870f1e3c78> FMFILL
+25 <f0783c1e0f87c3e1> FMFILL
+26 <3333333333333333> FMFILL
+27 <0000ffff0000ffff> FMFILL
+28 <7ebddbe7e7dbbd7e> FMFILL
+29 <fcf9f3e7cf9f3f7e> FMFILL
+30 <7fbfdfeff7fbfdfe> FMFILL
+%%EndSetup
+%%Page: "1" 1
+%%BeginPaperSize: Letter
+%%EndPaperSize
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+J
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(1) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+2 24 Q
+0 X
+( W) 135 587 T
+(eb Request Br) 163.44 587 T
+(ok) 308.33 587 T
+(er API) 333.43 587 T
+1 18 Q
+(Production) 144 517 T
+(August 5, 1996) 144 494 T
+(Contrib) 144 448 T
+(utors) 198.65 448 T
+3 10 Q
+(Mala Anand) 162 424.33 T
+(Matt Bookman) 162 406.33 T
+(Seshu Adunuthula) 162 388.33 T
+(Ankur Sharma) 162 370.33 T
+(Robert Pang) 162 352.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "1" 1
+%%Page: "2" 2
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(2) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 702 558 720 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 711 558 711 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 711 126 711 2 L
+0 Z
+N
+0 0 612 792 C
+54 666 558 684 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 675 558 675 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 675 126 675 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(T) 144 690 T
+(able of Contents) 154.01 690 T
+1 12 Q
+(1) 144 634 T
+(WRB API Ov) 171 634 T
+(ervie) 238.15 634 T
+(w) 261.84 634 T
+(3) 282.5 634 T
+(2) 144 614 T
+(WRB API Design Goals & Concepts) 171 614 T
+(3) 360.66 614 T
+1 10 Q
+(2.1) 171 601.33 T
+(W) 207 601.33 T
+(eb Request Brok) 215.64 601.33 T
+(er Dispatcher) 282.2 601.33 T
+(4) 345.79 601.33 T
+(2.2) 171 589.33 T
+(W) 207 589.33 T
+(eb Request Brok) 215.64 589.33 T
+(er Application Engine) 282.2 589.33 T
+(5) 380.52 589.33 T
+1 12 Q
+(3) 144 570 T
+(Application Programming Interf) 171 570 T
+(ace) 326.2 570 T
+(6) 354.18 570 T
+1 10 Q
+(3.1) 171 557.33 T
+(WRB Application Callbacks) 207 557.33 T
+(6) 331.44 557.33 T
+(3.1.1) 207 545.33 T
+(The Init Callback) 243 545.33 T
+(6) 322.99 545.33 T
+(3.1.2) 207 533.33 T
+(The Exec Callback) 243 533.33 T
+(6) 329.09 533.33 T
+(3.1.3) 207 521.33 T
+(The Shutdown Callback) 243 521.33 T
+(6) 349.66 521.33 T
+(3.1.4) 207 509.33 T
+(The Reload Callback) 243 509.33 T
+(6) 337.43 509.33 T
+(3.1.5) 207 497.33 T
+(Version Callback) 243 497.33 T
+(7) 322.71 497.33 T
+(3.1.6) 207 485.33 T
+(Version Free Callback) 243 485.33 T
+(7) 342.98 485.33 T
+(3.2) 171 473.33 T
+(WRB Listener Information Functions) 207 473.33 T
+(7) 367.27 473.33 T
+(3.2.1) 207 461.33 T
+(WRB Get URL && WRB Get URI) 243 461.33 T
+(7) 395.22 461.33 T
+(3.2.2) 207 449.33 T
+(WRB Get Environment Variable) 243 449.33 T
+(7) 384.37 449.33 T
+(3.2.3) 207 437.33 T
+(WRB Get Environment) 243 437.33 T
+(7) 347.44 437.33 T
+(3.2.4) 207 425.33 T
+(WRB Get Content) 243 425.33 T
+(8) 326.89 425.33 T
+(3.2.5) 207 413.33 T
+(WRB Get Language) 243 413.33 T
+(8) 334.65 413.33 T
+(3.2.6) 207 401.33 T
+(WRB Get Character Encoding) 243 401.33 T
+(8) 374.92 401.33 T
+(3.2.7) 207 389.33 T
+(WRB Get Parsed Content) 243 389.33 T
+(8) 356.05 389.33 T
+(3.2.8) 207 377.33 T
+(WRB Get Named Entry) 243 377.33 T
+(8) 348.82 377.33 T
+(3.2.9) 207 365.33 T
+(WRB Get ORACLE_HOME) 243 365.33 T
+(8) 369.66 365.33 T
+(3.2.10) 207 353.33 T
+(WRB Get Application Config) 243 353.33 T
+(8) 372.72 353.33 T
+(3.2.11) 207 341.33 T
+(WRB Get Application Config Value) 243 341.33 T
+(9) 399.1 341.33 T
+(3.3) 171 329.33 T
+(WRB Interv) 207 329.33 T
+(ention Functions) 256.01 329.33 T
+(9) 332.96 329.33 T
+(3.3.1) 207 317.33 T
+(WRB Client Read) 243 317.33 T
+(9) 325.78 317.33 T
+(3.3.2) 207 305.33 T
+(WRB Client Write) 243 305.33 T
+(9) 328 305.33 T
+(3.3.3) 207 293.33 T
+(WRB Client Write File \050not implemented\051) 243 293.33 T
+(9) 422.72 293.33 T
+(3.3.4) 207 281.33 T
+(WRB Return HTTP Error) 243 281.33 T
+(9) 356.6 281.33 T
+(3.3.5) 207 269.33 T
+(WRB Client Call Cartridge \050not implemented\051) 243 269.33 T
+(10) 438.83 269.33 T
+(3.3.6) 207 257.33 T
+(WRB Client Set Timeout Call \050not implemented\051) 243 257.33 T
+(10) 450.23 257.33 T
+(3.3.7) 207 245.33 T
+(WRB Return HTTP Redirect) 243 245.33 T
+(10) 369.38 245.33 T
+(3.3.8) 207 233.33 T
+(WRB Close HTTP Header) 243 233.33 T
+(10) 359.93 233.33 T
+(3.3.9) 207 221.33 T
+(WRB Log Message) 243 221.33 T
+(10) 331.88 221.33 T
+1 12 Q
+(4) 144 202 T
+(WRB API Example Application.) 171 202 T
+(11) 340.99 202 T
+(5) 144 182 T
+(Compiling and Linking Cartridges) 171 182 T
+(13) 348.67 182 T
+(6) 144 162 T
+(Re) 171 162 T
+(gistering Cartridges) 184.15 162 T
+(14) 291.14 162 T
+1 10 Q
+(6.1) 171 149.33 T
+(WRB Con\336guration File speci\336cation) 207 149.33 T
+(14) 368.95 149.33 T
+(6.1.1) 207 137.33 T
+([Apps]  section) 243 137.33 T
+(14) 314.1 137.33 T
+(6.1.2) 207 125.33 T
+([AppsDirs] section) 243 125.33 T
+(14) 328.82 125.33 T
+(6.1.3) 207 113.33 T
+([AppProtection]) 243 113.33 T
+(15) 317.99 113.33 T
+(6.1.4) 207 101.33 T
+(Cartridge configuration section) 243 101.33 T
+(15) 377.98 101.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "2" 2
+%%Page: "3" 3
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(3) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "3" 3
+%%Page: "4" 4
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(4) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 702 558 720 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 711 558 711 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 711 126 711 2 L
+0 Z
+N
+0 0 612 792 C
+54 666 558 684 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 675 558 675 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 675 126 675 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(1) 117 690 T
+(WRB API Overview) 144 690 T
+3 10 Q
+0.06 (The Oracle W) 144 639.33 P
+0.06 (eb Request Br) 203.89 639.33 P
+0.06 (oker \050WRB\051 pr) 264.59 639.33 P
+0.06 (ovides a powerful distributed r) 328.7 639.33 P
+0.06 (untime envir) 466.88 639.33 P
+0.06 (onment) 524.02 639.33 P
+0.8 (for developing and deploying industrial str) 144 627.33 P
+0.8 (ength applications for the W) 339.7 627.33 P
+0.8 (orld W) 467.79 627.33 P
+0.8 (ide W) 498.96 627.33 P
+0.8 (eb. The) 525.15 627.33 P
+4.36 (WRB r) 144 615.33 P
+4.36 (untime platform enables application developers to write applications that ar) 177.52 615.33 P
+4.36 (e) 553.21 615.33 P
+(independent of and work with a number of HTTP Servers.) 144 603.33 T
+1.35 (The W) 144 585.33 P
+1.35 (eb Request Br) 173.67 585.33 P
+1.35 (oker \050WRB\051 API pr) 236.95 585.33 P
+1.35 (ovides a pr) 324.67 585.33 P
+1.35 (ogrammatic interface to the Oracle W) 376.3 585.33 P
+1.35 (eb) 547.68 585.33 P
+2.27 (Request Br) 144 573.33 P
+2.27 (oker and enables applications developers to develop their applications \050called) 194.04 573.33 P
+1.49 (cartridges in this document\051 for the WRB. The WRB API pr) 144 561.33 P
+1.49 (ovides a higher level API that) 419.49 561.33 P
+1.43 (abstracts away the HTTP pr) 144 549.33 P
+1.43 (otocol while pr) 272.82 549.33 P
+1.43 (oviding the necessary interfaces for application) 342.22 549.33 P
+2.47 (development. In addition, the WRB API pr) 144 537.33 P
+2.47 (ovides a rich set of API\325s for authentication,) 347.63 537.33 P
+(logging, and attribute management to facilitate application development.) 144 525.33 T
+2.21 (The WRB API and the r) 144 507.33 P
+2.21 (untime system together enable web applications to be r) 258.94 507.33 P
+2.21 (un on a) 520.45 507.33 P
+3.19 (scalable, distributed high-performance back-end infrastr) 144 495.33 P
+3.19 (uctur) 405.94 495.33 P
+3.19 (e. The following document) 429.47 495.33 P
+(describes the WRB API in detail.) 144 483.33 T
+54 460 558 478 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 469 558 469 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 469 126 469 2 L
+0 Z
+N
+0 0 612 792 C
+54 424 558 442 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 433 558 433 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 433 126 433 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(2) 117 448 T
+(WRB API Design Goals & Concepts) 144 448 T
+3 10 Q
+0.76 (The WRB API has been designed to addr) 144 397.33 P
+0.76 (ess several de\336ciencies in the curr) 329.6 397.33 P
+0.76 (ent HTTP Server) 482.6 397.33 P
+(pr) 144 385.33 T
+(ogrammatic interfaces and to meet the following goals:) 153.78 385.33 T
+1 12 Q
+(\245) 144 367.33 T
+3 10 Q
+1.53 (The WRB pr) 162 367.33 P
+1.53 (ovides a high performance, distributed and scalable application execution) 219.37 367.33 P
+0.03 (framework. It pr) 162 355.33 P
+0.03 (ovides applications developers to transpar) 235.17 355.33 P
+0.03 (ently r) 422.88 355.33 P
+0.03 (un multiple instances of) 451.61 355.33 P
+-0.03 (their applications and pr) 162 343.33 P
+-0.03 (ovides the necessary load balancing and system scaling function-) 270.81 343.33 P
+0.67 (ality to meet the load on the system. Application developers who develop their applica-) 162 331.33 P
+(tions as WRB cartridges get these advantages of the WRB infrastr) 162 319.33 T
+(uctur) 449.7 319.33 T
+(e for fr) 473.23 319.33 T
+(ee.) 502.86 319.33 T
+1 12 Q
+(\245) 144 301.33 T
+3 10 Q
+1.82 (The WRB pr) 162 301.33 P
+1.82 (ovides a mor) 219.94 301.33 P
+1.82 (e r) 280.8 301.33 P
+1.82 (obust application development envir) 293.67 301.33 P
+1.82 (onment than NSAPI,) 462.24 301.33 P
+(ISAPI and other HTTP Server pr) 162 289.33 T
+(ogrammatic interfaces:) 305.3 289.33 T
+1 12 Q
+(\245) 162 274.33 T
+3 10 Q
+(The WRB API pr) 180 274.33 T
+(ovides a higher application level interface for web application) 254 274.33 T
+(developers rather than hooks into the HTTP pr) 180 262.33 T
+(otocol at various inter) 387.13 262.33 T
+(ception points.) 483.67 262.33 T
+(WRB-enabled applications do not need to awar) 180 250.33 T
+(e of the HTTP pr) 388.49 250.33 T
+(otocol. The WRB) 462.34 250.33 T
+(mediates all client r) 180 238.33 T
+(equests to the appr) 266.15 238.33 T
+(opriate cartridges and ensur) 349.98 238.33 T
+(es fairness by) 474.65 238.33 T
+(pr) 180 226.33 T
+(otecting and pr) 189.78 226.33 T
+(eventing cartridges fr) 256.99 226.33 T
+(om inter) 351.9 226.33 T
+(cepting r) 389.24 226.33 T
+(equests to other cartridges.) 428.3 226.33 T
+1 12 Q
+(\245) 162 211.33 T
+3 10 Q
+(WRB applications r) 180 211.33 T
+(un in their own addr) 265.63 211.33 T
+(ess space as independent entities. This) 357.55 211.33 T
+(pr) 180 199.33 T
+(ovides a level of r) 189.78 199.33 T
+(obustness and r) 267.55 199.33 T
+(eliability not possible with other HTTP Server) 336.86 199.33 T
+-0.31 (interfaces which r) 180 187.33 P
+-0.31 (equir) 258 187.33 P
+-0.31 (e applications to be dynamically linked into the HTTP Server) 281.1 187.33 P
+-0.31 (\325s) 548.79 187.33 P
+-0.32 (addr) 180 175.33 P
+-0.32 (ess space. This can potentially cause applications to clobber each other) 200.99 175.33 P
+-0.32 (\325s memory) 509.19 175.33 P
+(space and interfer) 180 163.33 T
+(e destr) 259.03 163.33 T
+(uctively in signal handlers and other operating system) 288.59 163.33 T
+(r) 180 151.33 T
+(esour) 183.77 151.33 T
+(ces. WRB-enabled web applications can be managed and taken on-line and) 208.06 151.33 T
+(of) 180 139.33 T
+(f-line with no af) 188.61 139.33 T
+(fect on other WRB-based web applications r) 258.96 139.33 T
+(unning on the same) 452.63 139.33 T
+(WRB.) 180 127.33 T
+1 12 Q
+(\245) 162 112.33 T
+3 10 Q
+(The WRB pr) 180 112.33 T
+(ovides a high level interface for database access for WRB-enabled) 234.31 112.33 T
+(applications. This pr) 180 100.33 T
+(ovides the power of the Oracle database for managing) 270.35 100.33 T
+(con\336guration and other r) 180 88.33 T
+(untime information in a secur) 291.34 88.33 T
+(e r) 422.73 88.33 T
+(epository) 433.79 88.33 T
+(, and pr) 474.32 88.33 T
+(ovides the) 508.53 88.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "4" 4
+%%Page: "5" 5
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(5) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+45 72 549 720 R
+7 X
+V
+3 F
+0 X
+(application with the infrastr) 171 713.33 T
+(uctur) 294.81 713.33 T
+(e for maintaining distributed application state and) 318.34 713.33 T
+(persistance management.) 171 701.33 T
+1 12 Q
+(\245) 153 686.33 T
+3 10 Q
+(Any WRB enabled application can invoke other WRB enabled applications as well as) 171 686.33 T
+(make a HTTP r) 171 674.33 T
+(equest to any other HTTP Server) 238.07 674.33 T
+(. The WRB pr) 381.92 674.33 T
+(ovides the distributed) 441.23 674.33 T
+(infrastr) 171 662.33 T
+(uctur) 203.38 662.33 T
+(e and dynamically distributes application loads acr) 226.91 662.33 T
+(oss the network.) 452.57 662.33 T
+1 12 Q
+(\245) 135 644.33 T
+3 10 Q
+(The WRB API pr) 153 644.33 T
+(ovides an easy migration path for curr) 227 644.33 T
+(ent web applications.) 396.29 644.33 T
+(Figur) 135 248.33 T
+(e 1 illustrates the W) 158.83 248.33 T
+(eb Request Br) 245.07 248.33 T
+(oker Ar) 305.66 248.33 T
+(chitectur) 339.47 248.33 T
+(e.) 378.19 248.33 T
+45 194 549 212 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+135 203 549 203 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+45 203 117 203 2 L
+0 Z
+N
+0 0 612 792 C
+4 14 Q
+0 X
+0 0 0 1 0 0 0 K
+(2.1) 99.5 216.67 T
+(W) 135 216.67 T
+(eb Request Broker Dispatcher) 147.96 216.67 T
+3 10 Q
+-0.08 (The WRB Dispatcher is the component of the WRB that pr) 135 175.33 P
+-0.08 (ovides the interaction with dif) 390.4 175.33 P
+-0.08 (fer) 523.24 175.33 P
+-0.08 (ent) 535.13 175.33 P
+0.29 (underlying HTTP Servers. It is r) 135 163.33 P
+0.29 (esponsible for r) 277.69 163.33 P
+0.29 (outing HTTP r) 346.47 163.33 P
+0.29 (equests to the appr) 411.48 163.33 P
+0.29 (opriate web) 496.17 163.33 P
+0.66 (application cartridge over the distributed substrate. The HTTP server) 135 151.33 P
+0.66 (, in turn, interacts with) 445.58 151.33 P
+1.85 (the web br) 135 139.33 P
+1.85 (owser using HTTP) 185.53 139.33 P
+1.85 (. The WRB Dispatcher looks up and locates the appr) 270.91 139.33 P
+1.85 (opriate) 517.62 139.33 P
+-0.23 (cartridge for a r) 135 127.33 P
+-0.23 (equest fr) 203.29 127.33 P
+-0.23 (om the WRB con\336guration and dispatches the r) 241.37 127.33 P
+-0.23 (equest for execution to) 449.36 127.33 P
+0.55 (that cartridge. The WRB can r) 135 115.33 P
+0.55 (un multiple instances of the web cartridge, and the Dispatcher) 268.74 115.33 P
+0.6 (selects an appr) 135 103.33 P
+0.6 (opriate instance based on overall system load to deliver optimum application) 201.47 103.33 P
+5.14 (performance. The WRB Dispatcher also authenticates the r) 135 91.33 P
+5.14 (equest against the WRB) 428.92 91.33 P
+(con\336guration if the WRB-enabled application is using WRB Authentication Services.) 135 79.33 T
+306 325.07 396 352.07 R
+0.5 H
+0 Z
+N
+297 388.07 405 415.07 R
+N
+135 307.07 558 604.07 R
+N
+207 505.07 306 532.07 R
+N
+207 532.07 306 559.07 R
+N
+(Fig 1: W) 135 281.81 T
+(eb Request Br) 170.61 281.81 T
+(oker Ar) 231.2 281.81 T
+(chitectur) 265.01 281.81 T
+(e) 303.73 281.81 T
+(HTTP Server) 324 334.07 T
+(WRB Dispatcher) 315 397.07 T
+423 433.07 522 460.07 13.5 RR
+7 X
+V
+0 X
+N
+(WRB Name Server) 429.9 443.81 T
+171 433.07 270 460.07 13.5 RR
+7 X
+V
+0 X
+N
+(WRB Auth. Server) 180 442.07 T
+226.71 429.5 225.76 426.68 216.86 432.78 227.65 432.33 4 Y
+N
+226.71 429.5 225.76 426.68 216.86 432.78 227.65 432.33 4 Y
+V
+286.3 409.64 287.24 412.46 296.14 406.36 285.35 406.82 4 Y
+N
+286.3 409.64 287.24 412.46 296.14 406.36 285.35 406.82 4 Y
+V
+226.94 429.42 286.06 409.72 2 L
+7 X
+V
+0 X
+N
+415.57 410.03 416.61 407.25 405.85 406.39 414.52 412.82 4 Y
+N
+415.57 410.03 416.61 407.25 405.85 406.39 414.52 412.82 4 Y
+V
+466.43 429.11 465.39 431.89 476.15 432.75 467.48 426.32 4 Y
+N
+466.43 429.11 465.39 431.89 476.15 432.75 467.48 426.32 4 Y
+V
+415.8 410.12 466.2 429.02 2 L
+7 X
+V
+0 X
+N
+351 376.79 348.02 376.79 351 387.16 353.98 376.79 4 Y
+N
+351 376.79 348.02 376.79 351 387.16 353.98 376.79 4 Y
+V
+351 363.36 353.98 363.35 351 352.98 348.02 363.35 4 Y
+N
+351 363.36 353.98 363.35 351 352.98 348.02 363.35 4 Y
+V
+351 376.54 351 363.6 2 L
+7 X
+V
+0 X
+N
+(WRB App. Engine) 216 514.07 T
+(WRB Application) 216 541.07 T
+162 532.07 540 532.07 2 L
+7 X
+V
+4 H
+2 Z
+0 X
+N
+360 505.07 459 532.07 R
+0.5 H
+0 Z
+N
+360 532.07 459 559.07 R
+N
+(WRB App. Engine) 369 514.07 T
+(WRB Application) 369 541.07 T
+268.98 497.09 266.88 494.99 261.64 504.43 271.08 499.2 4 Y
+N
+268.98 497.09 266.88 494.99 261.64 504.43 271.08 499.2 4 Y
+V
+343.02 423.05 345.12 425.15 350.36 415.71 340.92 420.95 4 Y
+N
+343.02 423.05 345.12 425.15 350.36 415.71 340.92 420.95 4 Y
+V
+269.16 496.91 342.84 423.23 2 L
+N
+407.53 495.83 405.09 497.53 413.48 504.33 409.97 494.12 4 Y
+N
+407.53 495.83 405.09 497.53 413.48 504.33 409.97 494.12 4 Y
+V
+357.47 424.32 359.91 422.61 351.52 415.81 355.03 426.02 4 Y
+N
+357.47 424.32 359.91 422.61 351.52 415.81 355.03 426.02 4 Y
+V
+407.39 495.62 357.61 424.52 2 L
+N
+317.29 514.07 317.29 511.09 306.91 514.07 317.29 517.05 4 Y
+N
+317.29 514.07 317.29 511.09 306.91 514.07 317.29 517.05 4 Y
+V
+348.71 514.07 348.71 517.05 359.09 514.07 348.71 511.09 4 Y
+N
+348.71 514.07 348.71 517.05 359.09 514.07 348.71 511.09 4 Y
+V
+317.54 514.07 348.46 514.07 2 L
+N
+(WRB API) 495 541.07 T
+(WRB API) 153 541.07 T
+162 532.07 162 370.07 2 L
+1 H
+2 Z
+N
+162 370.07 540 370.07 2 L
+N
+540 370.07 540 532.07 2 L
+N
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "5" 5
+%%Page: "6" 6
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(6) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+52.33 72 556.33 720 R
+7 X
+V
+52.33 659 556.33 677 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+142.33 668 556.33 668 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+52.33 668 124.33 668 2 L
+0 Z
+N
+0 0 612 792 C
+4 14 Q
+0 X
+0 0 0 1 0 0 0 K
+(2.2) 106.83 681.67 T
+(W) 142.33 681.67 T
+(eb Request Broker Application Engine) 155.3 681.67 T
+3 10 Q
+1.05 (Application developers develop their cartridges as shar) 142.33 640.33 P
+1.05 (ed libraries \050on Solaris\051 and r) 393.61 640.33 P
+1.05 (egister) 526.83 640.33 P
+0.32 (them with the WRB Dispatcher) 142.33 628.33 P
+0.32 (. The cartridges ar) 280.73 628.33 P
+0.32 (e loaded in by the WRB Application Engine) 361.41 628.33 P
+0.9 (when a r) 142.33 616.33 P
+0.9 (equest for that cartridge is r) 182.67 616.33 P
+0.9 (eceived by the WRB Dispatcher) 309.35 616.33 P
+0.9 (. The WRB Application) 451.6 616.33 P
+5.03 (Engine pr) 142.33 604.33 P
+5.03 (ovides the r) 190.65 604.33 P
+5.03 (untime envir) 252.61 604.33 P
+5.03 (onment for WRB-enabled applications. It enables) 314.72 604.33 P
+0.58 (WRB-enabled applications to r) 142.33 592.33 P
+0.58 (eceive and send data to the client, as well as the ability to call) 279.1 592.33 P
+0.1 (other cartridges, which may be located on the same WRB or may be distributed acr) 142.33 580.33 P
+0.1 (oss WRB\325s) 509.98 580.33 P
+(and other HTTP Servers.) 142.33 568.33 T
+(The API\325s pr) 142.33 550.33 T
+(ovided by the WRB Application Engine ar) 198.06 550.33 T
+(e described below) 384.13 550.33 T
+(.) 462.9 550.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "6" 6
+%%Page: "7" 7
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(7) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 702 558 720 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 711 558 711 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 711 126 711 2 L
+0 Z
+N
+0 0 612 792 C
+54 666 558 684 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 675 558 675 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 675 126 675 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(3) 117 690 T
+(Application Programming Interface) 144 690 T
+3 10 Q
+1.69 (The WRB API pr) 144 639.33 P
+1.69 (ovides application developers with a compr) 223.07 639.33 P
+1.69 (ehensive set of calls to build) 425.45 639.33 P
+2.2 (applications independent of the underlying) 144 627.33 P
+5 F
+2.2 (http) 349.8 627.33 P
+3 F
+2.2 ( daemons used. The API is or) 366.46 627.33 P
+2.2 (ganized as) 508.87 627.33 P
+(follows:) 144 615.33 T
+1 12 Q
+(\245) 144 597.33 T
+3 10 Q
+(WRB Application Callbacks) 162 597.33 T
+1 12 Q
+(\245) 144 579.33 T
+3 10 Q
+(WRB Listener Information Functions) 162 579.33 T
+1 12 Q
+(\245) 144 561.33 T
+3 10 Q
+(WRB Intervention Functions) 162 561.33 T
+1 12 Q
+(\245) 144 543.33 T
+3 10 Q
+(WRB Utility Functions) 162 543.33 T
+54 489 558 507 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 498 558 498 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 498 126 498 2 L
+0 Z
+N
+0 0 612 792 C
+4 14 Q
+0 X
+0 0 0 1 0 0 0 K
+(3.1) 108.5 511.67 T
+(WRB Application Callbacks) 144 511.67 T
+3 10 Q
+-0.07 (Cartridge developers need to pr) 144 470.33 P
+-0.07 (ovide the following WRB Application Callbacks that the WRB) 285.06 470.33 P
+-0.21 (Application Engine will invoke as described below upon r) 144 458.33 P
+-0.21 (eceiving a r) 399.35 458.33 P
+-0.21 (equest fr) 449.57 458.33 P
+-0.21 (om a client for a) 487.67 458.33 P
+1.57 (given cartridge. The bulk of pr) 144 446.33 P
+1.57 (ocessing by the WRB cartridge is done in the) 286.88 446.33 P
+5 F
+1.57 (Exec Callback) 500.61 446.33 P
+3 F
+(wher) 144 434.33 T
+(e the callback function r) 166.72 434.33 T
+(esponds to the listener r) 272.01 434.33 T
+(equest and cr) 377.71 434.33 T
+(eates a r) 436.56 434.33 T
+(esponse.) 472.41 434.33 T
+4 12 Q
+(3.1.1) 102 407 T
+(The Init Callback) 144 407 T
+6 10 Q
+(WRBReturnCode WRB_Init\050 void **clientCtx \051;) 144 386.33 T
+3 F
+0.46 (This callback is invoked by WRB Application Engine on its initialization. The WRB cartridge) 144 368.33 P
+3.16 (initializes its context in this r) 144 356.33 P
+3.16 (outine which is then made available to the cartridge on) 286.31 356.33 P
+(subsequent call backs.) 144 344.33 T
+4 12 Q
+(3.1.2) 102 317 T
+(The Authorize Callback) 144 317 T
+6 10 Q
+(WRBReturnCode WRB_Authorize\050 void *WRBCtx, void *clientCtx, boolean) 144 296.33 T
+(*bAuthorized \051;) 207 284.33 T
+3 F
+0.52 (This callback, when de\336ned, is invoked by WRB Application Engine upon r) 144 266.33 P
+0.52 (eceiving a HTTP) 483.47 266.33 P
+-0.18 (Request. The WRB cartridge performs authorization check for the r) 144 254.33 P
+-0.18 (equest based upon the user) 438.14 254.33 P
+0.76 (ID, passwor) 144 242.33 P
+0.76 (d and/or the client IP addr) 197.93 242.33 P
+0.76 (ess given. The cartridge sets) 321.17 242.33 P
+6 F
+1.84 (bAuthorized) 451.23 242.33 P
+3 F
+0.76 ( to either) 517.23 242.33 P
+6 F
+2.49 (TRUE) 144 230.33 P
+3 F
+1.04 ( or) 168 230.33 P
+6 F
+2.49 (FALSE) 184.48 230.33 P
+3 F
+1.04 ( to let the Engine know its authorization decision. The Exec Callback of the) 214.48 230.33 P
+2.98 (cartridge will be invoked only if the r) 144 218.33 P
+2.98 (equest is authorized. The Engine will r) 329.67 218.33 P
+2.98 (eturn an) 517.85 218.33 P
+0.69 (appr) 144 206.33 P
+0.69 (opriate err) 164.79 206.33 P
+0.69 (or message to the client when the r) 211.87 206.33 P
+0.69 (equest is denied. If the cartridge has been) 370.22 206.33 P
+(pr) 144 194.33 T
+(otected in the WRB con\336guration \336le, this Authorize callback will not be called.) 153.78 194.33 T
+4 12 Q
+(3.1.3) 102 167 T
+(The Exec Callback) 144 167 T
+6 10 Q
+(WRBReturnCode WRB_Exec\050 void *WRBCtx, void *clientCtx \051;) 144 146.33 T
+3 F
+1.2 (This callback is invoked by WRB Application Engine upon r) 144 128.33 P
+1.2 (eceiving a HTTP Request. The) 420.1 128.33 P
+0.69 (WRB cartridge is r) 144 116.33 P
+0.69 (esponsible for cr) 227.24 116.33 P
+0.69 (eating the r) 301.26 116.33 P
+0.69 (esponse that is written back to the Listener in) 352.62 116.33 P
+(this callback.) 144 104.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "7" 7
+%%Page: "8" 8
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(8) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+4 12 Q
+0 X
+(3.1.4) 102 712 T
+(The Shutdown Callback) 144 712 T
+6 10 Q
+(WRBReturnCode WRB_Shutdown\050 void *WRBCtx, void *clientCtx \051;) 144 691.33 T
+3 F
+0.75 (The WRB Application Engine invokes this call back to pr) 144 673.33 P
+0.75 (ovide an graceful exit for the WRB) 401.24 673.33 P
+3.15 (Client. Any memory allocated in the client context during the init callback should be) 144 661.33 P
+(deallocated her) 144 649.33 T
+(e.) 211.66 649.33 T
+4 12 Q
+(3.1.5) 102 622 T
+(The Reload Callback) 144 622 T
+6 10 Q
+(WRBReturnCode WRB_Reload\050 void *WRBCtx, void *clientCtx \051;) 144 601.33 T
+3 F
+0.21 (This callback is not r) 144 583.33 P
+0.21 (equir) 235.19 583.33 P
+0.21 (ed, but is r) 258.29 583.33 P
+0.21 (ecommended. The WRB Application Engine invokes this) 305.56 583.33 P
+0.49 (call back whenever the W) 144 571.33 P
+0.49 (eb Listener has been signalled to r) 258.64 571.33 P
+0.49 (eload its own con\336guration \336les.) 411.5 571.33 P
+3.74 (The W) 144 559.33 P
+3.74 (eb Listener halts all new incoming connections, allows existing transactions to) 176.06 559.33 P
+0.59 (complete, and then signals each r) 144 547.33 P
+0.59 (unning WRB cartridge to execute its r) 293.64 547.33 P
+0.59 (eload callback \050if one) 463.04 547.33 P
+0.52 (exists\051. If your application uses con\336guration information fr) 144 535.33 P
+0.52 (om the OWS_APPFILE then you) 411.9 535.33 P
+(should call WRBGetAppCon\336g again, as these values may have.) 144 523.33 T
+4 12 Q
+(3.1.6) 102 496 T
+(V) 144 496 T
+(ersion Callback) 152 496 T
+6 10 Q
+(char *WRB_Version\050\051;) 144 475.33 T
+3 F
+0.24 (The version callback enables the cartridge to r) 144 457.33 P
+0.24 (eturn a character string with information about) 347.95 457.33 P
+(the version of that cartridge. This callback is made by the \322\322wlctl2\323 utility) 144 445.33 T
+4 12 Q
+(3.1.7) 102 418 T
+(V) 144 418 T
+(ersion Free Callback) 152 418 T
+6 10 Q
+(void WRB_Version_Free\050\051;) 144 397.33 T
+3 F
+1.12 (The version fr) 144 379.33 P
+1.12 (ee callback enables the cartridge to fr) 207.9 379.33 P
+1.12 (ee the memory allocated by the version) 377.74 379.33 P
+1.47 (callback. This callback is made by the \322wlctl2\323 utility after a successful call to the version) 144 367.33 P
+(callback.) 144 355.33 T
+54 283 558 301 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 292 558 292 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 292 126 292 2 L
+0 Z
+N
+0 0 612 792 C
+4 14 Q
+0 X
+0 0 0 1 0 0 0 K
+(3.2) 108.5 305.67 T
+(WRB Listener Information Functions) 144 305.67 T
+3 10 Q
+0.3 (The following Listener Information functions pr) 144 264.33 P
+0.3 (ovide cartridge developers with information,) 357.62 264.33 P
+2.36 (if r) 144 252.33 P
+2.36 (equir) 158.87 252.33 P
+2.36 (ed, fr) 181.97 252.33 P
+2.36 (om the client as well as the underlying HTTP Server) 207.33 252.33 P
+2.36 (. All functions r) 458.39 252.33 P
+2.36 (eturn) 534.15 252.33 P
+(pointers to WRB Application Engine memory which the WRB client should not modify) 144 240.33 T
+(.) 527.21 240.33 T
+4 12 Q
+(3.2.1) 102 213 T
+(WRB Get URL && WRB Get URI) 144 213 T
+6 10 Q
+(char *WRBGetURL\050 void* WRBCtx \051;) 144 192.33 T
+(char *WRBGetURI\050 void* WRBCtx \051;) 144 176.33 T
+3 F
+0.58 (Returns the URL/URI r) 144 158.33 P
+0.58 (eceived fr) 250.11 158.33 P
+0.58 (om the HTTP Server) 293.77 158.33 P
+0.58 (. The cartridge developers may extract) 385.44 158.33 P
+(additional information fr) 144 146.33 T
+(om the URI/URL if r) 254.34 146.33 T
+(equir) 346.97 146.33 T
+(ed.) 370.07 146.33 T
+4 12 Q
+(3.2.2) 102 119 T
+(WRB Get Environment V) 144 119 T
+(ariable) 281.66 119 T
+6 10 Q
+(char *WRBGetEnvironmentVariable\050 void *WRBCtx, char *szEnvVar \051;) 144 98.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "8" 8
+%%Page: "9" 9
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(9) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+3 F
+0 X
+1.63 (Returns the value of an envir) 144 713.33 P
+1.63 (onment variable. This pr) 280.24 713.33 P
+1.63 (ovides a way for the WRB client to) 393.75 713.33 P
+3.79 (access CGI Envir) 144 701.33 P
+3.79 (onment variables. Returns NULL if) 226.08 701.33 P
+6 F
+9.1 (szEnvVar) 403.31 701.33 P
+3 F
+3.79 (points to a invalid) 466.4 701.33 P
+(envir) 144 689.33 T
+(onment variable.) 166.94 689.33 T
+4 12 Q
+(3.2.3) 102 662 T
+(WRB Get Environment) 144 662 T
+6 10 Q
+(char **WRBGetEnvironment\050 void *WRBCtx \051;) 144 641.33 T
+3 F
+0.47 (Returns the HTTP Server envir) 144 623.33 P
+0.47 (onment as an array of null terminated strings with the syntax) 282.44 623.33 P
+6 F
+(varname=varvalue) 144 611.33 T
+3 F
+(. Returns NULL in case of an err) 240 611.33 T
+(or) 382.4 611.33 T
+(.) 391.07 611.33 T
+4 12 Q
+(3.2.4) 102 584 T
+(WRB Get User ID && WRB Get Password) 144 584 T
+6 10 Q
+(char *WRBGetUserID\050 void *WRBCtx \051;) 144 563.33 T
+(char *WRBGetPassword\050 void *WRBCtx \051;) 144 543.33 T
+3 F
+0.12 (Return the client authentication information: user ID and passwor) 144 525.33 P
+0.12 (d. Returns NULL if no user) 436.66 525.33 P
+(ID or passwor) 144 513.33 T
+(d is supplied.) 206.58 513.33 T
+4 12 Q
+(3.2.5) 102 486 T
+(WRB Get Client IP Address) 144 486 T
+6 10 Q
+(ub4 WRBGetClientIP\050 void *WRBCtx \051;) 144 465.33 T
+3 F
+(The thir) 144 447.33 T
+(d r) 179 447.33 T
+(outine r) 191.38 447.33 T
+(eturns the client\325s IP addr) 225.92 447.33 T
+(ess in host byte or) 339.43 447.33 T
+(der) 418.58 447.33 T
+(.) 432.69 447.33 T
+4 12 Q
+(3.2.6) 102 420 T
+(WRB Get Content) 144 420 T
+6 10 Q
+(char *WRBGetContent\050 void *WRBCtx \051;) 144 399.33 T
+3 F
+-0.23 (Returns either the Query String or the POST data content depending on the type of the r) 144 381.33 P
+-0.23 (equest) 529.29 381.33 P
+(method. Returns NULL in case on an err) 144 369.33 T
+(or) 323.16 369.33 T
+(.) 331.83 369.33 T
+4 12 Q
+(3.2.7) 102 342 T
+(WRB Get Language) 144 342 T
+6 10 Q
+(char *WRBGetLanguage\050 void *WRBCtx \051;) 144 321.33 T
+3 F
+1.85 (Returns the WRB Application Engine Language pr) 144 303.33 P
+1.85 (efer) 378.73 303.33 P
+1.85 (ences. Returns NULL in case of an) 395.4 303.33 P
+(err) 144 291.33 T
+(or) 156.51 291.33 T
+(. On success, r) 165.18 291.33 T
+(eturns a comma delimited list of the \322Accept\323 languages.) 227.55 291.33 T
+4 12 Q
+(3.2.8) 102 264 T
+(WRB Get Character Encoding) 144 264 T
+6 10 Q
+(char *WRBGetCharacterEncoding\050 void *WRBCtx \051;) 144 243.33 T
+3 F
+0.25 (Returns the WRB Application Engine Character Encoding pr) 144 225.33 P
+0.25 (efer) 413.48 225.33 P
+0.25 (ences. Returns NULL in case) 430.16 225.33 P
+(of an err) 144 213.33 T
+(or) 181.12 213.33 T
+(. On success, r) 189.79 213.33 T
+(eturns a comma delimited list of the \322Accept\323 encodings.) 252.16 213.33 T
+4 12 Q
+(3.2.9) 102 186 T
+(WRB Get Parsed Content) 144 186 T
+6 10 Q
+(WRBReturnCode WRBGetParsedQueryString\050void *WRBCtx, WRBEntry) 144 165.33 T
+(**WRBEntries, int *numEntries\051;) 225 153.33 T
+(typedef struct {) 144 141.33 T
+(char) 162 129.33 T
+(*name;) 198 129.33 T
+(char) 162 117.33 T
+(*value;) 198 117.33 T
+(} WRBEntry;) 144 105.33 T
+3 F
+(Returns an array of name-value pairs after parsing the query string/POST data.) 144 87.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "9" 9
+%%Page: "10" 10
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(10) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+4 12 Q
+0 X
+(3.2.10) 96 712 T
+(WRB Get Named Entry) 144 712 T
+6 10 Q
+(char *WRBGetNamedEntry\050 char *entryName, WRBEntry *WRBEntries, int) 144 691.33 T
+(numEntries\051;) 225 679.33 T
+3 F
+-0.18 (Returns a name/value pair fr) 144 661.33 P
+-0.18 (om a list of entries generated by a call to WRBGetParsedContent.) 272.9 661.33 P
+(Returns NULL on err) 144 649.33 T
+(or) 238.37 649.33 T
+(.) 247.04 649.33 T
+4 12 Q
+(3.2.1) 96.44 622 T
+(1) 120 622 T
+(WRB Get ORACLE_HOME) 144 622 T
+6 10 Q
+(char *WRBGetORACLE_HOME\050 void *WRBCtx \051;) 144 601.33 T
+3 F
+(Returns the ORACLE_HOME which was set when the W) 144 583.33 T
+(eb Listener was started) 395.94 583.33 T
+4 12 Q
+(3.2.12) 96 556 T
+(WRB Get Application Con\336g) 144 556 T
+6 10 Q
+(char **WRBGetAppConfig\050 void *WRBCtx \051;) 144 535.33 T
+3 F
+0.44 (Returns the con\336guration information for the curr) 144 517.33 P
+0.44 (ent application. The str) 367.57 517.33 P
+0.44 (uctur) 470.59 517.33 P
+0.44 (e of the r) 494.12 517.33 P
+0.44 (eturn) 534.15 517.33 P
+-0.14 (value is a pointer to an array of pointers to character strings.  These character strings ar) 144 505.33 P
+-0.14 (e of the) 525.82 505.33 P
+0.55 (form \322name=val\323. The information is r) 144 493.33 P
+0.55 (etrieved fr) 317.79 493.33 P
+0.55 (om the OWS_APPFILE at the time the W) 364.18 493.33 P
+0.55 (eb) 547.68 493.33 P
+(Listener starts up. An example might be:) 144 481.33 T
+6 F
+([MyCartidge]) 144 439.33 T
+(myparam1 = val1) 144 427.33 T
+(myparam2 = val2) 144 415.33 T
+4 12 Q
+(3.2.13) 96 388 T
+(WRB Get Application Con\336g V) 144 388 T
+(alue) 314.65 388 T
+6 10 Q
+(char *WRBGetConfigVal\050 void *WRBCtx, char *name \051;) 144 367.33 T
+3 F
+0.85 (Returns a named item for the application\325s con\336guration. The information is r) 144 349.33 P
+0.85 (etrieved fr) 497.01 349.33 P
+0.85 (om) 543.71 349.33 P
+(the OWS_APPFILE at the time the W) 144 337.33 T
+(eb Listener starts up.) 306.86 337.33 T
+4 12 Q
+(3.2.14) 96 310 T
+(WRB Get Request MIME T) 144 310 T
+(ype) 292.24 310 T
+6 10 Q
+(char *WRBGetReqMimeType\050 void *WRBCtx \051;) 144 289.33 T
+3 F
+2.13 (Returns the MIME type for the curr) 144 271.33 P
+2.13 (ent r) 313.26 271.33 P
+2.13 (equest based on the MIMET) 335.54 271.33 P
+2.13 (ypes de\336ned in the) 467.23 271.33 P
+0.34 (listener con\336guration \336le sv#.cfg. If no MIME type is de\336ned then the default type text/html) 144 259.33 P
+(is r) 144 247.33 T
+(eturned.) 157.42 247.33 T
+4 12 Q
+(3.2.15) 96 220 T
+(WRB Get MIME T) 144 220 T
+(ype) 244.58 220 T
+6 10 Q
+(char *WRBGetMIMEType\050 void *WRBCtx, char *extension \051;) 144 199.33 T
+3 F
+(Returns the mime type for the extension based on the MIMET) 144 181.33 T
+(ypes de\336ned in the) 415.93 181.33 T
+(listener con\336guration \336le sv#.cfg. If no MIME type is de\336ned then the default type text/html) 144 169.33 T
+(is r) 144 157.33 T
+(eturned.) 157.42 157.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "10" 10
+%%Page: "11" 11
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(11) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 688 558 706 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 697 558 697 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 697 126 697 2 L
+0 Z
+N
+0 0 612 792 C
+4 14 Q
+0 X
+0 0 0 1 0 0 0 K
+(3.3) 108.5 710.67 T
+(WRB Intervention Functions) 144 710.67 T
+3 10 Q
+(These functions ar) 144 669.33 T
+(e invoked by the WRB cartridge to r) 224.85 669.33 T
+(espond to an incoming client r) 383.65 669.33 T
+(equest.) 517.77 669.33 T
+4 12 Q
+(3.3.1) 102 642 T
+(WRB Set Authorization) 144 642 T
+6 10 Q
+(WRBReturnCode WRBSetAuthorization\050 void *WRBCtx, WRBAuthScheme) 144 621.33 T
+(nScheme, char *szRealm, boolean bAndorflag \051;) 207 609.33 T
+3 F
+1.23 (In WRB Authorize callback r) 144 591.33 P
+1.23 (outine, the WRB cartridge invokes this function to specify the) 275.45 591.33 P
+(authorization scheme and r) 144 579.33 T
+(ealm information.) 264.99 579.33 T
+6 F
+(nScheme) 346.77 579.33 T
+3 F
+( can be either one of these schemes:) 388.77 579.33 T
+4.15 (If the cartridge chooses any) 144 367.33 P
+5 F
+4.15 (existing) 288.64 367.33 P
+3 F
+4.15 ( scheme \050authentication, or domain- or IP-based) 320.87 367.33 P
+(r) 144 355.33 T
+(estriction\051, the authorization will be performed by the Server on behalf of the cartridge.) 147.77 355.33 T
+6 F
+(szRealm) 144 337.33 T
+3 F
+( is the pr) 186 337.33 T
+(otection r) 224.3 337.33 T
+(ealm, of format as speci\336ed in HTTP 1.0 speci\336cation.) 265.97 337.33 T
+2.8 (The cartridge may choose an existing authentication scheme and an existing r) 144 319.33 P
+2.8 (estriction) 516.96 319.33 P
+0.41 (scheme together \050with 2 WRBSetAuthorization calls\051. In such a case,) 144 307.33 P
+6 F
+0.98 (bAndorflag) 451.3 307.33 P
+3 F
+0.41 ( should be) 511.3 307.33 P
+(set to:) 144 295.33 T
+1 12 Q
+(\245) 162 280.33 T
+6 10 Q
+(FALSE) 180 280.33 T
+3 F
+( when the cartridge wants an HTTP r) 210 280.33 T
+(equest to be authorized when the client) 373.98 280.33 T
+(passes) 180 268.33 T
+5 F
+(both) 211.02 268.33 T
+3 F
+( checks,) 228.42 268.33 T
+1 12 Q
+(\245) 162 253.33 T
+6 10 Q
+(TRUE) 180 253.33 T
+3 F
+( when the cartridge wants an HTTP r) 204 253.33 T
+(equest to be authorized when the client) 367.98 253.33 T
+(passes) 180 241.33 T
+5 F
+(either one of the) 211.02 241.33 T
+3 F
+(checks) 277.13 241.33 T
+0.26 (However) 144 223.33 P
+0.26 (, if the cartridge chooses a new \050authentication\051 scheme, it will not be able to choose) 184.56 223.33 P
+(any other schemes.) 144 211.33 T
+2.81 (The cartridge may also call WRBSetAuthorization in its Init callback r) 144 193.33 P
+2.81 (outine to set the) 478.91 193.33 P
+1.64 (authorization scheme once and for all. If the cartridge has de\336ned the Authorize callback) 144 181.33 P
+(r) 144 169.33 T
+(outine, the authorization scheme set in the Init callback r) 147.77 169.33 T
+(outine will not take ef) 397.51 169.33 T
+(fect.) 493.94 169.33 T
+4 12 Q
+(3.3.2) 102 142 T
+(WRB Client Read) 144 142 T
+6 10 Q
+(ssize_t WRBClientRead\050 void *WRBCtx, char *szData, int *nBytes \051;) 144 121.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+2 12 Q
+(T) 220.19 556 T
+(able 1: A) 227.09 556 T
+(uthorization Schemes) 272.48 556 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+1 F
+(nScheme) 104 530 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+(Meaning) 352.17 530 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+6 10 Q
+(WRB_AUTH_BASIC_EXIST) 60 507.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+1 F
+(Basic authentication, use an) 204 506 T
+0 F
+(e) 318.15 506 T
+(xisting sc) 322.39 506 T
+(heme) 359.74 506 T
+1 F
+( from the Serv) 380.84 506 T
+(er con\336guration \336le) 438.18 506 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+6 F
+(WRB_AUTH_BASIC_NEW) 60 485.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+1 F
+(Basic authentication, use a) 204 484 T
+0 F
+(ne) 313.15 484 T
+(w sc) 322.44 484 T
+(heme) 339.79 484 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+6 F
+(WRB_AUTH_DIGEST_EXIST) 60 463.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+1 F
+(Digest authentication, use an) 204 462 T
+0 F
+(e) 322.04 462 T
+(xisting sc) 326.28 462 T
+(heme) 363.63 462 T
+1 F
+( from the Serv) 384.73 462 T
+(er con\336guration \336le) 442.07 462 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+6 F
+(WRB_AUTH_DIGEST_NEW) 60 441.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+1 F
+(Digest authentication, a) 204 440 T
+0 F
+(ne) 301.21 440 T
+(w sc) 310.5 440 T
+(heme) 327.85 440 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+6 F
+(WRB_AUTH_DOMAIN) 60 419.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+1 F
+(Domain-based restriction, use an) 204 418 T
+0 F
+(e) 338.14 418 T
+(xisting sc) 342.38 418 T
+(heme) 379.73 418 T
+1 F
+( from the Serv) 400.83 418 T
+(er con\336guration \336le) 458.17 418 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+6 F
+(WRB_AUTH_IP) 60 397.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+1 F
+(IP-based restriction, use an) 204 396 T
+0 F
+(e) 314.81 396 T
+(xisting sc) 319.05 396 T
+(heme) 356.4 396 T
+1 F
+( from the Serv) 377.5 396 T
+(er con\336guration \336le) 434.84 396 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 545.75 54 388.25 2 L
+V
+0.5 H
+0 Z
+N
+198 546.25 198 387.75 2 L
+V
+N
+549 545.75 549 388.25 2 L
+V
+N
+53.75 546 549.25 546 2 L
+V
+N
+54.25 521.25 548.75 521.25 2 L
+V
+N
+54.25 518.75 548.75 518.75 2 L
+V
+N
+53.75 498 549.25 498 2 L
+V
+N
+53.75 476 549.25 476 2 L
+V
+N
+53.75 454 549.25 454 2 L
+V
+N
+53.75 432 549.25 432 2 L
+V
+N
+53.75 410 549.25 410 2 L
+V
+N
+53.75 388 549.25 388 2 L
+V
+N
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "11" 11
+%%Page: "12" 12
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(12) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+3 F
+0 X
+-0.02 (The WRB Client invokes this function to r) 144 713.33 P
+-0.02 (ead the POST data of a HTTP r) 327.87 713.33 P
+-0.02 (equest fr) 463.81 713.33 P
+-0.02 (om the WRB) 502.1 713.33 P
+1.01 (Application Engine. In the curr) 144 701.33 P
+1.01 (ent implementation, if a client is going to r) 285.33 701.33 P
+1.01 (ead POST data it) 480.74 701.33 P
+0.26 (must do so befor) 144 689.33 P
+0.26 (e sending any data \050thr) 218.8 689.33 P
+0.26 (ough WRBClientW) 321.83 689.33 P
+0.26 (rite\051 back to the W) 406.29 689.33 P
+0.26 (eb Listener) 487.78 689.33 P
+0.26 (. The) 536 689.33 P
+(r) 144 677.33 T
+(eturn value is the number of bytes r) 147.77 677.33 T
+(ead.) 305.41 677.33 T
+4 12 Q
+(3.3.3) 102 650 T
+(WRB Client W) 144 650 T
+(rite) 223.76 650 T
+6 10 Q
+(ssize_t WRBClientWrite\050 void *WRBCtx, char *szData, int nBytes\051;) 144 629.33 T
+3 F
+1.17 (The WRB cartridge invokes this function to send data to the client. The r) 144 611.33 P
+1.17 (eturn value is the) 477.74 611.33 P
+(number of bytes written.) 144 599.33 T
+4 12 Q
+(3.3.4) 102 572 T
+(WRB Client W) 144 572 T
+(rite File \050not implemented\051) 223.76 572 T
+6 10 Q
+(WRBReturnCode WRBClientWriteFile\050 void *WRBCtx, char *szFileName,) 144 551.33 T
+(WRBFileType nFileType \051;) 225 539.33 T
+3 F
+0.09 (The WRB client invokes this function to send the contents of a \336le to the client. The \336le can be) 144 521.33 P
+0.38 (located either in the HTTP Servers physical or virtual \336le system. The \336le type is speci\336ed in) 144 509.33 P
+(the nFileT) 144 497.33 T
+(ype parameter) 187.59 497.33 T
+(.) 251.29 497.33 T
+4 12 Q
+(3.3.5) 102 470 T
+(WRB Return HTTP Error) 144 470 T
+6 10 Q
+(ssize_t WRBHTTPReturnError\050 void *WRBCtx, WRBErrorCode, nErrorCode,) 144 449.33 T
+(char *szErrorMesg, boolean close\051;) 225 437.33 T
+3 F
+2.21 (Invoked by the WRB client when it would like a standar) 144 419.33 P
+2.21 (d HTTP err) 413.88 419.33 P
+2.21 (or sent back to the) 468.53 419.33 P
+1.35 (br) 144 407.33 P
+1.35 (owser) 153.3 407.33 P
+1.35 (. This call must occur befor) 179.34 407.33 P
+1.35 (e any other calls to WRBClientW) 305 407.33 P
+1.35 (rite, as it is a wrapper) 455.74 407.33 P
+0.22 (which sends : Status <nErr) 144 395.33 P
+0.22 (orCode> <szErr) 262.65 395.33 P
+0.22 (orMesg> The \322close\323 \337ag set to false indicates that) 333.42 395.33 P
+1.78 (you wish to send additional HTTP header information and that you will close the HTTP) 144 383.33 P
+(header explicitly with a call to WRBCloseHTTPHeader) 144 371.33 T
+(.) 385.75 371.33 T
+4 12 Q
+(3.3.6) 102 344 T
+(WRB Client Call Cartridge \050not implemented\051) 144 344 T
+6 10 Q
+(WRBReturnCode WRBCallCartridge\050 void *WRBCtx, char *request\051;) 144 323.33 T
+3 F
+0.37 (The WRB client calls this function to invoke a r) 144 305.33 P
+0.37 (equest which could be satis\336ed by a cartridge) 353.95 305.33 P
+(r) 144 293.33 T
+(unning on the local WRB, or by a r) 147.87 293.33 T
+(emote HTTP Server or WRB.) 300.26 293.33 T
+4 12 Q
+(3.3.7) 102 248 T
+(WRB Client Set T) 144 248 T
+(imeout Call \050not implemented\051) 240.32 248 T
+6 10 Q
+(WRBReturnCode WRBClientSetTimeOut\050 void *WRBCtx, int nTimeOut,) 144 227.33 T
+(WRBReturnCode \050*WRBClientCleanUP\051\050 *void WRBCtx \051 \051;) 225 215.33 T
+3 F
+0.33 (This function can be called by the WRB client to set a time out for long r) 144 197.33 P
+0.33 (unning calls. If WRB) 466.05 197.33 P
+0.76 (Client makes this call the WRB Application Engine sets up a timer to interr) 144 185.33 P
+0.76 (upt pr) 483.93 185.33 P
+0.76 (ocessing a) 512.28 185.33 P
+0.4 (HTTP r) 144 173.33 P
+0.4 (equest and r) 177.29 173.33 P
+0.4 (eturn to the Listener with a timedout err) 232.49 173.33 P
+0.4 (or r) 413.57 173.33 P
+0.4 (esponse. The WRB client can) 429.64 173.33 P
+2.85 (set a callback) 144 161.33 P
+6 F
+6.84 (WRBClientCleanUp) 213.13 161.33 P
+3 F
+2.85 (to clean up the client in case of a timeout. WRB) 321.97 161.33 P
+3.5 (Application Engine discar) 144 149.33 P
+3.5 (ds any r) 265.99 149.33 P
+3.5 (esponse fr) 308.49 149.33 P
+3.5 (om the WRB client once the timeout has) 356.94 149.33 P
+(happened. If no callback is pr) 144 137.33 T
+(ovided a default callback is used.) 274.05 137.33 T
+4 12 Q
+(3.3.8) 102 110 T
+(WRB Return HTTP Redirect) 144 110 T
+6 10 Q
+(ssize_t WRBReturnHTTPRedirect\050 void *WRBCtx, char *szURI, boolean) 144 89.33 T
+(close\051;) 225 77.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "12" 12
+%%Page: "13" 13
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(13) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+3 F
+0 X
+2.21 (Invoked by the WRB client when it would like a standar) 144 713.33 P
+2.21 (d HTTP err) 413.88 713.33 P
+2.21 (or sent back to the) 468.53 713.33 P
+0.17 (br) 144 701.33 P
+0.17 (owser) 153.3 701.33 P
+0.17 (. This call must come befor) 179.34 701.33 P
+0.17 (e any other calls to WRBClientW) 298.29 701.33 P
+0.17 (rite, as it is just a wrapper) 443.12 701.33 P
+(which sends : Status: <nErr) 144 689.33 T
+(orCode> <szErr) 264.28 689.33 T
+(orMesg>) 334.83 689.33 T
+3.08 (The \322close\323 \337ag set to F) 144 671.33 P
+3.08 (ALSE indicates that you wish to send addition HTTP header) 262.97 671.33 P
+5.95 (information and that you will close the HTTP header explicitly with a call to) 144 659.33 P
+(WRBCloseHTTPHeader) 144 647.33 T
+(.) 250.12 647.33 T
+4 12 Q
+(3.3.9) 102 602 T
+(WRB Close HTTP Header) 144 602 T
+6 10 Q
+(ssize_t WRBCloseHTTPHeaer\050 void *WRBCtx \051;) 144 581.33 T
+3 F
+0.27 (Invoked by the WRB client when it would like to close an HTTP header) 144 563.33 P
+0.27 (. Generally used after) 462.33 563.33 P
+2.78 (calls to WRBReturnHTTPErr) 144 551.33 P
+2.78 (or or WRBReturnHTTPRedir) 276.55 551.33 P
+2.78 (ect with the \322close\323 \337ag set to) 410.13 551.33 P
+(F) 144 539.33 T
+(ALSE.) 148.82 539.33 T
+4 12 Q
+(3.3.10) 96 512 T
+(WRB Log Message) 144 512 T
+6 10 Q
+(void WRBLogMessage\050 void *WRBCtx, char *szMessage, int nSeverity \051;) 144 491.33 T
+3 F
+3.54 (Logs the message) 144 473.33 P
+6 F
+8.49 (szMessage) 234.8 473.33 P
+3 F
+3.54 ( to a \336le) 288.8 473.33 P
+6 F
+8.49 ( ?/ows21/log/wrb_<pid>.c) 334.39 473.33 P
+3 F
+3.54 ( wher) 480.88 473.33 P
+3.54 (e ? is the) 509.64 473.33 P
+6 F
+0.81 (ORACLE_HOME) 144 461.33 P
+3 F
+0.34 ( and) 210 461.33 P
+6 F
+0.81 (pid) 232.61 461.33 P
+3 F
+0.34 ( is the pr) 250.61 461.33 P
+0.34 (ocessid of the W) 289.92 461.33 P
+0.34 (eb Request Br) 362.37 461.33 P
+0.34 (oker) 423.63 461.33 P
+0.34 (. Curr) 442.65 461.33 P
+0.34 (ently) 468.83 461.33 P
+6 F
+0.81 (nSeverity) 494.01 461.33 P
+3 F
+0.34 ( is) 548.01 461.33 P
+(not used and r) 144 449.33 T
+(eserved for futur) 207.91 449.33 T
+(e versions.) 282.39 449.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "13" 13
+%%Page: "14" 14
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(14) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 702 558 720 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 711 558 711 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 711 126 711 2 L
+0 Z
+N
+0 0 612 792 C
+54 666 558 684 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 675 558 675 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 675 126 675 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(4) 117 690 T
+(WRB API Example Application.) 144 690 T
+3 10 Q
+0.28 (The following section describes a simple example of W) 144 639.33 P
+0.28 (eb Application written using the WRB) 387.69 639.33 P
+(API functions. This application prints hello world in the br) 144 627.33 T
+(owser window) 403.08 627.33 T
+6 F
+(#ifndef ORATYPES_ORACLE) 144 603.33 T
+(# include <oratypes.h>) 144 591.33 T
+(#endif) 144 579.33 T
+(#ifndef WRB_ORACLE) 144 555.33 T
+(# include <wrb.h>) 144 543.33 T
+(#endif) 144 531.33 T
+(WRBReturnCode test_init\050\051;) 144 507.33 T
+(WRBReturnCode test_auth\050\051;) 144 495.33 T
+(WRBReturnCode test_exec\050\051;) 144 483.33 T
+(WRBReturnCode test_shut\050\051;) 144 471.33 T
+(/*******************************************************************/) 144 459.33 T
+(/* Client-provided callback functions                              */) 144 447.33 T
+(/*******************************************************************/) 144 435.33 T
+-1.2 (/* The following function defintions should be provided by WRBclient */) 144 423.33 P
+-1.38 (/* such that the WRB can invoke the users application. The WRB client */) 144 411.33 P
+-1.71 (/* must have a single entry point, which gets specified in the [Apps] */) 144 399.33 P
+-1.08 (/* section of the WRB configuration file.                                 */) 144 387.33 P
+-0.18 (/*                                                                   */) 144 375.33 P
+-1.6 (/* This entry point function should fill in the WRBCallbacks table    */) 144 363.33 P
+-1.29 (/* that it is passed, such that the WRB can call the init, authorize, */) 144 351.33 P
+-0.67 (/* exec, and shut routines respectively \050explained below\051.           */) 144 339.33 P
+-0.58 (/*                                                                        */) 144 327.33 P
+-1.45 (/* A simple example of a valid entry function would be:                   */) 144 315.33 P
+-0.57 (/* WRBReturnCode mydyn_init\050WRBCallbacks *WRBcalls\051                  */) 144 303.33 P
+-0.59 (/* {                                                                      */) 144 291.33 P
+-1.13 (/*    WRBcalls->init_WRBCallback = my_init;                               */) 144 279.33 P
+-1.46 (/*    WRBcalls->authorize_WRBCallback = my_auth;                           */) 144 267.33 P
+-1.13 (/*    WRBcalls->exec_WRBCallback = my_exec;                               */) 144 255.33 P
+-1.13 (/*    WRBcalls->shut_WRBCallback = my_shut;                               */) 144 243.33 P
+-0.58 (/*                                                                        */) 144 231.33 P
+-0.72 (/*    return WRB_DONE                                                     */) 144 219.33 P
+-0.59 (/* }                                                                      */) 144 207.33 P
+(WRBReturnCode testentry \050WRBCalls\051) 144 183.33 T
+(WRBCallbacks *WRBCalls;) 144 171.33 T
+({) 144 159.33 T
+(WRBCalls->init_WRBCallback = test_init;) 180 147.33 T
+(WRBCalls->authorize_WRBCallback = test_auth;) 180 135.33 T
+(WRBCalls->exec_WRBCallback = test_exec;) 180 123.33 T
+(WRBCalls->shut_WRBCallback = test_shut;) 180 111.33 T
+(return \050WRB_DONE\051;) 180 87.33 T
+(}) 144 75.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "14" 14
+%%Page: "15" 15
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(15) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+6 F
+0 X
+(WRBReturnCode test_init\050 WRBCtx, clientcxp \051) 144 689.33 T
+(void *WRBCtx;) 144 677.33 T
+(void **clientcxp;) 144 665.33 T
+({) 144 653.33 T
+(return \050WRB_DONE\051;) 189 641.33 T
+(}) 144 629.33 T
+(WRBReturnCode test_auth\050 WRBCtx, clientcxp, bAuthorized \051) 144 593.33 T
+(void     *WRBCtx;) 144 581.33 T
+(void    **clientcxp;) 144 569.33 T
+(boolean  *bAuthorized;) 144 557.33 T
+({) 144 545.33 T
+(char *userID, *password;) 189 533.33 T
+-2.25 (WRBSetAuthorization\050WRBCtx, WRB_AUTH_BASIC_NEW, \322Hello World\323,) 189 509.33 P
+(FALSE\051;) 225 497.33 T
+(userID   = WRBGetUserID\050WRBCtx\051;) 189 473.33 T
+(password = WRBGetPassword\050WRBCtx\051;) 189 461.33 T
+(*bAuthorized = \050\050userID != \050char*\051NULL\051 &&) 189 437.33 T
+(!strcmp\050userID, \322guest\323\051 &&) 243 425.33 T
+(\050password != \050char*\051NULL\051 &&) 243 413.33 T
+(!strcmp\050password, \322welcome\323\051\051;) 243 401.33 T
+(return \050WRB_DONE\051;) 189 377.33 T
+(}) 144 365.33 T
+(WRBReturnCode test_exec\050 WRBCtx, clientcxp \051) 144 329.33 T
+(void *WRBCtx;) 144 317.33 T
+(void *clientcxp;) 144 305.33 T
+({) 144 293.33 T
+(WRBClientWrite\050WRBCtx, \322Content-type: text/html\134n\134n) 180 281.33 T
+(HelloWorld\134n\323, 40\051;) 225 269.33 T
+(return \050WRB_DONE\051;) 180 257.33 T
+(}) 144 245.33 T
+(WRBReturnCode test_shut\050 WRBCtx, clientcxp \051) 144 221.33 T
+(void *WRBCtx;) 144 209.33 T
+(void *clientcxp;) 144 197.33 T
+({) 144 185.33 T
+(return \050WRB_DONE\051;) 180 173.33 T
+(}) 144 161.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "15" 15
+%%Page: "16" 16
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(16) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 702 558 720 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 711 558 711 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 711 126 711 2 L
+0 Z
+N
+0 0 612 792 C
+54 666 558 684 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 675 558 675 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 675 126 675 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(5) 117 690 T
+(Compiling and Linking Cartridges) 144 690 T
+3 10 Q
+(This section describes the make\336le for building W) 144 639.33 T
+(eb Request Br) 363.92 639.33 T
+(oker cartridges.) 424.51 639.33 T
+6 F
+(#Makefile for building WRB Cartridges) 144 609.33 T
+(#====================================) 144 597.33 T
+(LIBHOME) 144 573.33 T
+(=) 207 573.33 T
+($\050ORACLE_HOME\051/ows21/wrbsdk/lib) 225 573.33 T
+(INCHOME) 144 561.33 T
+(=) 207 561.33 T
+($\050ORACLE_HOME\051/ows21/wrbsdk/inc) 225 561.33 T
+(LDCOM) 144 549.33 T
+(=) 207 549.33 T
+(-g -xs -L$\050LIBHOME\051) 225 549.33 T
+(SLIBS) 144 537.33 T
+(=) 207 537.33 T
+(-lnsl -lm -lsocket -ldl -laio) 225 537.33 T
+(all: helloworld.so) 144 513.33 T
+(helloworld.o:) 144 489.33 T
+(helloworld.c) 222 489.33 T
+($\050CC\051) 207 477.33 T
+(-c -o $@ -g -I$\050INCHOME\051 helloworld.c) 237 477.33 T
+(#The link line for the final .so dynamic library is given below) 144 453.33 T
+(helloworld.so: helloworld.o) 144 441.33 T
+($\050CC\051 $\050LDCOM\051 -o $@ -G helloworld.o $\050SLIBS\051) 207 429.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "16" 16
+%%Page: "17" 17
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(17) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 702 558 720 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 711 558 711 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 711 126 711 2 L
+0 Z
+N
+0 0 612 792 C
+54 666 558 684 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 675 558 675 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 675 126 675 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(6) 117 690 T
+(Registering Cartridges) 144 690 T
+54 613 558 631 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 622 558 622 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 622 126 622 2 L
+0 Z
+N
+0 0 612 792 C
+4 14 Q
+0 X
+0 0 0 1 0 0 0 K
+(6.1) 108.5 635.67 T
+(WRB Con\336guration File speci\336cation) 144 635.67 T
+3 10 Q
+-0.04 (All new cartridges will need to r) 144 594.33 P
+-0.04 (egister themselves in the WRB con\336g \336le which is r) 286.57 594.33 P
+-0.04 (ead by the) 512.23 594.33 P
+-0.14 (server at startup. The con\336g \336le has the same name as the listener con\336guration \336le but has an) 144 582.33 P
+(extension .app) 144 570.33 T
+(In the WRB con\336g \336le the following sections will need to be \336lled.) 144 552.33 T
+4 12 Q
+(6.1.1) 102 525 T
+([Apps]  section) 144 525 T
+1 F
+(\245) 144 504.33 T
+3 10 Q
+(APPS  - This tag will de\336ne your cartridge type) 162 504.33 T
+1 12 Q
+(\245) 144 486.33 T
+3 10 Q
+(Object Path - This tag will de\336ne the full path fr) 162 486.33 T
+(om wher) 372.46 486.33 T
+(e the shar) 411.97 486.33 T
+(ed r) 454.46 486.33 T
+(esides.) 471.63 486.33 T
+1 12 Q
+(\245) 144 468.33 T
+3 10 Q
+1.42 (Entry Point - This entry point function should \336ll in the WRBCallbacks table that it is) 162 468.33 P
+(passed, such that the WRB can call the init, exec, and shut r) 162 456.33 T
+(outines r) 422.94 456.33 T
+(estively) 461.72 456.33 T
+(.) 494.72 456.33 T
+1 12 Q
+(\245) 144 438.33 T
+3 10 Q
+0.24 (Min         - This entry indicates the minimum number of pr) 162 438.33 P
+0.24 (ocesses that need to be started) 423.6 438.33 P
+(up for each cartridge/application) 162 426.33 T
+1 12 Q
+(\245) 144 408.33 T
+3 10 Q
+0.42 (Max         - This entry indicates the maximum number of pr) 162 408.33 P
+0.42 (ocesses that will be allocated) 429.51 408.33 P
+(for each cartridge/application use.) 162 396.33 T
+6 F
+([Apps]) 144 372.33 T
+(;) 144 360.33 T
+(; APP   Object Path) 144 348.33 T
+( Entry Point  Min     Max) 402 348.33 T
+(; ===   ===========) 144 336.33 T
+(===========  ===     ===) 408 336.33 T
+(OWA     /private/oracle/ows21/lib/libndwoa.so ndwoadinit  0       100) 144 324.33 T
+(SSI     /vobs/ws/src/ssi/ndwussi.so) 144 312.33 T
+(ndwussinit  0       100) 414 312.33 T
+(JAVA    /private/oracle/ows21/lib/libjava.so) 144 300.33 T
+(ojsdinit) 414 300.33 T
+(0       100) 486 300.33 T
+4 12 Q
+(6.1.2) 102 255 T
+([AppsDirs] section) 144 255 T
+1 F
+(\245) 144 234.33 T
+3 10 Q
+(V) 162 234.33 T
+(irtual Path  - this entry speci\336es the virtual path that all URL) 168.67 234.33 T
+(\325s will be r) 434.92 234.33 T
+(efernced by) 480.6 234.33 T
+1 12 Q
+(\245) 144 216.33 T
+3 10 Q
+(APP           - Same as above APP entry) 162 216.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "17" 17
+%%Page: "18" 18
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(18) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+1 12 Q
+0 X
+(\245) 144 713.33 T
+3 10 Q
+0.46 (Physical Path - The actual physical path that the applications will r) 162 713.33 P
+0.46 (ead all their data \336les) 461.34 713.33 P
+(fr) 162 701.33 T
+(om.) 169.1 701.33 T
+6 F
+([AppDirs]) 144 677.33 T
+(;) 144 665.33 T
+(; Virtual Path          APP     Physical Path) 144 653.33 T
+(; ============          ===     =============) 144 641.33 T
+(/ssi                    SSI     /private/oracle/ows21/sample/ssi) 144 629.33 T
+(/hr/owa                 OWA     /private/oracle/ows21/bin) 144 617.33 T
+(/tr/owa                 OWA     /private/oracle/ows21/bin) 144 605.33 T
+(/owa_dba/owa            OWA     /private/oracle/ows21/bin) 144 593.33 T
+(/java                   JAVA    /private/oracle/ows21/java) 144 581.33 T
+4 12 Q
+(6.1.3) 102 536 T
+([AppProtection]) 144 536 T
+1 F
+(\245) 144 515.33 T
+3 10 Q
+-0.11 (V) 162 515.33 P
+-0.11 (irtual Path: The virtual path that needs to be pr) 168.67 515.33 P
+-0.11 (otected. For mor) 375.28 515.33 P
+-0.11 (e information r) 447.69 515.33 P
+-0.11 (efer to the) 513.78 515.33 P
+(pr) 162 503.33 T
+(otection section in listener con\336guration.) 171.78 503.33 T
+1 12 Q
+(\245) 144 485.33 T
+3 10 Q
+0.12 (Pr) 162 485.33 P
+0.12 (otection Scheme: Authentication or Restriction schemes or a combination of both. Refer) 171.81 485.33 P
+(to the pr) 162 473.33 T
+(otection section in listener con\336guration for mor) 199.37 473.33 T
+(e information.) 412.65 473.33 T
+6 F
+(/owa_dba/owa/*) 144 443.33 T
+(Basic\050Admin Server\051) 333 443.33 T
+(/hr/owa) 144 431.33 T
+( Basic\050registered\051 | IP\050oracle\051) 327 431.33 T
+4 12 Q
+(6.1.4) 102 386 T
+(Cartridge con\336guration section) 144 386 T
+3 10 Q
+0.47 (Each cartr) 144 365.33 P
+0.47 (dige can spec\336fy its own con\336guration information which is availabe to it thr) 188.76 365.33 P
+0.47 (u the) 535.13 365.33 P
+6 F
+(WRB_GetAppConfig) 144 353.33 T
+1 F
+(call.) 246 353.33 T
+3 F
+(The con\336guration information should be) 265.44 353.33 T
+(in the format A = B.) 448.08 353.33 T
+([SSI]) 144 317.33 T
+6 F
+(EnableLiveHTML     = TRUE) 144 305.33 T
+(ParseHTMLExtn      = FALSE) 144 293.33 T
+(EnableExecTag      = TRUE) 144 281.33 T
+(ExtensionList) 144 269.33 T
+(   = html shtml lhtml) 228 269.33 T
+(MaxRequests        = 1) 144 257.33 T
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "18" 18
+%%Page: "19" 19
+612 792 0 FMBEGINPAGE
+[0 0 0 1 0 0 0]
+[ 0 1 1 0 1 0 0]
+[ 1 0 1 0 0 1 0]
+[ 1 1 0 0 0 0 1]
+[ 1 0 0 0 0 1 1]
+[ 0 1 0 0 1 0 1]
+[ 0 0 1 0 1 1 0]
+ 7 FrameSetSepColors
+FrameNoSep
+0 0 0 1 0 0 0 K
+54 720 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+54 744.86 558 756 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 744.86 558 756 R
+7 X
+0 0 0 1 0 0 0 K
+V
+55 751.72 585 751.72 2 L
+V
+2 H
+2 Z
+0 X
+N
+0 0 612 792 C
+54 728.86 558 734.86 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 728.86 558 734.86 R
+7 X
+0 0 0 1 0 0 0 K
+V
+41.5 731.86 572.5 731.86 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+0 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(W) 217.52 738.19 T
+(eb Request Br) 224.93 738.19 T
+(ok) 280.58 738.19 T
+(er API Dr) 289.92 738.19 T
+(aft Speci\336cation) 329.76 738.19 T
+54 26 558 44 R
+7 X
+V
+54 38 558 44 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 38 558 44 R
+7 X
+0 0 0 1 0 0 0 K
+V
+40.5 42.5 571.5 42.5 2 L
+V
+0.5 H
+2 Z
+0 X
+N
+0 0 612 792 C
+1 10 Q
+0 X
+0 0 0 1 0 0 0 K
+(19) 54 31.33 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+54 72 558 720 R
+7 X
+V
+54 702 558 720 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 711 558 711 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 711 126 711 2 L
+0 Z
+N
+0 0 612 792 C
+54 666 558 684 C
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 675 558 675 2 L
+0.25 H
+2 Z
+0 X
+0 0 0 1 0 0 0 K
+N
+54 675 126 675 2 L
+0 Z
+N
+0 0 612 792 C
+4 18 Q
+0 X
+0 0 0 1 0 0 0 K
+(Appendix A -) 144 690 T
+(References) 259.49 690 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+3 12 Q
+(T) 189 634 T
+(able 2: Refer) 195.25 634 T
+(ences) 260.16 634 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+3 8 Q
+(SpyGlass Server ADI) 150 612.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+5 F
+(Spyglass Server Refer) 294 612.67 T
+(ence Manual V) 364.1 612.67 T
+(ersion 1.1.) 412.84 612.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+(http://www) 294 602.67 T
+(.spyglass.com:4040/support) 330.95 602.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+3 F
+( Internet Server API) 150 584.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+5 F
+(A speci\336cation for W) 294 584.67 T
+(riting Internet Server Applications.) 361.68 584.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+(http://www) 294 574.67 T
+(.micr) 330.95 574.67 T
+(osoft.com/intdev/inttech/isapi.htm) 347.62 574.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+3 F
+( Netscape Server API) 150 556.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+(T) 294 556.67 T
+5 F
+(he Netscape Server API. http://home.netscape.com) 298.9 556.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+3 F
+(Open Market FastCGI) 150 538.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+5 F
+(FastCGI Speci\336cation. http://www) 294 538.67 T
+(.openmarket.com/fcgi-spec.html) 405.46 538.67 T
+0 0 0 1 0 0 0 K
+0 0 0 1 0 0 0 K
+144 623.75 144 532.25 2 L
+V
+0.5 H
+0 Z
+N
+288 624.25 288 531.75 2 L
+V
+N
+558 623.75 558 532.25 2 L
+V
+N
+143.75 624 558.25 624 2 L
+V
+N
+143.75 596 558.25 596 2 L
+V
+N
+143.75 568 558.25 568 2 L
+V
+N
+143.75 550 558.25 550 2 L
+V
+N
+143.75 532 558.25 532 2 L
+V
+N
+0 0 0 1 0 0 0 K
+FMENDPAGE
+%%EndPage: "19" 19
+%%Trailer
+%%BoundingBox: 0 0 612 792
+%%PageOrder: Ascend
+%%Pages: 19
+%%DocumentFonts: Times-Italic
+%%+ Times-Roman
+%%+ Times-Bold
+%%+ Palatino-Roman
+%%+ Palatino-Bold
+%%+ Palatino-Italic
+%%+ Courier
+%%EOF

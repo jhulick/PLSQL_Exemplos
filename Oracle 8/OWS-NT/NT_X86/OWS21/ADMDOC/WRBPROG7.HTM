@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<TITLE>
+Writing Applications Using the Web Request Broker API
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbprog6.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbprog8.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="422054">
+The Shutdown cartridge function
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="422055">
+The WRB application engine calls your Shutdown cartridge function to prepare your cartridge to exit. Your Shutdown function must free any resources your cartridge is using. When your Shutdown function returns, your cartridge must be ready to exit at any time.<P>
+</A><HR>
+<H2>
+<A NAME="422059">
+Syntax
+</A>
+</H2>
+<A NAME="422062">
+<PRE>WRBReturnCode <em>prefix</em>_Shutdown(void *WRBCtx, void *appCtx);<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422060">
+Parameters
+</A>
+</H2>
+<A NAME="422063">
+The parameters for Shutdown are the same as for Exec--see <a href="wrbprog6.htm#421989">Exec function parameters</a>.<P>
+</A><HR>
+<H2>
+<A NAME="422064">
+Return values
+</A>
+</H2>
+<A NAME="422065">
+Your Shutdown function must return a value of type <code>WRBReturnCode</code> (see <a href="wrbprog3.htm#421963">Entry-point function return values</a>). Returning a value of WRB_DONE implies that your cartridge is ready to exit at any time.<P>
+</A><HR>
+<H2>
+<A NAME="426388">
+Example
+</A>
+</H2>
+<A NAME="426389">
+See the MyWRBApp sample function <code><a href="mywrbap3.htm#422346">MyWRBApp_Shutdown()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbprog6.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbprog8.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

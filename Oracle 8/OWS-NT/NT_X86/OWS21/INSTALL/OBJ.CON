@@ -1,0 +1,42 @@
+# Use only forward slashes in pathnames--backslashes can cause
+# problems. See the documentation for more information.
+
+Init fn=flex-init access="%NS_HOME%logs/access.log" format.access="%Ses->client.ip% - %Req->vars.auth-user% [%SYSDATE%] \"%Req->reqpb.clf-request%\" %Req->srvhdrs.clf-status% %Req->srvhdrs.content-length%"
+
+Init fn=load-types mime-types=mime.types
+
+Init fn=load-modules shlib=%OWS21%/BIN/ndwfns.dll funcs="oracle_adp_init,oracle_adp_auth_trans,oracle_adp_service,oracle_adp_addlog,oracle_adp_error,oracle_adp_name_trans,oracle_adp_path_check,oracle_adp_object_type"
+
+Init fn=oracle_adp_init adapter="%OWS21%/BIN/ndwfn.dll" cfgfile="%OWS21%/ADMIN/adpnsapi.cfg" serverconf="%NS_HOME%config/obj.conf" servererrfile="%NS_HOME%logs/errors.log" ORACLE_HOME="%ORACLE_HOME%" OWS_APPFILE="%OWS21%/ADMIN/SV%comp_name%.APP" userdbdir="%NSHOME%userdb"	mimetypesfile="%NS_HOME%config/mime.types"
+
+<Object name=default>
+AuthTrans fn="oracle_adp_auth_trans"
+NameTrans fn="oracle_adp_name_trans"
+NameTrans fn=pfx2dir from=/ns-icons dir="%NSHOME%ns-icons"
+NameTrans fn=pfx2dir from=/mc-icons dir="%NSHOME%ns-icons"
+NameTrans fn=pfx2dir from=/ows-bin dir="%OWS21%/bin" name="cgi"
+NameTrans fn=pfx2dir from=/ows-doc dir="%OWS21%/doc"
+NameTrans fn=pfx2dir from=/ows-img dir="%OWS21%/img"
+NameTrans fn=pfx2dir from=/tr-img dir="%OWS21%/demo/img"
+NameTrans fn=pfx2dir from=/sample/bin dir="%OWS21%/sample/bin" name="cgi"
+NameTrans fn=pfx2dir from=/sample dir="%OWS21%/sample"
+NameTrans fn=pfx2dir from=/sample-src dir="%OWS21%/sample"
+PathCheck fn=nt-uri-clean
+PathCheck fn=find-pathinfo
+PathCheck fn=find-index index-names="INDEX.HTML,home.html"
+PathCheck fn="oracle_adp_path_check"
+ObjectType fn="oracle_adp_object_type"
+ObjectType fn=type-by-extension
+#ObjectType fn=force-type type=text/plain
+Service fn="oracle_adp_service"
+Service method=(GET|HEAD) type=magnus-internal/imagemap fn=imagemap
+Service method=(GET|HEAD) type=magnus-internal/directory fn=index-common
+Service method=(GET|HEAD) type=*~magnus-internal/* fn=send-file
+AddLog fn=flex-log name="access"
+AddLog fn="oracle_adp_addlog"
+</Object>
+
+<Object name=cgi>
+ObjectType fn=force-type type=magnus-internal/cgi
+Service fn=send-cgi
+</Object>

@@ -1,0 +1,14 @@
+%found_alias% = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = %its_community%)
+          (PROTOCOL = BEQ)
+          (PROGRAM = %its_prog%)
+          (ARGV0 = %its_prog%%its_sid%)
+          (ARGS = '(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')
+        )
+    )
+    (CONNECT_DATA = (SID = %its_sid%)
+    )
+  )

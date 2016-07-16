@@ -1,0 +1,35 @@
+/* call_reg.pc
+ * Version 1.0, last updated 6/10/97
+ * This Pro*C fragment illustrates how to call a stored procedure from
+ * a Pro*C program, as described in Chapter 13 of _Oracle8 PL/SQL
+ * Programming_ by Scott Urman.
+ */
+
+EXEC SQL BEGIN DECLARE SECTION;
+  /* Declare C variables. */
+  VARCHAR v_Department[4]; /* The VARCHAR pseudo-type is
+                              available only in Pro*C, and is
+                              converted into a record type with
+                              two fields - .arr and .len */
+  int v_Course;            /* v_Course is an integer. */
+  int v_StudentID;         /* So is v_StudentID. */
+EXEC SQL END DECLARE SECTION;
+
+  /* Initialize the host variables. Here we are just assigning
+     to them, but they could be read from a file, accepted from
+     user input, etc. For the VARCHAR variables, the string is
+     copied into the .arr field, and the length of the string (3
+     in this case) is assigned to the .len field. */
+  strcpy(v_Department.arr, "ECN");
+  v_Department.len = 3;
+  v_Course = 101;
+  v_StudentID = 10006;
+
+  /* Begin the embedded PL/SQL block. Note the EXEC SQL EXECUTE
+     and END-EXEC; keywords, which delimit the block for the
+     precompiler. */
+  EXEC SQL EXECUTE
+    BEGIN
+       Register(:v_Department, :v_Course, :v_StudentID);
+    END;
+  END-EXEC;

@@ -1,0 +1,533 @@
+<html><title>Sample Configuration Files for PATCHV2.EXE</title>
+<body>
+
+<A NAME="Top"><HEAD><strong>Sample Configuration Files for PATCHV2.EXE</head></strong></A>
+
+
+
+<P>The following files are included in this document:
+<p>
+<UL>
+<LI><A HREF="#SVWEBSVR.CFG">SVWEBSVR.CFG</A>
+<LI><A HREF="#SVWEBSVR.CFS">SVWEBSVR.CFS</A>
+<LI><A HREF="#SVREALMS.CFG">SVREALMS.CFG</A>
+<LI><A HREF="#SVREALMS.CFS">SVREALMS.CFS</A>
+<LI><A HREF="#SVREALMS.APP">SVREALMS.APP</A>
+<LI><A HREF="#SVREALMS.APS">SVREALMS.APS</A>
+<LI><A HREF="#SVWEBSVR.APP">SVWEBSVR.APP</A>
+<LI><A HREF="#SVWEBSVR.APS">SVWEBSVR.APS</A>
+
+</UL>
+
+<A NAME="SVWEBSVR.CFG"><h1>SVWEBSVR.CFG</h1>
+
+<p>The following file is the original listener configuration file as created during the default Oracle WebServer installation:
+<p>
+<bq><code>
+
+<p>;
+<p>[MultiPort]
+<p>ANY    80   NONE     oracle.us.oracle.com     /  C:\ORANT\OWS20\log\svwebsvr.log
+<p>;
+<p>[NetInfo]
+<p>MaxConnectCount              =  338
+<p>DNSResolution                =  LAZY
+<p>;
+<p>;
+<p>; Log Information
+<p>;
+<p>; Set values for ...
+<p>;      LogDir                ... Place for all log files
+<p>;      LogInfoFile   ... Information (Audit) Log file
+<p>;      LogErrorFile  ... Error Log File
+<p>;
+<p>[Log]
+<p>LogTimeStyle     = GMT
+<p>LogErrorFile     = C:\ORANT\OWS20\log\svwebsvr.err
+<p>LogInfoFile      = C:\ORANT\OWS20\log\svwebsvr.inf
+<p>;
+<p>;
+<p>; Server Parameters
+<p>;
+<p>; Set values for ...
+<p>;    RequestTimeout  ... Time out for incoming requests
+<p>;    ResponseTimeout ... Time out for outgoing responses
+<p>;    ScriptTimeout   ... Time out for Script response time
+<p>;
+<p>[Server]
+<p>InitialFile        = index.html
+<p>DefaultMIMEType    = application/octet-stream
+<p>DefaultCharset     = iso-8859-1
+<p>PreferredLanguage  = en
+<p>ImageMap           = map
+<p>UseDirIndexing     = TRUE
+<p>CGITimeout         = 900
+<p>;
+<p>; Directory Mappings
+<p>;
+<p>; List each mapping from a physical directory to a
+<p>; virtual directory, including the indicator whether
+<p>; the directory contains scripts or whether the
+<p>; subdirectories should be mapped recursively (R) or
+<p>; non-recursively (N).
+<p>;
+<p>[DirMaps]
+<p>; This first line which has C:\ORANT\OWS20\doc needs to be here to keep
+<p>; the virtual path ordering correct.
+<p>C:\ORANT\OWS20\new\  NR      /
+<p>C:\ORANT\OWS20\bin\  CN      /ows-bin/
+<p>C:\ORANT\OWS20\doc\  NR      /ows-doc/
+<p>C:\ORANT\OWS20\img\  NR      /ows-img/
+<p>;
+<p>;
+<p>; File Cache
+<p>;
+<p>; List the full virtual filename path or wild-card
+<p>; expression denoting one or more files in the Server's
+<p>; virtual file system.
+<p>;
+<p>;[FileCache]
+<p>;/products/*
+<p>;/products/xr25/Version*.c
+<p>;/employees/list/phones
+<p>;
+<p>;
+<p>; Language Extensions
+<p>;
+<p>; List for each combination of language type
+<p>; and character set one or more unique
+<p>; extensions.
+<p>;
+<p>[LangExt]
+<p>en           iso-8859-1                      eng
+<p>en           unicode-1-1                     engU uc
+<p>fr-CA                iso-8859-1                      frc
+<p>fr-FR                iso-8859-1                      fr
+<p>jp-JP                iso-2022-jp                     jp
+<p>jp-JP                unicode-1-1-utf-8               jpU
+<p>;
+<p>;
+<p>; MIME Types
+<p>;
+<p>; List for each combination of MIME Type
+<p>; and representation one or more unique
+<p>; extensions.
+<p>;
+<p>[MIMETypes]
+<p>text/html    htm html HTM HTML
+<p>image/jpeg   jpg jpeg JPG JPEG
+<p>image/gif    gif GIF
+<p>appl/text    doc DOC
+<p>text/plain  txt ksh lst c sql demo inf java err TXT SQL C DEMO INF JAVA ERR
+<p>application/postscript ps PS
+<p>application/pdf pdf PDF
+<p>
+<p>;
+<p>[Encodings]
+<p>compress        Z
+<p>gzip            gz
+<p>;
+<p>[DynApps]
+<p>C:\ORANT\OWS20\bin\dispatcher.dll    ndwlld_DynamicInit
+<p>;C:\ORANT\OWS20\bin\proxy.dll                ndwp_dinit
+</bq></code>
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVWEBSVR.CFS"><h1>SVWEBSVR.CFS</h1></A>
+
+<p>Here is a sample of the same configuration file after running the security utility. Note that a security section has been added at the end.
+
+<bq><code>
+<p>;
+<p>[MultiPort]
+<p>ANY          80     NONE       oracle.us.oracle.com /  C:\ORANT\OWS20\log\svwebsvr.log
+<p>;
+<p>[NetInfo]
+<p>MaxConnectCount    = 338
+<p>DNSResolution      = LAZY
+<p>;
+<p>[Log]
+<p>LogTimeStyle       = GMT
+<p>LogErrorFile       = C:\ORANT\OWS20\log\svwebsvr.err
+<p>LogInfoFile        = C:\ORANT\OWS20\log\svwebsvr.inf
+<p>;
+<p>[Server]
+<p>InitialFile        = index.html
+<p>DefaultMIMEType    = application/octet-stream
+<p>DefaultCharset     = iso-8859-1
+<p>PreferredLanguage  = en
+<p>ImageMap           = map
+<p>UseDirIndexing     = TRUE
+<p>CGITimeout         = 900
+<p>;
+<p>[DirMaps]
+<p>C:\ORANT\OWS20\new\ NR                 /
+<p>C:\ORANT\OWS20\bin\ CN                 /ows-bin/
+<p>C:\ORANT\OWS20\doc\ NR                 /ows-doc/
+<p>C:\ORANT\OWS20\img\ NR                 /ows-img/
+<p>;
+<p>[LangExt]
+<p>en                 iso-8859-1         eng
+<p>en                 unicode-1-1        engU               uc
+<p>fr-CA              iso-8859-1         frc
+<p>fr-FR              iso-8859-1         fr
+<p>jp-JP              iso-2022-jp        jp
+<p>jp-JP              unicode-1-1-utf-8  jpU
+<p>;
+<p>[MIMETypes]
+<p>text/html          htm                html               HTM                HTML
+<p>image/jpeg         jpg                jpeg               JPG                JPEG
+<p>image/gif          gif                GIF
+<p>appl/text          doc                DOC
+<p>text/plain         txt                ksh                lst                c                  sql                demo               <p>inf                java               err                TXT                SQL                C                  DEMO               <p>INF                JAVA               ERR
+<p>application/postscript ps                 PS
+<p>application/pdf    pdf                PDF
+<p>;
+<p>[Encodings]
+<p>compress           Z
+<p>gzip               gz
+<p>;
+<p>[DynApps]
+<p>C:\ORANT\OWS20\bin\dispatcher.dll ndwlld_DynamicInit
+<p>;
+<p>[Security]
+<p>Basic {
+<p>(Realms)
+<p>Admin Server: dba
+<p>(Users)
+<p>system: manager
+<p>(Groups)
+<p>dba: system
+<p>}
+<p>;
+
+</bq></code>
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVREALMS.CFG"><h1>SVREALMS.CFG</h1></A>
+
+<p>Here is another sample configuration file for a listener. The difference from the previous example is that this file already has a security defined, which is used by the security utilty to protect the OWA_UTIL and OWA_SQL packages.
+<bq><code>
+<p>;
+<p>[MultiPort]
+<p>ANY    9999   NONE     oracle.us.oracle.com   /  C:\ORANT\OWS20\log\svadmin.log
+<p>;
+<p>[NetInfo]
+<p>MaxConnectCount              =  338
+<p>DNSResolution                =  LAZY
+<p>;
+<p>;
+<p>; Log Information
+<p>;
+<p>; Set values for ...
+<p>;      LogDir                ... Place for all log files
+<p>;      LogInfoFile   ... Information (Audit) Log file
+<p>;      LogErrorFile  ... Error Log File
+<p>;
+<p>[Log]
+<p>LogTimeStyle     = GMT
+<p>LogErrorFile     = C:\ORANT\OWS20\log\svadmin.err
+<p>LogInfoFile      = C:\ORANT\OWS20\log\svadmin.inf
+<p>;
+<p>;
+<p>; Server Parameters
+<p>;
+<p>; Set values for ...
+<p>;    RequestTimeout  ... Time out for incoming requests
+<p>;    ResponseTimeout ... Time out for outgoing responses
+<p>;    ScriptTimeout   ... Time out for Script response time
+<p>;
+<p>[Server]
+<p>InitialFile        = index.html
+<p>DefaultMIMEType    = application/octet-stream
+<p>DefaultCharset     = iso-8859-1
+<p>PreferredLanguage  = en
+<p>ImageMap           = map
+<p>UseDirIndexing     = TRUE
+<p>CGITimeout         = 900
+<p>;
+<p>; Directory Mappings
+<p>;
+<p>; List each mapping from a physical directory to a
+<p>; virtual directory, including the indicator whether
+<p>; the directory contains scripts or whether the
+<p>; subdirectories should be mapped recursively (R) or
+<p>; non-recursively (N).
+<p>;
+<p>[DirMaps]
+<p>; This first line which has C:\ORANT\OWS20\doc needs to be here to keep
+<p>; the virtual path ordering correct.
+<p>C:\ORANT\OWS20\doc\    NR      /
+<p>C:\ORANT\OWS20\admdoc\ NR      /ows-adoc/
+<p>C:\ORANT\OWS20\admbin\ CR      /ows-abin/
+<p>C:\ORANT\OWS20\bin\    CR      /ows-bin/
+<p>C:\ORANT\OWS20\doc\    NR      /ows-doc/
+<p>C:\ORANT\OWS20\img\    NR      /ows-img/
+<p>C:\ORANT\OWS20\log\    NR      /ows-log/
+<p>C:\ORANT\OWS20\demo\img\    NR  /tr-img/
+<p>C:\ORANT\OWS20\sample\ NR      /sample-src/
+<p>C:\ORANT\OWS20\sample\bin\ CR   /sample/bin/
+<p>;
+<p>;
+<p>; File Cache
+<p>;
+<p>; List the full virtual filename path or wild-card
+<p>; expression denoting one or more files in the Server's
+<p>; virtual file system.
+<p>;
+<p>;[FileCache]
+<p>;/products/*
+<p>;/products/xr25/Version*.c
+<p>;/employees/list/phones
+<p>;
+<p>;
+<p>; Language Extensions
+<p>;
+<p>; List for each combination of language type
+<p>; and character set one or more unique
+<p>; extensions.
+<p>;
+<p>[LangExt]
+<p>en           iso-8859-1                      eng
+<p>en           unicode-1-1                     engU uc
+<p>fr-CA                iso-8859-1                      frc
+<p>fr-FR                iso-8859-1                      fr
+<p>jp-JP                iso-2022-jp                     jp
+<p>jp-JP                unicode-1-1-utf-8               jpU
+<p>;
+<p>;
+<p>; MIME Types
+<p>;
+<p>; List for each combination of MIME Type
+<p>; and representation one or more unique
+<p>; extensions.
+<p>;
+<p>[MIMETypes]
+<p>text/html    htm html HTM HTML
+<p>image/jpeg   jpg jpeg JPG JPEG
+<p>image/gif    gif GIF
+<p>appl/text    doc DOC
+<p>text/plain  txt ksh lst c sql demo inf java err TXT SQL C DEMO INF JAVA ERR
+<p>application/postscript ps PS
+<p>application/pdf pdf PDF
+<p>
+<p>;
+<p>[Encodings]
+<p>compress        Z
+<p>gzip            gz
+<p>;
+<p>[Security]
+<p>Basic {
+<p>(Users)
+<p>john: Smith
+<p>(Groups)
+<p>dba: john
+<p>(Realms)
+<p>New_Realm: dba
+<p>}
+<p>;
+<p>;
+<p>[Protection]
+<p>;
+<p>;
+<p>[DynApps]
+<p>C:\ORANT\OWS20\bin\dispatcher.dll            ndwlld_DynamicInit
+<p>;C:\ORANT\OWS20\bin\proxy.dll                ndwp_dinit
+<p>
+</bq></code>
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVREALMS.CFS"><h1>SVREALMS.CFS</h1></A>
+
+<p>There are no changes in this file since a security realm already exists.
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVREALMS.APP"><h1>SVREALMS.APP</h1></A>
+
+<blockquote><code>
+
+<p>[Apps]
+<p>#
+<p># APP   Object Path                                Entry Point  Min     Max
+<p># ===   ===========                                ===========  ===     ===
+<p>OWA     C:\ORANT\OWS20\bin\owa.dll                    ndwoadinit  0       100
+<p>SSI     C:\ORANT\OWS20\bin\ssi.dll                    ndwussinit  0       100
+<p>JAVA    C:\ORANT\OWS20\bin\wrbjava.dll                  ojsdinit  0       100
+<p>HELLO   C:\ORANT\OWS20\sample\wrbsdk\helloworld.dll    testentry  0       100
+<p>
+<p>[AppDirs]
+<p>#
+<p># Virtual Path          APP     Physical Path
+<p># ============          ===     =============
+<p>/ssi                    SSI     C:\ORANT\OWS20\sample\ssi
+<p>/hr/owa                 OWA     C:\ORANT\OWS20\bin
+<p>/tr/owa                 OWA     C:\ORANT\OWS20\bin
+<p>/owa_dba/owa            OWA     C:\ORANT\OWS20\bin
+<p>/java                   JAVA    C:\ORANT\OWS20\java
+<p>/sample/wrbsdk/hello    HELLO   C:\ORANT\OWS20\sample\wrbsdk
+<p>/sample/ssi             SSI     C:\ORANT\OWS20\sample\ssi
+<p>/sample/java/run        JAVA    C:\ORANT\OWS20\sample\java
+<p>
+<p>[SSI]
+<p>EnableLiveHTML     = TRUE
+<p>ParseHTMLExtn      = FALSE
+<p>EnableExecTag      = TRUE
+<p>ExtensionList           = html shtml lhtml
+<p>
+<p>[JAVA]
+<p>CLASSPATH          = <p>C:\ORANT\OWS20\java\classes.zip;C:\ORANT\OWS20\java\oracle.zip;C:\ORANT\OWS20\sample\java
+<p>LD_LIBRARY_PATH    = C:\ORANT\OWS20\bin
+<p>MaxRequests         = 1000
+<p>
+<p>[OWA]
+<p>MaxRequests        = 1000
+<p>
+<p>[AppProtection]
+<p>/local/owa/*              Basic (New_Realm)
+<p>
+</blockquote></code>
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVREALMS.APS"><h1>SVREALMS.APS</h1></A>
+
+<blockquote><code>
+
+<p>;
+<p>[Apps]
+<p>OWA                C:\ORANT\OWS20\bin\owa.dll ndwoadinit    0                  100
+<p>SSI                C:\ORANT\OWS20\bin\ssi.dll ndwussinit    0                  100
+<p>JAVA               C:\ORANT\OWS20\bin\wrbjava.dll ojsdinit  0                  100
+<p>HELLO              C:\ORANT\OWS20\sample\wrbsdk\helloworld.dll testentry 0     100
+<p>;
+<p>[AppDirs]
+<p>/ssi               SSI                C:\ORANT\OWS20\sample\ssi
+<p>/hr/owa            OWA                C:\ORANT\OWS20\bin
+<p>/tr/owa            OWA                C:\ORANT\OWS20\bin
+<p>/owa_dba/owa       OWA                C:\ORANT\OWS20\bin
+<p>/java              JAVA               C:\ORANT\OWS20\java
+<p>/sample/wrbsdk/hello HELLO              C:\ORANT\OWS20\sample\wrbsdk
+<p>/sample/ssi        SSI                C:\ORANT\OWS20\sample\ssi
+<p>/sample/java/run   JAVA               C:\ORANT\OWS20\sample\java
+<p>;
+<p>[SSI]
+<p>EnableLiveHTML     = TRUE
+<p>ParseHTMLExtn      = FALSE
+<p>EnableExecTag      = TRUE
+<p>ExtensionList      = html shtml lhtml
+<p>;
+<p>[JAVA]
+<p>CLASSPATH          = <p>C:\ORANT\OWS20\java\classes.zip;C:\ORANT\OWS20\java\oracle.zip;C:\ORANT\OWS20\sample\java
+<p>LD_LIBRARY_PATH    = C:\ORANT\OWS20\bin
+<p>MaxRequests        = 1000
+<p>;
+<p>[OWA]
+<p>MaxRequests        = 1000
+<p>;
+<p>[AppProtection]
+<p>/local/owa/*       Basic(New_Realm)
+<p>/hr/owa/owa_util.* Basic(New_Realm)
+<p>/hr/owa/owa_sql.*  Basic(New_Realm)
+<p>/tr/owa/owa_util.* Basic(New_Realm)
+<p>/tr/owa/owa_sql.*  Basic(New_Realm)
+<p>/owa_dba/owa/owa_util.* Basic(New_Realm)
+<p>/owa_dba/owa/owa_sql.* Basic(New_Realm)
+</blockquote></code>
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVWEBSVR.APP"><h1>SVWEBSVR.APP</h1></A>
+
+<p>The following sample is the original Web Request Broker configuration file:
+
+<bq><code>
+
+<p>#
+<p>[Apps]
+<p>OWA                C:\ORANT\OWS20\bin\owa.dll ndwoadinit         0                  100
+<p>SSI                C:\ORANT\OWS20\bin\ssi.dll ndwussinit         0                  100
+<p>JAVA               C:\ORANT\OWS20\bin\wrbjava.dll ojsdinit           0                  100
+<p>HELLO              C:\ORANT\OWS20\sample\wrbsdk\helloworld.dll testentry          0                  100
+<p>#
+<p>[AppDirs]
+<p>/ssi               SSI                C:\ORANT\OWS20\sample\ssi
+<p>/hr/owa            OWA                C:\ORANT\OWS20\bin
+<p>/tr/owa            OWA                C:\ORANT\OWS20\bin
+<p>/owa_dba/owa       OWA                C:\ORANT\OWS20\bin
+<p>/java              JAVA               C:\ORANT\OWS20\java
+<p>/sample/wrbsdk/hello HELLO              C:\ORANT\OWS20\sample\wrbsdk
+<p>/sample/ssi        SSI                C:\ORANT\OWS20\sample\ssi
+<p>/sample/java/run   JAVA               C:\ORANT\OWS20\sample\java
+<p>#
+<p>[SSI]
+<p>EnableLiveHTML     = TRUE
+<p>ParseHTMLExtn      = FALSE
+<p>EnableExecTag      = TRUE
+<p>ExtensionList      = html shtml lhtml
+<p>#
+<p>[JAVA]
+<p>CLASSPATH          = <p>C:\ORANT\OWS20\java\classes.zip;C:\ORANT\OWS20\java\oracle.zip;C:\ORANT\OWS20\sample\java;C:\ORANT\OWS20\java
+<p>LD_LIBRARY_PATH    = C:\ORANT\OWS20\bin
+<p>MaxRequests        = 1000
+<p>#
+<p>[OWA]
+<p>MaxRequests        = 1000
+</bq></code>
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVWEBSVR.APS"><h1>SVWEBSVR.APS</h1></A>
+
+<p>The following is a sample of the same Web Request Broker configuration file after running the  utility:
+
+<bq><code>
+<p>;
+<p>[Apps]
+<p>OWA                C:\ORANT\OWS20\bin\owa.dll ndwoadinit         0                  100
+<p>SSI                C:\ORANT\OWS20\bin\ssi.dll ndwussinit         0                  100
+<p>JAVA               C:\ORANT\OWS20\bin\wrbjava.dll ojsdinit           0                  100
+<p>HELLO              C:\ORANT\OWS20\sample\wrbsdk\helloworld.dll testentry          0                  100
+<p>;
+<p>[AppDirs]
+<p>/ssi               SSI                C:\ORANT\OWS20\sample\ssi
+<p>/hr/owa            OWA                C:\ORANT\OWS20\bin
+<p>/tr/owa            OWA                C:\ORANT\OWS20\bin
+<p>/owa_dba/owa       OWA                C:\ORANT\OWS20\bin
+<p>/java              JAVA               C:\ORANT\OWS20\java
+<p>/sample/wrbsdk/hello HELLO              C:\ORANT\OWS20\sample\wrbsdk
+<p>/sample/ssi        SSI                C:\ORANT\OWS20\sample\ssi
+<p>/sample/java/run   JAVA               C:\ORANT\OWS20\sample\java
+<p>;
+<p>[SSI]
+<p>EnableLiveHTML     = TRUE
+<p>ParseHTMLExtn      = FALSE
+<p>EnableExecTag      = TRUE
+<p>ExtensionList      = html shtml lhtml
+<p>;
+<p>[JAVA]
+<p>CLASSPATH          = <p>C:\ORANT\OWS20\java\classes.zip;C:\ORANT\OWS20\java\oracle.zip;C:\ORANT\OWS20\sample\java;C:\ORANT\OWS20\java
+<p>LD_LIBRARY_PATH    = C:\ORANT\OWS20\bin
+<p>MaxRequests        = 1000
+<p>;
+<p>[OWA]
+<p>MaxRequests        = 1000
+<p>;
+<p>[AppProtection]
+<p>/hr/owa/owa_util.* Basic(Admin Server)
+<p>/hr/owa/owa_sql.*  Basic(Admin Server)
+<p>/tr/owa/owa_util.* Basic(Admin Server)
+<p>/tr/owa/owa_sql.*  Basic(Admin Server)
+<p>/owa_dba/owa/owa_util.* Basic(Admin Server)
+<p>/owa_dba/owa/owa_sql.* Basic(Admin Server)
+</blockquote></code>
+
+<p><a href="#Top">TOP</a>
+ic(New_Realm)
+<p>/owa_dba/owa/owa_sql.* Basic(New_Realm)
+</blockquote></code>
+
+<p><a href="#Top">TOP</a>

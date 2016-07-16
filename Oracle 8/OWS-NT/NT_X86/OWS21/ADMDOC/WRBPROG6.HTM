@@ -1,0 +1,105 @@
+<HTML>
+<HEAD>
+<TITLE>
+Writing Applications Using the Web Request Broker API
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbprog5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbprog7.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="421976">
+The Exec cartridge function
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="421977">
+Your Exec cartridge function must handle requests that the WRB dispatcher directs to your cartridge. Typically, you define a set of requests for your cartridge to support. You must then decide how these requests will be encoded in URLs. Your Exec function can parse the request URL it gets from the Web Listener to determine what action to take. You can use the WRBGetURL() WRB API function to get the request URL.<P>
+</A><HR>
+<H2>
+<A NAME="421988">
+Syntax
+</A>
+</H2>
+<A NAME="421991">
+<PRE>WRBReturnCode <em>prefix</em>_Exec(void *WRBCtx, void *appCtx);<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="421989">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="421997">
+<H5>Paramet
+er
+</H5>
+</A>
+<th><A NAME="421999">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="422001">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="422003">
+WRBCtx<BR>
+</A><td><A NAME="422005">
+void *<BR>
+</A><td><A NAME="424724">
+A pointer to an object used by the WRB application engine that is opaque to your cartridge. You must pass this pointer to any WRB API functions you call.<BR>
+</A>
+<tr><td><A NAME="422009">
+appCtx<BR>
+</A><td><A NAME="422011">
+void *<BR>
+</A><td><A NAME="422357">
+A pointer to the application context structure allocated your Init function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="422042">
+Return values
+</A>
+</H2>
+<A NAME="422047">
+Your Exec function must return a value of type <code>WRBReturnCode</code> (see <a href="wrbprog3.htm#421963">Entry-point function return values</a>).<P>
+</A><HR>
+<H2>
+<A NAME="426381">
+Example
+</A>
+</H2>
+<A NAME="426382">
+See the MyWRBApp sample function <code><a href="mywrbap3.htm#422360">MyWRBApp_Exec()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbprog5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbprog7.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

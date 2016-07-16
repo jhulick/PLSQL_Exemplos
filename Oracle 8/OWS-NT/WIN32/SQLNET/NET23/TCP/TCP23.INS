@@ -1,0 +1,62 @@
+/* Copyright (c) Oracle Corporation 1992, 1996.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    tcp23.ins
+    
+  DESCRIPTION
+    This script performs the installation tasks for the Windows 32 TCP/IP
+    product.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY  Reason
+    dstiefel  22-FEB-96  Merge NT/95 for 2.3.2
+    dlau      07-AUG-95  Modified for SQLNET 2.2
+    eflores   06-APR-94  Modified for Windows NT.
+    zkhan     11-AUG-93  Modified for SQLNET and for using V3.0.9.3.2 or later
+		of the installer.
+    trodgers  10-APR-92  Created.
+*****************************************************************************/
+{
+  if (doit)
+  {
+    if (install_dependent)
+      install(dependent);
+
+    ui_product(product_label);
+
+    ui_action(instantiate(net2_install_script));
+    copy(deinstl);
+
+    ui_action(instantiate(net2_install_dll));
+    { 
+      copy(dll); 
+
+    if( platform() == "nt") {
+      if (doSmartStart)
+	ss_decrypt_file(product_key,
+			"%s_location%v7/NET23/TCP/NTTNT.DLL",
+			"%oracle_home%\bin\NTTNT.DLL");
+    } /* NT */
+    }
+    ['WRITE_ERROR:{ 
+	    information_dialog(instantiate(app_prompt), 
+			       app_content,
+			       instantiate(app_help));
+	    signal('FAILURE,instantiate("Installation terminated.  Please stop all Oracle applications that are using %%product_label%%."));
+	    }
+    ]
+ 
+    /* Register Product and Dependencies */
+
+    ui_action(instantiate(net2_register));
+    register(current_product);
+
+    if (install_dependent)
+      reference(dependent,current_product);
+    
+    if (member(selected_products,current_product))
+      reference(current_product);
+  }
+}

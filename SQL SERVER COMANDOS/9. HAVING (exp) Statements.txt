@@ -1,0 +1,12 @@
+SELECT codcli, AVG(quant)
+FROM expedi
+GROUP BY codcli
+HAVING AVG(quant) > 2000
+
+*Retorna a média da quantidade, por grupo de cliente, maiores que 2000.
+*Quando se usa a clausula GROUP BY(se agrupe por) o select todo analisará por grupo o pedido, no caso acima
+  foi pedido que se analise por grupo de cliente.
+*Caso precisse impor uma restrição ou condição, neste caso, não use a cláusula WHERE e sim
+  a HAVING.
+*Neste caso pedimos que retorne apenas os grupos de clientes com média de quantidade maiores
+que 2000.

@@ -1,0 +1,13 @@
+CREATE TRIGGER RM.PFUNCAO_FUNCAO
+ AFTER 
+ INSERT OR UPDATE
+ ON PFUNCAO
+ REFERENCING OLD AS old NEW AS new
+ IF updating THEN
+  Update Funcao Set Funcao.Cbo=updating.Cbo, Funcao.Cargo=updating.Cargo, Funcao.Descricao=updating.Nome
+  Where Funcao.CodFuncao=updating.Codigo;
+ ELSE IF inserting THEN
+  Insert Into Funcao (CodFuncao,Cbo,Cargo,Descricao)
+  Values (inserting.Codigo,inserting.Cbo,inserting.Cargo,inserting.Nome);
+ END IF; END IF;
+/

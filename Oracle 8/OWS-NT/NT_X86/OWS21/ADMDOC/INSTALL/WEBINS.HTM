@@ -1,0 +1,819 @@
+<html><body bgcolor=#ffffff>
+
+<a name="1022792">
+<head><h1>Oracle WebServer for Windows NT</h1><title>Oracle WebServer for Windows NT</title></head>
+
+</a>
+<h2><align=center>Version 2.1</h2>
+
+<a name="1025712">
+
+<p>Oracle WebServer Version 2.1 for Windows NT is a unifying application platform for web development. Oracle WebServer now supports popular third-party HTTP servers, Netscape FastTrack, Netscape Enterprise Server, and Microsoft Internet Information Server (IIS). This support demonstrates Oracle Corporation's commitment to open systems, protecting developers against changes in technology while improving performance, scalability, and reliability. Oracle WebServer 2.1 is the first web server to be HTTP server independent, allowing third-party servers to be upgraded via the Web Request Broker.<p>
+</a>
+
+<hr>
+
+<a name="1025717">
+
+<h1> Contents</h1>
+</a>
+
+<a name="1024090">
+This CD insert contains instructions for installing and using Oracle WebServer for Windows NT. Topics covered are:<p>
+</a>
+
+<ul><a name="1024091">
+
+<li><a href="#hardware">Hardware Requirements</a>
+</a>
+
+<a name="1024092">
+
+<li><a href="#software">Software Requirements</a>
+</a>
+
+<a name="1024093">
+<li>
+
+<a href="#install">Installing Oracle WebServer</a>
+</a>
+
+<a name="1024094">
+
+<li><a href="#migrate">Migrating from Previous Releases</a>
+</a>
+
+<a name="1024111">
+<li><a href="#upgrade">Upgrading Third-Party Web Servers</a>
+
+</a>
+
+<a name="1024116">
+
+<li><a href="#post">Post Installation</a>
+</a>
+
+<a name="1024121">
+<li><a href="#configure">Configuring Oracle WebServer</a>
+
+</a><a name="1024126">
+<li>
+<a href="#develop">Developing Applications</a>
+</a>
+
+<a name="1024131">
+
+<li><a href="#additional">Additional Information</a>
+</a></ul>
+
+<p><a href="#1022792">Return to Top</a>
+
+<hr>
+
+<a name="hardware">
+<h1> Hardware Requirements</h1>
+</a>
+
+<a name="1022793">
+Oracle WebServer for Windows NT requires a Hewlett-Packard, Compaq, or 100%-compatible PC based on an 80486 (or higher) or Pentium processor. Intel-based multiprocessor machines are also supported. The following components must be part of the system:<p>
+</a>
+
+<ul><a name="1022794">
+
+<li>a <em>minimum</em> of 16 megabytes (MB) of RAM; 32 MB or more recommended
+</a>
+
+<a name="1022795">
+<li>65MB of free hard disk space
+</a>
+
+<a name="1022797">
+<li>a compatible network interface card (NIC), for networked operation
+</a>
+
+<a name="1022798">
+<li>CD-ROM drive
+</a></ul>
+
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="software">
+
+<h1> Software Requirements</h1>
+</a>
+
+<a name="1022801">
+Microsoft Windows NT Server or Workstation Version 3.51 or 4.0<p>
+</a>
+
+<p><a href="#1022792">Return to Top</a>
+
+
+<a name="install">
+<h1> Installing Oracle WebServer</h1>
+</a>
+
+<a name="1022803">
+These instructions assume that your Oracle home directory is \ORANT. For help during installation, select the question mark icon for the Help menu.<p>
+</a>
+
+<a name="1022804">
+If you have already installed Oracle products, shut down all instances, and stop all Oracle services currently running before you attempt to install the new software.<p>
+</a>
+
+<ol>
+<type=1>
+<li>Start the Oracle Installer.</li>
+
+        <bq>If you are running Windows NT Version 4.0:</bq>
+
+                <bq>From the Start Button:</bq>
+
+                        <blockquote>
+                        <ol><TYPE=a>
+                        <li>Select Start.       </li>           
+                        <li>Select Run. The Run dialog box appears.<p></li>
+                        <li>Enter the path and executable file name, for example:<p></li>
+                        </ol>
+                                <bq><pre>G:\SETUP.EXE</bq></pre>
+                        </blockquote>
+
+        <blockquote>If you are running Windows NT Version 3.51:</blockquote>
+
+                <blockquote>From the Program Manager:</blockquote>
+
+                        <blockquote>
+                        <ol><type=a>
+                        <li>Select Run from the File menu.</li>
+                        <li>Type the path and executable file name, for example:<p></li>
+                        </ol>
+
+                                <blockquote><code>G:\SETUP.EXE</blockquote></code>
+                        </blockquote>
+
+        <blockquote>The Oracle Installer starts.</blockquote>
+
+
+<li>Answer questions about language and directory name.
+
+<p>The only NLS language supported in Oracle WebServer is English. The language is set to English automatically during installation. <p>
+</li>
+
+<li>Select an installation type. 
+<p>The choices you see depend upon which products the Oracle Installer detects on your machine.
+
+<ul><TYPE=SQUARE>
+<li>Oracle WebServer 2.1</li>
+<li>Upgrade Oracle WebServer 2.0 to 2.1 (if detected)</li>
+<li>Upgrade Microsoft IIS to use the Oracle Web Request Broker 2.1 (if detected)</li>
+<li>Upgrade Netscape FastTrack to use the Oracle Web Request Broker 2.1 (if detected)</li>
+<li>Upgrade Netscape Enterprise Server to use the Oracle Web Request Broker 2.1 (if detected)</li>
+<li>Custom Installation</li>
+</ul>
+
+<p>If you select WebServer 2.1 or an Upgrade installation, proceed with <a href="#4">Step 4</a>. If you select a Custom Installation, go to <a href="#5">Step 5</a>.</li>
+
+<li><a name="4">Click OK</a>.</li>
+
+<p>The Oracle Installer automatically installs the products listed below:
+
+<ul><TYPE=SQUARE>
+<li>Oracle Installer</li>
+<li>Oracle WebServer 2.1</li>
+<li>Oracle7 Utilities 7.3</li>
+<li>Required Support Files 7.3</li>
+</ul>
+
+<p>If you are upgrading Oracle WebServer Version 2.0 to 2.1, you will be asked whether you want to remove 2.0 files or to keep the files (under a separate directory).
+
+<p>If you are upgrading either Netscape FastTrack or Enterprise Server, Oracle Installer automatically detects your default listener name (the name of your host machine) and upgrades this listener. If Oracle Installer cannot determine the host name, you will be prompted to provide the listener name.
+
+<p>If you are upgrading Microsoft IIS, provide the port number of the web listener when prompted.
+
+<p>The Oracle WebServer uses the following default settings to configure your machine:
+
+<ul><TYPE=DISC>
+<li>Host Name: <em>hostname.domainname</em></li>
+<li>Web Listener Name: ADMIN</li>
+<li>Port Number: 9999</li>
+<li>User Name: system</li>
+<li>Password: manager</li>
+</ul>
+
+<blockquote>The Host Name may be different than the name of your machine; the Host Name must map to your IP address.</blockquote>
+
+<li><a name="5">Click OK to perform a Custom Installation</a>.</li>
+
+<li>Select the products you want to install from the list that appears in the Products Available to Install window.</li>
+
+<ul><TYPE=SQUARE>
+<li>Oracle Installer 3.1</li>
+<li>Oracle Networking Products</li>
+<li>Oracle WebServer 2.1</li>
+<li>Oracle7 Utilities 7.3</li>
+<li>Required Support Files 7.3</li>
+<li>SQL*Net V2.3 Products</li>
+<li>Click Install.</li>
+</ul>
+
+<blockquote>The dialog boxes that appear will vary depending upon the product choices you make.</blockquote>
+
+<p>The Oracle WebServer uses the following default settings to configure your machine:
+
+<ul><TYPE=DISC>
+<li>Host Name: <em>hostname.domainname</em></li>
+<li>Web Listener Name: ADMIN</li>
+<li>Port Number: 9999</li>
+<li>User Name: system</li>
+<li>Password: manager</li>
+</ul>
+
+<p>A window appears showing the progress of the installation.
+
+<p>Once the installation is complete, use either Oracle PowerBrowser, which is automatically installed with Oracle WebServer, or your favorite web browser to navigate to the web administration page. Follow the instructions there to configure the Oracle WebServer.
+
+<p>The web administration page is located at:
+
+        <blockquote>http://<i>localhost:port</i>/<p></blockquote>
+
+<p>where <i>localhost </i>is the hostname of the machine, and <i>port </i>is the port number you have assigned to the web listener.
+
+<p>If you performed an upgrade from a third-party HTTP server, navigate to the Oracle WebServer Migration/Upgrade Page at:
+
+<blockquote>http://<i>localhost:port</i>/ows-adoc/migrat.html.<p></blockquote>
+
+<blockquote>If you want to de-install Oracle WebServer, stop the Oracle Web Listener(s) first. To stop a Web Listener, open the Services Control Panel, select Web Listener, and click Stop. Repeat for every Web Listener you have running. Proceed to delete Oracle WebServer by using the Remove function of the Oracle Installer.</blockquote>
+
+<blockquote>See <em>Oracle WebServer User's Guide </em>for more detailed information.</blockquote>
+
+</ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="migrate"><h1> Migrating from Previous Releases</h1></a>
+
+<a name="1023702">
+<h2> Migrating from Oracle WebServer Version 1.0 to 2.X</h2>
+</a>
+
+<a name="1023703">
+To migrate Oracle WebServer Version 1.0 and Oracle Web Agent (OWA) applications to Oracle WebServer Version 2.1: <p>
+</a>
+
+<ol>
+<a name="1023704">
+<li>Remove all OWA Virtual Paths from the Directory Mapping section of the SV&lt;<em>listener</em>&gt;.CFG configuration file of the Web Listener.
+</a>
+
+<a name="1023705">
+<li>Add the appropriate entries in &lt;OWS21_HOME&gt;\ADMIN<br>\SV&lt;<em>listener&gt;</em>.APP for the PL/SQL Agent. The structure of the <br>OWSAPPFILE and each entry are described in the online documentation.
+</a>
+
+<a name="1023706">
+<li>Ensure the virtual path specified in OWSAPPFILE reflects the virtual path used to access the PL/SQL agent.
+</a></ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1023707">
+<h2> Upgrading from Oracle WebServer Version 2.0.X to 2.1</h2>
+</a>
+
+<a name="1023708">
+Upgrading from Version 2.0.X to 2.1 is automatic when you install Oracle WebServer Version 2.1. Copy any cartridges you have created for use with Version 2.0.X into the WebServer Version 2.1 directory structure.<p>
+</a>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="upgrade">
+<h1> Upgrading Third-Party Web Servers</h1>
+</a>
+
+<a name="1023870">
+A new feature of Oracle WebServer Version 2.1 is the HTTP daemon adapter which enables the Oracle Web Request Broker to run seamlessly using Netscape FastTrack, Netscape Enterprise, or Microsoft Internet Information Server as the underlying HTTP daemon instead of the Oracle Web Listener shipped with Oracle WebServer.<p>
+</a>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1024055">
+<h2> Upgrading Netscape FastTrack and Enterprise Servers</h2>
+</a>
+
+<a name="1024067">
+Oracle Installer automatically detects Netscape FastTrack and Enterprise Servers. The Installer automatically installs the following parameters when you upgrade a Netscape web listener to use the Oracle Web Request Broker:<p>
+</a>
+
+<pre><a name="1024068">OWS21:&lt;ORANT&gt;\OWS21
+</a><a name="1024069">OWS_ADPCFG:&lt;OWS21&gt;\ADMIN\ADPSPY.CFG
+</a><a name="1024059">OWS_AdPSO:&lt;OWS21&gt;\BIN\NDWFS.DLL
+</a></pre>
+
+<a name="1024060">
+where ORANT is your Oracle home directory and OWS21 equals &lt;ORANT&gt;\OWS21.<p>
+</a>
+
+<a name="1024072">
+Oracle Installer automatically configures the default server upon installation. The default server is defined as the server which uses your machine name. Register the FastTrack or Enterprise server using the External Registration Page, located at:<p>
+</a>
+
+        <a name="1025814">
+        http://<em>localhost:port</em>/ows-adoc/Intro.html<p>
+        </a>
+
+<a name="1025812">
+If you have multiple FastTrack or Enterprise listeners, use the Oracle migration utility:<p>
+</a>
+
+        <a name="1025813">
+        http://<em>localhost:port</em>/ows-adoc/migrat.html<p>
+        </a>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1024234">
+<h2> Migrating and Running Oracle Web Request Broker with a Netscape Server</h2>
+</a>
+
+<a name="1024242">
+The directory structure for Netscape servers looks like: <p>
+</a>
+
+<blockquote><code>
+NS_HOME
+        <blockquote>SERVER
+                <blockquote>ADMSERV</blockquote>
+                <blockquote>AUTHDB</blockquote>
+                <blockquote>BIN</blockquote>
+                <blockquote>DOCS</blockquote>
+                <blockquote>EXTRAS</blockquote>
+                <blockquote>HTTPACL</blockquote>
+                <blockquote>HTTPD-<em>SERVER1
+                        <blockquote>CONFIG
+                                <blockquote>MAGNUS.CONF</blockquote>
+                                <blockquote>MIME.TYPES</blockquote>
+                                <blockquote>OBJ.CONF</blockquote></blockquote>
+                        <blockquote>LOGS</blockquote></blockquote></code>
+</blockquote></code>
+
+<p>where <em>SERVER1</em> represents the server (listener) that you configured to run by FastTrack or Enterprise.</p>
+</a>
+
+<a name="1024271">
+For the Netscape server you want to run with the Oracle Web Request Broker: <p>
+</a>
+
+<ol>
+
+<a name="1024273">
+<li>Migrate your FastTrack or Enterprise web server.
+</a>
+
+<a name="1025865">
+<blockquote>Oracle Installer automatically migrates one listener (the default listener with the hostname of your machine name) during installation of Oracle WebServer Version 2.1. If you have multiple listeners, use the migration utility to migrate your remaining listeners. The utility is located in:
+</a></blockquote>
+
+<pre><a name="1025870">
+http://<em>localhost:port</em>/ows-adoc/migrat.html<p></pre>
+</a>
+
+
+<a name="1026220">
+<li>Authenticate by providing your username and password which were set during installation.
+</a>
+
+<a name="1026221">
+<li>Click Configure.
+</a>
+
+<a name="1026222">
+<li>Enter the information for each server (listener) you want to migrate.
+</a>
+
+        <ul>
+        <a name="1026223">
+        <li>Netscape Server Type
+</a>
+        <a name="1026224">
+        <li>NS_HOME (Netscape home directory)
+</a>
+        <a name="1026225">
+        <li>Netscape Server Name
+        </ul>
+</a>
+
+<a name="1026228">
+<p>You can find the listener name by looking at the Netscape directory structure NS_HOME\SERVER\HTTPD_<em>SERVER1</em>, where <em>SERVER1</em> is the name of your listener.
+</a>
+
+<a name="1025864">
+<li>Click Configure.
+</a>
+
+<a name="1026232">
+<li>Register the Netscape server with the Oracle WebServer Manager by using the External Listener Registration utility. The WebServer Manager is located in:
+</a>
+
+<a name="1026293">
+http://<em>localhost:port</em>/<p>
+</a>
+
+<a name="1024283">
+<li>Make sure the .APP file mentioned in the NS_HOME\SERVER\HTTPD-<em>SERVER1<br></em>\CONFIG\OBJ.CONF file above exists, assuming you are running the Web Request Broker. If it does not exist, use the sample file SERVAPP.DFL to create the .APP file: ORANT\OWS21\ADMIN\SV&lt;<em>LISTENER</em>&gt;.APP.
+</a>
+
+<a name="1024286">
+<li>Stop and start your Netscape server.
+</a>
+</ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1024288">
+<h2> Authentication in Netscape Adapter</h2>
+</a>
+
+<a name="1026028">
+Oracle WebServer extends the concept of realms and IP/Domain groups that the Netscape adapter uses since the dispatcher depends upon the Oracle WebListener schemes. <p>
+</a><a name="1026044">
+Continue to specify realms in the [AppProtection] section of the .APP file. Use RSA encryption password utility HTPASS.EXE to create a collection of users associated with a realm. Create these files for each realm used in the AppProtection section. Each such file is named: &lt;USERDBDIR&gt;/&lt;REALMNAME&gt;.PWF<p>
+</a><a name="1026050">
+Execute HTPASS under the USERDBDIR directory. If password files are not created but specified in the AppSection of .APP file, Netscape web server will not start up and "Illegal value in [AppProtection]" will be written in the ERRORS.LOG file of the server.<p>
+</a><a name="1026054">
+Use the RSA encryption utility HTPASS (located in ORANT\OWS21\BIN) to create and maintain the files: <p>
+</a>
+
+<ol>
+<a name="1026081">
+<li>Add or change the password to create a file.
+</a>
+
+<a name="1026082">
+<li>Move the current directory to USERDBDIR at the command prompt.
+</a>
+
+<a name="1026096">
+<li>Enter:
+</a>
+
+<pre><a name="1026083">   HTPASS &lt;REALMNAME&gt; &lt;USER&gt;</pre>
+</a>
+<a name="1026084">
+<li>HTPASS prompts for password.
+</a></ol>
+
+<a name="1026121">
+<blockquote>USERDBDIR is defined in the file OBJ.CONF. The default directory is NETSCAPE_SERVER_HOME\USERDB. Also, Windows NT 4.0 allows file names with spaces. Therefore, REALMNAME could be REALM NAME. </blockquote>
+</a>
+
+</ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1023909">
+<h2> Upgrading Microsoft Internet Information Server</h2>
+</a>
+
+<a name="1023910">
+To configure the Microsoft Internet Information Server (IIS) to use the Oracle Web Request Broker:<p>
+</a>
+
+<ol>
+<a name="1023925">
+<li>Install IIS Internet Service Manager (HTML) before performing any web-based administration for IIS. Install the Internet Service Manager by running IIS setup.
+</a>
+
+<a name="1023926">
+<li>Set authentication to BASIC to allow non-Microsoft web browsers to administer IIS. Administration of IIS is protected by the Windows NT operating system security check. If BASIC authentication is not set, only browsers that support NTLM (Microsoft Internet Explorer) can configure the server.
+</a>
+<a name="1023932">
+<li>Enable anonymous access to IIS.
+</a>
+<a name="1023933">
+<li>Configure the Web Request Broker for IIS by going to the Web Request Broker Administration page at http://<em>localhost</em>:<em>port<br></em>/ows-doc/Intro.html, where <em>localhost</em> is the name of the host machine and <em>port</em> is the port on which your administration server is running (default is 9999).
+</a>
+
+<a name="1023936">
+<li>Confirm that the following files exist:
+</a>
+
+<ul>
+<a name="1023937">
+<li>ORANT\OWS21\BIN\NDWFIS.DLL
+</a><a name="1023938">
+<li>ORANT\OWS21\ADMIN\ADPIIS.CFG
+</a><a name="1023939">
+<li>ORANT\OWS21\ADMIN\SVW3SVC.APP
+</a>
+<a name="1023940">
+<p>Missing files may indicate a problem with installation of Oracle WebServer. Try re-installing Oracle WebServer.
+</a>
+</ul>
+<a name="1023941">
+<li>Restart your server.
+</a></ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1026142">
+<h2> Authentication in Microsoft IIS Adapter</h2>
+</a><a name="1026484">
+Oracle WebServer extends the concept of realms and IP/Domain groups that the IIS adapter uses since the dispatcher depends upon the Oracle Web Listener schemes. <p>
+</a><a name="1026485">
+Continue to specify realms in the [AppProtection] section of the .APP file. Use RSA encryption password utility HTPASS.EXE to create a collection of users associated with a realm. Create these files for each realm used in the AppProtection section. Each such file is named: &lt;USERDBDIR&gt;\&lt;REALMNAME&gt;.PWF<p>
+</a><a name="1026533">
+Execute HTPASS under the USERDBDIR directory. If password files are not created but are specified in the AppSection of .APP file, IIS web server will not start up. The error message "Illegal value in [AppProtection]" will be written in the Event Log. Use the Windows NT Event Viewer to check for errors.<p>
+</a><a name="1026592">
+Use the RSA encryption utility HTPASS (located in ORANT\OWS21\BIN) to create and maintain the password files:<p>
+</a>
+
+<ol>
+<a name="1026488">
+<li>Add or change the password to create a file.
+</a>
+<a name="1026489">
+<li>Move the current directory to USERDBDIR at the command prompt.
+</a>
+<a name="1026490">
+<li>Enter:
+</a></ol>
+<pre>
+<a name="1026491">   HTPASS &lt;REALMNAME&gt; &lt;USER&gt;</pre>
+</a><p>
+<a name="1026492">
+<p>HTPASS prompts for password.
+</a>
+<a name="1026581">
+<blockquote>USERDBDIR is defined in \\HKEY_LOCAL_MACHINE<br>\Software\ORACLE\USERDBDIR. The default directory is ORANT\OWS21\ADMIN. </blockquote>
+</a></ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+
+<a name="post">
+<h1> Post Installation </h1>
+</a><a name="1023710">
+<h2> Creating Data Connection Descriptors </h2>
+</a><a name="1026690">
+No Data Connection Descriptors (DCDs) are created during the installation of the Oracle WebServer for Windows NT. Create the OWA Database Administrator DCD if you want to browse the database or use one of the OWA examples. <p>
+</a><a name="1026691">
+To create a DCD, navigate to the administrator web page at http://<em>localhost</em>:<em>port/</em>ows-abin/boot. For IIS users, navigate to http://<em>localhost</em>:<em>port</em>/ows-abin/boot.exe.<p>
+</a><a name="1023712">
+
+<p><a href="#1022792">Return to Top</a>
+
+<h2> Installing SQL*Net Client </h2>
+</a>
+
+<a name="1023713">
+SQL*Net Client is not automatically installed during the installation of the Oracle WebServer for Windows NT. Install SQL*Net to access a remote database. To install SQL*Net Client:<p>
+</a>
+
+<ol>
+<a name="1024025">
+<li>Run the Oracle Installer.
+</a>
+<a name="1024026">
+<li>Choose Custom Installation.
+</a>
+<a name="1024027">
+<li>Double-click SQL*Net V2.3 Products from the Products Available window.
+</a><a name="1024036">
+<li>Choose the product(s) you wish to install from the list.
+</a><a name="1024033">
+<li>Click Install.
+</a></ol>
+<a name="1023714">
+
+<p><a href="#1022792">Return to Top</a>
+
+<h2> Getting Version Information on a Web Listener </h2>
+</a>
+<a name="1023715">
+To obtain version information for a Web Listener, enter the following at the command prompt: <p>
+</a><pre><a name="1026354">wlctl version.
+</a></pre><a name="1023716">
+</a>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="configure">
+<h1> Configuring Oracle WebServer </h1>
+</a><a name="1023719">
+
+
+<h2> Improving Performance </h2>
+</a><a name="1023720">
+To improve performance while using Oracle WebServer on a single machine as a workstation as well as a server on Windows NT Version 3.51, set tasking to equally responsive. To set tasking:<p>
+</a><ol>
+<a name="1026355">
+<li>Double-click the Control Panels icon in the Program Manager.
+</a><a name="1026356">
+<li>Double-click the System icon.
+</a><a name="1026357">
+<li>Click Tasking.
+</a></ol>
+<a name="1023721">
+<h2> Setting up a Secure Oracle WebServer - Requesting a Certificate </h2>
+</a><a name="1023722">
+Refer to the online help for instructions on generating a certificate request and obtaining a certificate from the certifying authority (CA).<p>
+</a><a name="1023723">
+
+<p><a href="#1022792">Return to Top</a>
+
+<h2> Setting up a Proxy Oracle WebServer</h2>
+</a><a name="1023724">
+To install the Web Listener as a proxy server:<p>
+</a><ol>
+<a name="1025978">
+<li>Navigate to http://<em>localhost:port</em>/ows-adoc/Intro.html.
+</a><a name="1025980">
+<li>Authenticate by providing your username and password when prompted (you set your username and password during installation).
+</a><a name="1025983">
+<li>Click on Web Listener to go to the Oracle Web Listener Administration Page.
+</a><a name="1025984">
+<li>Scroll down to the bottom of the page to see the listing of your established web listeners.
+</a><a name="1025985">
+<li>Click Configure for the listener you want to modify.
+</a><a name="1025989">
+<li>Scroll down to the Addresses and Ports section of the Web Listener Advanced Configuration Page.
+</a><a name="1025990">
+<li>Click Proxy On.
+</a><a name="1025991">
+<li>Click Modify Listener.
+</a>
+<a name="1025996">
+<p>Oracle WebServer returns a message notifying you of successful changes.
+</a><a name="1025999">
+<li>Reload the proxy server for the changes to take effect by using the Web Listener Administration Page.
+</a></ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="develop">
+<h1> Developing Applications</h1>
+</a><a name="1023731">
+
+<h2> Making a DCD Accessible by the OWA Cartridge </h2>
+</a>
+<a name="1023732">
+The online documentation for administering DCDs only describes how to make a DCD accessible when running OWA as a CGI program. To make a DCD accessible by the OWA cartridge: <p>
+</a>
+
+<ol>
+<a name="1023733">
+<li>Go to the WRB Administration form for the listener from which you want to access the DCD.
+</a><a name="1023734">
+<li>Add to the Applications and Directories section of the form the line:
+</a>
+<pre><a name="1026700">&lt;DCD name&gt;/owa OWA &lt;OWS21_HOME&gt;\bin
+</a></pre>
+<a name="1023735">
+<li>To control access to this DCD, make the desired entry in the Protecting Applications section. Use exactly the same virtual path as in the first column of the Applications and Directories entry for this DCD.
+</a></ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1024875">
+<h2> Developing Cartridges</h2>
+</a>
+
+<a name="1024878">
+For developing each cartridge, customers can choose to use either process-based or thread-based models. <p>
+</a><a name="1026377">
+
+<h3> Process-Based Models</h3>
+</a><a name="1026378">
+The process model creates a process for each cartridge instance.This model provides maximum security for poorly written cartridges. For example, a fatal error in a cartridge instance will cause only the cartridge instance process to crash, leaving WebServer unaffected. This model also provides compatibility for cartridges that are developed on UNIX and moved to Windows NT.<p>
+</a><a name="1025160">
+
+<p><a href="#1022792">Return to Top</a>
+
+<h3> Thread-Based Model</h3>
+</a><a name="1024886">
+The thread-based model creates a process for each cartridge (type). Each invocation of the cartridge results in the creation of a thread within the process for that cartridge. A fatal error in a cartridge instance may cause either the instance thread to crash or, at worst, crash the process for that cartridge. This implementation takes advantage of the efficient implementation of threads on the Windows NT operating system, while still providing robust performance. This model requires developers of Web Request Broker cartridges to follow Windows NT rules for creating multi-threaded dynamic link libraries (DLLs). Some basic principles include:<p>
+</a><ul><a name="1024896">
+<li>Global variables may corrupt data, if they are not protected using Windows NT mutex functions.
+</a><a name="1024898">
+<li>Use thread-local storage (TLS) for storing data that is specific to individual instances of the cartridge.
+</a><a name="1025171">
+<li>Design and implement a robust exception handling mechanism for the cartridge, since the dispatcher may terminate a thread if an error occurs.
+</a></ul>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="1024903">
+<h3> Cartridge Model Selection</h3>
+</a><a name="1024905">
+Use the procedure below to select the model to be used for each cartridge:<p>
+</a>
+
+<ol>
+<a name="1024907">
+<li>Open the Oracle WebServer Manager home page.
+</a>
+
+<a name="1024908">
+<li>Select the Web Request Broker administration page.
+</a>
+
+<a name="1024909">
+<li>Click on Modify for the listener you want to modify.
+</a>
+
+<a name="1024910">
+<li>Scroll down to the Applications and Objects section.
+</a>
+
+<a name="1025230">
+<li>Change the model for the cartridges as necessary.
+</a>
+
+<a name="1025231">
+<p>In this section, each cartridge is listed with its associated properties. The entry in the last column (Thread) indicates the model used for the cartridge (T for Thread; P for Process).
+</a>
+<a name="1025223">
+<li>Restart the Web Server, in order for the changes to take effect.
+</a>
+
+<a name="1025224">
+<li>By default, all the cartridges that are packaged with Oracle WebServer are configured to run in the process-model. You can change the model for each of these cartridges after installation, based upon your requirements.
+</a>
+
+</ol>
+
+<p><a href="#1022792">Return to Top</a>
+
+<a name="additional">
+<h1> Additional Information </h1>
+</a>
+
+<a name="1023737">
+<h2> General </h2>
+</a>
+
+<ul><a name="1023738">
+<li>An error may be reported if many WRB-cartridges are pre-spawned simultaneously. If you get an error, check the status of Oracle WebServer to see if it is busy starting. If the status is "Service is starting", ignore the original error message. Continue to monitor the status until it is either started, stopping, or stopped.
+</a><a name="1023739">
+<li>Ensure identical directory maps do not exist in the listener configuration file and the OWSAPPFILE.
+</a><a name="1023740">
+<li>Ensure the security information for protection in the OWSAPPFILE also exists in the corresponding server configuration file.
+</a><a name="1023741">
+<li>Each system cartridge can be configured to gracefully exit after servicing a configurable number of requests. Use the MaxRequests entry in the OWSAPPFILE to specify the number of requests.
+</a></ul><a name="1023742">
+<h2> Administration </h2>
+</a><ul><a name="1023743">
+<li>The CGITimeout parameter for all WebServer administration tools may cause the creation or modification of a DCD to timeout if the PL/SQL package is being installed. If you experience a timeout, the server returns the message: "The server had an internal error and could not process the request".
+</a><ul><a name="1026715">
+<li>The default setting is 900 seconds. Increase the CGITimeout parameter from the web listener administration page appropriately to ensure completion of execution. The exact setting depends upon a number of factors that determine how fast the PL/SQL installation occurs.
+</a></ul><a name="1023744">
+<li>During the creation of the OWA_DEFAULT_SERVICE and OWA_DBA DCDs, the PL/SQL package and the travel demo are automatically installed. The ORACLE database may run out of shared memory during this operation if the shared pool size parameter for the database is too small.
+</a><ul><a name="1026716">
+<li>To correct this problem, increase the value of the SHARED_POOL_SIZE initialization parameter by editing the file ORANT\DATABASE<br>\INITORCL.ORA, and then restart the database.
+</a></ul><a name="1025236">
+<li>Ensure the character set of a PL/SQL Agent's Database Connection Descriptor is the same as the character set of the database to which it connects.
+</a></ul><a name="1023746">
+
+<h2> Java Interpreter </h2>
+</a><a name="1023747">
+PL/SQL access in Java Interpreter supports ASCII only. <p>
+</a><a name="1023748">
+
+<h2> LiveHTML Interpreter </h2>
+</a><a name="1023749">
+Currently, the LiveHTML interpreter can handle only the text/HTML mime type. If files of other mime types exist in the directory that contains LiveHTML files, then create an alternate virtual directory map. For example: <p>
+</a><a name="1023750">
+In the OWS_APPFILE: [AppDirs]<p>
+</a><a name="1023751">
+<blockquote>/LIVE SSI C:\PRIVATE\LIVE</blockquote>
+</a><a name="1023753">
+In the listener configuration file: [DirMap]<p>
+</a><pre><a name="1023754">/LIVE-IMG C:\PRIVATE\LIVE
+</a><a name="1023756">
+The image files in c:\private\live should be accessed via /live-img map. <p>
+</a></pre><a name="1023757">
+
+<h2> Oracle Web Agent </h2>
+</a><a name="1023758">
+The Oracle Web Agent builds a session level connection to all databases mentioned in the OWA into memory during pre-spawning. A session level connection is a <em>connection</em> to the database, but it is <em>not</em> a database login. A session level connection is destroyed when the database is shut down and is <em>not</em><strong> </strong>rebuilt when the database is restarted. To rebuild the connection to the database, the Web Listener must be reloaded. <p>
+</a><a name="1023759">
+
+<p><a href="#1022792">Return to Top</a>
+
+<h2> Travel Demonstration</h2>
+</a><a name="1023760">
+To run the travel demonstration against Version 7.2 of the database, set the value of the SHARED_POOL_SIZE parameter in the INITORCL.ORA file to 6.5 MB (the default value for this parameter is 3.5 MB).<p>
+</a>
+
+<p><a href="#1022792">Return to Top</a>
+
+<hr>
+
+<address>
+<a href="mailto:ntdoc@us.oracle.com">ntdoc@us.oracle.com</a>
+</address>
+
+<A HREF="/copyrt.htm">Copyright &#169; 1997 Oracle Corporation. All Rights Reserved.</A>
+</body>
+</html>
+

@@ -1,0 +1,4 @@
+SELECT MAX(codigo) //retorna o maior valor da coluna avaliada.
+FROM clientes
+
+* A Função MAX "Maximo", retorna o maior valor da expressão ou coluna informada.

@@ -1,0 +1,16 @@
+SELECT SALARIO
+FROM FUNCIONARIOS
+WHERE SALARIO NOT BETWEEN 310 AND 620;
+
+*Retorna os salarios dos funcionarios que nao estiverem entre 310..620 (inclusive).
+*A clausula NOT(Não) inverte o resultado natural.
+
+exemplos:
+ <>
+ NOT coluna=coluna
+ NOT coluna>valor
+ NOT BETWEEN
+ NOT IN
+ NOT LIKE
+ IS NOT NULL
+etc... 

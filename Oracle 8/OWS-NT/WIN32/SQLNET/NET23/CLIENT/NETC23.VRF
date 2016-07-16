@@ -1,0 +1,349 @@
+/* Copyright (c) Oracle Corporation 1994, 1996.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    netc23.vrf
+
+  DESCRIPTION
+    This script checks dependencies and environment settings for installation
+    of the Windows 32 SQL*Net product.
+
+  OWNER
+    Etna Flores
+
+  MODIFIED    DD-MMM-YY  Reason
+    dstiefel  22-FEB-96  Merge NT/95 for 2.3.2
+    ljiang    9/95	 Modified for Easy Configuration
+    dlau      07-AUG-95  Modified for SQLNET 2.2
+*****************************************************************************/
+{
+  {
+  /* OS variables */
+   if (platform() == "nt")
+	 prefix = "nt";
+   else
+ 	 prefix = "w95";
+
+   instver_prod = evaluate("%prefix%instver");
+   install_prod = evaluate("%prefix%install");
+
+   doit = execute("%installer_home%\%operating_system%.vrf");
+  } [
+    'UNBOUND_VARIABLE:
+      {
+        required_version = product_version(instver_prod);
+        temp = explode(required_version,".");
+        required_version = implode(list(first(temp),first(rest(temp)),
+                                        first(rest(rest(temp))),
+                                        first(rest(rest(rest(temp))))),".");
+        signal('failure,instantiate(nls("instver_too_early1","The version of
+the Installer currently running is %%installer_version%%. The installation you
+have chosen requires version %%required_version%% or later. Please run version
+%%required_version%% or later in order to perform this installation.")));
+      }
+  ]
+ 
+ if (doit)
+  {
+    vrf_ratchet = "2.3.2.1.4";
+
+  /* Bind string constants, help strings, & prompt strings .. */
+
+    net2_register = nls("net2_register","Registering %%product_label%%...");
+    net2_install_script = nls("net2_install_script","Installing %%product_label%% Installation Scripts...");
+    net2_install_message = nls("net2_install_message","Installing %%product_label%% Message Files...");
+    net2_install_sample = nls("net2_install_sample","Installing %%product_label%% Sample Files...");
+    net2_install_tns = nls("net2_install_tns","Installing %%product_label%% Executables...");
+    net2_install_easycfg = nls("net2_install_easycfg","Installing SQL*Net Easy Configuration Files...");
+
+    app_prompt = nls("app_prompt","Stop all Oracle applications that are using %%product_label%% before continuing with this installation.");
+    app_content = nls("app_content","Stop Applications");
+    app_help = nls("app_help","%%product_label%% is being used. Stop all Oracle applications that are using %%product_label%% before continuing with this installation.");
+
+    netc23_inst_term = instantiate(nls("netc23_inst_term", "%%product_label%% installation terminated."));
+
+    use_inst_from_media = nls("use_inst_from_media","SQL*Net Easy Configuration depends on the Oracle Installer. The Oracle Installer you are currently using is not compatible to run SQL*Net Easy Configuration. Please run the Oracle Installer from the release media in order to install the latest version of Oracle Installer and %product_label%.");
+    use_inst_from_media_label = nls("use_inst_from_media_label","Oracle Installer Not Compatible");
+    use_inst_from_media_help_term = nls("use_inst_from_media_help_term","SQL*Net Easy Configuration is installed together with %product_label%. SQL*Net Easy Configuration is dependent on the Oracle Installer. Your current Oracle Installer is not compatible with this version of SQL*Net Easy Configuration. Please run the Oracle Installer from the release media in order to install the latest version of Oracle Installer and %product_label%.
+
+OK or CANCEL terminates the installation of %product_label% .
+   ");
+
+    use_inst_from_media_help_cont = nls("use_inst_from_media_help_cont","SQL*Net Easy Configuration is installed together with %product_label%. SQL*Net Easy Configuration is dependent on the Oracle Installer. Your current Oracle Installer is not compatible with this version of SQL*Net Easy Configuration. Please run the Oracle Installer from the release media in order to install the latest version of Oracle Installer and %product_label%.
+
+OK continues with the installation of other products.
+
+CANCEL terminates the installation of %product_label%.
+   ");
+
+   /* from Win 95 */
+  new_stack_prompt = nls("new_stack_prompt","Select the network protocols for which you want Oracle SQL*Net support.  SQL*Net allows you to access remote databases on your network.  For each protocol you select, an Oracle SQL*Net Protocol Adapter will be installed.
+
+If possible, the Installer detects the network protocols installed to your Windows 95 system and selects them for you.");
+  new_stack_label = nls("new_stack_label","Oracle SQL*Net Adapter Selection");
+  new_stack_help = nls("new_stack_help","SQL*Net allows you to access remote databases on your network.  Select the network protocols for which you want Oracle SQL*Net support.  If possible, the Installer detects the network protocols installed to your Windows 95 system and selects them for you.
+
+The TCP/IP network protocol enables data transfer on Local Area Networks (LANs), Wide Area Networks (WANs), and the Internet.
+
+The SPX network protocol enables data transfer in a Novell Netware environment.
+
+The Named Pipes network protocol enables data transfer in a Microsoft Network environment or LAN Manager environment.
+
+If you are not familiar with network transport protocols, please contact your network administrator.
+
+                                                                                                                                                            .
+");
+  installation_terminated = nls("installation_terminated","Installation terminated.  Please stop all Oracle applications that are using %%product_label%%.");
+  reinstall_prompt = nls("reinstall_prompt","Oracle SQL*Net is currently installed to your machine. Would you like to:");
+  reinstall_label = nls("reinstall_label","Oracle SQL*Net Network Support");
+  reinstall_help = nls("reinstall_help","The Installer has examined your machine and found that SQL*Net is already installed.
+
+To configure access to additional remote databases (add a Database Alias) please select the first checkbox.
+
+To reinstall SQL*Net or add support for additional network protocols (add a SQL*Net Protocol Adapter) please select the second checkbox.
+
+Press OK to continue or CANCEL to terminate this installation. ");
+
+    netc22_expl = nls("netc22_expl", "A %%product_label%% DLL (NTNT.DLL) is being used on this machine. Please stop all Oracle applications that are using %%product_label%% before installing %%product_label%%.
+
+Silent mode installation of %%product_label%% terminated.");
+
+    netc22_inst = instantiate(nls("netc22_inst", "A %%product_label%% DLL (NTNT.DLL) is being used on this machine. Please stop all Oracle applications that are using %%product_label%% before installing %%product_label%%.
+
+Choose OK after you have closed all Oracle applications and want to resume the installation of %%product_label%%.
+
+Choose CANCEL to terminate the installation of %%product_label%%.
+    "));
+    netc22_inst_term = instantiate(nls("netc22_inst_term", "%%product_label%% installation terminated."));
+    netc22_inst_content = instantiate(nls("netc22_inst_content", "%%product_label%% DLL Used"));
+    netc22_inst_help = instantiate(nls("netc22_inst_help", "The Oracle Installer has detected that a %%product_label%% DLL (NTNT.DLL) is being used on this machine.  Please stop all Oracle applications that are using %%product_label%% before installing %%product_label%%.
+
+Choose OK after you have closed all Oracle applications and want to resume the installation of %%product_label%%.
+
+Choose CANCEL to terminate the installation of %%product_label%%.
+    "));
+
+   none_selected = nls("none_selected","No Oracle SQL*Net Protocol Adapter was selected for installation.");
+   none_selected_label = nls("none_selected_label","None Selected");
+
+   none_selected_help_term = nls("none_selected_help_term","No Oracle SQL*Net Protocol Adapter was selected for installation.
+
+You need to select at least one network protocol in order to install %product_label%. 
+
+BACK returns to %new_stack_label% dialog box to make a selection.
+
+OK or CANCEL terminates the installation of %product_label% .
+   ");
+
+   none_selected_help_cont = nls("none_selected_help_cont","No Oracle SQL*Net Protocol Adapter was selected for installation.
+
+You need to select at least one network protocol in order to install %product_label%.
+
+BACK returns to %new_stack_label% dialog box to make a selection.
+
+OK continues with the installation of other products.
+
+CANCEL terminates the installation of %product_label%.
+   ");
+
+
+    no_protocol = nls("no_protocol","The Oracle Installer did not detect TCP/IP, SPX or Named Pipes protocols on your machine.
+
+Before installing SQL*Net, you must install either TCP/IP, SPX or Named Pipes.");
+    no_protocol_label =  nls("no_protocol_label","No Protocol Detected");
+    no_protocol_help = nls("no_protocol_help","The Oracle Installer did not detect TCP/IP, SPX or Named Pipes protocols on your machine.
+
+Before installing SQL*Net, you must install either TCP/IP, SPX or Named Pipes.
+
+The TCP/IP network protocol enables data transfer on Local Area Networks (LANs), Wide Area Networks (WANs), and the Internet.
+
+The SPX network protocol enables data transfer in a Novell Netware environment.
+
+The Named Pipes network protocol enables data transfer in a Microsoft Network environment or LAN Manager environment.
+
+If you are not familiar with network transport protocols, please contact your network administrator.");
+
+   /* Variables and Logic */
+   netclt_prod = w32netclt23;
+   tcp_prod = w32tcp23;
+   spx_prod = w32spx23;
+   nmp_prod = w32nmp23;
+   tcp_name = product_name(tcp_prod);
+   spx_name = product_name(spx_prod);
+   nmp_name = product_name(nmp_prod);
+   adp_pkg = adp23;  /* use the pkg */
+   install_adp = FALSE; /* force protocol adapter install ? */
+
+   total = verify(w32rsf73);
+
+   if (platform() == "nt")
+   {
+     /* Need at least one protocol adapter */   
+     if( not(registered(tcp_name)) && not(registered(spx_name)) && not(registered(nmp_name)) )
+     {
+   	 /* OK, if they are being installed */
+       if( not(member(selected_products, tcp_prod)) &&
+   	       not(member(selected_products, spx_prod)) && 
+           not(member(selected_products, nmp_prod)) )
+       {
+         if( not(member(products_for_installation, tcp_prod)) &&
+             not(member(products_for_installation, spx_prod)) && 
+             not(member(products_for_installation, nmp_prod)) )
+         {   	
+            install_adp = TRUE;
+            total = total + verify(adp_pkg);
+         }
+       }  /* no adapters selected */
+     } /* no adapters */
+   }  /* NT */
+   else /* Win 95 */
+   {
+/* Determine which type of install - only Custom Install asks questions */
+   {
+   if (install_type == install_type_custom)
+        custom_install = TRUE;
+   else
+        custom_install = FALSE;
+   }
+   [ 'UNBOUND_VARIABLE: custom_install = TRUE; ]
+
+   chosen_stack_list = list();
+   spx_stack = "";
+   tcp_stack = "";
+   nmp_stack = "";
+
+   stack_list = list();
+   installed_stack_list = list();
+   tcp_stack = nls("tcp_stack","TCP/IP         ");
+   spx_stack = nls("spx_stack","SPX              ");
+   nmp_stack = nls("nmp_stack","Named Pipes");
+   increment = 0;
+   while (increment < 100)
+   {
+     if (increment > 9)
+       increment_string = "%increment%";
+     else
+       increment_string = "0%increment%";
+     temp_string = win32_get_value("HKEY_LOCAL_MACHINE",
+                                   "System\CurrentControlSet\Services\Class\NetTrans\00%increment_string%",
+                                   "DeviceVxDs");
+     temp_list = explode(temp_string,",", 'STRINGSONLY);
+     if (member(temp_list, "vtcp.386"))
+       add(installed_stack_list, tcp_stack);
+     else if (member(temp_list, "nwlink.vxd"))
+       add(installed_stack_list, spx_stack);
+     else if (member(temp_list, "netbeui.vxd"))
+       add(installed_stack_list, nmp_stack);
+     increment = increment + 1;
+   }
+   ['INVALID_KEY, 'FILE_NOT_FOUND, 'OS_ERROR: increment = increment + 1;]
+
+   if (not(member(installed_stack_list, tcp_stack)))
+     tcp_stack = nls("tcp_stack_not_installed","%tcp_stack% (Protocol not detected)");
+   add(stack_list, tcp_stack);
+     
+   if (not(member(installed_stack_list, spx_stack)))
+     spx_stack = nls("spx_stack_not_installed","%spx_stack% (Protocol not detected)");
+   add(stack_list, spx_stack);
+
+   if (not(member(installed_stack_list, nmp_stack)))
+     nmp_stack = nls("nmp_stack_not_installed","%nmp_stack% (Protocol not detected)");
+   add(stack_list, nmp_stack);
+
+   if (empty(installed_stack_list))
+    {
+        information_dialog(no_protocol, no_protocol_label, no_protocol_help, 'NO_CANCEL);
+        if (custom_install && member(selected_products, netclt_prod) && empty(rest(selected_products)))
+        {
+           signal('CANCEL,netc22_inst_term);
+        }
+        else
+        {
+           doit = false;
+           return(0);
+        }
+    }
+    
+   chosen_stack_list = installed_stack_list;
+   if (custom_install)
+   mark
+   {
+        chosen_stack_list = multiple_selection_dialog( new_stack_prompt,
+                                                       stack_list,
+                                                       installed_stack_list,
+                                                       new_stack_label,
+                                                       new_stack_help );
+
+        if( empty(chosen_stack_list) && not(registered(tcp_name)) && not(registered(spx_name)) && not(registered(nmp_name)) )
+        mark
+        {
+             /* if this is the only product installed */
+             if (member(selected_products, netclt_prod) && empty(rest(selected_products)))
+             {
+               information_dialog(none_selected, none_selected_label, none_selected_help_term);
+               signal('CANCEL,netc22_inst_term);
+             }
+             else
+             {
+               information_dialog(none_selected, none_selected_label, none_selected_help_cont);
+               doit = false;
+               return(0);
+             }
+        }
+   }
+   total = 0;
+
+   if (member(chosen_stack_list, tcp_stack))
+        total = total + verify(tcp_prod);
+   if (member(chosen_stack_list, spx_stack))
+        total = total + verify(spx_prod);
+   if (member(chosen_stack_list, nmp_stack))
+        total = total + verify(nmp_prod);
+        
+   if( (total == 0) && not(registered(tcp_name)) && not(registered(spx_name)) && not(registered(nmp_name)) )
+    {
+     if( member(selected_products, netclt_prod) && empty(rest(selected_products)) ) 
+     {
+       information_dialog(nls("none_selected","No Oracle SQL*Net Protocol Adapter was selected for installation."));
+       signal('CANCEL,netc22_inst_term);
+     }
+     else
+     {
+       doit = FALSE;
+       return (0);
+     }
+    }
+   }  /* win 95 */
+
+   /* Easy Config needs new installer */
+   
+   if (not(registered("%prefix%install")))      /* installer running from media */
+      total = total + verify(install_prod);
+   else
+   if (earlier_version(registration("%prefix%install"),product_version(instver_prod)))
+      {
+      total = total + verify(install_prod);
+      }
+      ['FAILURE:
+        {
+          if (member(selected_products, netclt_prod) && empty(rest(selected_products))) 
+          {
+            information_dialog(use_inst_from_media,use_inst_from_media_label,use_inst_from_media_help_term);
+            signal('CANCEL, netc23_inst_term);
+          }
+          else
+          {
+            information_dialog(use_inst_from_media,use_inst_from_media_label,use_inst_from_media_help_cont);
+            doit = FALSE;
+            return (0);
+          }
+        }
+      ]
+ 
+   return(total + sum(tns,sample,msb,nls_abbreviation,deinstl,cfg23));
+  }
+ else
+   {
+    refresh_map_file = FALSE;
+    return(0);
+   }
+}

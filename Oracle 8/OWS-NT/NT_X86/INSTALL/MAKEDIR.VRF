@@ -1,0 +1,616 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+
+/*****************************************************************************
+  NAME
+    makedir.vrf - V3 common checks for valid path name.
+
+  DESCRIPTION
+    This script requests an absolute directory name until a valid path is
+    found.  This directory is created if it does not already exist.  NFS 
+    paths are not checked for legal names.  HPFS paths are checked for
+    legal HPFS names.  All other paths are checked for legal FAT names.
+
+    IN Variables:
+      string makedir_default_dir
+      string makedir_select_dir_prompt
+      string makedir_select_dir_content          (dos/os2 only)
+      string makedir_select_dir_help             (dos/os2 only)
+        Used in a text dialog to request a directory name.
+	If Windows, choose directory dialog is used instead 
+	(content & help will not be available).
+
+      boolean makedir_root_allowed
+        Set to true if '%drive%:\' is considered valid.
+
+      boolean makedir_skip_pass
+        Set to true means user has already entered a path to check, using
+        multiple_text_dialog in calling script, for example.  If unbound,
+        default to false.
+
+      boolean makedir_check_invalid_home
+        Set to true means that user wants to check that paths being entered are
+	not invalid for an oracle home for the %makedir_os_for_home% platform.
+      string makedir_os_for_home
+        String indicating the OS for which the validity check is being made.
+	For eg., if "nt" is passed in, there should'nt be any *.rgs files in
+	%makedir_path_to_check%\orainst that have a filename other than nt.rgs
+
+      string makedir_root_message
+      string makedir_root_content
+      string makedir_root_help
+        Used in information dialog if makedir_root_allowed = false and 
+	a root path was entered.  The variable %makedir_path_to_check%
+	can referred to in these 3 strings to reference the root path
+	that was entered.
+
+      string list makedir_bad_dir_list
+      string list makedir_bad_dir_message_list
+      string list makedir_bad_dir_content_list
+      string list makedir_bad_dir_help_list
+        List of known bad directories and their associated messages.
+	These will be checked for and message will be displayed.  Can
+	be left unbound (all 4 must be unbound) if empty.  If content
+	string is "", then no help is displayed with message.
+
+      string list makedir_bad_tree_list
+      string list makedir_bad_tree_message_list
+      string list makedir_bad_tree_content_list
+      string list makedir_bad_tree_help_list
+        List of known bad directory trees and their associated messages.
+	These will be checked for and message will be displayed.  Can
+	be left unbound (all 4 must be unbound) if empty.  If content
+	string is "", then no help is displayed with message.
+      number makedir_required_space
+        Amount of space required on the chosen drive in bytes.
+
+     All of the above strings are instantiated immediately before usage.
+    
+    RETURNS: string
+      The valid directory that was specified.  This directory is
+      guaranteed to exist.
+    
+    NOTE:
+     This script uses only variables with prefix 'makedir_'.
+     This script requires Installer 3.0.10.1.1 or later.
+     This script is shared by OS/2, DOS, and Windows.
+
+  MODIFIED   MM/DD/YY REASON
+  njagathe   08/08/96 Added check for oracle home validity - the user needs
+	              to set makedir_check_invalid_home to TRUE
+  njagathe   05/31/96 Made script silent_mode compliant. In silent mode, the 
+                      script now generates a signal with the cause of the need
+		      to redo.
+  vrajkuma   05/16/96 Added space checking logic.
+  zzerhoun   01/29/96 Allow for local setup of OCSM (cancel 3/14/95)
+  vrajkuma   11/29/95 In Shared mode, make sure path is not on network.
+                      (for bstar agent, as it can't see n/w drives)
+  sagarwal   09/13/95 Modified check for bad tree structures
+  zzerhoun   03/14/95 In Shared mode, make sure Path is on Network
+  zzerhoun   02/06/95 Added makedir_bad_tree_* for directory structures
+  zzerhoun   01/03/95 Fixed FAT Path too long bug
+  zzerhoun   12/15/94 Changed to allow to set path_to_check in calling script
+  zzerhoun   11/08/94 Made '-' and '&' valid characters
+  ming       01/13/94 Changed to allow to run under DOS and OS/2.
+  ming       01/12/94 Added 'stringsonly to explode calls.
+  ming       12/30/93 Created.
+*****************************************************************************/
+
+{
+  { makedir_bad_dir_list = makedir_bad_dir_list; }
+  [ 'unbound_variable: 
+   { 
+     makedir_bad_dir_list = list(); 
+     makedir_bad_dir_message_list = list(); 
+     makedir_bad_dir_content_list = list();
+     makedir_bad_dir_help_list = list();
+   } ]
+
+  { makedir_bad_tree_list = makedir_bad_tree_list; }
+  [ 'unbound_variable: 
+   { 
+     makedir_bad_tree_list = list(); 
+     makedir_bad_tree_message_list = list(); 
+     makedir_bad_tree_content_list = list();
+     makedir_bad_tree_help_list = list();
+   } ]
+
+  makedir_old_current_directory = current_directory(); /* need to restore this later */
+  makedir_bad_names = list("kbd$","prn","nul","com1","com2","com3","com4","con","clock$",
+			   "lpt1","lpt2","lpt3","screen$","pointer$","mouse$");
+  
+  makedir_drives = dos_mapped_drives();
+  
+  makedir_new_dirs = list();	/* list of directories created by this script */
+  
+    {
+      makedir_looped_once = false;
+      while (true) 
+	{
+	  /* The reason for needing to loop a second time is stored in 
+	     makedir_failure_message. This is used in the generation of a 
+	     signal in silent_mode */
+          if(silent_mode && makedir_looped_once)
+	    {
+	      { 
+		makedir_content = makedir_content; /* Check for unbound var */
+		makedir_failure_signal_string = "Silent Mode Error (%makedir_content%):  %makedir_failure_message%";
+	      }
+	      [ 'UNBOUND_VARIABLE:
+	      makedir_failure_signal_string = "Silent Mode Error:  %makedir_failure_message%";
+              ]
+	      signal('FAILURE, makedir_failure_signal_string); 
+	    }
+
+          makedir_looped_once = true;
+	  makedir_redo = false;
+	  
+	  while (not(empty(makedir_new_dirs))) 
+	    {			/* clean up */
+	      makedir_new_dir = first(makedir_new_dirs);
+	      makedir_new_dirs = rest(makedir_new_dirs);
+	      remove_directory(makedir_new_dir);
+	    } [ 'default: continue(); ]
+	  
+          makedir_select_dir_prompt_inst = instantiate(makedir_select_dir_prompt);
+          makedir_default_dir_inst = instantiate(makedir_default_dir);
+
+	  {  
+            if (not(makedir_skip_pass))
+              signal('UNBOUND_VARIABLE);
+	  }
+          ['UNBOUND_VARIABLE:
+            {
+/* EEVANS */	   
+	      temp_hack = current_directory(); /* EEVANS */
+	      change_directory(makedir_old_current_directory); 
+
+	      makedir_path_to_check = choose_directory_dialog(makedir_select_dir_prompt_inst,
+                                                              makedir_default_dir_inst,
+                                                              makedir_content,
+                                                              makedir_help);
+	      change_directory(temp_hack);
+              continue();
+            }
+          ]
+
+          makedir_skip_pass = FALSE;
+
+	  pathify(makedir_path_to_check);
+
+	  /* Check for invalid homes */
+          {
+	     if(makedir_check_invalid_home)
+	       {
+	         { makedir_os_for_home = makedir_os_for_home; }
+		 ['UNBOUND_VARIABLE: 
+ 	            { makedir_os_for_home = platform(); continue(); } ]
+
+	         if(directory_name(makedir_path_to_check) == 
+		    makedir_path_to_check)
+		   orainst_dir= instantiate("%makedir_path_to_check%orainst");
+		 else
+		   orainst_dir= instantiate("%makedir_path_to_check%\orainst");
+
+                 /* Get the list of all the rgs files here */
+                 list_rgs = files("%orainst_dir%\*.rgs");
+                 oh_os = list();
+      
+                 /* Convert the list of files into a list of OSs */
+                 while(not(empty(list_rgs)))
+		   {
+		     fname = file_name(first(list_rgs));
+                     add(oh_os, first(explode(fname, ".")));
+		     list_rgs = rest(list_rgs);
+		   }
+                 subtract(oh_os, list(makedir_os_for_home));
+      
+                 if(not(empty(oh_os)))
+		   {
+		     extra_os = first(oh_os); /* Pick one different OS */
+		     
+		     makedir_failure_message = instantiate(makedir_other_os_home);
+		     information_dialog(makedir_failure_message);
+		     makedir_redo = true;	  
+		     continue();
+		   }
+               }
+          } ['UNBOUND_VARIABLE: continue(); ]
+
+	  /* check for known bad directory structures */
+	  makedir_bad_trees = makedir_bad_tree_list;
+	  makedir_bad_tree_messages = makedir_bad_tree_message_list;
+	  makedir_bad_tree_contents = makedir_bad_tree_content_list;
+	  makedir_bad_tree_helps = makedir_bad_tree_help_list;
+	  while (not(empty(makedir_bad_trees)))
+	    {
+	      /* Compare the components of the two paths to
+		 see if makedir_path_to_check is contained within any of
+		 the elements in makedir_bad_trees */
+	      path_to_check_list = explode(makedir_path_to_check, "\");
+	      bad_path_list = explode(first(makedir_bad_trees), "\");
+	      found_bad = FALSE;
+	      while (first(bad_path_list) == first(path_to_check_list))
+		{
+		  bad_path_list = rest(bad_path_list);
+		  path_to_check_list = rest(path_to_check_list);
+		  if (empty(bad_path_list))
+		    {
+		      /* contained path found */
+		      found_bad = TRUE;
+		      break();
+		    }
+		  else if (empty(path_to_check_list))
+		    /* path is good */
+		    break();
+		}
+
+	      if (found_bad)
+		{
+		  makedir_bad_tree_contents_inst = instantiate(first(makedir_bad_tree_contents));
+		  makedir_failure_message = instantiate(first(makedir_bad_tree_messages));
+		  if (makedir_bad_tree_contents_inst=="")
+		      information_dialog(makedir_failure_message);
+		  else
+		    information_dialog(makedir_failure_message,
+				       makedir_bad_tree_contents_inst,
+				       instantiate(first(makedir_bad_tree_helps)));
+		  makedir_redo = TRUE;
+		  break();
+		}
+	      makedir_bad_trees = rest(makedir_bad_trees);
+	      makedir_bad_tree_messages = rest(makedir_bad_tree_messages);
+	      makedir_bad_tree_contents = rest(makedir_bad_tree_contents);
+	      makedir_bad_tree_helps = rest(makedir_bad_tree_helps);
+	    }
+	  if (makedir_redo)
+	    continue();
+	  
+	  /* check for known bad directories */
+	  makedir_bad_dirs = makedir_bad_dir_list;
+	  makedir_bad_dir_messages = makedir_bad_dir_message_list;
+	  makedir_bad_dir_contents = makedir_bad_dir_content_list;
+	  makedir_bad_dir_helps = makedir_bad_dir_help_list;
+	  while (not(empty(makedir_bad_dirs)))
+	    {
+	      if (makedir_path_to_check==first(makedir_bad_dirs))
+		{
+		  makedir_bad_dir_contents_inst = instantiate(first(makedir_bad_dir_contents));
+		  makedir_failure_message = instantiate(first(makedir_bad_dir_messages));
+		  if (makedir_bad_dir_contents_inst=="")
+		    information_dialog(makedir_failure_message);
+		  else
+		    information_dialog(makedir_failure_message,
+				       makedir_bad_dir_contents_inst,
+				       instantiate(first(makedir_bad_dir_helps)));
+		  makedir_redo = TRUE;
+		  break();
+		}
+	      makedir_bad_dirs = rest(makedir_bad_dirs);
+	      makedir_bad_dir_messages = rest(makedir_bad_dir_messages);
+	      makedir_bad_dir_contents = rest(makedir_bad_dir_contents);
+	      makedir_bad_dir_helps = rest(makedir_bad_dir_helps);
+	    }
+	  if (makedir_redo)
+	    continue();
+	  
+	  if (not(contains(makedir_path_to_check,":"))) 
+	    {
+	      makedir_failure_message = instantiate(makedir_specify_drive);
+	      information_dialog(makedir_failure_message);
+	      continue();	/* no : */
+	    }
+	  makedir_drive_path = explode(makedir_path_to_check,":",'stringsonly);
+	  makedir_drive = first(makedir_drive_path); /* find the drive */
+	  if (not(member(makedir_drives,makedir_drive))) 
+	    {
+	      makedir_failure_message = instantiate(makedir_bad_drive);
+	      information_dialog(makedir_failure_message);
+	      continue();			/* bad drive letter */
+	    }		
+	  makedir_path = rest(makedir_drive_path);
+	  if (empty(makedir_path)) 
+	    {
+              makedir_failure_message = instantiate(makedir_no_dir);
+	      information_dialog(makedir_failure_message);
+	      continue();			/* nothing after : */
+	    }
+	  makedir_rest_path = rest(makedir_path);
+	  if (not(empty(makedir_rest_path))) 
+	    {
+              makedir_failure_message = instantiate(makedir_invalid_path);
+	      information_dialog(makedir_failure_message);
+	      continue();			/* extra : */
+	    }
+	  makedir_path = first(makedir_path);
+	  if (first(explode(makedir_path,"\",true,'stringsonly))!="\") 
+	    {
+              makedir_failure_message = instantiate(makedir_absolute_path);
+	      information_dialog(makedir_failure_message);
+	      continue();			/* not absolute path */
+	    }
+	  
+          /* reject if there is not enough space */
+          {
+            if( free_space(makedir_path_to_check) < makedir_required_space )
+            {
+              makedir_failure_message = instantiate(makedir_not_enough_space);
+              information_dialog(makedir_failure_message);
+              continue();
+            }
+          }
+          [
+            'UNBOUND_VARIABLE: continue();
+            'default:
+            {
+              continue();
+            /* could be becos the path was invalid in which case it would be caught elsewhere
+              makedir_failure_message = instantiate(makedir_cannot_get_freespace);
+              information_dialog(makedir_failure_message);
+              makedir_redo = TRUE;
+             */
+            }
+          ]
+
+	  {
+	    makedir_fstype = dos_file_system_type("%makedir_drive%:\");
+	  } ['default: makedir_fstype = 'fat; ]
+	  /* assume FAT if not disk not accessible - probably floppy */
+	  
+	  if ((makedir_fstype!='nfs) || (makedir_fstype!='ntnf)) 
+	    {
+	      makedir_bad_chars = list("*","?","<",">","|",",","+","=","[","]",";");
+	      while (not(empty(makedir_bad_chars))) 
+		{				/* check for illegal characters */
+		  makedir_bad_char = first(makedir_bad_chars);
+		  makedir_bad_chars = rest(makedir_bad_chars);
+		  if (contains(makedir_path,makedir_bad_char)) 
+		    {
+                      makedir_failure_message = instantiate(makedir_illegal_char);
+		      information_dialog(makedir_failure_message);
+		      makedir_redo = true;
+		      break();
+		    } 
+		}
+	      if (makedir_redo) 
+		continue();
+	    }
+	  
+	  if (contains(makedir_path,"\\")) 
+	    {
+              makedir_failure_message = instantiate(makedir_invalid_path);
+	      information_dialog(makedir_failure_message);
+	      continue();
+	    }
+	  
+
+	  makedir_names = explode(makedir_path,"\",'stringsonly);
+	  
+	  if (empty(makedir_names)) 
+	    {
+	      { 
+		makedir_root_allowed = makedir_root_allowed; 
+	      } [ 'unbound_variable: makedir_root_allowed = false; ]
+	      if (not(makedir_root_allowed)) 
+		{
+		  makedir_failure_message = instantiate(makedir_root_message); 
+		  information_dialog(makedir_failure_message,
+				     instantiate(makedir_root_content),
+				     instantiate(makedir_root_help));
+		  continue();			/* case of d:\ */
+		}
+		    } 
+	  else 
+	    {
+	      makedir_current_path = "%makedir_drive%:";
+	      change_directory(makedir_current_path);
+	      
+	      /* check for bad names */
+	      if ((makedir_fstype=='hpfs) || (makedir_fstype=='ntfs)) 
+		while (not(empty(makedir_names))) 
+		  {
+		    makedir_name = first(makedir_names);
+		    makedir_names = rest(makedir_names);
+		    if ((length(makedir_name)>254)) 
+		      {
+			makedir_failure_message = instantiate(makedir_name_too_long);
+			information_dialog(makedir_failure_message);
+			makedir_redo = true;		/* too long */
+			break();
+		      }
+		    if (member(makedir_bad_names,makedir_name)) 
+		      {
+			makedir_failure_message = instantiate(makedir_illegal_name);
+			information_dialog(makedir_failure_message);
+			makedir_redo = true;		/* illegal name */
+			break();
+		      }
+		    makedir_current_path = "%makedir_current_path%\%makedir_name%";
+		    
+		    {
+		      makedir_exists = exists(makedir_current_path);
+		    } [ 'default: 
+		       {
+                         makedir_failure_message = instantiate(makedir_invalid_path);
+			 information_dialog(makedir_failure_message);
+			 makedir_redo = true;		/* can't check existence */
+			 break();
+		       } ]
+		    
+		    if (makedir_exists) 
+		      {
+			{
+			  change_directory(makedir_current_path);
+			} [ 'default(makedir_signal):
+			   { 
+                             makedir_failure_message = instantiate(makedir_dir_not_accessible);
+			     information_dialog(makedir_failure_message);
+			     makedir_redo = true;
+			     break();
+			   } ]
+		      } 
+		    else 
+		      {
+			{
+			  make_directory(makedir_current_path);
+			  if (not(exists(makedir_current_path)))
+			    signal('make_directory_failure,"Can't make directory '%makedir_current_path%'.");
+			  makedir_new_dirs = cons(makedir_current_path,makedir_new_dirs);
+			} [ 'default(makedir_signal): 
+			   { 
+                             makedir_failure_message = instantiate(makedir_cant_create_dir);
+			     information_dialog(makedir_failure_message);
+			     makedir_redo = true; 
+			     break(); 
+			   } ]
+		      }
+		  }
+	      else if ((makedir_fstype=='nfs) || (makedir_fstype=='ntnf)) 
+		while (not(empty(makedir_names))) 
+		  {
+		    makedir_name = first(makedir_names); /* find last name */
+		    makedir_names = rest(makedir_names);
+		    makedir_current_path = "%makedir_current_path%\%makedir_name%";
+		    {
+		      makedir_exists = exists(makedir_current_path);
+		    } [ 'default: 
+		       {
+                         makedir_failure_message = instantiate(makedir_invalid_path);
+			 information_dialog(makedir_failure_message);
+			 makedir_redo = true;		/* can't check existence */
+			 break();
+		       } ]
+		    
+		    if (makedir_exists) 
+		      {
+			{
+			  change_directory(makedir_current_path);
+			} [ 'default(makedir_signal):
+			   { 
+                             makedir_failure_message = instantiate(makedir_dir_not_accessible);
+			     information_dialog(makedir_failure_message);
+			     makedir_redo = true;
+			     break();
+			   } ]
+		      } 
+		    else 
+		      {
+			{
+			  make_directory(makedir_current_path);
+			  if (not(exists(makedir_current_path)))
+			    signal('make_directory_failure,"Can't make directory '%makedir_current_path%'.");
+			  makedir_new_dirs = cons(makedir_current_path,makedir_new_dirs);
+			} [ 'default(makedir_signal): 
+			   { 
+                             makedir_failure_message = instantiate(makedir_cant_create_dir);
+			     information_dialog(makedir_failure_message);
+			     makedir_redo = true; 
+			     break(); 
+			   } ]
+		      }
+		  }
+	      else /* FAT */
+		while (not(empty(makedir_names))) 
+		  {
+		    makedir_name = first(makedir_names);
+		    makedir_names = rest(makedir_names);
+		    if (member(makedir_bad_names,makedir_name)) 
+		      {
+                        makedir_failure_message = instantiate(makedir_illegal_name);
+			information_dialog(makedir_failure_message);
+			makedir_redo = true;		/* illegal name */
+			break();
+		      }
+		    if (count(makedir_name,".")>1) 
+		      {
+                        makedir_failure_message = instantiate(makedir_illegal_name);
+			information_dialog(makedir_failure_message);
+			makedir_redo = true;		/* too many .'s */
+			break();
+		      }
+		    makedir_base_ext = explode(makedir_name,".",'stringsonly);
+		    makedir_base = first(makedir_base_ext);
+		    if (length(makedir_base)>8) 
+		      {
+                        makedir_failure_message = instantiate(makedir_long_basename);
+			information_dialog(makedir_failure_message);
+			makedir_redo = true;		/* basename too long */
+			break();
+		      }	  
+		    makedir__ext = rest(makedir_base_ext);
+		    if (not(empty(makedir__ext))) 
+		      {				/* has extension - check it */
+			makedir_ext = first(makedir__ext);
+			if (length(makedir_ext)>3) 
+			  {
+                            makedir_failure_message = instantiate(makedir_long_extension);
+			    information_dialog(makedir_failure_message);
+			    makedir_redo = true;		/* extension too long */
+			    break();
+			  }	  
+		      }
+		    makedir_current_path = "%makedir_current_path%\%makedir_name%";
+		    {
+		      makedir_exists = exists(makedir_current_path);
+		    } [ 'default: 
+		       {
+                         makedir_failure_message = instantiate(makedir_invalid_path);
+			 information_dialog(makedir_failure_message);
+			 makedir_redo = true;		/* can't check existence */
+			 break();
+		       } ]
+		    
+		    if (makedir_exists) 
+		      {
+			{
+			  change_directory(makedir_current_path);
+			} [ 'default(makedir_signal):
+			   { 
+                             makedir_failure_message = instantiate(makedir_dir_not_accessible);
+			     information_dialog(makedir_failure_message);
+			     makedir_redo = true;
+			     break();
+			   } ]
+		      } 
+		    else 
+		      {
+			{
+			  make_directory(makedir_current_path);
+			  if (not(exists(makedir_current_path)))
+			    signal('make_directory_failure,"Can't make directory '%makedir_current_path%'.");
+			  makedir_new_dirs = cons(makedir_current_path,makedir_new_dirs);
+			} [ 'default(makedir_signal): 
+			   { 
+                             makedir_failure_message = instantiate(makedir_cant_create_dir);
+			     information_dialog(makedir_failure_message);
+			     makedir_redo = true; 
+			     break(); 
+			   } ]
+		      }
+		  }
+
+  	      if (makedir_redo)
+		continue();
+
+	      /* reject if last name contains tabs or final white space */
+	      if (implode(explode(makedir_name,'stringsonly))!=makedir_name) 
+		{
+                  makedir_failure_message = instantiate(makedir_has_white_space);
+		  information_dialog(makedir_failure_message);
+		  continue();
+		}
+	    }
+	  change_directory(makedir_old_current_directory);
+	  return(makedir_path_to_check);
+	}
+    } [ 'default(uncaught_signal, uncaught_signal_message): 
+       {
+	 while (not(empty(makedir_new_dirs))) 
+	   {
+	     makedir_new_dir = first(makedir_new_dirs);
+	     makedir_new_dirs = rest(makedir_new_dirs);
+	     remove_directory(makedir_new_dir);
+	   } [ 'default: continue(); ]
+	 change_directory(makedir_old_current_directory);
+	 signal(uncaught_signal, uncaught_signal_message);
+       } ]
+}

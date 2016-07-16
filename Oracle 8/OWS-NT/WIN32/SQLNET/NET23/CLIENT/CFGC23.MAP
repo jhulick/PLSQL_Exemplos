@@ -1,0 +1,14 @@
+#Name    Subgroup   Source                                   Destination                              Size   Instantiate? Append? Compress? StartDisk TotalDisks Icon Group Item Command
+
+template  "tcp"    "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.TCP" "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.TMP"   0      true         false   false     00        00         00   ""    ""   ""
+          "tcpd"   "%ORACLE_HOME%\NETWORK\CFG\TEMPLATD.TCP" "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.TMP"   0      true         false   false     00        00         00   ""    ""   ""
+          "spx"    "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.SPX" "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.TMP"   0      true         false   false     00        00         00   ""    ""   ""
+          "nmp"    "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.NMP" "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.TMP"   0      true         false   false     00        00         00   ""    ""   ""
+          "beq"    "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.BEQ" "%ORACLE_HOME%\NETWORK\CFG\TEMPLATE.TMP"   0      true         false   false     00        00         00   ""    ""   ""
+
+tnsnames  "spx"    "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.SPX" "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.TMP"        255 true         false   false            00         00   00 ""       ""               ""                             
+          "tcp"    "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.TCP" "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.TMP"        280 true         false   false            00         00   00 ""       ""               ""                             
+          "tcpd"   "%ORACLE_HOME%\NETWORK\CFG\TNSNAMED.TCP" "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.TMP"        280 true         false   false            00         00   00 ""       ""               ""                             
+          "nmp"    "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.NMP" "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.TMP"        284 true         false   false            00         00   00 ""       ""               ""
+          "beq"    "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.BEQ" "%ORACLE_HOME%\NETWORK\CFG\TNSNAMES.TMP"        284 true         false   false            00         00   00 ""       ""               ""
+

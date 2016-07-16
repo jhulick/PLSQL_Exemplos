@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<TITLE>
+Example PL/SQL Agent Web Pages
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaex.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaex2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418663">
+General PL/SQL Web Page Example
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418664">
+The following program shows how to use functions from the PL/SQL Web Toolkit to generate a simple dynamic Web page. It illustrates how the functions from the toolkit work together.<P>
+</A><A NAME="418665">
+<PRE>CREATE OR REPLACE PROCEDURE sample1</PRE><P>
+</A>
+<A NAME="418666">
+<PRE>IS</PRE><P>
+</A>
+<A NAME="418667">
+<PRE>   v_date DATE;</PRE><P>
+</A>
+<A NAME="418668">
+<PRE>BEGIN</PRE><P>
+</A>
+<A NAME="418808">
+The following section of code generates the basic tags to open the page, provide it with the title "Hello World!", import a graphic, and print a header.<P>
+</A><A NAME="418669">
+<PRE>   htp.htmlOpen;</PRE><P>
+</A>
+<A NAME="418670">
+<PRE>   htp.headOpen;</PRE><P>
+</A>
+<A NAME="418671">
+<PRE>   htp.title('Hello World!');</PRE><P>
+</A>
+<A NAME="418672">
+<PRE>   htp.headClose;</PRE><P>
+</A>
+<A NAME="418673">
+<PRE>   htp.bodyOpen;</PRE><P>
+</A>
+<A NAME="418674">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418675">
+<PRE>   htp.img('/ows-img/ows.gif');</PRE><P>
+</A>
+<A NAME="418676">
+<PRE>   htp.header(1,'Hello World!');</PRE><P>
+</A>
+<A NAME="418677">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418678">
+<PRE></PRE><P>
+</A>
+<A NAME="418809">
+The following section of code shows how the <em>htp.print</em> procedure can combine database variables like Sysdate with text strings and HTML tags. The htp.print procedure is useful for generating HTML that is not easily produced with the other toolkit procedures.<P>
+</A><A NAME="418679">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418680">
+<PRE>   htp.print(To_char(Sysdate, 'DAY') || 'is my favorite day of the week.');</PRE><P>
+</A>
+<A NAME="418681">
+<PRE></PRE><P>
+</A>
+<A NAME="418682">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418683">
+<PRE>   htp.print('You can still even use tags that are not in the HTP/HTF library by just including them &lt;BLINK&gt;directly&lt;/BLINK&gt; in the text.');</PRE><P>
+</A>
+<A NAME="418684">
+<PRE></PRE><P>
+</A>
+<A NAME="418685">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418686">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418812">
+The following section of code provide a link to the PL/SQL source code for this page. The text of the link is "Show Source", and the target is a URL that invokes an application called <em>/sample/bin/show-sample-source.sh </em>and passes the argument /<em>owa/simple.sql</em> to the parameter FILENAME. The source code returned is, of course, different from the source code that you could view in your browser, which is the HTML produced by the PL/SQL.<P>
+</A><A NAME="418687">
+<PRE>   htp.anchor('/sample/bin/show-sample-source.sh?FILENAME=/owa/simple.sql','Show Source');</PRE><P>
+</A>
+<A NAME="418688">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418689">
+<PRE></PRE><P>
+</A>
+<A NAME="418690">
+<PRE>   htp.address('(c)1996 Oracle Corporation');</PRE><P>
+</A>
+<A NAME="418691">
+<PRE>   </PRE><P>
+</A>
+<A NAME="418692">
+<PRE>   htp.bodyClose;</PRE><P>
+</A>
+<A NAME="418693">
+<PRE>   htp.htmlClose;</PRE><P>
+</A>
+<A NAME="418694">
+<PRE>END;</PRE><P>
+</A>
+<A NAME="418695">
+<PRE>/</PRE><P>
+</A>
+<A NAME="418696">
+<PRE>show errors</PRE><P>
+</A>
+<A NAME="418660">
+<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaex.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaex2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

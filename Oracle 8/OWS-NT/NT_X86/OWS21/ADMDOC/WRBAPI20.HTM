@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi19.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi21.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426119">
+WRBGetUserID()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426120">
+<code>WRBGetUserID()</code> returns a pointer to the username that the user of the client browser entered in response to an authentication challenge from the cartridge (see <code><a href="wrbapi24.htm#420842">WRBSetAuthorization()</a></code>).<P>
+</A><A NAME="426124">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="426125">
+Syntax
+</A>
+</H2>
+<A NAME="426126">
+<PRE>char *WRBGetUserID( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426140">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="426129">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="426131">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="426133">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="426135">
+WRBCtx<BR>
+</A><td><A NAME="426137">
+void *<BR>
+</A><td><A NAME="426139">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="426141">
+Return Values
+</A>
+</H2>
+<A NAME="426142">
+<code>WRBGetUserID()</code> returns a pointer to the username that the user entered in response to a challenge from the cartridge. It returns NULL if no username is found.<P>
+</A><HR>
+<H2>
+<A NAME="426143">
+Usage
+</A>
+</H2>
+<A NAME="426144">
+You can call <code>WRBGetUserID()</code> from your Authorize or Exec function. Your Authorize function can call <code>WRBGetUserID(</code>) and <code><a href="wrbapi16.htm#425943">WRBGetPassword()</a></code> to authenticate the client who issued the current request.<P>
+</A><A NAME="426148">
+Your Exec function might call <code>WRBGetUserID()</code> if your cartridge maintains user accounts.<P>
+</A><HR>
+<H2>
+<A NAME="426149">
+Examples
+</A>
+</H2>
+<A NAME="426774">
+See the MyWRBApp sample functions <a href="mywrbap3.htm#422355">MyWRBApp_Authorize()</a> and <a href="mywrbap3.htm#422390">getUserData()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="426152">
+Related Information
+</A>
+</H2>
+<A NAME="426159">
+See <code><a href="wrbapi24.htm#420842">WRBSetAuthorization()</a></code> and <code><a href="wrbapi16.htm#425943">WRBGetPassword()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi19.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi21.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

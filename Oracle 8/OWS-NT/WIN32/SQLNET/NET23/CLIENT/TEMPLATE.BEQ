@@ -1,0 +1,7 @@
+ALIAS_%addendum%=%database_alias%.%domain%
+%database_alias%.%domain%_PROTOCOL=BEQ
+%database_alias%.%domain%_COMMUNITY=%comm_label%.%domain%
+%database_alias%.%domain%_PROGRAM=%prog_name%
+%database_alias%.%domain%_ARGV0=%prog_name%%data_inst%
+%database_alias%.%domain%_SID=%data_inst%
+

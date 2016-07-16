@@ -1,0 +1,120 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi7.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi9.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425559">
+WRBGetContent()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425560">
+<code>WRBGetContent()</code> returns a pointer to the current HTTP request's query string if the request method is GET, or the request's POST data if the request method is POST.<P>
+</A><A NAME="425561">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425562">
+Syntax
+</A>
+</H2>
+<A NAME="425563">
+<PRE>char *WRBGetContent( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425577">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425566">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425568">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425570">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425572">
+WRBCtx<BR>
+</A><td><A NAME="425574">
+void *<BR>
+</A><td><A NAME="425576">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425578">
+Return Values
+</A>
+</H2>
+<A NAME="425579">
+<code>WRBGetContent()</code> returns a pointer to the query string or POST data associated with the current HTTP request. It returns NULL if the client browser sent no content.<P>
+</A><HR>
+<H2>
+<A NAME="425580">
+Usage
+</A>
+</H2>
+<A NAME="425581">
+You can call <code>WRBGetContent()</code> from your Exec function to get the unmanipulated query string or POST data for the current request.<P>
+</A><A NAME="425582">
+If your query string or POST data takes the form of name-value pairs, however, such as when you are processing an HTML form, it's usually more convenient to call <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code> instead.<P>
+</A><HR>
+<H2>
+<A NAME="425586">
+Examples
+</A>
+</H2>
+<A NAME="425587">
+This example shows how to get a request's query string or POST data for parsing:<P>
+</A><A NAME="425588">
+<PRE>char *datap;<br> <br>datap = WRBGetContent(WRBCtx);<br>while (datap &amp;&amp; *datap) {<br>    /* parse the content */<br>}<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425589">
+Related Information
+</A>
+</H2>
+<A NAME="425593">
+See also <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi7.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi9.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

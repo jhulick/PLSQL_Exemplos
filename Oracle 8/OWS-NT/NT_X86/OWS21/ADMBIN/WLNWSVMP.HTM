@@ -1,0 +1,198 @@
+<HTML>
+<HEAD>
+<TITLE> Oracle Web Listener Creation </TITLE>
+<!-- Changed by: Eric Esselink, 01-Jun-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/icnwblist.gif" width=64 height=64 border=0 align=right></A>
+<IMG SRC="/ows-img/wlnwsrvr.gif" width=560 height=55 ALT="Oracle Web Listener Creation">
+<BR clear=right>
+<FORM ACTION="/ows-abin/wladmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" name="FORM_CODE" value="NEW_REQ">
+<INPUT TYPE="hidden" name="MULTIPORT" value="YES">
+
+<STATUS>
+
+<H2>
+<font color="#BB0000">Welcome to the 
+<EM>Create New Oracle Web Listener</EM>
+</font>
+</H2>
+
+<P>
+
+On this form are listed the parameters which are <STRONG>required</STRONG>
+for running an <EM>Oracle Web Listener</EM>.  Once you have filled in
+the required parameters, you can choose to perform either a
+<EM>Basic Configuration</EM> or an <EM>Advanced Configuration</EM>.
+
+<P>
+
+Selecting <EM>Basic Configuration</EM> is the fastest way to configure
+a new <EM>Oracle Web Listener</EM>. It will submit the required values you have
+specified on this form, as well as copy a set of standard default parameters
+to your new Web Listener configuration file.  You will then be able to 
+immediately start up your new <EM>Oracle Web Listener</EM>
+
+<P>
+
+Selecting <EM>Advanced Configuration</EM> will also submit the required values
+and copy the set of standard default values.  In addition, you will then
+be presented with a form on which you can change any of the Web Listener
+configuration parameters.
+
+<hr>
+
+<H3>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listmult.htm#Listener_Name"><IMG SRC="/ows-img/iconhelp.gif" ALIGN=RIGHT border=0></A>
+Listener Name
+</font>
+</H3>
+
+You must set a name for your <EM>Oracle Web Listener</EM>. This can be
+any string of your choosing, <STRONG>no longer than 6 alphanumeric
+characters</STRONG> which would <STRONG>uniquely</STRONG> identify a
+particular Listener.
+
+<P>
+
+Please enter a value for the <STRONG>Listener Name</STRONG>:
+<INPUT TYPE="text" SIZE="6" NAME="ListenerName" VALUE="%s" MAXLENGTH="6">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listmult.htm#Addresses_and_Ports"><IMG SRC="/ows-img/iconhelp.gif" ALIGN=RIGHT border=0></A>
+Addresses and Ports
+</font>
+</H3>
+
+The <EM>The Oracle Web Listener</EM> supports communication through
+multiple address/port combinations.
+
+<P>
+
+<UL>
+<LI> The <STRONG>Address</STRONG> field denotes the IP address on
+which the Oracle Web Listener listens to requests. Use ANY to tell the 
+Listener to listen on all addresses assigned to
+the machine. The default is "ANY".
+
+<P>
+
+<LI>
+The <STRONG>Port</STRONG> field contains the port number on which
+listens for requests to the corresponding address. The range of available 
+ports is from 1 to 65535. There is no default.
+
+<P>
+
+<LI>
+The <STRONG>Host Name</STRONG> field denotes the name the Listener
+will use when referring to itself for requests that pass through this
+combination. There is no default.
+
+</UL>
+
+<P>
+
+If you need more space than provided, please select Advanced Configuration 
+after filling in at least one row here(at least one row is 
+<STRONG>required</STRONG>).
+
+<PRE>
+Address                  Port        Host Name          
+<MultiPort_READ>
+<INPUT TYPE="text" size="20" NAME="[MultiPort].2.1">   <INPUT TYPE="text" size="6" NAME="[MultiPort].2.2"><INPUT TYPE="hidden" NAME="[MultiPort].2.3" VALUE="NONE">   <INPUT TYPE="text" size="25" NAME="[MultiPort].2.4"> 
+<INPUT TYPE="text" size="20" NAME="[MultiPort].3.1">   <INPUT TYPE="text" size="6" NAME="[MultiPort].3.2"><INPUT TYPE="hidden" NAME="[MultiPort].3.3" VALUE="NONE">   <INPUT TYPE="text" size="25" NAME="[MultiPort].3.4"> 
+<INPUT TYPE="text" size="20" NAME="[MultiPort].4.1">   <INPUT TYPE="text" size="6" NAME="[MultiPort].4.2"><INPUT TYPE="hidden" NAME="[MultiPort].4.3" VALUE="NONE">   <INPUT TYPE="text" size="25" NAME="[MultiPort].4.4"> 
+<INPUT TYPE="text" size="20" NAME="[MultiPort].5.1">   <INPUT TYPE="text" size="6" NAME="[MultiPort].5.2"><INPUT TYPE="hidden" NAME="[MultiPort].5.3" VALUE="NONE">   <INPUT TYPE="text" size="25" NAME="[MultiPort].5.4"> 
+
+</PRE>
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listmult.htm#Configuration_Directory"><IMG SRC="/ows-img/iconhelp.gif" ALIGN=RIGHT border=0></A>
+Configuration Directory
+</font>
+</H3>
+
+The configuration file for a given Oracle Web Listener will take the 
+name sv&lt;Listener_Name&gt;.cfg
+(i.e. svMYSRVR.cfg). A directory name needs to be provided for the 
+location of this configuration file.
+The default value provided is recommended. 
+
+<P>
+
+Please enter a value for the <STRONG>Configuration Directory</STRONG> :
+<INPUT TYPE="text" SIZE="50" NAME="ServerRoot" VALUE="%s">
+
+<HR>
+
+<H3>
+<font color="#BB0000">
+<A HREF="/ows-adoc/listmult.htm#Document_Root"><IMG SRC="/ows-img/iconhelp.gif" ALIGN=RIGHT border=0></A>
+Document Root
+</font>
+</H3>
+
+Clients may access your Web Listener and provide a URL which does not
+specify a specific directory to look in.  A file system directory where
+the Web Listener directory &quot;/&quot; will be mapped to needs to be 
+provided.
+This directory is often referred to as the &lt;Document Root&gt;.
+
+<P>
+
+For example, for an incoming URL 
+<SAMPLE>http://host.domain:port/doc/me.html</SAMPLE> will retrieve the 
+document in the physical path <SAMPLE>&lt;Document_Root&gt;doc/me.html.
+ 
+<P>
+
+Note that when the <EM>Oracle Web Listener</EM> starts up, it will check
+that all files in this directory and its sub-directories are valid.
+Thus, the Web Listener will not start if it finds an invalid file, such
+as a symbolic link to a file that doesn't exist.
+
+<P>
+
+Please enter a value for the Web Listener <STRONG>&quot;/&quot;</STRONG> 
+directory:
+<INPUT TYPE="text" SIZE="50" NAME="DocRoot" VALUE="%s">
+
+<HR>
+<P>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Basic Configuration">
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Advanced Configuration...">
+
+</FORM>
+
+<HR>
+
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" ALT="Listener Home" border=0>
+</A><A HREF="/ows-adoc/listmult.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+
+<P>
+
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>

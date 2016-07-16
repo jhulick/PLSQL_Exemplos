@@ -1,0 +1,456 @@
+<HTML>
+<HEAD>
+<TITLE>
+Glossary
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="420689">
+Glossary
+</A>
+</H1>
+<HR><P><DL COMPACT><A NAME="421665">
+<DT>administration DCD
+</A><DD>The Database Connection Descriptor (DCD) used by the administration server to manage PL/SQL Agent database access.<P>
+<A NAME="420694">
+<DT>administration server
+</A><DD>A collection of special instances of WebServer components that a WebServer administrator uses to configure and maintain the WebServer.<P>
+<A NAME="420950">
+<DT>applet
+</A><DD>A Java term for small programs that can be dynamically imported into Web pages or applications as needed. Generally, applets are imported from the Internet or another computer network.<P>
+<A NAME="420831">
+<DT>application developer
+</A><DD>A person who writes programs that the WebServer and/or the Oracle7 Server executes.<P>
+<A NAME="420827">
+<DT>authentication
+</A><ol type=a>
+<A NAME="420828">
+<LI>A security scheme that requires a client to enter a user name and password to access certain files provided by the WebServer.
+</A>
+<A NAME="421169">
+<LI>The practice of "signing" an electronic document in a legally binding way using digital signatures.
+</A>
+</ol>
+<A NAME="420745">
+<DT>base directory
+</A><DD>The directory name to which URL-encoded pathnames addressed to this port are to be appended. For example, if the base directory is <code>/public_html</code>, the URL <code>http://www.blob.com/file</code> is converted to <code>http://www.blob.com/public_html/file</code>.<P>
+<A NAME="421032">
+<DT>basic authentication
+</A><DD>An authentication scheme that does not encrypt passwords when sending them over the Internet. Basic authentication is much less secure than digest authentication. See also <a href="gloss.htm#421113"><em>digest authentication</em></a> and <a href="gloss.htm#420827"><em>authentication</em></a>.<P>
+<A NAME="421077">
+<DT>bytecode
+</A><DD>Java code is interpreted in two steps. First, it is converted from source code (the Java code as written) to bytecode, which is a form executable by any platform on which Java runs. When the bytecode is executed, it is converted from bytecode to the native code for the platform in question.<P>
+<A NAME="420731">
+<DT>CA
+</A><DD>See <a href="gloss.htm#421196"><em>Certifying Authority (CA)</em></a>.<P>
+<A NAME="421293">
+<DT>certificate
+</A><DD>A file provided by a certifying authority (CA) and installed on a WebServer machine that the WebServer uses to authenticate itself to clients requesting secure connections.<P>
+<A NAME="421196">
+<DT>Certifying Authority (CA)
+</A><DD>A trusted third-party company that provides certificates to legitimate organizations that request them.<P>
+<A NAME="421198">
+<DT>CGI
+</A><DD>Common Gateway Interface. The industry-standard technique for running applications on a web server. Oracle WebServer supports this standard, but also offers the Web Request Broker as a superior alternative.<P>
+<A NAME="421295">
+<DT>character set
+</A><DD>A set of characters used to write a human language or group of languages, as defined by RFC 1521. <P>
+<A NAME="421119">
+<DT>client
+</A><DD>A process, such as a Web browser, that interfaces to one or more users, sends requests to a server, and presents the results of those requests to the users. See also <a href="gloss.htm#421228"><em>server</em></a>.<P>
+<A NAME="420787">
+<DT>Common Gateway Interface (CGI)
+</A><DD>The industry-standard technique for running applications on a web server. Oracle WebServer supports this standard, but also offers the Web Request Broker as a superior alternative.<P>
+<A NAME="420897">
+<DT>Common Logfile Format
+</A><DD>An industry standard format for transaction log files. The Web Listener uses this format to log transactions.<P>
+<A NAME="421046">
+<DT>configuration directory
+</A><DD>A directory in which a Web Listener process stores its configuration file.<P>
+<A NAME="420986">
+<DT>cookie
+</A><DD>Information inserted by the server into the client's browser to track what the client has been doing. This can either expire when the user exits the browser or expire at the date the creator of the cookie specifies.<P>
+<A NAME="420859">
+<DT>database
+</A><DD>A structured collection of information and the program that manages such. The Oracle7 Server is a relational database, which is the prevalent type.<P>
+<A NAME="420729">
+<DT>Database Connection Descriptor (DCD)
+</A><DD>A file that specifies information such as how the PL/SQL Agent is to connect to the Oracle7 Server to fulfil an HTTP request. A URL that requires the use of the PL/SQL Agent includes the name of the DCD it is to use. The information in the DCD includes the username (which also specifies the schema and the privileges), password, connect-string, error log file, standard error message, and the language to be used. <P>
+<A NAME="421222">
+<DT>data integrity
+</A><DD>A mechanism that uses digital signatures to ensure that transmitted data is not tampered with.<P>
+<A NAME="421241">
+<DT>DCD
+</A><DD>Database Connection Descriptor. A file that specifies information such as how the PL/SQL Agent is to connect to the Oracle7 Server to fulfil an HTTP request. A URL that requires the use of the PL/SQL Agent includes the name of the DCD it is to use. The information in the DCD includes the username (which also specifies the schema and the privileges), password, connect-string, error log file, standard error message, and the language to be used. <P>
+<A NAME="421297">
+<DT>default character set
+</A><DD>The character set the Web Listener uses in interpreting a file that uses an unrecognized character set.<P>
+<A NAME="421123">
+<DT>default DCD
+</A><DD>The Database Connection Descriptor(DCD) that the PL/SQL Agent uses to access a database in response to a request that does not specify an available DCD.<P>
+<A NAME="420956">
+<DT>default MIME type
+</A><DD>The Multipurpose Internet Mail Extensions (MIME) type that the Web Listener uses in interpreting requested files of an unsupported MIME type. See also <a href="gloss.htm#421105"><em>MIME type</em></a>.<P>
+<A NAME="421113">
+<DT>digest authentication
+</A><DD>An authentication scheme that encrypts passwords before sending them over the Internet, unlike basic authentication. See also <a href="gloss.htm#420827"><em>authentication</em></a>.<P>
+<A NAME="421079">
+<DT>digital signature
+</A><DD>A "signature" attached to an electronic document that reliably identifies the author or sender, and guarantees that the document has not been tampered with.<P>
+<A NAME="421249">
+<DT>directory indexing
+</A><DD>The practice of returning a directory listing when a request URL resolves to a directory that does not contain the default initial file. Directory listings can sometimes help clients learn the correct spelling of filenames they want to request.<P>
+<A NAME="421139">
+<DT>directory mapping
+</A><DD>The practice of defining a virtual file system.<P>
+<A NAME="421155">
+<DT>dispatcher
+</A><DD>See <a href="gloss.htm#420814"><em>WRB Dispatcher</em></a>.<P>
+<A NAME="421674">
+<DT>DNS resolution
+</A><DD>The practice of determining a computer's DNS (Domain Name Service) host name from its IP address.<P>
+<A NAME="421679">
+<DT>document root
+</A><DD>The file-system directory that serves as the root of the Web Listener's virtual file system.<P>
+<A NAME="421684">
+<DT>domain
+</A><DD>See <a href="gloss.htm#421200"><em>Domain Name Service (DNS)</em></a>.<P>
+<A NAME="421686">
+<DT>domain-based restriction
+</A><DD>A restriction scheme that allows only machines within specified DNS domains to access certain files. See also <a href="gloss.htm#420975"><em>restriction</em></a>.<P>
+<A NAME="421200">
+<DT>Domain Name Service (DNS)
+</A><DD>The mechanism that divides the Internet into separate, hierarchical groups called domains, identified by unique alphanumeric names, such as <code>us.oracle.com</code>. DNS identifies each computer within a domain by a unique host name. For example, a computer named <code>hal</code> in the <code>us.oracle.com</code> domain would be uniquely identified on the Internet as <code>hal.us.oracle.com</code><P>
+<A NAME="421069">
+<DT>encoding
+</A><DD>An algorithm used to alter a file's format, such as compression. You can use the WebServer manager to define the encodings that each Web Listener process recognizes.<P>
+<A NAME="421027">
+<DT>encryption
+</A><DD>The practice of scrambling (encrypting) data in such a way that only an intended recipient can unscramble (decrypt) and read the data. See also <a href="gloss.htm#421212"><em>public-key encryption</em></a> and <a href="gloss.htm#421239"><em>secret-key encryption</em></a>.<P>
+<A NAME="421170">
+<DT>error file
+</A><DD>A file to which a Web Listener process logs errors. There is one error file for each Web Listener process.<P>
+<A NAME="421013">
+<DT>exception
+</A><DD>A runtime occurrence in PL/SQL or Java that requires special handling and may indicate an error.<P>
+<A NAME="420851">
+<DT>file caching
+</A><DD>The practice of leaving files open (resident in memory) so the WebServer can provide them to clients quickly. You can use the WebServer Manager to specify files to be cached.<P>
+<A NAME="421017">
+<DT>filename extension
+</A><DD>A short alphanumeric suffix attached to a filename, following a dot "." that represents the file's format. The WebServer uses filename extensions to identify several kinds of file formats, including MIME types and encodings. A file may have several extensions.<P>
+<A NAME="421015">
+<DT>file protection
+</A><DD>The practice of assigning an authentication or restriction scheme to control access to a specific file or group of files.<P>
+<A NAME="421167">
+<DT>firewall machine
+</A><DD>A computer that regulates access to computers on a local area network from outside, and regulates access to outside computers from within the local area network.<P>
+<A NAME="421179">
+<DT>foreign key
+</A><DD>A value that references a primary key value. The foreign key is not used for identification, as the primary key is, but to indicate a relationship to the entity identified by the primary key. See also <a href="gloss.htm#420779"><em>key</em></a>.<P>
+<A NAME="421348">
+<DT>genreq
+</A><DD>A utility you can use to generate a request for a certificate. You can then submit the generated request to a certifying authority (CA).<P>
+<A NAME="421278">
+<DT>host name
+</A><DD>An alphanumeric character string that uniquely identifies a computer within a DNS domain.<P>
+<A NAME="421312">
+<DT>HTTP
+</A><DD>HyperText Transfer Protocol. The protocol that clients use to issue requests for documents to the WebServer.<P>
+<A NAME="422259">
+<DT>HTTP header
+</A><DD>This is a body of information that a browsers sends along with a URL when requesting a Web page. It includes such information as the browser type and MIME types it understands.<P>
+<A NAME="421314">
+<DT>HTTPS
+</A><DD>Secure HTTP--a version of HTTP with provisions for secure data transmission. See <a href="gloss.htm#421218"><em>HyperText Transfer Protocol (HTTP)</em></a>.<P>
+<A NAME="420984">
+<DT>HyperText Markup Language (HTML)
+</A><DD>A format for encoding hypertext documents that may contain text, graphics, and references to programs, and references to other hypertext documents.<P>
+<A NAME="421218">
+<DT>HyperText Transfer Protocol (HTTP)
+</A><DD>The protocol that clients use to issue requests for documents to the WebServer.<P>
+<A NAME="421235">
+<DT>image map
+</A><DD>Graphic in a Web page that specifies several URL's, each associated with a specified region of the single image.<P>
+<A NAME="420792">
+<DT>info file
+</A><DD>A file to which a Web Listener process logs its transactions on a particular port. There is one info file for each port on which the Web Listener process accepts connections. The info file is in Common Logfile Format.<P>
+<A NAME="421009">
+<DT>initial file
+</A><DD>The name of the HTML file that the WebServer returns by default when a request URL specifies only a directory name.<P>
+<A NAME="421101">
+<DT>IP address
+</A><DD>A four-part number with no more than three digits in each part that uniquely identifies a computer on the Internet; the number format is defined by the Internet Protocol (IP).<P>
+<A NAME="420993">
+<DT>IP-based restriction
+</A><DD>A restriction scheme that allows only machines within specified groups of IP addresses to access certain files. See also <a href="gloss.htm#420975"><em>restriction</em></a>.<P>
+<A NAME="421071">
+<DT>Java
+</A><DD>Language developed by Sun Microsystems and used by Oracle WebServer. This language is fully object-oriented, extremely portable, and optimized for creating distributed applications on the Internet or other computer networks. Oracle WebServer can execute Java directly and can send Java programs called applets to the client's browser for execution there.<P>
+<A NAME="420733">
+<DT>Java Interpreter
+</A><DD>In general, a program that interprets and executes Java bytecode independently of a Web browser.<P>
+<A NAME="420759">
+<DT>Java Web Developer's Toolkit
+</A><DD>A group of Java classes provided with the Oracle WebServer SDK to make it easier for you to interface to the Oracle7 Server and generate dynamic HTML using Java. <P>
+<A NAME="420779">
+<DT>key
+</A><ol type=a>
+<A NAME="421203">
+<LI>A large number used in encrypting data. See also <a href="gloss.htm#421346"><em>private key</em></a> and <a href="gloss.htm#421172"><em>public key</em></a>.
+</A>
+<A NAME="421344">
+<LI>A unique identifier used in a relational database, called a "primary key."
+</A>
+<A NAME="421345">
+<LI>A reference to a primary key, called a "foreign key." The foreign key is not used for identification, as the primary key is, but to indicate a relationship to the entity identified by the primary key.
+</A>
+</ol>
+<A NAME="421202">
+<DT>key pair
+</A><DD>A pair of mathematically related keys (a public key and a private key) associated with a user, used in public-key encryption.<P>
+<A NAME="421214">
+<DT>Language Identifier
+</A><DD>A two-character alphanumeric string that identifies a human language, as defined by RFC 1766.<P>
+<A NAME="421157">
+<DT>Listener
+</A><DD>Portion of the WebServer that receives HTTP requests. You can use the Oracle WebServer Manager to create multiple Web Listener processes and assign each to accept connections on a different set of ports.<P>
+<A NAME="420721">
+<DT>Listener configuration
+</A><DD>A collective name for the parameters that control the behavior of a Web Listener process. You use the WebServer Manager to maintain listener configurations.<P>
+<A NAME="421003">
+<DT>Listener name
+</A><DD>An alphanumeric string no more than six characters long that uniquely identifies a Web Listener process.<P>
+<A NAME="420982">
+<DT>Listener PID file
+</A><DD>A one-line text file that contains an ASCII representation of the process ID (PID) of a Web Listener process.<P>
+<A NAME="421007">
+<DT>LiveHTML
+</A><DD>Oracle's extension of the industry-standard Server Side Includes (SSI) functionality. LiveHTML files supplement HTML with instructions that WebServer executes before transmitting the page. These instruction specify material that is to be included in the generated page. Said material can include other Web pages, environment variables, and the output of programs executed on the Server. The programs may, but need not, conform to the CGI standard.<P>
+<A NAME="420877">
+<DT>local database
+</A><DD>For the WebServer, a database that runs on the same machine as the WebServer.<P>
+<A NAME="420972">
+<DT>log file directory
+</A><DD>A directory in which the PL/SQL Agent stores log files for a particular Database Connection Descriptor (DCD).<P>
+<A NAME="421216">
+<DT>memory mapping
+</A><DD>For the WebServer, the practice of mapping an open file directly into the address space of a Web Listener process. This speeds file access, and allows multiple clients to access the same file simultaneously without making a separate copy for each client.<P>
+<A NAME="421105">
+<DT>MIME type
+</A><DD>A file format defined by the Multipurpose Internet Mail Extensions standard. Several RFCs define MIME.<P>
+<A NAME="421220">
+<DT>NULL
+</A><ol type=a>
+<A NAME="420878">
+<LI>A marker in the database for the absence of data.
+</A>
+<A NAME="420944">
+<LI>The logical result of the comparison of a database NULL with any value.
+</A>
+<A NAME="420945">
+<LI>A statement in PL/SQL that does nothing, but functions as a placeholder.
+</A>
+</ol>
+<A NAME="420861">
+<DT>Oracle7 Server
+</A><DD>The leading database product in the world. A program for sophisticated high-level management of information. See also <a href="gloss.htm#420859"><em>database</em></a> and <a href="gloss.htm#421228"><em>server</em></a>.<P>
+<DT>Oracle RDBMS
+</A><DD>Oracle Relational Database Management System. Same as the Oracle7 Server.<P>
+<A NAME="420893">
+<DT>ORACLE_HOME
+</A><DD>Environment Variable that indicates the root of the Oracle7 Server code tree.<P>
+<A NAME="420958">
+<DT>Oracle Web Agent (OWA)
+</A><DD>A term from an earlier release of this product. OWA is now the PL/SQL Agent. For the sake of compatibility, the string "owa" is still used in URLs to specify that execution is to go to the PL/SQL Agent.<P>
+<A NAME="420879">
+<DT>overloading
+</A><DD>Overloaded procedures and functions (in PL/SQL) or methods (in Java) have the same name but take different parameters (PL/SQL) or are contained in different classes (Java) and do similar but not identical things.<P>
+<A NAME="420871">
+<DT>package
+</A><DD>A group of PL/SQL functions and procedures.<P>
+<A NAME="420785">
+<DT>parsable file
+</A><DD>A file located on the WebServer that contains codes that the server interprets prior to transmission of the file as a Web page. This is part of the LiveHTML functionality. See also <a href="gloss.htm#421007"><em>LiveHTML</em></a>.<P>
+<A NAME="420774">
+<DT>PL/SQL
+</A><DD>Oracle's proprietary extension to the SQL language. PL/SQL adds procedural and other constructs to SQL that make it suitable for writing applications.<P>
+<A NAME="420751">
+<DT>PL/SQL Agent
+</A><DD>A server extension that interfaces to the Oracle7 Server using PL/SQL and dynamically derives and outputs HTML. The PL/SQL Agent can be invoked either as a WRB Service or as a CGI program.<P>
+<A NAME="420867">
+<DT>PL/SQL table
+</A><DD>A data structure used in PL/SQL that is similar to a dynamic array. That is to say, it consists of a list of values and an index. <P>
+<A NAME="422274">
+<DT>PL/SQL Web Developer's Toolkit
+</A><DD>A bundle of PL/SQL packages, provided with the Oracle WebServer SDK, that make it easier to generate HTML using PL/SQL. Applications written for either the PL/SQL Agent or the Java Interpreter can use these packages.<P>
+<A NAME="422250">
+<DT>port
+</A><DD>A number that TCP uses to route transmitted data to and from a particular program.<P>
+<A NAME="420979">
+<DT>preferred language
+</A><DD>The language the Web Listener uses when handling a request for a file available in more than one language, if the request doesn't specify a language. Language identifiers are defined by RFC 1766.<P>
+<A NAME="421133">
+<DT>primary key
+</A><DD>A unique identifier used in a relational database, called a "primary key." See also <a href="gloss.htm#420779"><em>key</em></a>.<P>
+<A NAME="421346">
+<DT>private key
+</A><DD>A key known only to one user, used to decrypt data encrypted with the user's public key. See also <a href="gloss.htm#421212"><em>public-key encryption</em></a>.<P>
+<A NAME="422307">
+<DT>privilege
+</A><DD>The right to perform an action on the database. These can either be general (system privileges) or specific to particular database objects (object privileges). They can also be grouped into roles. See also <a href="gloss.htm#420739">role</a>.<P>
+<A NAME="421204">
+<DT>proxy server
+</A><DD>An HTTP engine, such as the Web Listener, that clients inside a firewall can use to access web sites outside the firewall.<P>
+<A NAME="421172">
+<DT>public key
+</A><DD>A key known to all users, used to encrypt data in such a way that only a specific user can decrypt it. See also <a href="gloss.htm#421346"><em>private key</em></a> and <a href="gloss.htm#421212"><em>public-key encryption</em></a>.<P>
+<A NAME="421212">
+<DT>public-key encryption
+</A><DD>A form of encryption that uses a key pair (a public key and a private key) to encrypt and decrypt data.<P>
+<A NAME="421208">
+<DT>query string
+</A><DD>Optional portion of a URL that specifies parameters to be passed to some server extension.<P>
+<DT>RDBMS
+</A><DD>Relational Database Management System. A computer software program 
+such as the Oracle RDBMS, that manages relational databases.<P>
+<A NAME="420829">
+<DT>realm
+</A><DD>A group of users and groups assigned by an authentication scheme to regulate access to specific files or directories.<P>
+<A NAME="421194">
+<DT>remote database
+</A><DD>For the WebServer, a database running on a different machine from the WebServer, which the WebServer accesses over the network.<P>
+<A NAME="420975">
+<DT>restriction
+</A><DD>A security scheme that restricts access to files provided by the WebServer to client machines within certain groups of IP addresses or DNS domains.<P>
+<A NAME="420739">
+<DT>role
+</A><DD>A group of database privileges that can be granted and revoked as a unit. Specific privileges can be granted and revoked from the role dynamically, and the role can be enabled or disabled dynamically for specific users.<P>
+<A NAME="422301">
+<DT>routing
+</A><DD>The process of directing data from one machine on the Internet to another by way of intermediate machines.<P>
+<A NAME="422304">
+<DT>schema
+</A><DD>The logical section of a database under the control of a given database user. The schema bears the name of the user that owns it.<P>
+<A NAME="421239">
+<DT>secret-key encryption
+</A><DD>A form of encryption that uses a single key both to encrypt and to decrypt a document. Secret-key encryption is much faster that public-key encryption, but is more vulnerable to attack.<P>
+<A NAME="421261">
+<DT>Secure Sockets Layer (SSL)
+</A><DD>An emerging standard for secure transmission of hypertext documents over the Internet using secure HTTP (HTTPS).<P>
+<A NAME="421228">
+<DT>server
+</A><DD>A process that executes requests on behalf of another process (the client) whose main purpose is to interface to the user. There are two types of servers relevant to this product. The first is the Oracle7 Server, which is a <em>database</em> server dedicating to performing data management duties on behalf of clients using any number of possible interfaces. The other is the Oracle WebServer itself, which is a <em>web </em>server, dedicating to answering requests that come in through the HyperText Transfer Protocol (http).<em> </em>This product is a web server that utilizes a database server.<P>
+<A NAME="420743">
+<DT>server extension
+</A><DD>Generic term for external programs executed by the Oracle WebServer whether through the WRB or CGI. Server Extensions are either WRB Services or CGI programs.<P>
+<A NAME="421691">
+<DT>server-parsable
+</A><DD>See <a href="gloss.htm#420785"><em>parsable file</em></a>.<P>
+<A NAME="420725">
+<DT>Server Side Includes (SSI)
+</A><DD>Industry-standard term for LiveHTML. See <a href="gloss.htm#421007"><em>LiveHTML</em></a>.<P>
+<A NAME="420749">
+<DT>session key
+</A><DD>A secret key used by SSL to encrypt data transmitted over a secure connection. The client generates the session key after the WebServer authenticates itself and communicates it to the WebServer using public-key encryption.<P>
+<A NAME="421267">
+<DT>socket
+</A><DD>The combination of an IP address and a port number.<P>
+<A NAME="421320">
+<DT>SQL (Structured Query Language)
+</A><DD>The industry-standard language for interfacing to relational databases such as the Oracle7 Server. See also <a href="gloss.htm#420774"><em>PL/SQL</em></a>.<P>
+<A NAME="420960">
+<DT>SSI
+</A><DD>See <a href="gloss.htm#420725"><em>Server Side Includes (SSI)</em></a> and <a href="gloss.htm#421007"><em>LiveHTML</em></a>.<P>
+<A NAME="421318">
+<DT>SSL
+</A><DD>See <a href="gloss.htm#421261"><em>Secure Sockets Layer (SSL)</em></a>.<P>
+<A NAME="421316">
+<DT>table
+</A><ol type=a>
+<A NAME="420874">
+<LI>In HTML, a table is a way of presenting information to the user.
+</A>
+<A NAME="420948">
+<LI>In SQL, a table is the basic way that data is structured, regardless of how it is presented to the user.
+</A>
+<A NAME="420949">
+<LI>In PL/SQL, special kinds of SQL tables are used to function, effectively, as dynamic arrays.
+</A>
+</ol><P>
+<A NAME="420705">
+<DT>Transmission Control Protocol (TCP)
+</A><DD>The underlying communication protocol that the WebServer and its clients use to communicate HTTP requests.<P>
+<A NAME="420977">
+<DT>Uniform Resource Locator (URL)
+</A><DD>The text-string format clients use to encode requests to the WebServer.<P>
+<A NAME="420970">
+<DT>user directory
+</A><DD>The subdirectory of a user's home directory in which the Web Listener searches by default for files when the user's home directory appears in the request URL.<P>
+<A NAME="421696">
+<DT>VARCHAR2
+</A><DD>A standard datatype of the Oracle7 Server. A variable-length string.<P>
+<A NAME="421698">
+<DT>Virtual Machine (VM)
+</A><DD>The mechanism the Java language uses to achieve its high portability. Java bytecode is executable by any Java Virtual Machine running on any actual machine. The VM converts the bytecode to the native code for the machine at hand.<P>
+<A NAME="421700">
+<DT>virtual file system
+</A><DD>A mapping that associates the pathnames used in request URLs to the file system maintained by the host machine's operating system.<P>
+<A NAME="422264">
+<DT>virtual path
+</A><DD>A path in the virtual file system.<P>
+<A NAME="421702">
+<DT>virtual pathname
+</A><DD>A synonym that the virtual file system maps to a file stored in the file system maintained by the host machine's operating system.<P>
+<A NAME="422296">
+<DT>Web Request Broker
+</A><DD>See <a href="gloss.htm#422291"><em>WRB</em></a>.<P>
+<A NAME="421103">
+<DT>Web Listener
+</A><DD>See <a href="gloss.htm#421157"><em>Listener</em></a>.<P>
+<A NAME="420833">
+<DT>WebServer Administrator
+</A><DD>Person in charge of configuring and running the Oracle WebServer.<P>
+<A NAME="421708">
+<DT>WebServer Manager
+</A><DD>A collection of utilities and HTML forms you can use to configure and maintain the WebServer installed on your computer.<P>
+<A NAME="420891">
+<DT>wrapper
+</A><DD>A Java class that encapsulates another kind of object, possibly external to Java itself, such as a PL/SQL package.<P>
+<A NAME="422291">
+<DT>WRB
+</A><DD>Acronym for Web Request Broker. This is the core of the Oracle WebServer architecture. The Web Request Broker passes http requests that require the running of Server programs to various processes (WRB Executable Engines or WRBX's) that continuously run and await such requests. The WRB also includes an open API, so you can run your own Server programs under it. The WRB is a more efficient alternative to the industry-standard CGI, but it can process requests that use CGI environment variables.<P>
+<A NAME="421326">
+<DT>WRB API
+</A><DD>An open API used for writing server-side web applications using the Web Request Broker (WRB).<P>
+<A NAME="420812">
+<DT>WRB Cartridge
+</A><DD>A program that is executed on the WebServer using the WRB API. <P>
+<A NAME="420814">
+<DT>WRB Dispatcher
+</A><DD>The component of the WRB that distributes requests to running processes.<P>
+<A NAME="420713">
+<DT>WRB Execution Instance (WRBX)
+</A><DD>One of a pool of processes that the WRB maintains continuously, so that HTTP requests requiring the execution of programs are not slowed down by the performance cost of spawning a new process. WRBX's are associated with WRB Cartridges and are created and destroyed according to workload.<P>
+<DD><P>
+</DL>
+
+<HR>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Go to the roadmap"> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Go to the index"> Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

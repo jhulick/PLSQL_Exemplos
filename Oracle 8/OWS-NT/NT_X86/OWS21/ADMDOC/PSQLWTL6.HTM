@@ -1,0 +1,363 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl7.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418908">
+List Tags
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418910">
+List tags allow you to display information in any of the following ways:<P>
+</A><ul type=disc><A NAME="418911">
+<LI><em>ordered</em>: these lists have numbered items
+</A>
+<A NAME="418912">
+<LI><em>unordered</em>: these lists have bullets to mark each item
+</A>
+<A NAME="418913">
+<LI><em>definition</em>: these lists alternate a term with its definition
+</A>
+</ul><A NAME="418914">
+Note: All the hypertext procedures (HTP) shown in this section are also available as hypertext functions (HTF).<P>
+</A><HR>
+<H2>
+<A NAME="418915">
+htp.listHeader
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418916">
+Syntax
+</A></DL><A NAME="418917">
+htp.listHeader (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418918">
+Purpose
+</A></DL><A NAME="418919">
+Prints an HTML tag at the beginning of the list<P>
+</A><DL COMPACT><DT><A NAME="418920">
+Parameters
+</A></DL><A NAME="418921">
+ctext   		in varchar2<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418922">
+Generates
+</A></DL><A NAME="418923">
+&lt;LH <em>cattributes</em>&gt;<em>ctext</em>&lt;/LH&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418924">
+htp.listItem
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418925">
+Syntax
+</A></DL><A NAME="418926">
+htp.listItem (ctext, cclear, cdingbat, csrc, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418927">
+Purpose
+</A></DL><A NAME="418928">
+Prints an HTML tag that formats a listed item.<P>
+</A><DL COMPACT><DT><A NAME="418929">
+Parameters
+</A></DL><A NAME="418930">
+ctext   		in varchar2   DEFAULT NULL<br>cclear   		in varchar2   DEFAULT NULL<br>cdingbat   	in varchar2   DEFAULT NULL<br>csrc   		in varchar2   DEFAULT NULL<br>cattributes  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418931">
+Generates
+</A></DL><A NAME="418932">
+&lt;LI CLEAR="<em>cclear</em>" DINGBAT="<em>cdingbat</em>" SRC="<em>csrc</em>" <em>cattributes</em>&gt;<em>ctext</em><P>
+</A><HR>
+<H2>
+<A NAME="418933">
+htp.ulistOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418934">
+Syntax
+</A></DL><A NAME="418935">
+htp.ulistOpen (cclear, cwrap, cdingbat, csrc, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418936">
+Purpose
+</A></DL><A NAME="418937">
+Prints an HTML tag that is used to open an unordered list that presents listed items separated by white space and marked off by bullets.<P>
+</A><DL COMPACT><DT><A NAME="418938">
+Parameters
+</A></DL><A NAME="418939">
+cclear   		in varchar2   DEFAULT NULL<br>cwrap   		in varchar2   DEFAULT NULL<br>cdingbat 	  	in varchar2   DEFAULT NULL<br>csrc   		in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418940">
+Generates
+</A></DL><A NAME="418941">
+&lt;UL CLEAR="<em>cclear</em>" WRAP="<em>cwrap</em>" DINGBAT="<em>cdingbat</em>" SRC="<em>csrc</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418942">
+htp.ulistClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418943">
+Syntax
+</A></DL><A NAME="418944">
+htp.ulistClose;<P>
+</A><DL COMPACT><DT><A NAME="418945">
+Purpose
+</A></DL><A NAME="418946">
+Prints an HTML tag that ends the unordered list.<P>
+</A><DL COMPACT><DT><A NAME="418947">
+Parameters
+</A></DL><A NAME="418948">
+none<P>
+</A><DL COMPACT><DT><A NAME="418949">
+Generates
+</A><A NAME="418950">
+<PRE>&lt;/UL&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418951">
+htp.olistOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418952">
+Syntax
+</A></DL><A NAME="418953">
+htp.olistOpen (cclear, cwrap, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418954">
+Purpose
+</A></DL><A NAME="418955">
+Prints an HTML tag that is used to open an ordered list that presents listed items marked off with numbers.<P>
+</A><DL COMPACT><DT><A NAME="418956">
+Parameters
+</A></DL><A NAME="418957">
+cclear   		in varchar2   DEFAULT NULL<br>cwrap   		in varchar2   DEFAULT NULL<br>cattributes   		in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418958">
+Generates
+</A></DL><A NAME="418959">
+&lt;OL CLEAR="<em>cclear</em>" WRAP="<em>cwrap</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418960">
+htp.olistClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418961">
+Syntax
+</A></DL><A NAME="418962">
+htp.olistClose;<P>
+</A><DL COMPACT><DT><A NAME="418963">
+Purpose
+</A></DL><A NAME="418964">
+Prints an HTML tag that ends an ordered list.<P>
+</A><DL COMPACT><DT><A NAME="418965">
+Parameters
+</A></DL><A NAME="418966">
+none<P>
+</A><DL COMPACT><DT><A NAME="418967">
+Generates
+</A></DL><A NAME="418968">
+&lt;/OL&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418969">
+htp.dlistOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418970">
+Syntax
+</A></DL><A NAME="418971">
+htp.dlistOpen (cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418972">
+Purpose
+</A></DL><A NAME="418973">
+Prints an HTML tag that starts a definition list<P>
+</A><DL COMPACT><DT><A NAME="418974">
+Parameters
+</A></DL><A NAME="418975">
+cclear   		in varchar2   DEFAULT NULL<br>cattributes	   	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418976">
+Generates
+</A></DL><A NAME="418977">
+&lt;DL CLEAR="<em>cclear</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418978">
+htp.dlistClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418979">
+Syntax
+</A></DL><A NAME="418980">
+htp.dlistClose<P>
+</A><DL COMPACT><DT><A NAME="418981">
+Purpose
+</A></DL><A NAME="418982">
+Prints an HTML tag that Ends a definition list<P>
+</A><DL COMPACT><DT><A NAME="418983">
+Parameters
+</A></DL><A NAME="418984">
+none<P>
+</A><DL COMPACT><DT><A NAME="418985">
+Generates
+</A></DL><A NAME="418986">
+&lt;/DL&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418987">
+htp.dlistDef
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418988">
+Syntax
+</A></DL><A NAME="418989">
+htp.dlistDef (ctext, cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418990">
+Purpose
+</A></DL><A NAME="418991">
+Prints an HTML tag that is used to insert terms, and their corresponding definitions in an indented list format. The htp.dlistTerm must immediately follow this tag.<P>
+</A><DL COMPACT><DT><A NAME="418992">
+Parameters
+</A></DL><A NAME="418993">
+ctext   		in varchar2   DEFAULT NULL<br>clear   		in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418994">
+Generates
+</A></DL><A NAME="418995">
+&lt;DD CLEAR="<em>cclear</em>" <em>cattributes</em>&gt;<em>ctext</em><P>
+</A><HR>
+<H2>
+<A NAME="418996">
+htp.dlistTerm
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418997">
+Syntax
+</A></DL><A NAME="418998">
+htp.dlistTerm (ctext, cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418999">
+Purpose
+</A></DL><A NAME="419000">
+Prints an HTML tag used to insert the definition term inside the definition list. This tag must immediately follow the htp.dlistDef.<P>
+</A><DL COMPACT><DT><A NAME="419001">
+Parameters
+</A></DL><A NAME="419002">
+ctext   		in varchar2   DEFAULT NULL<br>cclear   		in varchar2   DEFAULT NULL<br>cattributes	   	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419003">
+Generates
+</A></DL><A NAME="419004">
+&lt;DT CLEAR="<em>cclear</em>" <em>cattributes</em>&gt;<em>ctext</em><P>
+</A><HR>
+<H2>
+<A NAME="419005">
+htp.menulistOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419006">
+Syntax
+</A></DL><A NAME="419007">
+htp.menulistOpen;<P>
+</A><DL COMPACT><DT><A NAME="419008">
+Purpose
+</A></DL><A NAME="419009">
+Prints an HTML tag that begins a list that presents one line per item, and appears more compact than an unordered list. The htp.listItem will follow this tag.<P>
+</A><DL COMPACT><DT><A NAME="419010">
+Parameters
+</A></DL><A NAME="419011">
+none<P>
+</A><DL COMPACT><DT><A NAME="419012">
+Generates
+</A></DL><A NAME="419013">
+&lt;MENU&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419014">
+htp.menulistClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419015">
+Syntax
+</A></DL><A NAME="419016">
+htp.menulistClose;<P>
+</A><DL COMPACT><DT><A NAME="419017">
+Purpose
+</A></DL><A NAME="419018">
+Prints an HTML tag that ends a menu list.<P>
+</A><DL COMPACT><DT><A NAME="419019">
+Paramenters
+</A></DL><A NAME="419020">
+none<P>
+</A><DL COMPACT><DT><A NAME="419021">
+Generates
+</A></DL><A NAME="419022">
+&lt;/MENU&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419023">
+htp.dirlistOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419024">
+Syntax
+</A></DL><A NAME="419025">
+htp.dirlistOpen;<P>
+</A><DL COMPACT><DT><A NAME="419026">
+Purpose
+</A></DL><A NAME="419027">
+Prints an HTML tag that begins a directory list. This presents information in a list of items that contain up to 20 characters. Items in this list are typically arranged in columns, typically 24 characters wide. The &lt;LI&gt; or htp.listItem must appear directly after you use this tag.<P>
+</A><DL COMPACT><DT><A NAME="419028">
+Parameters
+</A></DL><A NAME="419029">
+none<P>
+</A><DL COMPACT><DT><A NAME="419030">
+Generates
+</A></DL><A NAME="419031">
+&lt;DIR&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419032">
+htp.dirlistClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419033">
+Syntax
+</A></DL><A NAME="419034">
+htp.dirlistClose;<P>
+</A><DL COMPACT><DT><A NAME="419035">
+Purpose
+</A></DL><A NAME="419036">
+Prints an HTML tag that closes the directory list tag, htp.dirlistOpen.<P>
+</A><DL COMPACT><DT><A NAME="419037">
+Parameters
+</A></DL><A NAME="419038">
+none<P>
+</A><DL COMPACT><DT><A NAME="419039">
+Generates
+</A></DL><A NAME="419040">
+&lt;/DIR&gt;<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl7.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

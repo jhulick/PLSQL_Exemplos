@@ -1,0 +1,100 @@
+<HTML>
+<HEAD>
+<TITLE> Oracle Web Listener Administration </TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 20-Feb-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/icnwblist.gif" width=64 height=64 border=0 align=right></A>
+<IMG SRC="/ows-img/wladmin.gif" width=560 height=55 ALT="Oracle Web Listener Administration">
+<BR clear=right>
+
+
+<STATUS>
+
+<H2>
+<font color="#BB0000">
+<EM>LiveHTML Cartridge Configuration</EM>
+</font>
+</H2>
+
+<P>
+
+<FORM ACTION="/ows-abin/wladmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="MOD_SSI">
+<INPUT TYPE="hidden" NAME="ListenerName" VALUE="%s">
+<INPUT TYPE="hidden" NAME="ServerRoot" VALUE="%s">
+
+<STRONG>Enable LiveHTML: </STRONG> Setting this switch enables parsing of
+HTML documents with  LiveHTML tags and processing them. Disabling it would
+return the document unprocessed
+
+<P>
+
+<PRE>
+       <INPUT TYPE="radio" NAME="EnableLiveHTML" VALUE="TRUE" %s> Enable LiveHTML Processing
+       <INPUT TYPE="radio" NAME="EnableLiveHTML" VALUE="FALSE" %s> Disable LiveHTML processing
+</PRE>
+
+<P>
+
+<STRONG>Enable .html Extensions:</STRONG> By default only files with
+<strong>.shtml</strong> extension are processed. (provided the EnableLiveHTML 
+switch is ON) By enabling this switch files with non-shtml extensions are 
+also processed.
+
+<PRE>
+       <INPUT TYPE="radio" NAME="ParseHTMLExtn" VALUE="TRUE" %s> Enable .html extensions
+       <INPUT TYPE="radio" NAME="ParseHTMLExtn" VALUE="FALSE" %s> Disable .html extensions
+</PRE>
+
+ 
+<STRONG>Extension List:  </STRONG> This list specifies the extensions to the 
+files that need to be parsed. This list is consulted only if the previous switch--Mo 
+was disabled. <br>
+Please enter the list of <STRONG>Extensions</STRONG>:
+    <INPUT TYPE="text" NAME="ExtensionList" SIZE=30 VALUE="%s" MAXLENGTH=30> 
+<br>
+<p>
+
+<STRONG>Enable <i>exec</i> Tag:</STRONG> The <i><b>exec</i></b> tag allows
+executing commands from within the HTML document and can potentially be a
+security loophole. Disabling this will not allow processing of the <i> exec</i>
+tag. 
+
+<PRE>  
+       <INPUT TYPE="radio" NAME="EnableExecTag" VALUE="TRUE" %s> Enable processing exec tag
+       <INPUT TYPE="radio" NAME="EnableExecTag" VALUE="FALSE" %s> Disable processing exec tag
+</PRE>
+
+<P>
+
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify SSI Parameters">
+
+<BR>
+
+<A HREF="/ows-abin/wladmin.exe?FORM_CODE=INTRO&%s">Go back to Listener Advanced Configuration</a>
+
+<HR>
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" ALT="Listener Home" border=0></A>
+<A HREF="/ows-abin/wrbadmin.exe">
+<IMG SRC="/ows-img/wrbhome.gif" ALT=WRB Admin Home" border=0></A>
+<A HREF="/ows-adoc/lhtmladm.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+
+<p>
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>

@@ -1,0 +1,7 @@
+ALIAS_%addendum%=%database_alias%.%domain%
+%database_alias%.%domain%_PROTOCOL=TCP
+%database_alias%.%domain%_COMMUNITY=%comm_label%.%domain%
+%database_alias%.%domain%_HOST=%serv_name%
+%database_alias%.%domain%_PORT=%port_number%
+%database_alias%.%domain%_SID=%data_inst%
+

@@ -1,0 +1,479 @@
+<HTML>
+<HEAD>
+<TITLE>
+Configuring an Oracle Web Listener in Detail
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Configuring_an_Oracle_Web_Listener_in_Detail">
+Configuring an Oracle Web Listener in Detail
+</A>
+</H1>
+<HR><P><A NAME="512684">
+The <em>Oracle Web Listener Advanced Configuration Form</em> allows you to customize an Oracle Web Listener in more detail than the basic configuration allows. To use this form, you must first have selected a Web Listener process from the list on the <em>Oracle Web Listener Administration</em> form and have clicked its Configure button or clicked the Advanced Configuration button on the <em>Create New Oracle Web Listener</em> form.<P>
+</A><A NAME="513629">
+You can use the <em>Oracle Web Listener Advanced Configuration</em> form to:<P>
+</A><ul type=disc><A NAME="513454">
+<LI>Create a new Web Listener by copying the selected Web Listener configuration.
+</A>
+<A NAME="513455">
+<LI>Modify the selected Web Listener configuration.
+</A>
+<A NAME="513456">
+<LI>Delete the selected Web Listener.
+</A>
+</ul><A NAME="513530">
+For your convenience, each section of the form has Copy Listener, Modify Listener, and Delete Listener buttons to perform these actions; if you click any button in any section, the entire form will be processed.<P>
+</A><HR>
+<A NAME="Copying_an_Existing_Web_Listener">
+<H2>Copying an Existing Web Listener</H2>
+</A>
+<A NAME="509788">
+Before clicking the Copy Listener button, you must first enter at least one unused port number in the Addresses and Ports section of the form. When you click the Copy Listener button, the new Web Listener is created for the specified port or ports using the same parameter values as the original configuration except for the following parameters, which are reset to their default values:<P>
+</A><ul type=disc><A NAME="509798">
+<LI>Listener PID (see Network Parameters, below)
+</A>
+<A NAME="509804">
+<LI>Info File (Listener transaction log--see Addresses and Ports)
+</A>
+<A NAME="509801">
+<LI>Error File (Listener error log--see Log File Parameters)
+</A>
+</ul><A NAME="509805">
+After you click the Copy Listener button, the <em>Advanced Configuration Form </em>shows the configuration of the new Web Listener.<P>
+</A><HR>
+<A NAME="Modifying_a_Web_Listener">
+<H2>Modifying a Web Listener</H2>
+</A>
+<A NAME="509815">
+You can click the Modify Listener button at any time to apply changes you have made to parameter values to the current Web Listener configuration.<P>
+</A><HR>
+<A NAME="Deleting_a_Web_Listener">
+<H2>Deleting a Web Listener</H2>
+</A>
+<A NAME="509817">
+Clicking the Delete Listener button stops and destroys the selected Web Listener process. You can also delete a Web Listener by going to the <em>Oracle Web Listener Administration Form</em>, selecting the Web Listener's name from the list of Web Listeners, and clicking the <code>DELETE</code> button.<P>
+</A><HR>
+<A NAME="Configuration_Parameters">
+<H2>Configuration Parameters</H2>
+</A>
+<A NAME="509827">
+The <em>Oracle Web Listener Advanced Configuration Form </em>divides configuration parameters into these categories:<P>
+</A><ul type=disc><A NAME="509891">
+<LI>Network Parameters--Specifies the network identity of the host on which the Web Listener is running, and controls how the Web Listener uses the network.
+</A>
+<A NAME="509829">
+<LI>Log File Parameters--Controls how the Web Listener logs transactions and errors.
+</A>
+<A NAME="509830">
+<LI>Miscellaneous Listener Parameters--Configures various defaults for the Web Listener, such as default character set and time-outs.
+</A>
+<A NAME="513796">
+<LI>User and Group Parameters--Specifies the user and group identities the Web Listener assumes while running.
+</A>
+<A NAME="513797">
+<LI>Directory Mappings--Maps specific virtual pathnames used in URLs to the physical pathnames of local files.
+</A>
+<A NAME="509835">
+<LI>File Cache Definitions--Specifies files to be cached in memory while the Web Listener runs. You can list frequently accessed files here to speed access.
+</A>
+<A NAME="509836">
+<LI>Language Extensions--Maps abbreviations identifying human languages to appropriate character sets and filename extensions.
+</A>
+<A NAME="509837">
+<LI>MIME Types--Maps Multipurpose Internet Mail Extension (MIME) types to filename extensions representing each type.
+</A>
+<A NAME="509841">
+<LI>Encoding Extensions--Specifies helper applications to use with files having the given extensions.
+</A>
+</ul><A NAME="509842">
+The following sections describe the parameters you can configure using the <em>Advanced Configuration Form</em>. The only Web Listener parameters that can't be configured using this form involve security and file protection. Follow the link from <em>Advanced Configuration Form</em> to the <em>Oracle Web Listener Configure Security Form </em>to configure those aspects of Web Listener behavior.<P>
+</A><HR>
+<A NAME="Network_Parameters">
+<H2>Network Parameters</H2>
+</A>
+<A NAME="510076">
+This section specifies the network identity of the host on which the Web Listener runs, and controls how the Web Listener uses the network.<P>
+</A><HR>
+<A NAME="Listener_Name">
+<H3>Listener Name</H3>
+</A>
+<A NAME="513053">
+You should choose an alphanumeric string no longer than six characters that uniquely identifies the Web Listener. The form will inform you if the name you choose is already being used.<P>
+</A><HR>
+<A NAME="Addresses_and_Ports">
+<H3>Addresses and Ports</H3>
+</A>
+<A NAME="513054">
+Each Oracle Web Listener process is capable of accepting connections on multiple TCP/IP ports. Each entry in this section specifies the network identity the Web Listener assumes for connections on a particular port. Each entry has the following fields:<P>
+</A><A NAME="Proxy">
+<H4>Proxy</H4>
+</A>
+<A NAME="513799">
+Turning on proxy behavior allows a Web Listener running on a firewall machine to act as a proxy server, allowing users inside the firewall to access the Internet. If your Web Listener is not running on a firewall machine, or if you want to disable proxy behavior, set this radio button to Off.<P>
+</A><A NAME="Address">
+<H4>Address</H4>
+</A>
+<A NAME="513124">
+The IP address associated with the specified port. On machines with more than one IP address, you may assign a different IP address to each port. A value of zero or "ANY" means the Web Listener can accept connections from the specified port on any of the machine's available addresses. (See your operating system documentation if you want to learn how to configure your multiple IP addresses on your machine.)<P>
+</A><A NAME="Port">
+<H4>Port</H4>
+</A>
+<A NAME="513056">
+A TCP/IP port on which the Web Listener can accept connections. You can choose any number from 1 to 65535. To use ports 1 through 1023, you must give the Web Listener process root privileges (see the User and Group Parameters sections.)<P>
+</A><A NAME="Host_Name">
+<H4>Host Name</H4>
+</A>
+<A NAME="513057">
+The name by which the server identifies itself on this address/port combination. You can use your machine's primary host name, or an alias such as <code>www.blob.com</code>, by which you want identify your Web Listener on the Internet. See your operating system documentation to learn how to define a hostname alias.<P>
+</A><A NAME="Base_Directory">
+<H4>Base Directory</H4>
+</A>
+<A NAME="513058">
+The directory name to which URL-encoded pathnames addressed to this port are to be appended. For example, if the base directory is <code>/public_html</code>, the URL <code>http://www.blob.com/file</code> is converted to <code>http://www.blob.com/public_html/file</code>.<P>
+</A><A NAME="Log_Information_File">
+<H4>Log Information File</H4>
+</A>
+<A NAME="513059">
+The Log information file to which transaction logging for this port is to be directed. The Web listener uses the industry standard Common Logfile Format to log every request made to the Web Listener on this port. Each entry in the file contains the following information:<P>
+</A><ul type=disc><A NAME="513138">
+<LI>The name of the remote host that issued the request.
+</A>
+<A NAME="513139">
+<LI>The date and time of the request.
+</A>
+<A NAME="513140">
+<LI>The text of the request exactly as it was received from the remote host.
+</A>
+<A NAME="513141">
+<LI>The HTTP status code returned to the remote host.
+</A>
+<A NAME="513142">
+<LI>The length in bytes of the data returned to the remote host.
+</A>
+</ul><A NAME="513137">
+You must make sure this file exists and that the Web Listener has write access to the file and the directory in which it resides (see the User and Group Parameters section).<P>
+</A><HR>
+<A NAME="Maximum_Connections">
+<H3>Maximum Connections</H3>
+</A>
+<A NAME="513060">
+The maximum number of Web Listener connections that may be active at one time. The default is 338. You should allow as many connections as your machine can handle simultaneously without severely impairing performance. Experience will guide you in tuning this parameter value.<P>
+</A><HR>
+<A NAME="DNS_Resolution">
+<H3>DNS Resolution</H3>
+</A>
+<A NAME="513061">
+Specifies when to translate IP addresses into DNS (Domain Name Service) host names. Possible values are:<P>
+</A><ul type=disc><A NAME="510110">
+<LI>ALWAYS--Always translate IP addresses into DNS hostnames.
+</A>
+<A NAME="512018">
+<LI>LAZY--Translate IP addresses into DNS hostnames only when needed by an ADI application or security module.
+</A>
+<A NAME="510116">
+<LI>LAZY_WITH_CGI--translate IP addresses into DNS hostnames only when needed by CGI programs.
+</A>
+<A NAME="510119">
+<LI>NEVER--Never use DNS hostnames (default).
+</A>
+</ul><A NAME="513561">
+Setting DNS Resolution to ALWAYS slows your Web Listener's performance somewhat because the DNS server usually runs on a different machine from the WebServer, making each transaction subject to a time-consuming DNS query.<P>
+</A><A NAME="513652">
+On the other hand, if you use domain-based restriction for access control (see <em>File Protection</em> in <em>"Chapter 1, WebServer Concepts"</em> of the <em>Oracle WebServer User's Guide</em>), you must <em>not</em> set DNS Resolution to NEVER. In this case, setting DNS Resolution to LAZY_WITH_CGI is often a good compromise.<P>
+</A><HR>
+<A NAME="Redirection_Server">
+<H3>Redirection Server</H3>
+</A>
+<A NAME="513823">
+The URL of a Web Listener process to which requests can be redirected when the selected Listener's maximum number of connections has been reached. The URL must be of the form:<P>
+</A><A NAME="513830">
+<PRE>http://<EM>HostName</EM>:<EM>PortNumber</EM></PRE><P>
+</A>
+<A NAME="513831">
+Note: The redirection server must have all the capabilities of the selected Web Listener so that it can fulfill the same requests. If you are consistently receiving the maximum number of connections on a certain Web Listener process, you might want to create another Listener by copying the original Listener configuration and use the new Listener as a redirection server for the original.<P>
+</A><HR>
+<A NAME="Listener_PID_file">
+<H3>Listener PID file</H3>
+</A>
+<A NAME="513062">
+A file that contains the Process ID PID of the Web Listener process. <P>
+</A><A NAME="512626">
+Important: You must use the <em>Oracle Web Listener Administration Form </em>to stop a Web Listener before changing its Listener PID file value. If you don't do this, the <em>Oracle Web Listener Administration Form </em>loses track of the Web Listener process.<P>
+</A><HR>
+<A NAME="Log_File_Parameters">
+<H2>Log File Parameters</H2>
+</A>
+<A NAME="510132">
+This section controls how the Web Listener logs transactions and errors. The Web Listener logs transactions on each port separately but logs all errors to the same file.<P>
+</A><A NAME="513080">
+To specify the log file name for a specific port, enter a value for the Log Information File parameter in that port's entry in the Addresses and Ports subsection of the Network Parameters section.<P>
+</A><HR>
+<A NAME="Log_Error_File">
+<H3>Log Error File</H3>
+</A>
+<A NAME="513067">
+The file to which the Web Listener logs error messages generated when it encounters problems accessing resources, interacting with requestors, and interacting with other gateway servers. The default is <code>$ORACLE_HOME/ows2.0/sv</code><EM>ListenerName</EM><code>.err</code>.<P>
+</A><HR>
+<A NAME="Log_Time_Style">
+<H3>Log Time Style</H3>
+</A>
+<A NAME="513068">
+Specifies the way time stamps should be written in log files. Possible values are:<P>
+</A><ul type=disc><A NAME="510151">
+<LI>local--Use local time (default).
+</A>
+<A NAME="510153">
+<LI>GMT--Use Greenwich Mean Time.
+</A>
+</ul><HR>
+<A NAME="Miscellaneous_Listener_Parameters">
+<H2>Miscellaneous Listener Parameters</H2>
+</A>
+<A NAME="510162">
+This section configures various defaults for the Web Listener, such as default character set and time-outs.<P>
+</A><HR>
+<A NAME="Configuration_Directory_">
+<H3>Configuration Directory </H3>
+</A>
+<A NAME="513374">
+The directory where you want the Web Listener configuration file, named sv<EM>ListenerName</EM>.cfg, to reside. If you choose a different directory than the default value provided, make sure the permissions on the directory allow the Web Listener to read the file.<P>
+</A><HR>
+<A NAME="Initial_File">
+<H3>Initial File</H3>
+</A>
+<A NAME="513081">
+The default file to retrieve from a directory when a URL specifies only the directory. The default filename is "initial". For example, if you set this field to <code>index.html</code>, the request URL <code>http://www.blob.com/</code> will translate to <br><code>http://www.blob.com/index.html</code>.<P>
+</A><HR>
+<A NAME="User_Directory">
+<H3>User Directory</H3>
+</A>
+<A NAME="513200">
+The default subdirectory to search in a user's home directory if a URL specifies only the user's home directory. For example, if the user directory is <code>public_html</code>, and a browser requests <code>http://www.blob.com/~jane</code>, the URL is converted to <code>http://www.blob.com/~jane/public_html/</code>. There is no default.<P>
+</A><A NAME="513202">
+There are several restrictions imposed on user directories:<P>
+</A><ul type=disc><A NAME="513203">
+<LI>For security, no CGI scripts may run from a user directory.
+</A>
+<A NAME="513204">
+<LI>The Web Listener performs no filename negotiation within user directories; the URL must specify the requested filename exactly.
+</A>
+<A NAME="513205">
+<LI>If several browsers access the same file within a user directory at the same time, they do not share a common memory-mapped copy of the file, which makes accesses to user directories somewhat less efficient than access to other directories.
+</A>
+</ul><HR>
+<A NAME="Default_MIME_Type">
+<H3>Default MIME Type</H3>
+</A>
+<A NAME="513083">
+Specifies a Multipurpose Internet Mail Extensions (MIME) type to use in interpreting requested files of an unsupported MIME type. The default is <code>application/octet-stream</code>, which means that by default, the Web Listener treats any requested file of unidentified MIME type as a binary file. You can review the RFCs that define MIME at <code>http://www.oac.uci.edu/indiv/ehood/MIME/MIME.html</code>.<P>
+</A><HR>
+<A NAME="Default_Character_Set">
+<H3>Default Character Set</H3>
+</A>
+<A NAME="513084">
+The character set to use in interpreting a file that uses an unrecognized character set. You must use a character set name defined by RFC 1521. The default is iso-8859-1, the character set used for English.<P>
+</A><HR>
+<A NAME="Preferred_Language">
+<H3>Preferred Language</H3>
+</A>
+<A NAME="513085">
+The language to choose when handling a request for a file available in more than one language, if the request doesn't specify a language. You must use a language identifier defined by RFC 1766. The default is "en" (English).<P>
+</A><HR>
+<A NAME="Image_Map">
+<H3>Image Map</H3>
+</A>
+<A NAME="513086">
+Filename extensions that the Web Listener should use to identify image map files. There is no default, so if you want this Web Listener to support image maps, you must set this field to the filename extension, such as <code>map</code>, that you use for your image map files.<P>
+</A><HR>
+<A NAME="Use_Directory_Indexing">
+<H3>Use Directory Indexing</H3>
+</A>
+<A NAME="513087">
+Specifies whether the Web Listener should provide a directory listing when a URL resolves to a directory that does not contain a file named by InitialFile. If you enter "false", such a URL will produce an error. Directory listings can sometimes help requestors correct spelling errors in their request URLs. The default is "true."<P>
+</A><A NAME="513574">
+For security or privacy, you might not want to expose all directory contents to clients; in this case, set this field to "false."<P>
+</A><HR>
+<A NAME="User_and_Group_Parameters">
+<H2>User and Group Parameters</H2>
+</A>
+<A NAME="510224">
+This section specifies the user and group identities the Web Listener assumes when it runs. When the Web Listener process starts up, it runs with root privileges until it completes its configuration and then assumes the user and group identities specified in the User ID and Group ID parameters.<P>
+</A><A NAME="513233">
+The User ID and Group ID parameters you use must give the Web Listener the following access permissions to certain files and the directories in which they reside:<P>
+</A><ul type=disc><A NAME="513234">
+<LI>Read access to the configuration file.
+</A>
+<A NAME="513237">
+<LI>Read access to all files that provide content for servicing requests.
+</A>
+<A NAME="513238">
+<LI>Read access to all image map files.
+</A>
+<A NAME="513239">
+<LI>Execute access to all Oracle WebServer binaries and program files that the Web Listener must execute.
+</A>
+<A NAME="513256">
+<LI>Write access to the log and error files.
+</A>
+<A NAME="513257">
+<LI>Read access to user directories.
+</A>
+</ul><A NAME="513262">
+For security, however, you should take care in allowing a Web Listener with privileged user ID, such as <code>root</code> or <code>oracle</code>, or group ID, such as <code>dba</code>, to launch programs, because these programs inherit the Web Listener's privileges. You might consider assigning your Web Listeners an unprivileged user identity such as <code>nobody</code>.<P>
+</A><HR>
+<A NAME="User_ID">
+<H3>User ID</H3>
+</A>
+<A NAME="513089">
+The user identity that the Web Listener assumes after it completes its configuration. You can specify either a user name or numeric user ID in this field. To denote the root ID, however, you must specify "<code>root</code>" rather than "<code>0</code>"<P>
+</A><HR>
+<A NAME="Group_ID">
+<H3>Group ID</H3>
+</A>
+<A NAME="513088">
+The group identity that the Web Listener assumes after it completes its configuration. You can specify either a group name or a numeric group ID in this field.<P>
+</A><HR>
+<A NAME="Directory_Mappings">
+<H2>Directory Mappings</H2>
+</A>
+<A NAME="510238">
+This section defines a virtual file system by mapping specific virtual pathnames used in URLs to the file-system pathnames of local directories.<P>
+</A><A NAME="512215">
+When the Web Listener starts up, it checks to make sure it has access to the file-system directories specified in this section, but it doesn't check individual files in the directories. If a subsequent request refers to a file that the Web Listener cannot access, the Listener returns a "404: Not found" error.<P>
+</A><A NAME="513307">
+Each entry in this section has the following fields:<P>
+</A><HR>
+<A NAME="File-System_Directory">
+<H3>File-System Directory</H3>
+</A>
+<A NAME="513090">
+Specifies the pathname of a directory in the local file system.<P>
+</A><HR>
+<A NAME="Flag">
+<H3>Flag</H3>
+</A>
+<A NAME="513091">
+The first code in this field specifies whether CGI programs may run from the specified virtual directory. Possible values are:<P>
+</A><ul type=disc><A NAME="510248">
+<LI>N (Normal)--Do not allow CGI programs to run from this directory.
+</A>
+<A NAME="510251">
+<LI>C (CGI)--Allow CGI programs to run from this directory.
+</A>
+<A NAME="510254">
+<LI>W (WinCGI)--(Windows NT only) Allow WinCGI programs to run from this directory.
+</A>
+</ul><A NAME="510257">
+The second code specifies whether subdirectories of the specified file-system directory should mapped recursively--that is, whether the directory tree rooted at the specified file-system directory should be accessible through the specified virtual directory. Possible values are:<P>
+</A><ul type=disc><A NAME="510265">
+<LI>N (Non-recursive)--Do not map subdirectories recursively.
+</A>
+<A NAME="510268">
+<LI>R (Recursive)--Map subdirectories recursively.
+</A>
+</ul><A NAME="510269">
+If you don't want to make the subdirectories of the mapped file-system directory accessible to clients, set the directory mapping to non-recursive.<P>
+</A><HR>
+<A NAME="Virtual_Directory">
+<H3>Virtual Directory</H3>
+</A>
+<A NAME="513092">
+Specifies the virtual directory through which the file-system directory will be accessed. The first entry in the Directory Mappings section must specify the virtual root directory ("/").<P>
+</A><HR>
+<A NAME="File_Cache_Definitions">
+<H2>File Cache Definitions</H2>
+</A>
+<A NAME="510347">
+This section uses virtual pathnames to specify files to be cached in memory while the Web Listener runs. You can list frequently accessed files here to speed access. The Web Listener opens each of these files the first time it is requested and keeps it open for the life of the Web Listener. Any file not listed in this section is closed as soon as there are no longer any requestors using it. <P>
+</A><A NAME="513316">
+An entry can specify an individual filename, a group of filenames all starting with the same characters, or all the files in a directory. For example:<P>
+</A><ul type=disc><A NAME="510351">
+<LI><code>/home/index.html</code>--Cache the file <code>/home/index.html</code>.
+</A>
+<A NAME="510355">
+<LI><code>/home/cool_stuff/readme*</code>--Cache all files in the virtual directory <br><code>/home/cool_stuff</code> starting with the characters "<code>readme</code>".
+</A>
+<A NAME="513322">
+<LI><code>/home/support/</code>--Cache all files in the virtual directory <code>/home/support</code>.
+</A>
+</ul><A NAME="510359">
+Over time, your log files can tell you which files are accessed most frequently, and therefore which files should be cached to achieve the best Web Listener performance. The optimum number and size of cached files also depends on the speed of your WebServer machine's processor, and the amount of memory it has.<P>
+</A><HR>
+<A NAME="Language_Extensions">
+<H2>Language Extensions</H2>
+</A>
+<A NAME="510365">
+This section maps abbreviations identifying human languages to appropriate character sets and filename extensions.<P>
+</A><A NAME="513324">
+Because character set specifications apply only to text files, language extensions for non-text files are ignored. For example, the files <code>image.en.jpg</code> and <code>image.uc.jpg</code> would be considered equivalent.<P>
+</A><A NAME="513323">
+Each entry in this section has the following fields:<P>
+</A><HR>
+<A NAME="Language_ID">
+<H3>Language ID</H3>
+</A>
+<A NAME="513097">
+A language identifier, such as <code>en</code>, as defined by RFC 1766.<P>
+</A><HR>
+<A NAME="Character_Set">
+<H3>Character Set</H3>
+</A>
+<A NAME="513098">
+The name of the character set used for the specified language, such as <code>iso-8859-1</code>, as defined by RFC 1521.<P>
+</A><HR>
+<A NAME="Filename_Extension">
+<H3>Filename Extension</H3>
+</A>
+<A NAME="513099">
+Extension or extensions used to identify files encoded for the specified language, such as <code>eng</code>. Filename extensions are case sensitive; if you specify more than one extension, you must separate them by spaces or commas.<P>
+</A><HR>
+<A NAME="MIME_Types">
+<H2>MIME Types</H2>
+</A>
+<A NAME="510381">
+This section associates filename extensions with the Multipurpose Internet Mail Extensions (MIME) types that the Web Listener recognizes. Each entry in this section has the following fields:<P>
+</A><HR>
+<A NAME="MIME_Type">
+<H3>MIME Type</H3>
+</A>
+<A NAME="513100">
+A MIME type, such as <code>text/html</code>, as defined by RFCs 1521 and 1522.<P>
+</A><HR>
+<A NAME="File_Extensions">
+<H3>File Extension(s)</H3>
+</A>
+<A NAME="513101">
+Extension or extensions, such as <code>htm</code> or <code>html</code>, used to identify files of the specified MIME type. File extensions are case sensitive; if you specify more than one extension, you must separate them by spaces or commas.<P>
+</A><HR>
+<A NAME="Encoding_Extensions">
+<H2>Encoding Extensions</H2>
+</A>
+<A NAME="510391">
+This section specifies filename extensions for files that use encodings the Web Listener recognizes. Each entry in this section has the following fields:<P>
+</A><HR>
+<A NAME="Encoding">
+<H3>Encoding</H3>
+</A>
+<A NAME="513102">
+The name of a helper application, such as <code>compress</code>, used to encode files.<P>
+</A><HR>
+<A NAME="File_Extensions1">
+<H3>File Extension(s)</H3>
+</A>
+<A NAME="513103">
+Extension or extensions, such as <code>Z</code>, used to identify files encoded by the specified helper application.<P>
+</A>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,15 @@
+#Name  Subgroup Source        Destination Size Instantiate? Append? Compress? StartDisk TotalDisks Icon Group Item Command
+
+nocopy ""       "PKG.VRF"     ""          7029 false        false   false            00         00   00 ""    ""   ""     
+       ""       "PKG.INS"     ""          1398 false        false   false            00         00   00 ""    ""   ""     
+       ""       "PKG.MAP"     ""          1371 false        false   false            00         00   00 ""    ""   ""     
+       ""       "PKG1.VRF"    ""          5617 false        false   false            00         00   00 ""    ""   ""     
+       ""       "PKG1.INS"    ""          1292 false        false   false            00         00   00 ""    ""   ""     
+       ""       "PKG1.MAP"    ""          1371 false        false   false            00         00   00 ""    ""   ""     
+
+pkgs   ""       "ALL.PKG"     ""           941 false        false   false            00         00   00 ""    ""   ""     
+       ""       "ADP23.PKG"   ""           980 false        false   false            00         00   00 ""    ""   ""     
+       ""       "NETWORK.PKG" ""          1098 false        false   false            00         00   00 ""    ""   ""     
+       ""       "SERVER.PKG"  ""          3514 false        false   false            00         00   00 ""    ""   ""     
+
+

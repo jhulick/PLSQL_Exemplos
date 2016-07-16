@@ -1,0 +1,117 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi18.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi20.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426073">
+WRBGetURL()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426074">
+<code>WRBGetURL()</code> returns a pointer to the Uniform Resource Locator (URL) for the HTTP request currently being handled by the calling WRB cartridge.<P>
+</A><A NAME="426075">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="426076">
+Syntax
+</A>
+</H2>
+<A NAME="426077">
+<PRE>char *WRBGetURL( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426091">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="426080">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="426082">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="426084">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="426086">
+WRBCtx<BR>
+</A><td><A NAME="426088">
+void *<BR>
+</A><td><A NAME="426090">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="426092">
+Return Values
+</A>
+</H2>
+<A NAME="426093">
+<code>WRBGetURL()</code> returns a pointer to the URL of the current HTTP request.<P>
+</A><HR>
+<H2>
+<A NAME="426094">
+Usage
+</A>
+</H2>
+<A NAME="426095">
+Your can call <code>WRBGetURL()</code> from your Authorize or Exec function. Your Authorize function, for example, can apply different authorization checks for different URLs. Your Exec function can call <code>WRBGetURL()</code> to determine how to satisfy the current request.<P>
+</A><A NAME="426096">
+Although you can extract the query string for a GET request from its URL , it's usually more convenient to call <code><a href="wrbapi8.htm#425559">WRBGetContent()</a></code> or <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code> to do this.<P>
+</A><HR>
+<H2>
+<A NAME="426103">
+Examples
+</A>
+</H2>
+<A NAME="426104">
+See the MyWRBApp sample function <a href="mywrbap3.htm#422368">MyWRBApp_Exec()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="426105">
+Related Information
+</A>
+</H2>
+<A NAME="426112">
+See also <code><a href="wrbapi18.htm#426027">WRBGetURI()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi18.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi20.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

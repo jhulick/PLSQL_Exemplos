@@ -1,0 +1,106 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using LiveHTML
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+<A HREF="lhtuser1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="417928">
+Using LiveHTML
+</A>
+</H1>
+<HR><P><A NAME="417930">
+This page provides an overview of LiveHTML, WebServer's implementation of Server Side Includes. The following topics are covered:<P>
+</A><ul type=disc><A NAME="417933">
+<LI>Overview
+</A>
+<A NAME="417934">
+<LI>Limiting Use of LiveHTML ("Crippled" Includes)
+</A>
+<A NAME="417935">
+<LI>Using PL/SQL Under LiveHTML
+</A>
+<A NAME="417936">
+<LI>LiveHTML File Structure
+</A>
+</ul><A NAME="417938">
+</A>For detailed information on specific LiveHTML commands and tags, see 
+<A HREF="lhtuser1.htm">LiveHTML Reference</A> and <A HREF="lhtuser2.htm">LiveHTML Examples</A>.<P>
+<HR>
+<H2>
+<A NAME="417941">
+Overview
+</A>
+</H2>
+<A NAME="417943">
+LiveHTML is Oracle's implementation and extension of the standard Server Side Includes functionality defined by the NCSA. Using LiveHTML enables you to include dynamic content in otherwise static Web pages. At the point in your Web page where you want to interject dynamic content, you place a tag that points to one of the following:<P>
+</A><ul type=disc><A NAME="417949">
+<LI>A static Web page.
+</A>
+<A NAME="417950">
+<LI>Another LiveHTML Web page.
+</A>
+<A NAME="417951">
+<LI>A script that is executed on the server and outputs HTML. This script may but need not be CGI.
+</A>
+<A NAME="418209">
+<LI>A system variable, for example: FMODDATE.
+</A>
+</ul><A NAME="417955">
+You can use a variable to determine at runtime the Web page, variable, or script to which the tag points. This enables you to have a Web page that selects dynamically from among any number of static Web pages or scripts, based, for example, on values a user provides in an HTML form. The result is a dynamic Web page built of static Web page components, variables, and HTML output from scripts.<P>
+</A><A NAME="417962">
+You frequently use LiveHTML when you have standard components, such as menus, that you want on many pages.<P>
+</A><HR>
+<H2>
+<A NAME="417965">
+Limiting Use of LiveHTML ("Crippled" Includes)
+</A>
+</H2>
+<A NAME="417967">
+Enabling users to execute scripts on the server can create security and other risks. To prevent this you can specify as part of the WRB configuration that a specific Listener allows only "crippled" includes. This means that LiveHTML parsed by that Listener will be able only to call static HTML, environment variables, or other server parsable files, not executable scripts.<P>
+</A><HR>
+<H2>
+<A NAME="417974">
+Using PL/SQL Under LiveHTML
+</A>
+</H2>
+<A NAME="417976">
+You can use LiveHTML to run the PL/SQL Agent under CGI, and thereby incorporate dynamic Oracle data in hardcoded Web pages. This is less efficient than running the PL/SQL Agent directly under the WRB, however. <P>
+</A><HR>
+<H2>
+<A NAME="417980">
+LiveHTML File Structure
+</A>
+</H2>
+<A NAME="417982">
+A Web page that is to use LiveHTML must be parsed by the WebServer. For this reason, it differs slightly from ordinary Web pages written in HTML, which the WebServer simply delivers to the browser. To have the LiveHTML tags executed on the server, you must use the WebServer Manager to specify that a given Web Listener is to parse files for LiveHTML. You have the option of having the Listener parse all files or just those with certain extensions.<P>
+</A><A NAME="417990">
+Files that the WebServer is to parse for LiveHTML are internally of the following MIME type:<P>
+</A><A NAME="417993">
+<PRE>text/x-server-parsed-html</PRE><P>
+</A>
+<A NAME="417995">
+The WebServer Administrator normally will create file extensions that are synonyms for this type, and these are what you use in your application code. The default synonym is SHTML. The administrator can also specify HTML as a synonym, in which case all HTML files are parsed for LiveHTML. Unless all your HTML files actually use LiveHTML, this is a bad idea, as it degrades performance. The WebServer Administrator can also specify that some Web Listeners are to allow full LiveHTML, some crippled LiveHTML, and some no LiveHTML at all. An application developer needs to know which Listeners are which, so as to specify the correct port numbers in the URLs. You can find this out by examining the WebServer Manager.<P>
+</A>
+
+<HR>
+<A HREF="lhtuser1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+ 

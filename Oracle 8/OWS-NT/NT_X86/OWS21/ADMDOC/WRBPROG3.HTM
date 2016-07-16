@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+<TITLE>
+Writing Applications Using the Web Request Broker API
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbprog2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbprog4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="421368">
+The Entry-Point Function
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="421243">
+In addition to implementing the cartridge functions, you must define an entry-point function that fills in a function table with pointers to the cartridge functions. The WRB application engine calls this entry-point function to get access to your cartridge functions when your cartridge first starts running.<P>
+</A><A NAME="421277">
+You can name your entry-point function anything you want. When you configure your cartridge, you'll specify the full path to your cartridge shared library and the name of your entry-point function. It's a good idea, though, to incorporate the string "Entry" in your entry-point function name (for example, <code>MyApp_Entry()</code>).<P>
+</A><HR>
+<H2>
+<A NAME="421312">
+Syntax
+</A>
+</H2>
+<A NAME="421314">
+<PRE>WRBReturnCode <em>prefix</em>_Entry(WRBCallbacks *WRBcalls);</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="421320">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="421326">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="421328">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="421330">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="421332">
+WRBcalls<BR>
+</A><td><A NAME="421334">
+WRBCallbacks *<BR>
+</A><td><A NAME="421336">
+A pointer to the cartridge function table to be filled in.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="421349">
+Return values
+</A>
+</H2>
+<A NAME="421963">
+Your entry-point function must return one of these values of type <code>WRBReturnCode</code>:<p>
+<table border=3>
+<tr><th><A NAME="421860">
+<H5>Return value
+</H5>
+</A>
+<th><A NAME="421862">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="421864">
+WRB_DONE<BR>
+</A><td><A NAME="421866">
+Successful completion<BR>
+</A>
+<tr><td><A NAME="421868">
+WRB_ERROR<BR>
+</A><td><A NAME="421870">
+An error occurred--the request cannot be completed<BR>
+</A>
+<tr><td><A NAME="421872">
+WRB_ABORT<BR>
+</A><td><A NAME="421874">
+An error occurred from which the application cannot recover--terminate the application<BR>
+</A>
+
+</table>
+<P>
+</A><HR>
+<H2>
+<A NAME="426315">
+Example
+</A>
+</H2>
+<A NAME="426347">
+See the MyWRBApp sample function <code><a href="mywrbap3.htm#422334">MyWRBApp_Entry()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbprog2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbprog4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

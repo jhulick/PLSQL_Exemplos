@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi10.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi12.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425698">
+WRBGetLanguage()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425699">
+<code>WRBGetLanguage()</code> returns a comma-separated list of language identifiers indicating the natural languages in which the client prefers to receive a response to the current request.<P>
+</A><HR>
+<H2>
+<A NAME="425700">
+Syntax
+</A>
+</H2>
+<A NAME="425701">
+<PRE>char *WRBGetLanguage( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425715">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425704">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425706">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425708">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425710">
+WRBCtx<BR>
+</A><td><A NAME="425712">
+void *<BR>
+</A><td><A NAME="425714">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425716">
+Return Values
+</A>
+</H2>
+<A NAME="425717">
+<code>WRBGetLanguage()</code> returns a pointer to a comma-separated list of language identifiers indicating the languages that the client can accept in response to the current request.<P>
+</A><HR>
+<H2>
+<A NAME="425718">
+Usage
+</A>
+</H2>
+<A NAME="425719">
+If your cartridge can serve content in more than one natural language, your Exec function can call <code>WRBGetLanguage()</code> to get a list of the languages that the client prefers. Exec should then choose the first language in this list in which your cartridge can generate a response.<P>
+</A><HR>
+<H2>
+<A NAME="425720">
+Examples
+</A>
+</H2>
+<A NAME="425721">
+This example shows how you might choose a language in which to respond to a request:<P>
+</A><A NAME="425722">
+<PRE>#include &lt;string.h&gt;<br> <br>/*<br> * Note: this static array is just a convenience for this example.<br> * A better way to store this info would be in your application<br> * context structure.<br> * You could also make the supported languages configurable, and<br> * get this list using WRBGetConfigVal().<br> */<br>static char *mylangs[] = {"en", "fr-FR", "jp-JP", NULL};<br> <br>char **mlp;<br>char *clientlangs;<br>char *langp;<br>boolean match = FALSE;<br> <br>clientlangs = WRBGetLanguage(WRBCtx);<br>while (clientlangs &amp;&amp; *clientlangs) {<br>    for (mlp = mylangs, langp = *mlp; langp; mlp++, langp = *mlp) {<br>        if (!strncmp(clientlangs, langp, strlen(langp))) {<br>            match = TRUE;<br>            break;<br>        }<br>    }<br> <br>    if (match)<br>        break;<br> <br>    clientlangs = strchr(clientlangs, `,');<br>    clientlangs++;<br>}<br> <br>if (match) {<br>    /* langp points to chosen language */<br>}<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425726">
+Related Information
+</A>
+</H2>
+<A NAME="425730">
+See also <code><a href="wrbapi5.htm#425434">WRBGetCharacterEncoding()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi10.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi12.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

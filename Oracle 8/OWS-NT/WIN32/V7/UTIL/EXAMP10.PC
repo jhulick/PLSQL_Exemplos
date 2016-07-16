@@ -1,0 +1,135 @@
+#ifdef RCSID
+static char *RCSid = 
+   "$Header: examp10.pc,v 1.2 1993/10/20 12:00:42 kosinski Exp $ ";
+#endif /* RCSID */
+
+/* Copyright (c) 1991 by Oracle Corporation */
+/*
+   NAME
+     examp10.pc - <one-line expansion of the name>
+   DESCRIPTION
+     <short description of component this file declares/defines>
+   PUBLIC FUNCTION(S)
+     <list of external functions declared/defined - with one-line descriptions>
+   PRIVATE FUNCTION(S)
+     <list of static functions defined in .c file - with one-line descriptions>
+   RETURNS
+     <function return values, for .c file with single function>
+   NOTES
+     <other useful comments, qualifications, etc.>
+   MODIFIED   (MM/DD/YY)
+    rvasired   05/12/92 -  Creation 
+*/
+/************************************************************************
+ *                      						*
+ *  EMBEDDED PL/SQL DEMO                                                *
+ *                                                                      *
+ *  This program prompts for an account number and a debit or credit    *
+ *  amount.  If the account number is valid, a credit always succeeds,  *
+ *  but a debit succeeds only if there are sufficient funds.            *
+ *									*
+ *  Copyright (c) 1989,1992 by Oracle Corporation                       *
+ ************************************************************************/
+
+#include <stdio.h>
+
+EXEC SQL BEGIN DECLARE SECTION;
+    int      acct, amount;
+    VARCHAR  tran_type[10];
+    VARCHAR  status[65];
+    VARCHAR  uid[20];
+    VARCHAR  pwd[20];
+EXEC SQL END DECLARE SECTION;
+
+EXEC SQL INCLUDE SQLCA;
+
+main()
+{
+
+    strcpy (uid.arr,"scott");
+    uid.len=strlen(uid.arr);
+    strcpy (pwd.arr,"tiger");
+    pwd.len=strlen(pwd.arr);
+
+    printf("\n\n\tEmbedded PL/SQL Demo\n\n");
+    printf("Trying to connect...");
+
+    EXEC SQL WHENEVER SQLERROR GOTO errprint;
+
+    EXEC SQL CONNECT :uid IDENTIFIED BY :pwd;
+    printf(" connected.\n");
+
+
+    for (;;)  /* Loop infinitely */
+        {
+
+        printf("\n\n** What is the account number? (-1 to end)  ");
+        scanf("%d", &acct);
+        if (acct == -1)      /* Need to disconnect from ORACLE */
+        {                    /* and end program if acct is -1  */
+            EXEC SQL COMMIT WORK RELEASE;
+            exit(0);
+        }
+
+        printf("\n   What type of transaction? (C)redit or (D)ebit   ");
+        scanf("%s", &tran_type.arr);
+        tran_type.len = 1;   /* Only want the first character */
+
+        printf("\n   What is the transaction amount? (Whole dollars only)  ");
+        scanf("%d", &amount);
+
+        /* ---------------------------------- */
+        /* ----- Begin the PL/SQL block ----- */
+        /* ---------------------------------- */
+        EXEC SQL EXECUTE
+
+        DECLARE
+            old_bal     NUMBER(11,2);
+            no_account  EXCEPTION;
+        BEGIN
+            :tran_type := UPPER(:tran_type);
+            IF :tran_type = 'C' THEN       -- credit the account
+                UPDATE accounts SET bal = bal + :amount
+                    WHERE account_id = :acct;
+                IF SQL%ROWCOUNT = 0 THEN    -- no rows affected
+                    RAISE no_account;
+                ELSE
+                    :status := 'Credit complete.';
+                END IF;
+            ELSIF :tran_type = 'D' THEN    -- debit the account
+                SELECT bal INTO old_bal FROM accounts
+                    WHERE account_id = :acct;
+                IF old_bal >= :amount THEN      -- there's enough money
+                    UPDATE accounts SET bal = bal - :amount
+                        WHERE account_id = :acct;
+                    :status := 'Debit complete.';
+                ELSE
+                    :status := 'Not enough funds.';
+                END IF;
+            ELSE
+                :status := :tran_type || ' is not a legal transaction.';
+            END IF;
+            COMMIT;
+        EXCEPTION
+            WHEN NO_DATA_FOUND OR no_account THEN
+                :status := 'Account does not exist.';
+            WHEN OTHERS THEN
+                :status := 'Error: ' || SQLERRM(SQLCODE);
+        END;
+
+        END-EXEC;
+        /* -------------------------------- */
+        /* ----- End the PL/SQL block ----- */
+        /* -------------------------------- */
+
+    status.arr[status.len] = '\0';       /* null-terminate the string */
+    printf("\n\n   Status: %s", status.arr);
+    }  /* End of loop */
+
+errprint:
+    EXEC SQL WHENEVER SQLERROR CONTINUE;
+    printf("\n\n>>>>> Error during execution:\n");
+    printf("%s\n",sqlca.sqlerrm.sqlerrmc);
+    EXEC SQL ROLLBACK RELEASE;
+    exit(1);
+}

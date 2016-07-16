@@ -1,0 +1,20 @@
+-vai pegar qualquer nome que comece com B.
+SELECT nome FROM clientes WHERE nome LIKE 'B%'; 
+-vai pegar qualquer nome que termine com B.
+SELECT nome FROM clientes WHERE nome LIKE '%B';
+-vai pegar qualquer nome que tenha o caracter B.
+SELECT nome FROM clientes WHERE nome LIKE '%B%';
+-vai retornar todas os campos de 2 caracteres sendo que o primeiro caractere seja o B.
+SELECT nome FROM clientes WHERE nome LIKE 'B_';
+-vai retornar todas os campos de 2 caracteres sendo que o ultimo caractere seja o B.
+SELECT nome FROM clientes WHERE nome LIKE '_B';
+-vai retornar todas os campos de 3 caracteres sendo que o caractere  do meio seja o B.
+SELECT nome FROM clientes WHERE nome LIKE '_B_';
+-vai retornar todas os campos sendo que o penultimo caractere seja o B.
+SELECT nome FROM clientes WHERE nome LIKE '%B_';
+-quando o caracter a ser pesquisado é o especial (% OU _) deve-se usar o comando escape '\' eo  caracter \ antes do caracter especial.(\ ou um caracter qulquer, ou seja vc escolhe o caracter de escape.)
+SELECT nome FROM clientes WHERE nome LIKE '%\_%' ESCAPE '\';
+
+* O simbolo % é como um coringa.
+* O simbolo _ pode indicar a quantidade de caracteres ou a posicao.
+* o LIKE trabalha em conjunto com o WHERE.

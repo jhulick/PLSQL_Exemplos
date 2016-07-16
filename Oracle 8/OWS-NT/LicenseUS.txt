@@ -1,0 +1,62 @@
+
+
+              Oracle WebServer for Windows NT, Release 2.1 Trial License
+
+
+
+No-Charge 60 Day Trial License
+
+ORACLE CORPORATION
+
+CAUTION: Loading this software onto a computer indicates your acceptance of the following terms. Please
+read them carefully. 
+
+TRIAL LICENSE: Oracle Corporation ("Oracle") grants you a no-charge trial license to use the software selected
+("Software") solely for evaluation purposes for a period of 60 days. You may not use the Software for any development,
+commercial, or production purpose. You may give trial copies of the Software to others to permit them to use the
+Software under the same restrictions as are in this License, provided that you do not charge a fee for doing so. You must
+purchase a full-use license if you wish to do any of the following: (a) use the Software after the end of the 60-day trial
+period, or (b) use the Software for any development, commercial, or production purpose, or (c) distribute the Software
+for any such use. 
+
+COPYRIGHT: The Software is the proprietary product of Oracle and is protected by copyright law. You acquire only
+the right to use the Software and do not acquire any rights of ownership. You agree not to remove any product
+identification, copyright notices, or other notices or proprietary restrictions from the Software. You agree not to cause or
+permit the reverse engineering, disassembly, or decompilation of the Software. You shall not disclose the results of any
+benchmark tests of the Software to any third party without Oracle's prior written approval. 
+
+WARRANTY DISCLAIMER: Oracle is providing this license on an "as is" basis without warranty of any kind; Oracle
+disclaims all express and implied warranties, including the implied warranties of merchantability or fitness for a particular
+purpose. 
+
+LIMITATION OF LIABILITY: ORACLE SHALL NOT BE LIABLE FOR ANY DAMAGES, INCLUDING
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES, OR DAMAGES
+FOR LOSS OF PROFITS, REVENUE, DATA OR DATA USE, INCURRED BY YOU OR ANY THIRD
+PARTY, WHETHER IN AN ACTION IN CONTRACT OR TORT, EVEN IF YOU OR ANY OTHER
+PERSON HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. 
+
+EXPORT: You agree to comply fully with all laws and regulations to assure that neither the Software, nor any direct
+product thereof, is exported, directly or indirectly, in violation of law. 
+
+RESTRICTED RIGHTS: If the Software is used by a U.S. Government Agency of the Department of Defense, then
+the use is with Restricted Rights and the following legend is applicable: "Restricted Rights Legend Use, duplication or
+disclosure by the Government is subject to restrictions as currently set forth in subparagraph (c)(1)(ii) of DFARS
+252-227-7013, Rights in Technical Data and Computer Software (October 1988). Oracle Corporation, 500 Oracle
+Parkway, Redwood City, CA, 94065. If the Software is used by a U.S. Government Agency not within the Department
+of Defense, then the use is with "Restricted Rights" as defined in FAR 52.227-14, Rights in Data - General, including
+Alternate III (June 1987). 
+
+Oracle Corporation World Headquarters
+500 Oracle Parkway
+Redwood Shores, CA 94065
+USA
+
+Worldwide Inquiries: 415.506.7000
+Fax: 415.506.7200
+
+To offer our customers themost complete and effective information management solutions, Oracle Corporation
+offers its products, along with support, education, consulting, in more than 90 countries. 
+
+Copyright (c) OracleCorporation 1996 All Rights Reserved 
+
+Copyright © 1996 Oracle Corporation. All Rights Reserved. 

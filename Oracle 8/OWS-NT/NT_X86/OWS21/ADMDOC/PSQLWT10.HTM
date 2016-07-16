@@ -1,0 +1,226 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl9.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwt11.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="419423">
+Table Tags
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="419426">
+The Table tags allow the user to insert tables and manipulate the size and columns of the table in a document. <P>
+</A><A NAME="419427">
+Note: All the hypertext procedures (HTP) shown in this section are also available as hypertext functions (HTF).<P>
+</A><HR>
+<H2>
+<A NAME="419428">
+htp.tableOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419429">
+Syntax
+</A></DL><A NAME="419430">
+htp.tableOpen (cborder, calign, cnowrap, cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419431">
+Purpose
+</A></DL><A NAME="419432">
+Prints an HTML tag that begins an HTML table.<P>
+</A><DL COMPACT><DT><A NAME="419433">
+Parameters
+</A></DL><A NAME="419434">
+cborder	   	in varchar2   DEFAULT NULL<br>calign   		in varchar2   DEFAULT NULL<br>cnowrap  	 	in varchar2   DEFAULT NULL<br>cclear   		in varchar2   DEFAULT NULL<br>cattributes   		in varchar2   DEFAULT NULL;<P>
+</A><DL COMPACT><DT><A NAME="419435">
+Generates
+</A></DL><A NAME="419436">
+&lt;TABLE "<em>cborder</em>" NOWRAP ALIGN="<em>calign</em>" CLEAR="<em>cclear</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419437">
+htp.tableClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419438">
+Syntax
+</A></DL><A NAME="419439">
+htp.tableClose;<P>
+</A><DL COMPACT><DT><A NAME="419440">
+Purpose
+</A></DL><A NAME="419441">
+Prints an HTML tag that ends an HTML table.<P>
+</A><DL COMPACT><DT><A NAME="419442">
+Parameters
+</A></DL><A NAME="419443">
+none<P>
+</A><DL COMPACT><DT><A NAME="419444">
+Generates
+</A></DL><A NAME="419445">
+&lt;/TABLE&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419446">
+htp.tableCaption
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419447">
+Syntax
+</A></DL><A NAME="419448">
+htp.tableCaption (ccaption, calign, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419449">
+Purpose
+</A></DL><A NAME="419450">
+Prints an HTML tag that places a caption in the inserted table.<P>
+</A><DL COMPACT><DT><A NAME="419451">
+Parameters
+</A></DL><A NAME="419452">
+ccaption	   	in varchar2 <br>calign  	 	in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419453">
+Generates
+</A><A NAME="419454">
+<PRE>&lt;CAPTION ALIGN="<em>calign</em>" <em>cattributes</em>&gt;<em>ccaption</em>&lt;/CAPTION&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="419455">
+htp.tableRowOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419456">
+Syntax
+</A></DL><A NAME="419457">
+htp.tableRowOpen (calign, cvalign,cdp, cnowrap, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419458">
+Purpose
+</A></DL><A NAME="419459">
+Prints an HTML tag that inserts a row tag into a table.<P>
+</A><DL COMPACT><DT><A NAME="419460">
+Parameters
+</A></DL><A NAME="419461">
+calign	   	in varchar2   DEFAULT NULL<br>cvalign  	 	in varchar2   DEFAULT NULL<br>cdp   		in varchar2   DEFAULT NULL<br>cnowrap 	  	in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419462">
+Generates
+</A></DL><A NAME="419463">
+&lt;TR ALIGN="<em>calign</em>" VALIGN="<em>cvalign</em>" DP="<em>cdp</em>" NOWRAP <em>catttributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419464">
+htp.tableRowClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419465">
+Syntax
+</A></DL><A NAME="419466">
+htp.tableRowClose;<P>
+</A><DL COMPACT><DT><A NAME="419467">
+Purpose
+</A></DL><A NAME="419468">
+Prints an HTML tag that ends a row in a table.<P>
+</A><DL COMPACT><DT><A NAME="419469">
+Parameters
+</A></DL><A NAME="419470">
+none<P>
+</A><DL COMPACT><DT><A NAME="419471">
+Generates
+</A><A NAME="419472">
+<PRE>&lt;/TR&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="419473">
+htp.tableHeader
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419474">
+Syntax
+</A></DL><A NAME="419475">
+htp.tableHeader (cvalue, calign, cdp, cnowrap, crowspan, ccolspan, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419476">
+Purpose
+</A></DL><A NAME="419477">
+Prints an HTML tag that inserts a table header.<P>
+</A><DL COMPACT><DT><A NAME="419478">
+Parameters
+</A></DL><A NAME="419479">
+cvalue  	 	in varchar2   DEFAULT NULL<br>calign	   	in varchar2   DEFAULT NULL<br>cdp   		in varchar2   DEFAULT NULL<br>cnowrap 	  	in varchar2   DEFAULT NULL<br>crowspan	   	in varchar2   DEFAULT NULL<br>ccolspan  	 	in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419480">
+
+</A><DT><A NAME="419481">
+Generates
+</A><A NAME="419482">
+<PRE>&lt;TH ALIGN="<em>calign</em>" DP="<em>cdp</em>" ROWSPAN="<em>crowspan</em>" COLSPAN="<em>ccolspan</em>" NOWRAP <em>cattributes</em>&gt;<em>cvalue</em>&lt;/TH&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="419483">
+htp.tableData
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419484">
+Syntax
+</A></DL><A NAME="419485">
+htp.tableData (cvalue, calign, cdp, crowspan, ccolspan, cnowrap, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419486">
+Purpose
+</A></DL><A NAME="419487">
+Prints an HTML tag that inserts data into the rows and columns of a selected table.<P>
+</A><DL COMPACT><DT><A NAME="419488">
+Parameters
+</A></DL><A NAME="419489">
+cvalue 	  	in varchar2   DEFAULT NULL<br>calign   		in varchar2   DEFAULT NULL<br>cdp   		in varchar2   DEFAULT NULL<br>crowspan		in varchar2   DEFAULT NULL<br>ccolspan		in varchar2   DEFAULT NULL<br>cnowrap   		in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419490">
+Generates
+</A><A NAME="419491">
+<PRE>&lt;TD ALIGN="<em>calign</em>" DP="<em>cdp</em>" ROWSPAN="<em>crowspan</em>" COLSPAN="<em>ccolspan</em>" NOWRAP <em>cattributes</em>&gt;<em>cvalue</em>&lt;/TD&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="421640">
+Customized Extensions to HTP Packages
+</A>
+</H2>
+<A NAME="421642">
+The design of the hypertext procedure and function packages allows you to use customized extensions. Therefore, as the HTML standard changes, you can add new functionality similar to the hypertext procedure and function packages to reflect those changes.<P>
+</A><A NAME="421643">
+Here is an example of customized packages using non-standard &lt;BLINK&gt; and imaginary &lt;SHOUT&gt;tags:<P>
+</A><A NAME="421644">
+<PRE>create package nsf as<br>	function blink(cbuf in varchar2) return varchar2;<br>	function shout(cbuf in varchar2) return varchar2;<br>end;<br>create package body nsf as<br>	function blink(cbuf in varchar2) return varchar2 is<br>	begin return ('&lt;BLINK&gt;' || cbuf || '&lt;/BLINK&gt;');<br>	end;<br>	function shout(cbuf in varchar2) return varchar2 is<br>	begin return ('&lt;SHOUT&gt;' || cbuf || '&lt;/SHOUT&gt;');<br>	end;<br>end;<br><br>create package nsp as<br>	procedure blink(cbuf  in varchar2);<br>	procedure shout(cbuf  in varchar2);<br>end;<br>create package body nsp as<br>	procedure blink(cbuf  in varchar2) is<br>	begin htp.print(nsf.blink(cbuf)); end;<br>	procedure shout(cbuf  in varchar2) is<br>	begin htp.print(nsf.shout(cbuf)); end;<br>end;</PRE><P>
+</A>
+<A NAME="421645">
+Now you can begin to use these procedures and functions in your own procedure.<P>
+</A><A NAME="421646">
+<PRE>create procedure nonstandard as<br>begin<br>	nsp.blink('Gee this hurts my eyes!');<br>	htp.print('And I might ' || nsf.shout('get mad!'));<br>end;</PRE><P>
+</A>
+<A NAME="421638">
+<PRE></PRE><P>
+</A>
+ <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl9.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwt11.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

@@ -1,0 +1,25 @@
+install.txt
+Version 1.0, last updated 7/14/97
+This file contains instructions for installing the trial version 2.1 of
+the Oracle Web Server 2.1 for Solaris.  This directory contains two files:
+
+install.txt   This readme file
+40bit.tar     Unix tar file containing the release
+
+Directions for installing:
+
+1) Copy the tar file to your $ORACLE_HOME directory.
+
+2) From $ORACLE_HOME, extract the file using the following command:
+   tar xvf 40bit.tar
+   This will create a directory $ORACLE_HOME/ows21, and also create 4
+   new executables in $ORACLE_HOME/bin.
+
+3) Go to $ORACLE_HOME/ows21/admin, and run install.sh.  This will setup and
+   start the default administration listener.  Follow the directions given
+   by install.sh to do this.
+
+3) After you run install.sh, the script will direct you to start your
+   web browser and connect to the adminstration listener.  This will prompt
+   you for a username and password.  The username is 'admin' (without the
+   single quotes) and the password is 'manager' (without the single quotes).

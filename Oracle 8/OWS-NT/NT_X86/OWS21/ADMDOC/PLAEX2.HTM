@@ -1,0 +1,172 @@
+<HTML>
+<HEAD>
+<TITLE>
+Example PL/SQL Agent Web Pages
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaex1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaex3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="417939">
+QUERY_FORM PL/SQL Web Page Example
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="417941">
+This is a simple example of a PL/SQL procedure that generates a dynamic Web page using the packages in the PL/SQL Web Toolkit. It shows you how to pass PL/SQL tables as parameters, and shows you how to handle the case where the user has provided no values for a PL/SQL table used as a parameter.<P>
+</A><A NAME="417946">
+The URL to invoke this procedure from a Web Browser would be:<P>
+</A><A NAME="417948">
+<PRE>http://yourhost:port_num/DCD_name/owa/query_form?the_table=emp</PRE><P>
+</A>
+<A NAME="417950">
+The above is an example of parameter passing using GET. For more information, see <a href="appover1.htm#418279">Request Methods for Passing Parameters</a> and <a href="plaguse3.htm#998027">Example of PL/SQL Agent Parameter Passing Using GET</a>.<P>
+</A><A NAME="418763">
+The first thing the example does is create a cursor that will hold the column names of the table to be queried. These will be displayed in the generated HTML form.<P>
+</A><A NAME="417953">
+<PRE>create or replace procedure query_form(the_table in varchar2) is</PRE><P>
+</A>
+<A NAME="417954">
+<PRE>cursor cols is</PRE><P>
+</A>
+<A NAME="417955">
+<PRE>select column_name</PRE><P>
+</A>
+<A NAME="417956">
+<PRE>from user_tab_columns</PRE><P>
+</A>
+<A NAME="417957">
+<PRE>where table_name = upper(the_table);</PRE><P>
+</A>
+<A NAME="418826">
+The following section of code initiates the Web page.<P>
+</A><A NAME="417958">
+<PRE>begin</PRE><P>
+</A>
+<A NAME="417959">
+<PRE>htp.htmlOpen;</PRE><P>
+</A>
+<A NAME="417960">
+<PRE>htp.headOpen;</PRE><P>
+</A>
+<A NAME="417961">
+<PRE>htp.htitle('Query the '||the_table||' table!');</PRE><P>
+</A>
+<A NAME="417962">
+<PRE>htp.headClose;</PRE><P>
+</A>
+<A NAME="417963">
+<PRE>htp.bodyOpen;</PRE><P>
+</A>
+<A NAME="417964">
+<PRE>-- Use owa_util.get_owa_service path to automatically retrieve the current virtual path.</PRE><P>
+</A>
+<A NAME="417965">
+<PRE>htp.formOpen(owa_util.get_owa_service_path||'do_query');</PRE><P>
+</A>
+<A NAME="417966">
+<PRE>-- Put in the table as a hidden field to pass on to do_query</PRE><P>
+</A>
+<A NAME="417967">
+<PRE>htp.formHidden('the_table', the_table);</PRE><P>
+</A>
+<A NAME="417968">
+<PRE></PRE><P>
+</A>
+<A NAME="417969">
+<PRE>-- Put in a dummy value, as we cannot DEFAULT NULL a PL/SQL table.</PRE><P>
+</A>
+<A NAME="417970">
+<PRE>htp.formHidden('COLS', 'dummy');</PRE><P>
+</A>
+<A NAME="417971">
+<PRE>for crec in cols loop</PRE><P>
+</A>
+<A NAME="417972">
+<PRE>-- Create a checkbox for each column. The form field name</PRE><P>
+</A>
+<A NAME="417973">
+<PRE>-- will be COLS and the value will be the given column name</PRE><P>
+</A>
+<A NAME="417974">
+<PRE>. -- Will need to use a PL/SQL table to retrieve a set of</PRE><P>
+</A>
+<A NAME="417975">
+<PRE>-- values like this. Can use the owa_util.ident_arr type</PRE><P>
+</A>
+<A NAME="417976">
+<PRE>-- since the columns are identifiers.</PRE><P>
+</A>
+<A NAME="417977">
+<PRE>htp.formCheckbox('COLS',crec.column_name);</PRE><P>
+</A>
+<A NAME="417978">
+<PRE></PRE><P>
+</A>
+<A NAME="417979">
+<PRE>htp.print(crec.column_name);</PRE><P>
+</A>
+<A NAME="417980">
+<PRE>htp.nl;</PRE><P>
+</A>
+<A NAME="417981">
+<PRE>end loop;</PRE><P>
+</A>
+<A NAME="417982">
+<PRE>-- Pass a NULL field name for the Submit field; that way, a</PRE><P>
+</A>
+<A NAME="417983">
+<PRE>-- name/value pair is not sent in. Wouldn't want to do this</PRE><P>
+</A>
+<A NAME="417984">
+<PRE>-- if there were multiple submit buttons.</PRE><P>
+</A>
+<A NAME="417985">
+<PRE>htp.formSubmit(NULL, 'Execute Query');</PRE><P>
+</A>
+<A NAME="417986">
+<PRE>htp.formClose;</PRE><P>
+</A>
+<A NAME="417987">
+<PRE>htp.bodyClose;</PRE><P>
+</A>
+<A NAME="417988">
+<PRE>htp.htmlClose;</PRE><P>
+</A>
+<A NAME="417989">
+<PRE>end;</PRE><P>
+</A>
+<A NAME="417990">
+<P>
+</A><A NAME="417991">
+Invoking this procedure brings up a page that looks like this:<P>
+</A><A NAME="418542">
+<p>
+<img src="plaexa.gif"><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaex1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaex3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

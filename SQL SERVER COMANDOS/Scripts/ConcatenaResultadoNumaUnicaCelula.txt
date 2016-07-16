@@ -1,0 +1,15 @@
+Alter Function ConcatenaResultadoNumaUnicaCelula (@Idmov int)
+Returns Varchar (500)
+As
+Begin
+Declare @ret varchar (500)
+Select @ret = ''
+Select @ret = @ret + Convert(Varchar,NumeroMov) + ' / '
+From tmov 
+Where IdMov in (Select IdMovOrigem 
+                From TMovRelac 
+                Where IdMovDestino=@Idmov)
+Return (@ret)
+End
+
+SELECT CorporeRM_Alianca.DBO.ConcatenaResultadoNumaUnicaCelula('114')

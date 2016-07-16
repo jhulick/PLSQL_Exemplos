@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi11.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi13.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425737">
+WRBGetMimeType()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425738">
+<code>WRBGetMimeType()</code> returns a pointer to the MIME type that the WRB application engine associates with a specified filename extension.<P>
+</A><A NAME="425739">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425740">
+Syntax
+</A>
+</H2>
+<A NAME="425741">
+<PRE>char *WRBGetMimeType( void *WRBCtx, char *extension );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425761">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425744">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425746">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425748">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425750">
+WRBCtx<BR>
+</A><td><A NAME="425752">
+void *<BR>
+</A><td><A NAME="425754">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="425756">
+extension<BR>
+</A><td><A NAME="425758">
+char *<BR>
+</A><td><A NAME="425760">
+The filename extension for which you want to get the corresponding MIME type.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425762">
+Return Values
+</A>
+</H2>
+<A NAME="425763">
+<code>WRBGetMimeType()</code> returns a pointer to the name of the MIMEType corresponding to the filename extension specified by <code>extension</code>. If the specified filename extension does not correspond to any MIME type listed in the WRB configuration, <code>WRBGetMimeType()</code> returns <code>"text/html"</code>.<P>
+</A><HR>
+<H2>
+<A NAME="425764">
+Usage
+</A>
+</H2>
+<A NAME="425765">
+You can call <code>WRBGetMimeType()</code> in your Exec function to get the MIME type that the client is requesting. You can then use this value to set the MIME type of your response.<P>
+</A><A NAME="425769">
+It's usually more convenient, however, to call <code><a href="wrbapi17.htm#425990">WRBGetReqMimeType()</a></code> to do this instead.<P>
+</A><HR>
+<H2>
+<A NAME="425770">
+Examples
+</A>
+</H2>
+<A NAME="425771">
+This example shows how to extract the filename extension from the current URI and use it to determine the request MIME type:<P>
+</A><A NAME="425772">
+<PRE>#include &lt;string.h&gt;<br><br>char *URI;<br>char *ext;<br>char *MIMEtype;<br> <br>URI = WRBGetURI(WRBCtx);<br>ext = strrchr(URI, `.');<br>ext++;<br>MIMEtype = WRBGetMimeType(WRBCtx, ext);<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425773">
+Related Information
+</A>
+</H2>
+<A NAME="425777">
+See also <code><a href="wrbapi17.htm#425990">WRBGetReqMimeType()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi11.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi13.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

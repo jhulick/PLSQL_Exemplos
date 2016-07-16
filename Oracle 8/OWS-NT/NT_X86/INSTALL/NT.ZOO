@@ -1,0 +1,430 @@
+/* Copyright (c) Oracle Corporation 1992.  All Rights Reserved */
+
+/*****************************************************************************
+  NAME
+    nt.zoo - Windows NT V3 Installation Environment Initialization File
+		   for V7 Oracle products
+
+  DESCRIPTION
+   This script bootstraps the Windows environment for the installation
+   of Oracle V7 products. It is always read first by ORAINST for Windows.
+
+  MODIFIED   MM/DD/YY REASON
+   vrajkuma  05/15/96 Added env path update when switching homes.
+   vrajkuma  04/12/96 Made Multiple oracle home capable.
+   eevans    09/27/95 Moved remind_list from win95.avf to win95.stp
+   zzerhoun  09/27/95 Made 3.1.2 compliant:
+		      added win16_oracle_home & oracle_group_name
+		      added path releated NLS strings
+   zzerhoun  01/10/95 Added NT.SHD
+   kjain     03/31/93 created
+*****************************************************************************/
+
+{
+  permit_retry_operations = FALSE;  
+
+  /* Define Smart Start variables */
+  isSmartStartCDInstaller = FALSE;
+  doSmartstart = FALSE;
+  startedBackend = FALSE;           /* True if installer starts the backend */
+  smartstartSuccessful = list(FALSE);
+  /* smart start nls stuff */
+  ss_need_smartstart = nls("ss_need_smartstart", "To install additional Oracle Products available with SmartStart CD, run the Oracle Installer directly from the SmartStart CD (not from your hard drive). The Oracle Installer executable full pathname is %%product_home%%\ORAINST.EXE.");
+
+  /* Note: Above is used in nt.stp and nt.avf. */
+
+  /* Define NLS strings for makedir.vrf */
+  {
+    makedir_specify_drive = nls("makedir_specify_drive","The path that you have entered, '%%makedir_path_to_check%%', is not a valid path because it does not specify a drive.");
+    makedir_bad_drive = nls("makedir_bad_drive", "The path, '%%makedir_path_to_check%%', is not valid because the drive '%%makedir_drive%%:' does not exist.");
+    makedir_no_dir = nls("makedir_no_dir", "'%%makedir_path_to_check%%' does not specify a directory. Please specify a directory name in your path.");
+    makedir_invalid_path = nls("makedir_invalid_path", "'%%makedir_path_to_check%%' is not a valid path.");
+    makedir_absolute_path = nls("makedir_absolute_path", "'%%makedir_path_to_check%%' is not an absolute path.");
+    makedir_illegal_char = nls("makedir_illegal_char", "'%%makedir_path_to_check%%' is not a valid path because it contains the illegal character '%%makedir_bad_char%%'.");
+    makedir_name_too_long = nls("makedir_name_too_long","The directory, '%%makedir_name%%', of the path '%%makedir_path_to_check%%' is too long.");
+    makedir_illegal_name = nls("makedir_illegal_name","The directory, '%%makedir_name%%', of the path '%%makedir_path_to_check%%' is not a legal name.");
+    makedir_dir_not_accessible = nls("makedir_dir_not_accessible","The directory, '%%makedir_current_path%%', is not accessible.");
+    makedir_cant_create_dir = nls("makedir_cant_create_dir","The Installer could not create the directory '%%makedir_current_path%%' : %%makedir_signal%%"); 
+    makedir_long_basename = nls("makedir_long_basename","The directory, '%%makedir_name%%', of the path, '%%makedir_path_to_check%%', is not legal because the basename '%%makedir_base%%' contains more than 8 characters.");  
+    makedir_long_extension = nls("makedir_long_extension","The directory, '%%makedir_name%%', of the path, '%%makedir_path_to_check%%', is not legal because the extension '%%makedir_ext%%' contains more than 3 characters.");
+    makedir_has_white_space = nls("makedir_has_white_space","The directory, '%%makedir_name%%', of the path, '%%makedir_path_to_check%%', contains a space or tab character. To avoid confusion, you should not enter a directory which does not contain any whitespace characters.");
+    makedir_content = nls("makedir_content","Directory Selection");
+    makedir_help = nls("makedir_help","Please Select a Directory");
+  }
+
+  ui_product(nls("check_environment","Checking the Environment..."));
+
+
+  /* Let the installer know that this is not a bootstrapping sequence. */
+
+  bootstrap = FALSE;
+
+  /* Indicate that the installer is not being run from distribution media. */
+
+  distribution = FALSE;
+
+  /* begin selection of oracle home */
+  inst_corrupted = nls("inst_corrupted", "This Installation is corrupted. Please run the installer from the distribution media");
+  clean_desktop = nls("clean_desktop", "Removing Icons for previous home...");
+  if( switch_homes )
+  {
+    /* detect the number of oracle homes */
+    oracle_configs = list();
+    oracle_homes = list();
+    main_key = "HKEY_LOCAL_MACHINE";
+    coh_key = "SOFTWARE\ORACLE";
+    cohs_key = "SOFTWARE\ORACLE\ORACLE_HOMES";
+    temp_key = "SOFTWARE\ORACLE_HOMES";
+    {         
+      coh = v7_translate("ORACLE_HOME");
+    }
+    [ 'default: signal('FAILURE, "Installation corrupted. Error getting current oracle home settings");]
+
+    cur_config = "ORACLE1";
+    {
+      if( win32_key_exists(main_key, cohs_key) )
+      {
+        oracle_configs = win32_enumerate_keys(main_key, cohs_key);
+        configs = oracle_configs;
+        while( not(empty(configs)) )
+        {
+          var = first(configs);
+          if( (not(contains(var, "ORACLE"))) || (var == "ORACLE") )
+	  {
+	    information_dialog("Oracle home backup has extraneous key %var%", 'NOCANCEL);
+            extract(configs, var);
+          }
+          else
+	  {
+	    {
+	      oh = win32_get_value(main_key, "%cohs_key%\%var%", "ORACLE_HOME");
+	      add(oracle_homes, oh);
+	      if( oh == coh )
+	        cur_config = var;
+            }['default: signal('FAILURE, inst_corrupted);]
+	    configs = rest(configs);
+	  }
+        }
+
+      }
+      else
+        signal('FAILURE, inst_corrupted);
+
+    }
+    ['default: signal('FAILURE, inst_corrupted); ]
+    
+    /* if there was only one home there is nothing to be done */
+    if( length(oracle_configs) == 1 )
+    {
+      only_one_home_prompt = nls("only_one_home_prompt", "The installer has detected only one Oracle home in your machine.");
+      only_one_home_content = nls("only_one_home_content", "Only one Home");
+      only_one_home_help = nls("only_one_home_help", "Run the installer from distribution media to create new homes.");
+      information_dialog(only_one_home_prompt, only_one_home_content, only_one_home_help);
+      signal('NO_CHANGE, "its okay");
+    }
+
+    /* get the current oracle home settings */
+    sel_oh_choices = oracle_homes;
+    sel_oh_prompt = nls("sel_oh_prompt", "Please select an Oracle Home");
+    sel_oh_content = nls("sel_oh_content", "Oracle Home Selection");
+    sel_oh_help = nls("sel_oh_help", "This dialog lists all the available Oracle Homes. Please select the Oracle Home you want to use.");
+    sel_oh_default = coh;
+    sel_oh = single_selection_dialog(sel_oh_prompt, sel_oh_choices, sel_oh_default, sel_oh_content, sel_oh_help);
+
+    {  
+      if( sel_oh == coh )
+        signal('NO_CHANGE, "its okay");
+ 
+      /* this variable tells the installer to restore desktop after it loads up the namespaces */
+      oracle_home_changed = TRUE;
+
+      /* clean the desktop */
+      inst_home = "%coh%\orainst";
+      reg_file = "%inst_home%\%operating_system%.rgs";
+      reg_list = all_registrations(reg_file, 'stand_alone);
+
+      /* remove icons */
+      ui_action(clean_desktop);
+      while (not(empty(reg_list)))
+      {
+        prod_registry = first(reg_list);
+        {
+          prod_groups = all_groups(prod_registry, coh);
+        }
+        ['default: { prod_groups = list(); continue(); } ] # had to do this since some registered products could be corrupted
+        while(not(empty(prod_groups)))
+        {
+          grp = first(prod_groups);            
+          windows_delete_icons(grp);
+          prod_groups = rest(prod_groups);
+        }
+        reg_list = rest(reg_list);
+      }
+
+      win32_copy_key(main_key, cohs_key, main_key, temp_key);
+      /* delete the backup */
+      win32_delete_key(main_key, cohs_key, 'RECURSIVE);
+
+      /* copy ORACLE to coh_backup before copying Misc entries to backup */
+      win32_copy_key(main_key, coh_key, main_key, "%temp_key%\%cur_config%");
+
+      /* iterate thru Misc_Reg_Entries, make a copy in temp_key\cur_config and then remove them in their areas */
+      win32_backup_keys(main_key, "%temp_key%\%cur_config%", TRUE);
+      
+      /* remove the services in the current home */
+      ora_servs = winnt_oracle_services();
+      servs = ora_servs;
+      while( not(empty(servs)) )
+      {
+        serv = first(servs);
+	{
+          {
+            winnt_stop_service(serv);
+          }['SERVICE_NOT_ACTIVE: continue();]
+	  winnt_delete_service(serv);
+	}['default: information_dialog("Error deleting service %serv%", 'NOCANCEL);]
+	servs = rest(servs);
+      }
+
+      /* get the preexisting home */ 
+      configs = oracle_configs;
+      while(not(empty(configs)))
+      {
+        config = first(configs);
+        oh = win32_get_value(main_key, "%temp_key%\%config%", "ORACLE_HOME");
+	if( oh == sel_oh  )
+        {
+	  /* 
+	     * Restore icons
+             * Copy the backup to ORACLE
+             * Copy the Misc entries to their respective places
+             * Execute custom scripts
+          */
+          /* this flag tells the installer to restore icons before SAM. */
+          oracle_home_changed = TRUE;
+
+          /* copy backup to oracle */
+          win32_copy_key(main_key, "%temp_key%\%config%", main_key, coh_key);
+
+          /* copy Misc entries, to their respective places */
+	  win32_restore_keys(TRUE);
+      
+	  /* execute custom scripts */
+	  inst_home = "%oh%\ORAINST";
+          reg_file = "%inst_home%\%operating_system%.rgs";
+          reg_list = all_registrations(reg_file, 'stand_alone);
+          while (not(empty(reg_list)))
+          {
+            prod_registry = first(reg_list);
+	    prod_name = registry_filename(prod_registry);
+	    {
+	      execute("%inst_home%\%prod_name%.cus");
+            }
+	    ['FILE_NOT_FOUND: continue();
+	     'default: information_dialog("Error executing custom script for product %prod_name%", 'NOCANCEL);
+	    ]
+            reg_list = rest(reg_list);
+          }
+
+          break();
+        }
+        configs = rest(configs);
+      } /* while configs */
+      
+      /* copy back backup entries into the right place */
+      win32_copy_key(main_key, temp_key, main_key, cohs_key);
+      win32_delete_key(main_key, temp_key, 'RECURSIVE);
+
+      /* put oracle_home\bin in nt environment */
+      {
+        the_path = translate("PATH","$");
+      }
+      [ 'FILE_NOT_FOUND, 'UNBOUND_ENVIRONMENT_VARIABLE:
+         {
+           the_path = "";
+           continue();
+         }
+      ] #;
+
+      exploded_path = explode(the_path,";");
+    
+      /* remove the previous oracle home path */
+      if( member(exploded_path, "%coh%\bin") )
+      {
+        extract(exploded_path, "%coh%\bin");
+        /* shouldn't implode do this already */
+        if( empty(exploded_path) )
+          the_path = "";
+        else
+          the_path = implode(exploded_path,";");
+        modify("PATH",the_path,"$");
+      }
+    
+      if(not(member(exploded_path,"%sel_oh%\BIN")))
+      {
+        if (not(the_path == ""))
+          the_path = "%the_path%;";
+        the_path = "%the_path%%sel_oh%\BIN;";
+        modify("PATH",the_path,"$");
+      }
+
+      if( not(oracle_home_changed) )
+        signal('FAILURE, inst_corrupted);
+    } 
+
+  } /* if switch homes */
+  ['NO_CHANGE: continue();]
+  /* end selection of oracle homes and environment setup */
+
+  /* The environment has already been set up, so 'config' and  'oracle_home'
+     should be readily available. */
+
+  {
+    /* Provide the Windows 3.1 oracle home */
+    windows_dir = windows_directory();
+    if (directory_name(windows_dir) == windows_dir)
+      win_ini_dir = "%windows_dir%win.ini";
+    else
+      win_ini_dir = "%windows_dir%\win.ini";
+    {
+      windows_ora_config = translate("ora_config", win_ini_dir);
+      win16_oracle_home = translate("oracle_home", "%windows_ora_config%");
+    }['UNBOUND_ENVIRONMENT_VARIABLE: continue();]
+
+    nls_language = default_language();
+    oracle_home = v7_translate("oracle_home"); pathify(oracle_home);
+    ora_config = "$oracle";
+    oracle_group_name = v7_translate("oracle_group_name");
+
+  /* Is everything there? */
+    if (not(exists("%oracle_home%\bin")) ||
+	not(exists("%oracle_home%\dbs")) ||
+	not(exists("%oracle_home%\orainst")) ||
+	not(exists("%oracle_home%\orainst\nt.rgs")))
+      signal('UNBOUND_ENVIRONMENT_VARIABLE);
+  }  
+  ['UNBOUND_ENVIRONMENT_VARIABLE: signal('FAILURE,nls("installation_corrupted","This installation of Oracle needs to be corrected. To do this, you must run the Oracle Installer from a distribution diskette or from CD-ROM.")); ]
+
+ /* create log file */
+ {
+   { 
+     copy_file("%oracle_home%\orainst\orainst.log",
+	       "%oracle_home%\orainst\orainst.olg");
+    } [ 'default: continue(); ]
+    
+    create_log("%ORACLE_HOME%\ORAINST\ORAINST.LOG",FALSE);
+  } [ 'default: continue(); ]
+
+  /* log the windows NT env */
+  log_state();
+  win32_log_state();
+
+  /* System root Drive */
+  SystemRoot = nt_system_root();
+  system_root_drive = first(explode(SystemRoot,":"));
+  
+  identifying_boot_drive = nls("identifying_boot_drive",
+	    	               "Identifying the Boot Drive...");
+
+  boot_drive_prompt = nls("boot_drive_prompt","Please select the drive from which you boot your computer:");
+  boot_drive_content = nls("boot_drive_content","Boot Drive");
+  boot_drive_help = nls("boot_drive_help","You are being asked to identify the drive from which you boot your computer.");
+
+  path_too_long_prompt = nls("path_too_long_prompt","The addition of %%path_to_add%% to the PATH will result in a search path length of %%len%%, exceeding the DOS limit of 127. You will have to correct this manually.");
+  path_too_long_content = nls("path_too_long_content","Path Too Long");
+  path_too_long_help = nls("path_too_long_help","The addition of %%path_to_add%% to the PATH will result in a search path length of %%len%%, exceeding the DOS limit of 127. You will have to correct this manually. One solution may be shorter directory names.");
+
+  reinstall_prompt01 = nls("reinstall_prompt01","Would you like to update %%product_label%%, version %%installed_version%%, with the available release of %%product_label%%, version %%current_version%%?");
+
+  reinstall_content01 = nls("reinstall_content01","Update");
+
+  reinstall_help01 = nls("reinstall_help01","The currently installed version of %%product_label%%, %%installed_version%%, is out of date. The available version is %%current_version%%. It is recommended that you update %%product_label%% to the newer version, %%current_version%%. Choose 'Yes' to update %%product_label%% to %%current_version%%. Choose 'No' if you are sure you want to keep the installed version, %%installed_version%%, intact.");
+
+  reinstall_prompt02 = nls("reinstall_prompt02","WARNING: Not installing the latest version of %%product_label%%, %%current_version%%, may cause other Oracle products to work improperly.");
+
+  reinstall_content02 = nls("reinstall_content02","Necessary Update");
+
+  reinstall_help02 = nls("reinstall_help02","You are in the process of installing Oracle products which depend on version %%current_version%% of %%product_label%%. It is therefore recommended that you update %%product_label%% to %%current_version%%. You have chosen not to do so so, which may cause certain Oracle products to work improperly.");
+
+  reinstall_prompt03 = nls("reinstall_prompt03","WARNING: The currently installed version of %%product_label%%, %%installed_version%%, is up to date. Are you sure you want to install the old version, %%current_version%%?  Doing so may cause other Oracle products to work improperly.");
+
+  reinstall_content03 = nls("reinstall_content03","Old Version");
+
+  reinstall_help03 = nls("reinstall_help03","You are attempting to install an older version of %%product_label%%, %%current_version%%, although version %%installed_version%% is already installed. Installing an older version of %%product_label%% may cause other Oracle products to work improperly. Choose 'No' to leave the current version of %%product_label%%, %%installed_version%%, intact. Choose 'Yes' if you are sure you want to replace it with version %%current_version%%.");
+
+  reinstall_prompt04 = nls("reinstall_prompt04","Version %%installed_version%% of %%product_label%% has already been installed and is up to date. Would you like to reinstall it?");
+
+  reinstall_content04 = nls("reinstall_content04","Up To Date");
+
+  reinstall_help04 = nls("reinstall_help04","Version %%installed_version%% of %%product_label%% has already been installed and is up to date. There is no need to reinstall %%product_label%% unless the installation has somehow become damaged. Choose 'No' to skip the reinstallation of %%product_label%%. Choose 'Yes' if you are sure you want to reinstall it.");
+
+  deinstall_prompt01 = nls("deinstall_prompt01","WARNING: Other products are dependent on %%registry_label%%. Removing it may cause other products to work improperly. Are you sure you want to deinstall it?");
+
+  deinstall_content01 = nls("deinstall_content01","Dependencies");
+
+  deinstall_help01 = nls("deinstall_help01","Other products are dependent on %%registry_label%%. Removing it may cause them to work improperly. It is therefore recommended that you do not remove %%registry_label%%. Choose 'No' to leave %%registry_label%% intact. Choose 'Yes' if you are sure you want to remove it.");
+
+  deinstall_prompt02 = nls("deinstall_prompt02","It was not possible to find a value for the variable, '%%variable%%', in '%%ora_config%%'. It is therefore not possible to remove %%registry_label%%. Please restore the binding for '%%variable%%' in '%%ora_config%%' in order to remove %%registry_label%%.");
+
+  deinstall_content02 = nls("deinstall_content02","Variables");
+
+  deinstall_help02 = nls("deinstall_help02","It was not possible to find a value for the variable, '%%variable%%', in '%%ora_config%%'. '%%variable%%' is used to determine in what directory %%registry_label%% was installed. It is therefore not possible to remove %%registry_label%%. Please restore the binding for '%%variable%%' in by adding a line that begins with '%%variable%%=' in '%%ora_config%%'.
+
+If %%registry_label%% were installed in '%%oracle_home%%', you would add the line '%%variable%%=%%oracle_home%%' to correct the problem.
+
+When you have corrected the problem, please try to remove %%registry_label%% again.");
+
+  unbound_message = nls("unbound_message","The versions of the products you are installing require a separate installation procedure. Please choose 'OK' to quit this installation, leave the disk labeled '%%product_label%% 1' in your drive, and then choose 'From'. When the %%product_label%% installation is complete, please resume installing the products you originally selected for installation.");
+  unbound_content = nls("unbound_content","Separate Installation Procedure");
+  unbound_help = nls("unbound_help","The product you are currently installing was created with a different version of %%product_label%%. Proceeding with the current installation may result in installation errors. To avoid these errors and to successfully complete your installation, please choose 'OK' to quit this installation, insert the disk labeled '%%product_label%% 1' in your drive, and choose 'From'. When that installation is complete, then install the other products you originally selected for installation.");
+  instver_too_early = nls("instver_too_early","The version of the Installer currently running is %%installer_version%%. The installation you have chosen requires version %%required_version%% or later. Please run version %%required_version%% or later in order to perform this installation.");
+  version_string = nls("version_string","%%prodlab%% version %%ver%%");
+  cancel_prompt01 = nls("cancel_prompt01","Installation terminated at user request."); 
+  registering_product = nls("registering_product", "Registering %%product_label%%...");
+  create_dir_prompt = nls("create_dir_prompt","Creating %%dest_dir%% ...");
+  copying_file = nls("copying_file","Copying %%file_to_copy%% ...");
+
+  ui_setting_up = nls("ui_setting_up", "Setting up...");
+  ui_analyzing_dependencies = nls("ui_analyzing_dependencies", "Analyzing Dependencies...");
+  ui_installing = nls("ui_installing", "Installing...");
+  ui_deinstalling = nls("ui_deinstalling", "Removing...");
+  ui_cancelling = nls("ui_cancelling", "Cancelling...");
+  ui_configuring = nls("ui_configuring","Configuring...");
+
+  inst_dir = "%oracle_home%\ORAINST";
+  backup_dir = "%inst_dir%\backup";
+  backup_marker = "%inst_dir%\backup.mk";
+  if (exists(backup_marker))
+    {
+      copy_list = list("NT.AVF", "NT.VRF", "NT.PVF",
+		       "NT.INS", "NT.DEI", "NT.PIN", 
+		       "NT.SHD","NT.RSP",
+		       "MAKEDIR.VRF","SERVICES.VRF");
+
+      a_list = copy_list;
+      while (not(empty(a_list))) 
+	{
+	  the_file = first(a_list);
+	  a_list = rest(a_list);
+	  {
+	    copy_file("%backup_dir%\%the_file%", "%inst_dir%\");
+	  } [ 'default: continue(); ]
+	}
+
+      /* backup is done, clear marker */
+      remove_file(backup_marker);
+
+      {
+	a_list = copy_list;
+	while (not(empty(a_list))) 
+	  {
+	    the_file = first(a_list);
+	    a_list = rest(a_list);
+	    remove_file("%backup_dir%\%the_file%");
+	  }
+	remove_directory(backup_dir);
+      } [ 'default: continue(); ]
+    }
+  remind_list = list(); remind_helps = list();
+
+}

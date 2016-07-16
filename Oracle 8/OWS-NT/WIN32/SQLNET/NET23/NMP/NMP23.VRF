@@ -1,0 +1,119 @@
+/* Copyright (c) Oracle Corporation 1994, 1996.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    nmp23.vrf
+    
+  DESCRIPTION
+    This script checks dependencies and environment settings for installation
+    of the Windows 32 NMP product.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY  Reason
+    dstiefel  22-FEB-96  Merge NT/95 for 2.3.2
+    dlau      07-AUG-95  Modified for SQLNET 2.2
+    eflores   06-APR-94  Modified for Windows NT.
+    zkhan     11-AUG-93  Modified for SQLNET and for using V3.0.9.3.2 or later
+			of the installer.
+    trodgers  10-APR-92  Created.
+*****************************************************************************/
+{
+  {
+  /* OS variables */
+   if (platform() == "nt")
+	 prefix = "nt";
+   else
+ 	 prefix = "w95";
+
+   instver_prod = evaluate("%prefix%instver");
+   install_prod = evaluate("%prefix%install");
+ 
+   doit = execute("%installer_home%\%operating_system%.vrf");
+  } [
+    'UNBOUND_VARIABLE:
+      {
+	required_version = product_version(instver_prod);
+	temp = explode(required_version,".");
+	required_version = implode(list(first(temp),first(rest(temp)),
+					first(rest(rest(temp))),
+					first(rest(rest(rest(temp))))),".");
+	signal('failure,instantiate(nls("instver_too_early1","The version of
+the Installer currently running is %%installer_version%%. The installation you
+have chosen requires version %%required_version%% or later. Please run version
+%%required_version%% or later in order to perform this installation.")));
+      }
+  ]
+ 
+ if (doit)
+  {
+    net2_register = nls("net2_register","Registering %%product_label%%...");
+    net2_install_script = nls("net2_install_script","Installing %%product_label%% Installation Scripts...");
+    net2_install_message = nls("net2_install_message","Installing %%product_label%% Message Files...");
+    net2_install_sample = nls("net2_install_sample","Installing %%product_label%% Sample Files...");
+    net2_install_dll = nls("net2_install_dll","Installing %%product_label%% DLL's...");
+    net2_adapter_prompt = nls("net2_adapter_prompt","Which Oracle network product are you installing?");
+    net2_adapter_content = nls("net2_adapter_content","Adapter");
+    net2_adapter_help = nls("net2_adapter_help","You need to install SQL*Net Client or SQL*Net Server in order to use an Oracle Protocol Adapter.");
+
+    app_prompt = nls("app_prompt","Stop all Oracle applications that are using %%product_label%% before continuing with this installation.");
+    app_content = nls("app_content","Stop Applications");
+    app_help = nls("app_help","%%product_label%% is being used. Stop all Oracle applications that are using %%product_label%% before continuing with this installation.");
+
+    /* variables and logic */
+
+    netclt_prod = w32netclt23;
+    sqlnet_clt = "SQL*Net Client";
+    sqlnet_srv = "SQL*Net Server";
+
+    if ( registered("w32netclt23") || member(selected_products,netclt_prod)  ||
+         member(products_for_installation,netclt_prod) ) 
+	 {
+	   install_dependent = false;
+	   return(sum(dll,deinstl));
+	 }
+
+  if( platform() == "nt")
+  {
+    netsrv_prod = evaluate("%prefix%netsrv23");
+
+    if ( registered("%prefix%netsrv23") || member(selected_products,netsrv_prod)  ||
+         member(products_for_installation,netsrv_prod) ) 
+	 {
+	   install_dependent = false;
+	   return(sum(dll,deinstl));
+	 }
+
+    sqlnet_list = list(sqlnet_clt,sqlnet_srv);
+    install_dependent = TRUE;
+    sqlnet = single_selection_dialog(net2_adapter_prompt,sqlnet_list,
+					 net2_adapter_content,
+					 net2_adapter_help);
+  } /* NT */
+  else  /* 95 */
+  {
+  	/* automatically install 95 client */
+    install_dependent = TRUE;
+    sqlnet = sqlnet_clt;
+  }
+
+    opa_size = sum(dll,deinstl);
+
+	/* This hack gets checkmap to do the right thing. */
+	if (sqlnet == sqlnet_clt)
+	  {
+	    dependent = netclt_prod;
+	    add(products_for_installation, netclt_prod);
+	    return(verify(netclt_prod) + opa_size);
+	  }
+	else if (sqlnet == sqlnet_srv)
+	  {
+	    dependent = netsrv_prod;
+	    add(products_for_installation, netsrv_prod);
+	    return(verify(netsrv_prod) + opa_size);
+	  }
+   }
+    refresh_map_file = FALSE;
+    return(0);
+}
+

@@ -1,0 +1,191 @@
+<HTML>
+<HEAD>
+<TITLE>
+Configuring WRB Cartridges
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Configuring_WRB_Cartridges">
+Configuring WRB Cartridges
+</A>
+</H1>
+<HR><P><A NAME="420077">
+The <em>WRB Cartridge Administration Form</em> allows you to configure the WRB's behavior for the selected Web Listener process. Before using this form, you must go to the <em>Web Request Broker Administration Form</em>, select a Web Listener process from the list, and click its Configure button. This takes you to the <em>WRB Cartridge Administration Form</em>.<P>
+</A><A NAME="420093">
+This form allows you to copy The WRB configuration for the selected Web Listener process from another Web Listener process, or modify or delete the selected Web Listener's WRB configuration. It also allows you to configure a new WRB cartridge or modify an existing WRB cartridge for the selected Web Listener process.<P>
+</A><HR>
+<A NAME="Copying_Another_Listeners_WRB_Configuration">
+<H2>Copying Another Listener's WRB Configuration</H2>
+</A>
+<A NAME="420097">
+If you're configuring a new Web Listener, you might want to initialize its WRB configuration from another Web Listener process. To do this, enter the Listener name from which you want to copy in the Copy WRB Configuration From Listener field and click the Copy WRB Configuration button. This initializes the form's fields from the specified Web Listener's WRB configuration. You can then modify the displayed configuration and click the Modify Configuration button at any time to apply your changes.<P>
+</A><HR>
+<A NAME="Configuring_a_New_WRB_Cartridge">
+<H2>Configuring a New WRB Cartridge</H2>
+</A>
+<A NAME="420317">
+To configure a new WRB cartridge for the selected Web Listener, you must enter your new cartridge name in the Configure a New WRB Cartridge field and click the Create Cartridge button. This takes you to the <em>WRB Cartridge Modification Form</em>, where you can define configuration parameters for your new WRB Cartridge.<P>
+</A><A NAME="420366">
+To make your new WRB cartridge accessible to the selected Web Listener, you must also add at least one entry for your new cartridge to both the Applications and Objects and Applications and Directories sections of the <em>WRB Cartridge Administration Form</em>.<P>
+</A><HR>
+<A NAME="Modifying_an_Existing_WRB_Cartridge">
+<H2>Modifying an Existing WRB Cartridge</H2>
+</A>
+<A NAME="420319">
+To modify an existing WRB cartridge configuration, you can change its entries in the Applications and Objects and Applications and Directories sections of the form. You can also select the WRB cartridge from the list on the form and click its Configure button to modify configuration parameters specific to that WRB cartridge.<P>
+</A><HR>
+<A NAME="WRB_Configuration_Parameters">
+<H2>WRB Configuration Parameters</H2>
+</A>
+<A NAME="420111">
+The WRB Cartridge Administration Form is divided into two groups of configuration parameters:<P>
+</A><ul type=disc><A NAME="420112">
+<LI>Applications and Objects--This section lists all the WRB cartridges that the WRB Dispatcher can run. You must add an entry in this section for any new WRB cartridge you develop to make it accessible to the selected Web Listener.
+</A>
+<A NAME="420113">
+<LI>Applications and Directories--This section defines virtual pathnames to cartridge shared libraries, scripts, data files, and other support files specific to each WRB cartridge.
+</A>
+</ul><HR>
+<A NAME="Applications_and_Objects">
+<H3>Applications and Objects</H3>
+</A>
+<A NAME="420115">
+This section lists all the WRB cartridges that the WRB Dispatcher can run. Each entry in this section specifies the following information for a particular WRB cartridge:<P>
+</A><A NAME="App">
+<H4>App</H4>
+</A>
+<A NAME="420117">
+A short alphanumeric name identifying a WRB cartridge--this is the name entered in the Configure a New WRB Cartridge field when the cartridge was created.<P>
+</A><A NAME="Object_Path">
+<H4>Object Path</H4>
+</A>
+<A NAME="420119">
+The local file system path to the WRB cartridge shared library.<P>
+</A><A NAME="Entry_Point">
+<H4>Entry Point</H4>
+</A>
+<A NAME="420121">
+The name of the entry point routine in the WRB cartridge shared library.<P>
+</A><A NAME="Min">
+<H4>Min</H4>
+</A>
+<A NAME="420123">
+The minimum number of WRB Execution Engines (WRBXs) running this WRB cartridge that must be running at all times.<P>
+</A><A NAME="Max">
+<H4>Max</H4>
+</A>
+<A NAME="420125">
+The maximum number of WRBXs running this WRB cartridge that may run at the same time.<P>
+</A><A NAME="Thread(T/P)">
+<H4>Thread(T/P)</H4>
+</A>
+<A NAME="420124">
+Thread model for Oracle Cartridge services. T for Thread model and P for Process model.<P>
+</A><HR>
+<A NAME="Applications_and_Directories">
+<H3>Applications and Directories</H3>
+</A>
+<A NAME="420127">
+This section defines virtual pathnames to cartridge shared libraries, scripts, data files, and other support files specific to each WRB service. If you're configuring a new WRB cartridge that allows request URLs to refer such files, you must add one or more entries in this section to define virtual pathnames to these files as you want clients to refer to them.<P>
+</A><A NAME="420435">
+The entries in this section combine with the entries in the <a href="wrbcradm.htm#Applications_and_MIME_Types">Applications and MIME Types</a> section to determine how and when the selected Web Listener dispatches requests to WRB cartridges.<P>
+</A><A NAME="420213">
+The format of this section is similar to the Directory Mappings section of the <em>Oracle Web Listener Advanced Configuration Form</em>. Each entry must specify the following information:<P>
+</A><A NAME="Virtual_Path">
+<H4>Virtual Path</H4>
+</A>
+<A NAME="420130">
+A virtual name by which request URLs can refer to the physical (file-system) directory containing cartridge shared libraries, scripts, data files, or other support files.<P>
+</A><A NAME="App1">
+<H4>App</H4>
+</A>
+<A NAME="420132">
+The name of the WRB cartridge as it appears in the App field of the cartridge entry in the Applications and Objects section.<P>
+</A><A NAME="Physical_Path">
+<H4>Physical Path</H4>
+</A>
+<A NAME="420290">
+The name of a file-system directory containing cartridge shared libraries, scripts, data files, or other support files.<P>
+</A><HR>
+<A NAME="Protecting_Applications">
+<H3>Protecting Applications</H3>
+</A>
+<A NAME="420391">
+This section allows you to assign authentication and/or restriction schemes to protect individual files and directories used by WRB cartridges. Each entry in this section has the following fields:<P>
+</A><A NAME="Virtual_Path1">
+<H4>Virtual Path</H4>
+</A>
+<A NAME="420372">
+A virtual filename, directory name, or file pathname incorporating a wildcard. Virtual pathnames for each WRB cartridge are defined in the Applications and Directories section of the form.<P>
+</A><A NAME="BasicDigest">
+<H4>Basic/Digest</H4>
+</A>
+<A NAME="420377">
+A pull-down menu that specifies whether to apply basic authentication, digest authentication, or neither to the specified files or directories. If you use this field to specify an authentication scheme, you must specify a realm in the Realm field.<P>
+</A><A NAME="Realm">
+<H4>Realm</H4>
+</A>
+<A NAME="420379">
+For authentication schemes, specifies one of the realms defined in the Basic or Digest Authentication section.<P>
+</A><A NAME="amp">
+<H4>&amp;/|</H4>
+</A>
+<A NAME="420381">
+This pull-down menu allows you to assign both an authentication and a restriction scheme to the specified files or directories.<P>
+</A><A NAME="420382">
+If you choose `&amp;,' requestors are required to access the WRB cartridge from the specified address group <em>and</em> provide a username and password. If you choose `|,' requestors may access the specified files or directories if they satisfy one of the two schemes.<P>
+</A><A NAME="IPDomain">
+<H4>IP/Domain</H4>
+</A>
+<A NAME="420384">
+A pull-down menu that specifies whether to apply IP-based restriction, domain-based restriction, or neither to the specified files or directories. If you use this field to specify a restriction scheme, you must specify an address group in the Group field.<P>
+</A><A NAME="Group">
+<H4>Group</H4>
+</A>
+<A NAME="420386">
+For restriction schemes, specifies one of the address groups defined in the IP-based or Domain-based Restriction sections.<P>
+</A><HR>
+<A NAME="Applications_and_MIME_Types">
+<H3>Applications and MIME Types</H3>
+</A>
+<A NAME="420424">
+This section associates file extensions that identify Multipurpose Internet Mail Extensions (MIME) types with WRB cartridges. This section combines with the <a href="wrbcradm.htm#Applications_and_Directories">Applications and Directories</a> section to determine how and when the selected Web Listener dispatches requests to WRB cartridges.<P>
+</A><A NAME="420453">
+For the selected Web Listener to dispatch a request to a particular WRB cartridge, the request URL must:<P>
+</A><ul type=disc><A NAME="420481">
+<LI>specify a virtual path associated with the WRB cartridge by the <a href="wrbcradm.htm#Applications_and_Directories">Applications and Directories</a> section
+</A>
+<A NAME="420488">
+<LI>specify a filename extension associated with the WRB cartridge by the Applications and MIME Types section (this section)
+</A>
+</ul><A NAME="420495">
+If only one or none of these criteria is satisfied, the Web Listener handles the request itself.<P>
+</A><A NAME="Application">
+<H4>Application</H4>
+</A>
+<A NAME="420430">
+The name of the WRB cartridge as it appears in the <a href="wrbcradm.htm#Applications_and_Objects">Applications and Objects</a> section.<P>
+</A><A NAME="-">
+<H4>+/-</H4>
+</A>
+<A NAME="420432">
+This pull-down menu has two states. If you choose `+' (the default), only request URLs that use the specified extensions may be dispatched to the specified application (cartridge). If you choose `-,' only request URLs that <em>do not</em> use the specified extensions may be dispatched to the specified application.<P>
+</A><A NAME="File_Extensions">
+<H4>File Extension(s)</H4>
+</A>
+<A NAME="420467">
+A comma-separated list of filename extensions that identify MIME types.<P>
+</A>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

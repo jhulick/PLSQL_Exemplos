@@ -1,0 +1,3 @@
+EXEC sp_attach_db @dbname = N'Customizacao', 
+   @filename1 = N'F:\Liguagens de programação\C#\_MEUS PROJETOS\Projetos\Tuboacos\DB\Customizacao.mdf', 
+   @filename2 = N'F:\Liguagens de programação\C#\_MEUS PROJETOS\Projetos\Tuboacos\DB\Customizacao.ldf'

@@ -1,0 +1,13 @@
+%found_alias% = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = %its_community%)
+          (PROTOCOL = TCP)
+          (Host = %its_host%)
+          (Port = %its_port%)
+        )
+    )
+    (CONNECT_DATA = (SID = %its_sid%)
+    )
+  )

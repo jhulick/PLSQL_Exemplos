@@ -1,0 +1,137 @@
+<html><head><title></title></head>
+<body bgcolor=#ffffff>
+
+<a name="1001570">
+<center><h1> Oracle WebServer for Windows NT Release Notes</h1></center>
+</a><a name="1008029">
+Release 2.1.0.3.1 Production<p>
+</a><a name="1008030">
+January 1997<p>
+</a><a name="1008031">
+Oracle WebServer Release 2.1 supports Oracle databases Version 7.2 and later, and it is certified for use with Windows NT Version 3.51 and 4.0.<p>
+</a><a name="1008249">
+The following topics are discussed in this document:<p>
+</a><ul><a name="1008259">
+<li><a href="release.html#1008043">New in this Release</a>
+</a><a name="1008349">
+<li><a href="release.html#1008915">Bug Fixes</a>
+</a><a name="1009349">
+<li><a href="release.html#1008940">Known Problems, Restrictions, and Workarounds</a>
+</a><a name="1009353">
+<li><a href="release.html#1009269">Your Comments Are Welcome</a>
+</a></ul><a name="1008043">
+<h1> New in this Release</h1>
+</a><a name="1009602">
+<h2> Supported Third-Party HTTP Servers</h2>
+</a><a name="1008853">
+Oracle WebServer Version 2.1 supports third-party web servers. Users can upgrade these servers to use the Oracle Web Request Broker (WRB) for improved reliability and scalability. Oracle WebServer 2.1 supports these HTTP servers:<p>
+</a><ul><a name="1008909">
+<li>Netscape FastTrack Version 2.0
+</a><a name="1009300">
+<li>Netscape Enterprise Server Version 2.0
+</a><a name="1009299">
+<li>Microsoft Internet Information Server Version 2.0 and 3.0 (for Windows NT Version 4.0 only)
+</a><a name="1009617">
+Future releases of Oracle WebServer will support integration with other popular HTTP servers.<p>
+</a></ul><a name="1008891">
+<h2> Upgrading Netscape FastTrack</h2>
+</a><a name="1008895">
+Original Netscape FastTrack web server settings are automatically backed-up during the upgrade process by Oracle WebServer. The new filename is OBJ.CONF.SAV, and it is saved to the same directory as the original OBJ.SAV file.<p>
+</a><a name="1009778">
+<h2> Security Enhancement Utility</h2>
+</a><a name="1009779">
+This release contains a security enhancement utility for use with previous releases of the Oracle WebServer (prior to release 2.1.0.3.1). This security utility, distributed as a patch, automates adjustments to WebServer necessary to develop secure PL/SQL applications for the web. To access and install this utility:<p>
+</a><ol>
+<a name="1009780">
+<li>Open the file from any web browser:
+</a><a name="1009781">
+file: //&lt;cd-rom drive&gt;:/owspatch/security.htm<p>
+</a><a name="1009782">
+<li>Follow the instructions in this HTML file.
+</a></ol>
+<a name="1008915">
+<h1> Bug Fixes</h1>
+</a><ul><a name="1008920">
+<li>Administration of the WRB in conjunction with the Netscape FastTrack web server is only possible with an Oracle administration server.
+</a><a name="1008921">
+<li>The WRB and Web Listener are synchronized.
+</a><a name="1009662">
+<li>Remote users do not lose connections when using the utility OWA_UTIL.REDIRECT_URL.
+</a><a name="1009663">
+<li>Users are unable to bypass Basic authentication with WRB security.
+</a><a name="1008925">
+<li>A cleanup process for network errors is in place.
+</a><a name="1008926">
+<li>When /SAMPLE/SSI is selected SAMPLE/SSI/INDEX.HTML appears by default.
+</a><a name="1009688">
+<li>A new parameter that allows web administrators to control direct access from any client's web browser to the Oracle Web Agent (OWA) packages provided by Oracle is included in this release of Oracle WebServer for Windows NT. The parameter PROTECT_OWA_PKG is located in the SV&lt;LISTENER&gt;.APP file. Any URL (Uniform Resource Locator) of the form //hostname:port//DCD/owa/&lt;OWA_PACKAGE&gt;.&lt;OWA.PROCEDURE&gt; will be rejected if the parameter is set to any value except FALSE. An entry with the offending package will be logged in the server's log file.
+</a><ul><a name="1009699">
+<li>For example, the URL http://www.a-site.com/owa_default/owa/owa_util.print_cgi_env will be rejected and the standard error page ("Request Failed") appears to the client. Because many applications depend on this type of direct access, setting the parameter explicitly to FALSE will allow Oracle Web Server to accept this type of request.
+</a></ul></ul><a name="1008940">
+<h1> Known Problems, Restrictions, and Workarounds</h1>
+</a><ul><a name="1009035">
+<li>This release of Oracle WebServer works with the 7.2.2, 7.2.3, and 7.3.2 versions of the Oracle7 Server. This release does not include the "Blob" sample referenced on the Samples page.
+</a><a name="1008941">
+<li>Identical directory maps cannot exist in the listener configuration file and OWS_APPFILE.
+</a><a name="1008942">
+<li>The security information for the protection used in the OWS_APPFILE must exist in the corresponding server configuration file.
+</a><a name="1009715">
+<li>Domain authentication for Microsoft Internet Information Server (IIS) is not supported.
+</a></ul><a name="1009090">
+<h2> PL/SQL Agent Administration</h2>
+</a><a name="1009166">
+The CGITimeout parameter of the administration listener may cause the creation or modification of a Data Connector Descriptors to timeout if the PL/SQL package is being installed. If this happens, the server returns "The server had an internal error and could not process the request". Increase the CGITimeout parameter appropriately to ensure completion of the execution within that time.<p>
+</a><a name="1009192">
+<h3> Boot</h3>
+</a><a name="1009167">
+During the creation of the OWA_DEFAULT_SERVICE and OWA_DBA DCDs, the <br>PL/SQL package and the train demo are automatically installed. The ORACLE database may run out of shared memory during this operation if the shared pool size parameter for the database is too small. Increase the SHARED_POOL_SIZE initialization parameter (edit the file ORANT\DATABASE\INITORCL.ORA, then restart the database) for the changes to take effect. <p>
+</a><a name="1009188">
+<h3> Train Demo</h3>
+</a><ul><a name="1009176">
+<li>If the query for a train ticket between a pair of dates cannot find available train times, the subsequent page displays an empty select list. This action causes an incorrect number of arguments to be passed to tr.purchase, the next procedure call. The error page is displayed.
+</a><a name="1009177">
+<li>Add to Step 2 of installation instructions for Oracle Travel Demo <br>(\ows-adoc\demos.html).
+</a><a name="1009178">
+<li>If you are running Oracle Web Agents through CGI, add the following entry to the Directory Mappings section of the Advanced Listener Configuration:
+</a><a name="1009179">
+ORANT\OWS21\BIN  CR  /demo/<p>
+</a><a name="1009180">
+<li>Assuming you already have a database demo and if you are running Oracle Web Agents as a cartridge, add the following entry to the Applications and Directories section of the WRB Configuration:
+</a><a name="1009181">
+ /DEMO/OWA OWA ORANT\OWS21\BIN<p>
+</a></ul><a name="1009132">
+<h2> Dispatcher</h2>
+</a><a name="1009822">
+The minimum and maximum number of cartridge instances as specified in the [Apps] section of the WRB configuration file (SV&lt;<em>listener</em>&gt;.APP) means the minimum and maximum number of cartridge instances per listener process. This distinction is significant in the case of the Netscape FastTrack Server where there can be multiple listener processes. The Oracle Web Listener supports one listener process, and so the previous definition is irrelevant.<p>
+</a><a name="1009139">
+The minimum number of instances of each cartridge are started up by each listener process at the end of the first transaction handled by that listener process, as opposed to being started up at the time of server initialization.<p>
+</a><a name="1009269">
+<h1> Your Comments Are Welcome </h1>
+</a><a name="1008347">
+Contact Oracle WebServer Feedback at owshelp@us.oracle.com. Please provide: <p>
+</a><ul><a name="1009835">
+<li>RDBMS version
+</a><a name="1009836">
+<li>WebServer version
+</a><a name="1009837">
+<li>a description of the problem, including test cases, and log/error files
+</a><a name="1009838">
+For comments on documentation, contact ntdoc@us.oracle.com. Please provide the title of the documentation, the platform of the product, the version number of the product, and the part number of the documentation if possible.<p>
+</a></ul>
+<hr><br>
+
+<address>
+<a href="mailto:ntdoc@us.oracle.com">ntdoc@us.oracle.com</a>
+</address>
+
+Copyright &#169; 1997 Oracle Corporation. All Rights Reserved.
+
+<!-- This file was created with Quadralay WebWorks Publisher 3.0.9 -->
+<!-- -->
+<!-- For more information on how this document, and how the rest of -->
+<!-- this server was created, email yourEmail@xyzcorp.com -->
+<!-- -->
+<!-- Last updated: 01/08/97 18:54:14 -->
+
+</body>
+</html>

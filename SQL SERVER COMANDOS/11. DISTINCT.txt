@@ -1,0 +1,4 @@
+SELECT DISTINCT endereco
+FROM expedi
+
+*A clausula DISTINCT elimina duplicidades da coluna informada.

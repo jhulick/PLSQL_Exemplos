@@ -1,0 +1,41 @@
+
+# Response File Template for user response in script win95.stp
+
+# The user is asked to choose what language to install products
+# with. Content values are:
+# "English"
+# "Arabic"
+# "Brazilian Portuguese"
+# "Czech"
+# "Danish"
+# "Dutch"
+# "Finnish"
+# "French"
+# "German"
+# "Greek"
+# "Hungarian"
+# "Italian"
+# "Japanese"
+# "Norwegian"
+# "Polish"
+# "Portuguese"
+# "Russian"
+# "Spanish"
+# "Swedish"
+# "Turkish"
+#
+# The value is of list type, and should have only one item
+# Example: language_content=list("English")
+
+language_content=
+
+
+# The user is asked to specify the Company Name for the product
+# and the Oracle Home. The first string in the list below is the
+# string that the customer would enter as the company name. The
+# second string in the list is the location of the local Oracle
+# Home. Defaults can be specified by 'default as shown below for
+# the Oracle Home (C:\ORAWIN)
+
+install_settings_content=
+

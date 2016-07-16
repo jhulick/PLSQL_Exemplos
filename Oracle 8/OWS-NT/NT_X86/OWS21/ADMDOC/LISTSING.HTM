@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<TITLE>
+Creating a New Oracle Web Listener--Single-Port
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Creating_a_New_Oracle_Web_Listener--Single-Port">
+Creating a New Oracle Web Listener--Single-Port
+</A>
+</H1>
+<HR><P><A NAME="510161">
+This <em>Create New Oracle Web Listener</em> form allows you to create a new Web Listener that accepts connections on a single TCP/IP port. The form allows you to create a Web Listener in two ways:<P>
+</A><ul type=disc><A NAME="509765">
+<LI>Basic Configuration--provide values for only certain basic parameters, accepting default values for all others.
+</A>
+<A NAME="509766">
+<LI>Advanced Configuration--provide custom values for any configuration parameters.
+</A>
+</ul><A NAME="510035">
+To begin either configuration, go to the beginning of the form and fill in the following fields:<P>
+</A><HR>
+<A NAME="Listener_Name">
+<H3>Listener Name</H3>
+</A>
+<A NAME="510198">
+An alphanumeric string of your choice no longer than six characters that uniquely identifies the Web Listener. The form informs you if the name you choose is already being used.<P>
+</A><HR>
+<A NAME="Port_Number">
+<H3>Port Number</H3>
+</A>
+<A NAME="510109">
+A TCP/IP port on which the Web Listener can accept connections. You can choose any number from 1 to 65535except those port numbers already assigned to other programs. To access ports 1 through 1023, the Web Listener process must execute with root privileges (see the User and Group Parameters sections.)<P>
+</A><HR>
+<A NAME="Host_Name">
+<H3>Host Name</H3>
+</A>
+<A NAME="510067">
+The name the Web Listener will use to identify itself. You should use your WebServer machine's primary host name, or an alias such as <code>www.blob.com</code> by which you want to identify your Web Listener on the Internet. See your operating system documentation to learn how to create a hostname alias.<P>
+</A><HR>
+<A NAME="Configuration_Directory">
+<H3>Configuration Directory</H3>
+</A>
+<A NAME="510073">
+The directory where you want the Web Listener configuration file, named sv<EM>ListenerName</EM>.cfg, to reside. If you choose a different directory than the default value provided, make sure the permissions on the directory allow the Web Listener to read the file.<P>
+</A><HR>
+<A NAME="Document_Root">
+<H3>Document Root</H3>
+</A>
+<A NAME="510080">
+The file-system directory that will serve as the root of the Web Listener's virtual file system. This is the directory in the local file system to which the URL <code>http://</code><EM>hostname</EM><code>/</code> will refer.<P>
+</A><HR>
+<A NAME="User_and_Group_Parameters">
+<H2>User and Group Parameters</H2>
+</A>
+<A NAME="510121">
+The User and Group ID fields specify the privileges the Web Listener assumes while running. When the Web Listener process starts up, it runs with root privileges until it completes its configuration and then assumes the user and group identities specified in the User ID and Group ID parameters.<P>
+</A><A NAME="510122">
+The User ID and Group ID parameters must give the Web Listener the following access permissions to certain files and the directories in which they reside:<P>
+</A><ul type=disc><A NAME="510123">
+<LI>Read access to the configuration file.
+</A>
+<A NAME="510124">
+<LI>Read access to all files that provide content for servicing requests.
+</A>
+<A NAME="510125">
+<LI>Read access to all image map files.
+</A>
+<A NAME="510126">
+<LI>Execute access to all Oracle WebServer binaries and program files that the Web Listener must execute.
+</A>
+<A NAME="510127">
+<LI>Write access to the log and error files.
+</A>
+<A NAME="510128">
+<LI>Read access to user directories.
+</A>
+</ul><A NAME="510129">
+For security, however, you should beware of allowing a Web Listener with privileged user ID, such as <code>root</code> or <code>oracle</code>, or group ID such as <code>dba</code> to launch programs, because these programs inherit the Web Listener's privileges. You might want to assign your Web Listeners an unprivileged user identity such as <code>nobody</code>.<P>
+</A><HR>
+<A NAME="User_ID">
+<H3>User ID</H3>
+</A>
+<A NAME="510131">
+The user identity that the Web Listener assumes after it completes its configuration. You can specify either a user name or numeric user ID in this field. To denote the root ID, however, you must specify "<code>root</code>" rather than "<code>0</code>."<P>
+</A><HR>
+<A NAME="Group_ID">
+<H3>Group ID</H3>
+</A>
+<A NAME="510133">
+The group identity that the Web Listener assumes after it completes its configuration. You can specify either a group name or a numeric group ID in this field.<P>
+</A><HR>
+<A NAME="Creating_the_New_Web_Listener">
+<H2>Creating the New Web Listener</H2>
+</A>
+<A NAME="509780">
+Once you've filled in the fields described above, you can create a new Web Listener right away using the basic configuration by clicking the Basic Configuration button.<P>
+</A><A NAME="509800">
+Clicking the Advanced Configuration button creates a new Web Listener using the basic parameter values you have provided and default values for all other parameters. It then takes you to the <em>Oracle Web Listener Advanced Configuration Form</em> where you can customize any parameter values for the Web Listener you've just created.<P>
+</A>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

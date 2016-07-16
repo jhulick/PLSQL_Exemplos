@@ -1,0 +1,108 @@
+<HTML>
+<HEAD>
+<TITLE> Database Connection Descriptor Modification </TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 21-Feb-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<A HREF="/ows-abin/agadmin.exe">
+<IMG SRC="/ows-img/icnagent.gif" width=64 height=64 border=0 align=right></A>
+<IMG SRC="/ows-img/agmdsvcs.gif" width=560 height=55 ALT="Database Connection Descriptor Modification">
+<BR clear=right>
+<STATUS>
+
+<H2>
+<font color="#BB0000">
+<EM>Modify DCD (Database Connection Descriptor)</EM>
+</font>
+</H2>
+
+To copy an existing Database Connection Descriptor (DCD), change the DCD name and then select the <EM>"Copy Service"</EM> button.
+Note that when you copy an existing DCD, if you do not specify a new
+password, the password will be copied.
+
+<P>
+
+For any other changes to the DCD, select the <EM>"Modify Service"</EM>
+button.
+
+<P>
+
+To delete this DCD, select the <EM>"Delete Service"</EM> button.
+
+<P>
+
+<FORM METHOD="POST" ACTION="/ows-abin/agadmin.exe">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="MOD_SVC">
+<INPUT TYPE="hidden" NAME="original_service" VALUE="%s">
+
+<PRE>   ---------------------------------------------------------------------
+   (*) indicates required fields.                         
+   (+) indicates that one of these two fields is required.
+   (-) indicates the field can be automatically filled upon submission.
+   ---------------------------------------------------------------------
+
+  (*) DCD name:                    <INPUT NAME="owa_service" TYPE="text" SIZE="30" value="%s">
+  (*) PL/SQL Agent Database User:  <INPUT NAME="owa_user" TYPE="text" SIZE="30" value="%s">
+                Identified by:   <INPUT NAME="pwd_type" TYPE="radio" VALUE="OS" %s> Operating System (&quot;externally&quot;)
+                                 <INPUT NAME="pwd_type" TYPE="radio" VALUE="password" %s> Password
+           Database User Password:      <INPUT NAME="owa_password" TYPE="password" SIZE="25" VALUE="%s">
+                 Confirm Password:      <INPUT NAME="pwd_confirm" TYPE="password" SIZE="25" VALUE="%s">
+  (*) ORACLE_HOME:                 <INPUT NAME="oracle_home" TYPE="text" SIZE="30" value="%s">
+  (+) ORACLE_SID:                  <INPUT NAME="oracle_sid" TYPE="text" SIZE="30" value="%s">
+  (+) SQL*Net V2 Service:          <INPUT NAME="owa_connect_string" TYPE="text" SIZE="30" value="%s">
+  (*) Authorized Ports:            <INPUT NAME="owa_valid_ports" TYPE="text" SIZE="30" VALUE="%s">
+          Log File Directory:        <INPUT NAME="owa_log_dir" TYPE="text" SIZE="28" value="%s">
+          HTML Error Page:           <INPUT NAME="owa_error_page" TYPE="text" SIZE="28" value="%s">
+  (-) NLS Language:                <INPUT NAME="owa_nls_lang" TYPE="text" SIZE="30" VALUE="%s">
+
+  <INPUT TYPE="checkbox" NAME="CREATE_USER" VALUE="on" %s> Create PL/SQL Agent Database User
+  <INPUT TYPE="checkbox" NAME="ALTER_USER" VALUE="on" %s> Change PL/SQL Agent Database User Password
+  <INPUT TYPE="checkbox" NAME="CREATE_PLSQL" VALUE="on" %s> Install WebServer Developer's Toolkit PL/SQL packages
+</PRE>
+
+<HR>
+
+For <STRONG>remote databases</STRONG> only:
+
+<P>
+
+If you have selected any of the above checkboxes
+(<EM>Create PL/SQL Agent Database User</EM>, 
+ <EM>Change PL/SQL Agent Database User Password</EM>, or
+ <EM>Install WebServer Developer's Toolkit PL/SQL packages</EM>), or if 
+you have left the <EM>NLS Language</EM> field blank,
+then you must supply an existing Oracle DBA username and password
+for that remote database in order to perform the operation.
+
+<PRE>
+      DBA Username : <INPUT TYPE="text" NAME="DBA_USER" SIZE="20" VALUE="%s">
+          Password : <INPUT TYPE="password" NAME="DBA_PWD" SIZE="20">
+<HR>
+
+  <INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Copy Service"> <INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Modify Service"> <INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Delete Service">
+</PRE>
+</FORM>
+
+<HR>
+
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/agadmin.exe">
+<IMG SRC="/ows-img/aghome.gif" ALT="Agent Home" border=0></A>
+<A HREF="/ows-adoc/dcdmod.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+
+<P>
+
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>

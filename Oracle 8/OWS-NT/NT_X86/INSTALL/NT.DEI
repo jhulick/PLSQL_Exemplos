@@ -1,0 +1,51 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    nt.dei - V3 common deinstallation script for Windows NT products
+
+  DESCRIPTION
+    This script performs common version analysis functionality across product
+    DEI scripts.  It returns the variable 'doit', indictating whether the
+    deinstallation is to proceed.
+
+  OWNER
+     Kush Jain
+
+  MODIFIED    DD-MMM-YY  Reason
+    kjain     18-FEB-94  Created from windows.dei.
+*****************************************************************************/
+
+{
+  registry_label = registry_interface_label(current_registry);
+
+  ui_product(registry_label);
+  ui_action(instantiate(nls("analyze_deinstall_depend",
+                            "Analyzing %%registry_label%% Dependencies...")));
+
+  doit = FALSE;
+
+  if (unreferenced(current_registry))
+    doit = TRUE;
+  else if (member(registration("selected_registries"),current_registry))
+    if (uniquely_self_referenced(current_registry))
+      doit = TRUE;
+    else
+      {
+	templist = registry_references(current_registry);
+
+	extract(templist,current_registry);
+	subtract(templist,registration("selected_registries"));
+        subtract(templist,all_child_registrations(current_registry));
+
+	if (not(empty(templist))) 
+	  doit = yesno_dialog(instantiate(deinstall_prompt01),FALSE,
+			      instantiate(deinstall_content01),
+			      instantiate(deinstall_help01));
+	else
+	  doit = TRUE;
+      } 
+
+  return(doit);
+}
+
+  

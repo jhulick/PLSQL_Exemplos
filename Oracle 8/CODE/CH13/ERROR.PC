@@ -1,0 +1,26 @@
+/*  error.pc
+ *  Version 1.0, last updated 6/11/97
+ *  This Pro*C program fragment illustrates the use of sqlca.sqlcode for
+ *  error handling, as described in Chapter 13 of _Oracle8 PL/SQL
+ *  Programming_ by Scott Urman.
+ */
+
+EXEC SQL INCLUDE SQLCA; /* This statement includes the SQLCA
+                           structure. This structure contains
+                           fields used for error handling. */
+EXEC SQL EXECUTE
+  BEGIN
+    RecordFullClasses;
+  END;
+END-EXEC;
+/* sqlca.sqlcode will be zero if the statement was successful,
+   and will contain the error code if the statement completed
+   with an error. If an error occurs, sqlca.sqlerrm.sqlerrmc
+   will contain the error message text, and sqlca.sqlerrm.sqlerrml
+   will contain the length of the message. */
+if (sqlca.sqlcode != 0) {
+  printf("Error during execution of RecordFullClasses.\n");
+  printf("%.70s\n", sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+  }
+else
+  printf("Execution successful.\n");

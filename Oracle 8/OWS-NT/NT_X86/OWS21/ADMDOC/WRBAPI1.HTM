@@ -1,0 +1,134 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425225">
+WRBClientRead()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425226">
+<code>WRBClientRead()</code> reads a specified number of bytes of the POST data that accompanies the current HTTP request into a specified buffer.<P>
+</A><A NAME="425227">
+<B><EM>Note</EM></B> 
+</A>
+<A NAME="425228">
+Currently, you must make all <code>WRBClientRead()</code> calls for a given HTTP request before your first call to <code><a href="wrbapi2.htm#425292">WRBClientWrite()</a></code>.<P>
+</A><HR>
+<H2>
+<A NAME="425232">
+Syntax
+</A>
+</H2>
+<A NAME="425233">
+<PRE>ssize_t WRBClientRead( void *WRBCtx, char *szData, int nBytes );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425259">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425236">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425238">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425240">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425242">
+WRBCtx<BR>
+</A><td><A NAME="425244">
+void *<BR>
+</A><td><A NAME="425246">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="425248">
+szData<BR>
+</A><td><A NAME="425250">
+char *<BR>
+</A><td><A NAME="425252">
+A pointer to the buffer where you want the function to put the data it reads from the client.<BR>
+</A>
+<tr><td><A NAME="425254">
+nBytes<BR>
+</A><td><A NAME="425256">
+int<BR>
+</A><td><A NAME="425258">
+The size in bytes of the buffer pointed to by szData.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425260">
+Return Values
+</A>
+</H2>
+<A NAME="425261">
+<code>WRBClientRead()</code> returns the number bytes read from the client.<P>
+</A><HR>
+<H2>
+<A NAME="425262">
+Usage
+</A>
+</H2>
+<A NAME="425263">
+You can call <code>WRBClientRead()</code> from your Exec function to get the POST data associated with the current request. <code>WRBClientRead()</code> is especially useful for buffering raw POST data.<P>
+</A><A NAME="427073">
+If the POST data is in the form of name-value pairs, however, it's usually more convenient to call <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code> instead.<P>
+</A><A NAME="427050">
+The differences between <code>WRBClientRead()</code> and <code><a href="wrbapi8.htm#425559">WRBGetContent()</a></code> are:<P>
+</A><ul type=disc><A NAME="427059">
+<LI><code>WRBGetContent()</code> can retrieve either query string or POST data, whereas <code>WRBClientRead()</code> retrieves only POST data.
+</A>
+<A NAME="427065">
+<LI><code>WRBGetContent()</code> retrieves all POST data at once, whereas <code>WRBClientRead()</code> retrieves only the specified number of bytes.
+</A>
+</ul><HR>
+<H2>
+<A NAME="425272">
+Related Information
+</A>
+</H2>
+<A NAME="425282">
+See also <code><a href="wrbapi2.htm#425292">WRBClientWrite()</a></code>, <code><a href="wrbapi8.htm#425559">WRBGetContent()</a></code>, and <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

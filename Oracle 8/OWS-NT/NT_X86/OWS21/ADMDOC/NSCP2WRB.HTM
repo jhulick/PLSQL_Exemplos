@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE> Configure Netscape Server for Oracle Web Request Broker 2.1</TITLE>
+<!-- Modified by: William Chan,  11-Oct-1996 -->
+<!-- Created by: William Chan,  9-Sep-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+
+<IMG SRC="/ows-img/owsadmin.gif" width=560 height=55 ALT="Oracle WebServer Administration">
+
+<h2>
+<font color="#BB0000">
+CONFIGURE the Netscape FastTrack/Enterprise Server for Oracle Web Request Broker 2.1
+</font>
+</h2>
+<A HREF="/ows-adoc/migrtool.html#Config">
+       <IMG SRC="/ows-img/iconhelp.gif" border=0 ALIGN=right></A>
+<IMG SRC="/ows-img/iconmngr.gif" width=32 height=32 align=left hspace=10>
+<BR>
+<P>
+This page <STRONG> will</STRONG>:
+<UL>
+<LI> configure the Netscape FastTrack/Enterprise Server configuration file
+<EM>obj.conf</EM> under <EM>$NS_HOME/http[ds]-[server_name]/config</EM>
+for Oracle Web Request Broker 2.1 and save the original
+<EM>obj.conf</EM> into <EM>obj.conf.sav</EM>.
+<LI>create a default <EM>sv[server_name].app</EM> under <EM>$ORACLE_HOME/ows21/admin</EM>
+</UL>
+<BR><BR>
+Before you proceed, you <STRONG>MUST</STRONG>:
+<UL>
+<LI> register your Netscape FastTrack/Enterprise Server to be configured with <A HREF="/ows-abin/wlextreg">Oracle External Listener Registration</A>.
+<LI> install the Oracle Web Server 2.1 on the same machine where
+you run the Netscape FastTrack/Enterprise Server.
+<LI> have created a Netscape FastTrack/Enterprise Server to be configured.
+<LI> stop the Netscape FastTrack/Enterprise Server before doing the following configuration.
+<LI> be sure that  the currently Netscape server name is not currently in use
+by Oracle Web Server.
+</UL><BR><HR>
+<FORM ACTION="/ows-abin/wlmigrat" METHOD="POST">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="NSCP2WRB">
+Please enter the following information:
+<P>
+<TABLE>
+<TR>
+<TD ALIGN=right>Netscape Server Type:
+<TD><SELECT NAME="NSTYPE">
+    <OPTION VALUE="NSFT" SELECTED>Netscape FastTrack Server 2.0
+    <OPTION VALUE="NSET">Netscape Enterprise Server 2.0
+    </SELECT>
+<TR>
+<TD ALIGN=right>Netscape Server Home (NS_HOME): <TD><INPUT TYPE="text" NAME="NSHOME" VALUE="c:\netscape\server" SIZE=50>
+<TR>
+<TD ALIGN=right>Netscape Server Name: <TD><INPUT TYPE="text" NAME="NSNAME"
+VALUE="server1" SIZE=50>
+</TABLE>
+<HR>
+<CENTER>
+<INPUT TYPE="submit" NAME="SUBMIT_BUTTON" VALUE="Configure Netscape Server">
+<INPUT TYPE="reset" VALUE="Reset">
+</CENTER>
+</FORM>
+
+<center>
+<HR>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" width=112 height=25 ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" width=140 height=25 ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" width=110 height=25 ALT="OWS Home" border=0></A>
+
+<p>
+
+<img src="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>
+

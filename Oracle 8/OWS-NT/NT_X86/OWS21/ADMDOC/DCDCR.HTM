@@ -1,0 +1,209 @@
+<HTML>
+<HEAD>
+<TITLE>
+Creating a New Database Connection Descriptor
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Creating_a_New_Database_Connection_Descriptor">
+Creating a New Database Connection Descriptor
+</A>
+</H1>
+<HR><P><A NAME="420077">
+The <em>Oracle Database Connection Descriptor Creation Form</em> allows you to create a new Database Connection Descriptor (DCD). After filling in the required information, you can click the Submit New Service button to create the DCD.<P>
+</A><A NAME="420096">
+The following sections describe the form's fields:<P>
+</A><HR>
+<A NAME="DCD_name">
+<H3>DCD name</H3>
+</A>
+<A NAME="420121">
+The name of the DCD you are creating, used in URLs to invoke the DCD. For example, if you had a DCD named <code>HR</code>, and a PS/SQL procedure named <code>hr_proc.lookup</code>, the URL used to execute the procedure would look like this:<P>
+</A><A NAME="420385">
+<PRE>http://<EM>server-name</EM>/hr/owa/hr_proc.lookup</PRE><P>
+</A>
+<A NAME="420725">
+DCD names are not case sensitive. The form informs you if the name you specify is already being used.<P>
+</A><HR>
+<A NAME="PLSQL_Agent_Database_User">
+<H3>PL/SQL Agent Database User</H3>
+</A>
+<A NAME="420124">
+The User ID that the new DCD is to assume. <P>
+</A><A NAME="420395">
+If the username you choose is not yet known to the database, you must click the Create PL/SQL Agent Database User checkbox near the bottom of the form. If the database is a remote database, you must also provide a known database user name and password in the DBA Username and Password fields at the bottom of the form. The PL/SQL Agent uses this user name to connect to the database and create the new username.<P>
+</A><A NAME="Identified_By">
+<H4>Identified By</H4>
+</A>
+<A NAME="420417">
+These radio buttons specify where the password for this database username is stored.<P>
+</A><A NAME="420419">
+Clicking the Operating System radio button indicates that the database username is also an operating system username, and its password is stored in the system password file.<P>
+</A><A NAME="420418">
+Clicking the Password radio button indicates that the password for this username is specified in the User Password field.<P>
+</A><A NAME="OWA_User_Password">
+<H4>OWA User Password</H4>
+</A>
+<A NAME="420127">
+The login password for this User ID if the Password radio button is checked.<P>
+</A><A NAME="Confirm_Password">
+<H4>Confirm Password</H4>
+</A>
+<A NAME="420421">
+Repeat the User Password in this field to make sure you've typed it correctly.<P>
+</A><HR>
+<A NAME="ORACLE_HOME">
+<H3>ORACLE_HOME</H3>
+</A>
+<A NAME="420130">
+The directory where the oracle database is installed. For a remote database, specify the ORACLE_HOME of the database on the remote host.<P>
+</A><HR>
+<A NAME="Identifying_the_Database">
+<H3>Identifying the Database</H3>
+</A>
+<A NAME="420531">
+You must identify the database that the DCD is to access differently depending on whether the database runs on the same host as the Oracle WebServer or on a remote host. If you accidentally specify both parameters, the ORACLE_SID field is ignored.<P>
+</A><A NAME="ORACLE_SID">
+<H4>ORACLE_SID</H4>
+</A>
+<A NAME="420336">
+(For local database access only) For a DCD that accesses a database on the same host as the web server, you must specify the ORACLE_SID of the database with which to connect.<P>
+</A><A NAME="SQLNet_V2_Service">
+<H4>SQL*Net V2 Service</H4>
+</A>
+<A NAME="420233">
+(For remote database access only) For a DCD that accesses a database on a remote host, you must specify a SQL*Net V2 service name to be used in connecting this DCD with a database on a remote host.<P>
+</A><HR>
+<A NAME="Authorized_Ports">
+<H3>Authorized Ports</H3>
+</A>
+<A NAME="420136">
+The TCP/IP ports that this DCD may use.<P>
+</A><A NAME="Log_File_Directory">
+<H4>Log File Directory</H4>
+</A>
+<A NAME="420139">
+The file-system directory in which the DCD will place its transaction log file.<P>
+</A><A NAME="HTML_Error_Page">
+<H4>HTML Error Page</H4>
+</A>
+<A NAME="420394">
+The file-system pathname of an HTML file to be displayed when an error occurs. If you leave this field blank, the PL/SQL Agent returns a default error message to the requestor.<P>
+</A><HR>
+<A NAME="NLS_Language">
+<H3>NLS Language</H3>
+</A>
+<A NAME="420143">
+Language and character set for this DCD to use, for example AMERICAN_AMERICA.US7ASCII. You may leave this field blank, as it's filled in automatically when you create the DCD.<P>
+</A><HR>
+<A NAME="Create_PLSQL_Agent_Database_User">
+<H3>Create PL/SQL Agent Database User</H3>
+</A>
+<A NAME="420317">
+Click this checkbox if the user name specified in the PL/SQL Agent Database User field is not yet known to the database. If the database is a remote database, you must also provide a known database name and password in the DBA Username and Password fields. The PL/SQL Agent uses this username to connect to the database and create the new username.<P>
+</A><HR>
+<A NAME="Change_PLSQL_Agent_Database_User_Password">
+<H3>Change PL/SQL Agent Database User Password</H3>
+</A>
+<A NAME="420319">
+Click this checkbox to change the password for the existing database username specified in the PL/SQL Agent Database User field to the value specified in the User Password field. If the Operating System radio button in the Identified By field is checked, this checkbox is ignored.<P>
+</A><HR>
+<A NAME="Install_WebServer_Developers_Toolkit_PLSQL_Packages">
+<H3>Install WebServer Developer's Toolkit PL/SQL Packages</H3>
+</A>
+<A NAME="420321">
+Install the Oracle WebServer Developer's Toolkit PL/SQL packages under the schema of the user specified in the PL/SQL Agent Database User field. See the <em>Oracle WebServer User's Guide</em> for more information about these packages.<P>
+</A><HR>
+<A NAME="DBA_Username">
+<H3>DBA Username</H3>
+</A>
+<A NAME="420443">
+If the username specified in the PL/SQL Agent Database User field is not yet known to the database to which this DCD is to connect, fill in this field with a username that has administration privileges on the database. The PL/SQL Agent uses this database user to connect to the database and create the new username. <P>
+</A><HR>
+<A NAME="Password">
+<H3>Password</H3>
+</A>
+<A NAME="420452">
+The password for the known database username specified in the DBA Username field.<P>
+</A><HR>
+<A NAME="Making_Your_DCD_Accessible_to_the_PLSQL_Agent">
+<H2>Making Your DCD Accessible to the PL/SQL Agent</H2>
+</A>
+<A NAME="420731">
+Once you've created a new DCD, you must make it accessible to at least one Web Listener process. The procedure for doing this varies depending on whether you are using the CGI or WRB version of the PL/SQL Agent.<P>
+</A><HR>
+<A NAME="Making_Your_DCD_Accessible_to_the_PLSQL_Agent_WRB_Cartridge">
+<H3>Making Your DCD Accessible to the PL/SQL Agent WRB Cartridge</H3>
+</A>
+<A NAME="420819">
+Make sure that the WRB configuration defines a virtual path to the <code>owa</code> executable. For the following URL to work, for example, the specified Web Listener would have to have a virtual directory <code>/hr</code> mapped to the file-system directory containing the <code>owa</code> executable:<P>
+</A><A NAME="420820">
+<PRE>http://<EM>listener-name</EM>/hr/owa/hr_proc.lookup</PRE><P>
+</A>
+<A NAME="420821">
+To make your new DCD accessible to a Web Listener process:<P>
+</A><OL TYPE=1>
+<A NAME="420822">
+<LI>Go to the <em>Web Request Broker Administration Form</em>.<P>
+</A>
+<A NAME="420823">
+<LI>Select a Web Listener process from the list and click its configure button to take you to the <em>WRB Cartridge Configuration Form</em> <P>
+</A>
+<A NAME="420845">
+<LI>Go to the Applications and Directories section of the form and define a virtual directory mapping to make your DCD accessible to the PL/SQL Agent WRB Cartridge. <P>
+</A>
+<A NAME="420846">
+<LI>Repeat this process for each Web Listener you want to have access to this DCD.<P>
+</A>
+</OL>
+<HR>
+<A NAME="Making_Your_DCD_Accessible_to_the_PLSQL_Agent_CGI_Program">
+<H3>Making Your DCD Accessible to the PL/SQL Agent CGI Program</H3>
+</A>
+<OL TYPE=1>
+<A NAME="420733">
+<LI>Go to the <em>Oracle Web Listener Administration Form</em>.<P>
+</A>
+<A NAME="420734">
+<LI>Select a Web Listener process from the list and click its configure button to take you to the <em>Oracle Web Listener Advanced Configuration Form</em> <P>
+</A>
+<A NAME="420735">
+<LI>Go to the Directory Mappings section of the form and define a virtual directory mapping to make your DCD accessible to the selected Web Listener process. <P>
+</A>
+<A NAME="420736">
+<LI>Repeat this process for each Web Listener you want to have access to this DCD.<P>
+</A>
+</OL>
+<HR>
+<A NAME="Controlling_Access_to_Your_DCD">
+<H2>Controlling Access to Your DCD</H2>
+</A>
+<A NAME="420759">
+You can use the Web Listener's security features to restrict access to your DCD and/or require clients to authenticate themselves before using it:<P>
+</A><OL TYPE=1>
+<A NAME="420738">
+<LI>Go to the <em>Oracle Web Listener Administration Form</em>.<P>
+</A>
+<A NAME="420739">
+<LI>Select a Web Listener process from the list and click its Configure button to take you to the <em>Oracle Web Listener Advanced Configuration Form</em><P>
+</A>
+<A NAME="420740">
+<LI>Follow the link to the <em>Oracle Web Listener Configure Security Form</em> and follow the instructions.<P>
+</A>
+<A NAME="420741">
+<LI>Repeat this process for each Web Listener that uses the DCD.<P>
+</A>
+</OL>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

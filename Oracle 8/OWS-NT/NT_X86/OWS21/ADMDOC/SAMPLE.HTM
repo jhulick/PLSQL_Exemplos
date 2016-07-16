@@ -1,0 +1,166 @@
+<TITLE>Genreq Sample Session</TITLE>
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+
+<BODY BGCOLOR=FFFFFF VLINK="#BB0000">
+
+<A HREF="contents.htm#Roadmap"><IMG SRC="TOC.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owsix.htm"><IMG SRC="Index.jpg" ALIGN=MIDDLE ALT="Index"></a>
+<IMG SRC="h2omark.gif" ALIGN=MIDDLE>
+
+<H1>Sample Genreq Session</H1>
+User responses are shown in bold. The entered passwords are echoed
+here for clarification purposes only.
+<hr>
+
+<PRE>
+/home/mlonnrot> <B>genreq</B>
+Certificate Request Generator 
+
+G - Generate key pair and certificate request
+Q - Quit
+> Enter choice: 
+<B>G</B>
+
+
+> Enter password (at least 8 characters) for creating a private key or
+  press <Return> to cancel:
+<B>fjHsjdkffw3</B>
+
+
+> Confirm the password:
+<B>fjHsjdkffw3</B>
+
+
+> Specify the public exponent used to generate key pair [F4]:
+
+
+
+> Enter modulus size [768]: 
+<B>512</B>
+
+
+
+> Choose how you want to generate a random seed for the key pair.
+F - Random file
+K - Random key sequences
+B - Both
+Enter choice: 
+<B>B</B>
+
+
+> Enter the name of file to use as a source of random seed information: 
+<B>/usr/adm/messages.1</B>
+
+Type random characters (about 400) until you hear a beep:
+<B>.........................................................................................
+.........................................................................................
+.........................................................................................
+.........................................................................................
+................................................................</B>
+> Stop typing.
+
+
+> Accept? [Y]
+
+
+> Enter the name of the distinguished name file [servname.der]: 
+
+
+> Enter the name of the private key file [privkey.der]: 
+
+
+> Enter the name of the certificate request file [certreq.pkc]: 
+
+
+
+> Enter the identification information for the certificate you are requesting:
+> Enter your Common Name (1 to 64 chars): 
+<B>www.oracle.co</B>m
+
+
+> Enter your Organization Unit Name (1 to 64 chars): 
+<B>Internet Server products</B>
+
+
+> Enter your Organization Name (1 to 64 chars): 
+<B>Oracle Corporation</B>
+
+
+> Enter your Locality Name (1 to 128 chars): 
+<B>Redwood Shores</B>
+
+
+> Enter your State or Province (1 to 128 chars) [default: Illinois]: 
+<B>California</B>
+
+
+> Enter your Country Name (2 chars) [default:US]: 
+<B>US</B>
+
+
+> Enter your Web Master's name (1 to 64 chars): 
+<B>Freddy the Frame</B>
+
+
+> Enter your Web Master's E-mail address (1 to 128 chars): 
+<B>fframe@us.oracle.com</B>
+
+
+> Enter the name and version number of application 
+  for which you are getting the certificate (1 to 64 chars) 
+  [Spyglass Server Version 1.2]: 
+
+
+
+Thank you.
+
+
+.....done
+
+G - Generate key pair and certificate request
+Q - Quit
+> Enter choice: 
+<B>q</B>
+</PRE>
+<hr>
+<H2>Example Generated Certificate Request</H2>
+
+<pre>
+ Name of the Webmaster: Freddy the Frame
+
+ E-mail address of the Webmaster: fframe@us.oracle.com
+
+ Name and Version number of the software:
+     Generated for: Spyglass Server Version 1.2 
+     Generated using: genreq version 1.0
+
+ Distinguished Name: 
+     Common Name: www.oracle.com
+     Org-unit: Internet Server products
+     Organization: Oracle Corporation
+     Locality: Redwood Shores
+     State or Province: California
+     Country: US
+
+-----BEGIN NEW CERTIFICATE REQUEST-----
+MIIBTTCB+AIBADCBlDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWEx
+FzAVBgNVBAcTDlJlZHdvb2QgU2hvcmVzMRswGQYDVQQKExJPcmFjbGUgQ29ycG9y
+YXRpb24xITAfBgNVBAsTGEludGVybmV0IFNlcnZlciBwcm9kdWN0czEXMBUGA1UE
+AxMOd3d3Lm9yYWNsZS5jb20wXDANBgkqhkiG9w0BAQEFAANLADBIAkEAtI5/aNO8
+j3sbhevHukteVC6rbjT3/sDzsKlARsSIoFCnFKGzVrRkIvL77tDqedToH9rdp2EI
+5OU7XPv9y9W/ewIDAQABMA0GCSqGSIb3DQEBBAUAA0EAOUi2bXmsNJMhwvZn2LOY
+4xtbPot6VM8d/kOFd8x2eA1eNf6rW7KlU1gDbHJbPyTM3k6sPnCX/n0utBF8Ppxh
+tA==
+-----END NEW CERTIFICATE REQUEST-----
+</pre>
+
+<HR>
+<A HREF="contents.htm#Roadmap"><IMG SRC="TOC.jpg" ALIGN=MIDDLE ALT="Click here to "> Go to the Table of Contents</A>.<P>
+<A HREF="owsix.htm"><IMG SRC="Index.jpg" ALIGN=MIDDLE ALT="Click here to"> Go to the Index</a><P>
+
+<HR>
+<ADDRESS>
+To report any problems or comments, e-mail <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<HTML>
+<HEAD>
+<TITLE>LiveHTML (Server Side Includes) Samples</TITLE>
+<!-- Changed by: , 25-Mar-1996 -->
+</HEAD>
+<body>
+<URL-minder-ignore>
+<a name="TopOfPage"></a>
+</font>
+</p>
+</URL-minder-ignore>
+<!--#config cmdecho="on"-->
+
+<HR>
+<IMG SRC="/ows-img/ows.gif" ALT="Oracle WebServer">
+<BR>
+<H1>LiveHTML (Server Side Includes) Samples </H1>
+<H3>for HTML Pages Served by Oracle WebServer<BR></H3>
+
+
+<hr size=4>
+
+Those of you who have seen the results of LiveHTML
+<i>includes</i>/<i>echos</i>/etc.  and attempted to figure out 'how it was
+done' will have discovered, of course, that looking at the source with your
+browser is of no help whatsoever. The code has already been processed by the
+server before you read the source and so will appear as if the author of the
+page typed the actual information right into his/her HTML document. It is
+this very phenomenon that makes necessary an information page such as this
+one!
+
+<a name="FileIncludes"></a>
+<HR SIZE=2>
+<!--#include file="inc1.html"-->
+<HR SIZE=2>
+
+<h2>Including a File</h2>
+
+An interesting thing about the html file you are currently viewing is that to get 
+to each subsection within this page the following line appears 
+<br>
+<H5 ALIGN=center>&lt!--#include file="inc1.html"--&gt</H5>
+The content of that file is:
+<pre>
+&ltp align=center&gt
+&lta href="#FileIncludes"&gtFile Includes&lt/a&gt | 
+&lta href="#Date/TimeInserts"&gtDates/Times&lt/a&gt | 
+&lta href="#Date/TimeFormatting"&gtDate/Time Formats&lt/a&gt | 
+&lta href="#DocumentNames/Paths"&gtDoc Names/Paths&lt/a&gt | 
+&lta href="#FileSizeAndDate"&gtFile Size/Date&lt/a&gt | 
+&lta href="#HostServer"&gtHost/Server Info&lt/a&gt | 
+&lta href="#Browser"&gtBrowser Info&lt/a&gt | 
+&lta href="#Animation"&gtServer Push Animation&lt/a&gt | 
+&lta href="#HitCounters"&gtCounters&lt/a&gt | 
+&lta href="#ReferringURL"&gtReferring URL&lt/a&gt
+&lt/p&gt
+</pre>
+
+<I>or</I> something very similar. Obviously the LiveHTML 'include' has
+brought the content of the externally referenced file into the current html
+document before it is interpreted by the server.  You can for e.g. change the
+color scheme of multiple documents by editing only that one-line file rather
+than the individual documents--a real time-saver.  
+<p>
+
+<hr size=2>
+<!--#include file="inc1.html"-->
+<a name="Date/TimeInserts"></a>
+<hr size=2>
+
+<h2>Date/Time Inserts</h2>
+
+The most commonly used server-side echos involve dates and times. Unless you
+want to accept your server's default settings, you should precede any such
+echo statements with a <i>#config</i> statement for <i>timefmt</i> such as
+the following: 
+<p>
+<H5 align=center>&lt!--#config timefmt="%A, %B %d, %Y, at %I:%M %p"--&gt</h5>
+<p>
+<!--#config timefmt="%A, %B %d, %Y, at %I:%M %p"--></h5>
+
+<h5 align=center>GMT date/time is <!--#echo var="DATE_GMT"--></H5>
+
+<h5 align=center>LOCAL date/time is <!--#echo var="DATE_LOCAL"--></H5>
+
+<h5 align=center>Updated on <!--#flastmod file="/sstest.html"--></H5>
+
+<hr size=2>
+<!--#include file="inc1.html"-->
+</p>
+<a name="Date/TimeFormatting"></a>
+<hr size=2>
+
+<h2>Date/Time Formatting</h2>
+
+Unix <i>strftime</i> settings are used in the <i>#config timefmt=</i> string.
+Ordinary characters are copied to the document without conversion, so you can 
+insert "on" or "at" or whatever may be useful. 
+
+<hr size=2>
+<!--#include file="inc1.html"-->
+</p>
+
+<a name="DocumentNames/Paths"></a>
+<hr size=2>
+
+<h2>Document Names/Paths</h2>
+
+Other useful echos are as follows:
+<p>
+<h4 align=center>This document is &lt!--#echo var="PATH_TRANSLATED"--&gt</H4>
+<h4 align=center>This document is <!--#echo var="PATH_TRANSLATED"--></H4>
+
+<h4 align=center>Its virtual path is &lt!--#echo var="DOCUMENT_URI"--&gt</H4>
+<h4 align=center>Its virtual path is <!--#echo var="DOCUMENT_URI"--></H4>
+
+<hr size=2>
+<!--#include file="inc1.html"-->
+</p>
+
+
+<a name="FileSizeAndDate"></a>
+<hr size=2>
+<h2>File Size and Date</h2>
+
+Two other useful directives are <i>#fsize</i> and <i>#flastmod</i>, which
+allow you to give the size and date of any file on the server-computer rather
+than just the current document. They work as follows, using <i>file=</i> for
+relative addressing and <i>virtual=</i> for full path addressing based on
+your own home directory.  <p>
+
+<h4 align=center>&lt!--#config sizefmt="bytes"--&gt<br></h4>
+
+<h4 align=center>File size of 'sstest.html': 
+<!--#fsize file="sstest.html"--> bytes</h4>
+
+<p align=center>
+<i>or</i>
+</p>
+<h4 align=center>&lt!--#config sizefmt="abbrev"--&gt<br></h4>
+<!--#config sizefmt="%K"--><br>
+<h4 align=center>File size of 'sstest.html': 
+<!--#fsize file="sstest.html"-->bytes</h4>
+<p> 
+
+One of the best uses of the <i>#fsize</i> directive is to provide your
+visitor with the size of any graphics files to be downloaded. This is a
+tremendous timesaver for you, as an HTML author, if you add and change
+downloadable images a lot: you never have to look up the sizes and type them
+in.
+
+<p>
+<a href="/ows-img/ows.gif">Oracle Web Server GIF</a> 
+(<!--#fsize virtual="/ows-img/ows.gif"--> bytes)
+<p>
+
+And here is the date example: <p> 
+<h4 align=center>The file 'ows.gif' was copied to the server at 
+<!--#echo var="SERVER_NAME"--> on
+<!--#flastmod virtual="/ows-img/ows.gif"-->.</h4>
+<p>
+
+<hr size=3>
+<p align=center>
+<!--#include file="inc1.html"-->
+</p> 
+
+
+<a name="Browser"></a>
+<hr size=3>
+<h2>Browser Used</h2>
+
+It is not of particular interest to the web author him-/herself, but you may reflect 
+back to the person visiting your pages the browser and version, etc., he/she is 
+using to read your pages.
+<p>
+<font size=-1>
+The code <B>Browser: &lt!--#echo var="HTTP_USER_AGENT"--&gt</B>
+</font>
+<p>
+produces the following information:
+<p>
+<!--#echo var="HTTP_USER_AGENT"--></B>
+<p>
+
+<hr size=3>
+<!--#include file="inc1.html"-->
+</p>
+
+<a name="HostServer"></a>
+<hr size=3>
+
+<H2 ALIGN=left>Host and Server Informtion</H2>
+
+The following line appears at the top of this document:
+<p>
+<font size=-1>
+Host: &lt!--#echo var="REMOTE_HOST"--&gt (&lt!--#echo var="REMOTE_ADDR"--&gt) - Server: &lt!--#echo var="SERVER_NAME"--&gt (&lt!--#echo var="SERVER_SOFTWARE"--&gt)
+</font>
+<p>
+
+and generates the following information:
+<p>
+Host: <!--#echo var="REMOTE_HOST"--> 
+(<!--#echo var="REMOTE_ADDR"-->)
+ - Server: <!--#echo var="SERVER_NAME"-->
+ (<!--#echo var="SERVER_SOFTWARE"-->)
+<p>
+
+<hr size=3>
+<p align=center>
+<!--#include file="inc1.html"-->
+</p>
+
+<HR>
+<ADDRESS>(c)1996 Oracle Corporation</ADDRESS>
+
+</body>
+</html>

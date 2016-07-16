@@ -1,0 +1,10 @@
+SELECT *
+FROM FUNCIONARIOS
+WHERE SALARIO BETWEEN 350 AND 800;
+
+*Selecione todos os campos da tabela FUNCIONARIOS quando o campo salario for apartir 350
+até 800,(os valores iniciais e finais aparecerão na listagem,ou seja 350 e 800 são levados
+em consideração).
+*Sempre o BETWEEN trabalhará em conjunto com o WHERE.
+*Pode-se trabalhar também com strings.
+*Pode-se usar também o NOT antes de BETWEEN para inverter o resltado.

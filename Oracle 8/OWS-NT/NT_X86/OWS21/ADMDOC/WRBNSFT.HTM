@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using Oracle WebServer 2.1 with the Netscape FastTrack Server
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="420150">
+Using Oracle WebServer 2.1 with the Netscape FastTrack Server
+</A>
+</H1>
+<HR><P><A NAME="420077">
+Oracle WebServer 2.1 incorporates architecture enhancements that allow you to run most WebServer components under the Netscape FastTrack server. This page descibes how to configure an existing Netscape FastTrack server installation to use Oracle WebServer components such as the Web Request Broker.<P>
+</A><A NAME="421175">
+Future revisions of Oracle WebServer will support integration with other popular HTTP servers in addition to the Netscape FastTrack server.<P>
+</A><HR>
+<H2>
+<A NAME="421185">
+Configuring the Netscape FastTrack Server
+</A>
+</H2>
+<A NAME="421191">
+The directory structure for your Netscape FastTrack server installation should look like this:<P>
+</A><A NAME="421267">
+<PRE>NS_HOME<br>  bin/<br>  docs/<br>  nsapi/<br>  userdb/<br>  httpd-<em>server1</em><b>/<br></b>    config/<br>      magnus.conf<br>      obj.conf<br>      mime.types<br>    logs/<br>      access<br>      errors<br>    start<br>    stop<br>  httpd-<em>server2</em><b>/<br></b><em>    same structure as server1<br></em>  start-admin<br>  stop-admin<br>  ...<br></PRE><P>
+</A>
+<A NAME="421193">
+<em>server1</em> and <em>server2</em> are the names of currently configured HTTP server (listener) processes. The start and stop files in each server directory are scripts that start and stop the server process.<P>
+</A><A NAME="421194">
+For each Netscape FastTrack server with which you want to use Oracle WebServer components, you must:<P>
+</A><OL TYPE=1>
+<A NAME="421369">
+<LI>Use your web browser to go to the <a href="/ows-abin/wlextreg">External Web Listener Registration</a> page and register your Netscape server.<P>
+</A>
+<A NAME="421375">
+<LI>Go to the <a href="/ows-abin/wrbadmin">Web Request Broker Administration</a> page and configure the Web Request Broker for your Netscape server.<P>
+</A>
+<A NAME="421359">
+<LI><b>cd</b> to $NS_HOME/httpd-<em>server-name</em>/config, where <em>server-name</em> is the name of your Netscape server. Edit the obj.conf file to configure the server to run the NSAPI adapter. Use the file <b><a href="objcfsmp.htm#420622">$ORACLE_HOME/ows21/admin/objsamp.conf</a></b> as a model. Be sure to specify your local directory mappings and substitute your own values for <b>ORACLE_HOME</b>, <b>NS_HOME</b> and sv<em>server-name</em>.app.<P>
+</A>
+<A NAME="421196">
+<LI>Make sure the following files exist:<P>
+</A>
+<ul type=disc><A NAME="421303">
+<LI>$ORACLE_HOME/ows21/lib/oracle_nsapi.so
+
+</A>
+<A NAME="421309">
+<LI>$ORACLE_HOME/ows21/lib/adp_nsapi.so
+
+</A>
+<A NAME="421313">
+<LI>$ORACLE_HOME/ows21/admin/adp.cfg
+
+</A>
+<A NAME="421312">
+If these files are not present, there might be a problem with your Oracle WebServer installation. Try reinstalling the WebServer.<P>
+</A>
+</ul><A NAME="421199">
+<LI>Make sure the file <b>$ORACLE_HOME/ows21/admin/sv</b><em>server-name</em><b>.app</b> exists, where <em>server-name</em> is the name of your Netscape server. If the file does not exist, you might not have completed steps 1 and 2 successfully. Try repeating these steps.<P>
+</A>
+<A NAME="421388">
+<LI>Run the stop and start scripts in the listener directory to stop and restart your server.<b></b><P>
+</A>
+</OL>
+
+
+<HR>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Go to the roadmap"> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Go to the index"> Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

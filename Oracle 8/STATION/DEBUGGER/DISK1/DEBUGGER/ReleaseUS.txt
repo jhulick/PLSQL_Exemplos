@@ -1,0 +1,517 @@
+
+        =======================================================
+        =======================================================
+        ==  Release Notes for PLATINUM SQL-Station Debugger  ==
+        ==  Version 2.1                                      ==
+        ==  March 15, 1997                                   ==                                                 ==
+        ==                                                   ==                                                 ==   
+        ==   -Copyright (C) 1996  PLATINUM technology, inc   ==
+        ==                                                   ==
+        ==  If you have support questions, please call our   ==
+        ==  development staff at (800) 833-PLAT (7528) and   ==
+        ==  ask for support for the SQL-Station Debugger     ==
+        ==  product.                                         ==
+        ==                                                   ==
+        ==                                                   ==
+        ==  internet:  techsup@platinum.com                  ==
+        ==             www.platinum.com                      ==
+        ==             ftp.platinum.com                      ==
+        ==             compuserve: go platinum               ==
+        =======================================================
+        =======================================================
+
+        Contents
+        -------------------------------------------------------
+
+        These Release Notes contain important information about
+        PLATINUM SQL-Station Debugger Version 2.1.  They include 
+        the following sections:
+
+        I.   Installing SQL-Station Debugger
+        II.  Technical Notes
+        III. New Features in SQL-Station Debugger 2.0
+        IV.  Undocumented Features
+        V.   Bug Fixes
+        VI.  Known Technical Problems
+        VII. Contacting PLATINUM technology
+
+
+        =======================================================
+        I.  Installing SQL-Station Debugger
+        -------------------------------------------------------
+        Before you install SQL-Station Debugger, verify that your
+        system meets the following minimum requirements:
+
+         - IBM-PC or compatable, 486DX or higher
+         - Windows-NT or Windows 95
+         - 8 Megabytes RAM
+         - ORACLE Version 7.1 or higher
+         - At least 5 Megabytes of diskspace
+         - SQL-Station Coder version 2.0 (installed previously or
+           concurrently)
+
+        To install SQL-Station Debugger, follow these steps:
+
+        1.  Insert diskette 1 into the floppy drive (usually A:
+            or B:).
+
+        2.  From File Manager, select File, Run.
+   
+        3.  Enter A:\setup (where A: is the letter of the
+            floppy drive in step 1).
+
+        4.  Follow the prompts as they display.
+
+        After you have installed SQL-Station Debugger 
+        successfully,  a Debugger icon is installed in the PLATINUM 
+        program group (or whatever program group you specified 
+        during the install).  To invoke SQL-Station Debugger, 
+        double click the icon.
+
+
+        =======================================================
+        II. Technical Notes 
+        -------------------------------------------------------
+        
+	1. Preparing the database server for server-side
+         installation(SQLDEBUG):
+
+	   Server-side installation allows the DBA to choose the
+         default and the temporary tablespaces from the existing 
+         list of tablespaces in the database. Before performing
+         the server-side installation, the DBA may want to 
+         create a new tablespace for the tables owned by the 
+         application owner (SQLDEBUG). The space required for 
+         installing the tables in the tablespace is as little 
+         as 1MB - However, the DBA may want to allot more space, 
+         since the space requirements increase as tables get 
+         populated.
+
+
+	2. SQL-Station Debugger supports all PL/SQL datatypes, 
+           with the exception of the following:
+
+           - long
+           - pl/sql table
+           - anchored types referencing packages
+           - cursor variables
+           - implicit cursor variables  
+   
+           The above datatypes will not show up in the watch 
+           window. However, for package constants that are 
+           global to the currently executing block, you can
+           add them directly to the watch window by typing 
+           them into the global variable evaluation listbox. 
+                    
+        3. Debugging a trigger temporarily forces the release 
+           version out of the catalog. For this reason, you
+           should not debug production triggers.
+
+        4. You cannot debug encrypted procedural objects. To
+           debug them, you must first unencrypt the 
+           procedural objects.
+        
+        5. All scalar variables declared using the variable 
+           reference type of construction (variable_name%TYPE) 
+           can be watched as long as the referenced variable is 
+           in the same procedure, function, or package.
+
+        6. The SQL Editor window is now referred to as the
+           Edit window.
+
+        7. Clicking an object's code icon in the Catalog Browser
+           now opens up a separate Edit window (formerly SQL
+           Editor window).
+
+        8. NOTE TO DATABASE ADMINISTRATORS:
+
+		   The server-side installation asks for the DBA
+		   password in its initial dialog (the user name
+		   is defaulted to SYS in the dialog). This
+		   procedure creates the application owner and
+		   grants certain privileges to this owner 
+		   (defaulted to SQLDEBUG).
+
+           The CREATE.SQL script, located in the Debugger
+           install directory, does the following against
+		   the  DBA (the login name used in the dialog
+		   above) schema:
+
+	   - Grants a set of privileges to the application owner. 
+			 When logged in as the application owner, the DBA has 
+			 complete access to the maintenance features provided 
+			 in the Maintenance menu (including the maintenance of 
+			 objects belonging to other users).
+ 
+             BECAUSE THE APPLICATION OWNER HAS CERTAIN DBA
+			 PRIVILEGES, NORMAL USERS SHOULD NOT BE GIVEN THE 
+			 APPLICATION OWNER SCHEMA PASSWORD.  (THE DEFAULT NAME 
+			 FOR THE APPLICATION OWNER SCHEMA IS SQLDEBUG.)
+			 
+			 The set of privileges granted to the application owner
+			 are -
+
+			 1. connect
+			 2. select any table with admin option
+			 3. grant any privilege
+			 4. create public synonym
+			 5. drop public synonym
+			 6. unlimited tablespace
+			 7. drop any procedure
+			 8. create any procedure
+			 9. drop any procedure
+			10. alter any procedure
+			11. execute any procedure
+			12. create any trigger
+			13. alter any trigger
+			14. drop any trigger
+		
+		- Creates a role PTSQL_DEBUG_ROLE and grants the following
+			privileges to this role -
+
+			1. create any procedure
+			2. drop any procedure
+			3. alter any procedure
+			4. execute any procedure
+			5. create any trigger 
+			6. alter any trigger
+			7. drop any trigger
+			 
+			 The INSTALL.SQL script, located in the Debugger
+			 install directory, installs the following objects
+			 in the application owner schema.
+
+	   - Creates a table called PTSQL_PLAN_TABLE and grants
+             data manipulation privileges on it to PUBLIC. The 
+             table is used for getting the execution plan of SQL 
+             statements (the user can set an option in the SQL 
+             Editor to view the execution plan).
+
+	   - Creates a table called PTSQL_TYPES and grants 
+             select privileges on it to PUBLIC. The table is 
+             used as a mapping between Oracle native types and 
+             SQL-Station Debugger internal data types.
+
+	   - Creates a set of views whose names start with 
+             PTSQL_. These views are equivalent to the Oracle 
+             ALL_ views but are optimized for faster access 
+             through the SQL-Station Debugger catalog browser.
+
+	   - Creates a package called PTSQL_CODE. This package
+			contains the logic for reverse engineering all
+			Oracle catalog objects. 
+	   
+	   - Creates a package called PTSQL_SEARCH. This package
+			contains the logic to find patterns within the
+			Oracle catalog.
+
+           The DBGINST.SQL script, located in the Debugger
+           install directory, installs the following objects in
+           the application owner schema:
+	
+	   - Creates a table called PTSQL_DBG_TRIGGERS and 
+             grants data manipulation privileges on it to 
+             PUBLIC. The table is used only with Oracle Server 
+             version 7.1 and earlier. These Oracle versions do 
+             not allow more than one trigger of the same type 
+             in the catalog. As a result, the trigger text is 
+             moved to this table before debugging starts. The 
+             table is locked during this process, preventing 
+             any data integrity issues.
+
+	   - Creates a table called PTSQL_DBG_IGNORE and 
+             grants data manipulation privileges on it to 
+             PUBLIC. The table is used by the module exclusion 
+             feature, which allows users to selectively 
+             exclude objects from debugging.
+
+	   - Creates a sequence called PTSQL_DBG_SEQ. The 
+             sequence is used for generating a unique name for 
+             debug versions of objects whose names contain more 
+             than 26 characters. The normal debug version 
+             naming mechanism of prepending 'X#Z$' to the name 
+             cannot be applied to these objects because Oracle 
+             limits code object name lengths to 30 characters. 
+             As a result, the debugger generates a name that 
+             consists of 'X#Z$' followed by a unique sequence 
+             number.
+
+	   - Creates two tables, PTSQL_DBG_OBJS and 
+             PTSQL_FREE_SEQ_NUMS, and a trigger, 
+             PTSQL_DBG_OBJS_AFTER_DELETE. These map the debug 
+             name to the release name for objects whose name 
+             lengths are greater than 26 characters.
+
+	   - Creates a package called PTSQL_DBG_MAINT. This 
+             package contains the logic used by the maintenance 
+             dialogs.
+
+	   - Creates a package called PTSQL_DEBUG. This 
+             package contains the logic used at each step 
+             during the debugging process.
+
+	   - Creates a package called PTSQL_DEPEND. This package
+			 contains the logic used to generate the dependency
+			 tree in the debug window.
+
+
+
+        =======================================================
+        III. New Features in SQL-Station Debugger 2.0
+        -------------------------------------------------------
+
+        The following enhancements have been added since the
+        prior release of SQL-Station Debugger (Watch-PL):
+
+        · Support for local record variables.
+
+        · Support for the Pragma Restrict clause.
+
+        · GUI enhancements, including enhancements
+          to the Progress mechanism.
+
+        · Granularity support allowing you to break at
+          ELSIF conditions, GOTO statements, exception
+          clauses, loop statements, and so on.
+
+        · Support for stepping into functions.
+
+        · Support for synonyms, including the ability
+          to debug an object referenced by its synonym.
+
+        · The capability to debug file system objects that
+          have dependencies on objects in the catalog.
+
+		
+		. Enhanced support for editing code objects in the debug
+		  window - You can switch from the debug window to the
+		  edit window by using the 'Edit Code' toobar button.
+		  
+		  THE SCHEMA NAME HAS TO BE EXPLICITLY SPECIFIED IN THE
+		  OBJECT CODE WHEN DEBUGGING OBJECTS IN SCHEMAS OTHER
+		  THAN THE ONE REFERRED TO BY THE EDIT WINDOW. 
+
+        =======================================================
+        IV. Undocumented Features 
+        -------------------------------------------------------
+     
+        · TRIGGERS
+          SQL-Station Debugger allows you to step into a trigger when 
+          it's activated. You can do this when you're in the 
+          process of debugging a stored procedure and a debug
+          version of the trigger is deployed on the server. To
+          deploy a debug version of the trigger, use the
+          Trigger Maintenance dialog. When you step across the 
+          statement that activates the trigger, you will step 
+          into the trigger.
+
+        
+        · DEBUGGER SESSIONS
+          Each time you click Run or Restart during a debugging 
+          session, SQL-Station Debugger checks the datestamp of 
+          the original object.  If the datestamp has changed since 
+          the creation of the debug version, a message box displays 
+          giving you the option of continuing with the current
+          debug version or recompiling the debug version to 
+          reflect any new changes in the object.
+
+
+        · GROUP LOGINS
+          You can create groups of logins and then login to 
+          the whole group just by entering the password for 
+          each group member when prompted.
+
+          Creating a New Login Group:
+          In the PLATINUM SQL-Station Debugger Login dialog, click 
+          the Groups button. The dialog changes to the Group Connect
+          dialog. To create a new primary (top-level) group, 
+          either double-click on Add New Group or highlight 
+          Add New Group and click the Add button. Type the 
+          name of the new group into the field of the Add New 
+          Group dialog and click OK. If an existing group is 
+          highlighted when you click the Add button, you 
+          can create a new group by choosing Primary Group 
+          in the Insert Element Into List dialog.
+
+          Adding Logins to a Group:
+          Highlight the group name and click the Add button. 
+          Choose Group Item in the Insert Element into List 
+          dialog and click OK. In the New Item dialog, enter a 
+          connect string and a login name in the appropriate 
+          fields and click OK. You can add as many logins as 
+          you wish in this manner. 
+
+          Subgroups:
+          Groups can have subgroups. To add a subgroup to a 
+          group, highlight the group name, click Add, 
+          choose Group Item, and click OK. In the New Item 
+          dialog, enter a group name in the Connect String/
+          Group Name field.  Do not enter anything in the 
+          Login name field. Click OK. SQL-Station Debugger adds the named 
+          group as a subgroup of the selected primary group. 
+          If the named group does not already exist, SQL-Station Debugger 
+          creates it as both a Primary Group and as a subgroup.
+
+          Logging in as a group:
+          To login as a group, specify the group name in the 
+          Connect String field of the login dialog and click 
+          Connect. (If you are working in the Group Connect 
+          dialog, highlight the group name and click Connect.) 
+          SQL-Station Debugger then prompts you to enter the password 
+          for each login that is part of the group. If you want to 
+          skip a particular login, press Escape or click Cancel 
+          when asked for the password.
+
+
+        · VIEWING VARIABLES IN THE WATCH PANE
+          During a debugging session, you can choose which 
+          variables to view in the Watch pane. To view
+          specific variables, follow these steps:
+          1. Set your breakpoints and choose Run to go to the
+             first breakpoint. At this point, all variables 
+             within scope are added to the Variable Tree, 
+             located to the left of the Watch pane. By default, 
+             all local variables are automatically added to the 
+             Watch pane.
+          2. To add additional variables to the Watch pane, 
+             expand the Variable Tree so that the variable you 
+             are interested in is visible, and do one of the 
+             following:
+             · Single-click the variabe to select it and click 
+               the Add button directly above the Variable Tree. 
+             · Single-click the variable and choose Debug, Add 
+               Variable from the menu bar.
+             · Left-click the variable, then right-click and
+               choose Add Variable.
+             
+          The current value of each selected variable is 
+          displayed in the Watch pane at each step in the 
+          debugging process.
+
+          Notes:
+             · To add all variables to the Watch pane, 
+               select the top level of the Variable Tree 
+               ("All Variables") and follow the instructions
+               in number 2 above.
+             · To remove a variable from the Watch pane, click
+               the button to the left of its name to highlight
+               it, then click the Delete button to the right of 
+               the Expression field. You can click multiple 
+               buttons before clicking the Delete button.
+         
+        · NETWORK INSTALLATION
+          During the installation process, the client-side
+          software can be installed either locally or at a
+          specified location on a network.
+
+   
+        · TUTORIAL INSTALLATION
+          An icon for installing the tutorial is located in
+          the Program Manager.
+
+  
+        · GRANT DEBUG ROLE
+          The Grant Debug Role allows users to debug code 
+          objects in other user schemas. During the server-side
+          installation, a role named PTSQL_DEBUG_ROLE is
+          created, which has privileges required to debug other
+          user objects.  The Grant Debug Role dialog is then
+          displayed and the DBA is given the option to grant
+          this role to users. To add users, click on each user 
+          name to be granted and click OK.
+ 
+          SINCE THIS ROLE HAS CERTAIN SYSTEM PRIVILEGES, THE DBA 
+          SHOULD USE CAUTION WHEN GRANTING THIS ROLE TO USERS. 
+
+          Once installed, the DBA can grant this role to users
+          by executing the following in the Edit Window:
+
+            grant PTSQL_DEBUG_ROLE to <username>;
+
+          To revoke this role from users, execute the following 
+          in the Edit Window:
+
+            revoke PTSQL_DEBUG_ROLE from <username>;
+          
+          The role has the following privileges:
+          1. CREATE ANY PROCEDURE and CREATE ANY TRIGGER: this 
+             is required for the user to create the debug version 
+             of an object under a different owner.
+          2. DROP ANY PROCEDURE and DROP ANY TRIGGER: this is 
+             required for the user to drop the debug version of 
+             an object under a different owner.
+          3. ALTER ANY PROCEDURE and ALTER ANY TRIGGER: this is 
+             required for the user to do a 'CREATE OR REPLACE 
+             <object type>' command under a different owner.
+             (See DEBUGGER SESSIONS above for more information.)
+          4. EXECUTE ANY PROCEDURE: this is required for the user
+             to execute the debug version of an object under a 
+             different owner.
+
+
+        =======================================================
+        V. Bug Fixes 
+        -------------------------------------------------------
+
+        1.  SQL-Station Debugger no longer flashes when it times
+            out and a Procedure Execution window is open.
+           
+        2. You can successfully include the Pragma Restrict
+           clause in a debug version of a procedure.
+
+        3. You can now use the Esc key while an Edit window
+           is active (formerly SQL Editor window).
+
+        4. Procedure calls whose arguments include variables with
+           package references are now handled properly.
+
+        5. Record variables declared using the table reference 
+           type of construction  ("table_name%TYPE") can now be
+           watched.
+
+        6. SQL-Station Debugger now handles error messages correctly.
+
+        7. SQL-Station Debugger searches for one of the following Oracle
+           vendor files in your path:
+
+           ORA7NT.DLL
+           ORA71.DLL
+           ORA71NT.DLL
+           ORA72.DLL
+           ORA73.DLL
+
+           If none are found, SQL-Station Debugger now displays an error
+           message and continues running.
+
+
+
+        =======================================================
+        VI. Known Technical Problems 
+        -------------------------------------------------------
+       
+        1. Dependencies within a PL/SQL package do not show 
+           up in the Call Tree. 
+
+        2. The debugger may fail to create a debug version of 
+           very large Oracle packages - Oracle has a limit on 
+           the maximum size for Oracle packages that is 
+           dependent on the mix of statements used. If the debug 
+           version of a package exceeds this limit, you will get 
+           an Oracle PL/SQL error 'PLS-00123 Program too large'. 
+           The workaround is to split them into smaller modules.
+        
+  
+        =======================================================
+        VII. Contacting PLATINUM technology 
+        -------------------------------------------------------
+        
+        We encourage you to report any problems or issues with 
+        PLATINUM SQL-Station Debugger. Please call our development staff
+        or Product Manager directly at (800) 833-PLAT (7528) 
+        with any problems or suggestions.
+
+        If you have support questions, please call our 
+        development staff at (800) 833-PLAT (7528) or 
+        (630)620-5000 and ask for support for the SQL-Station Debugger 
+        product.
+

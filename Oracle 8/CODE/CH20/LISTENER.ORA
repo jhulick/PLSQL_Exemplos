@@ -1,0 +1,25 @@
+# listner.ora
+# Version 1.0, last updated 8/12/97
+# This is a sample listener.ora that specifies the extproc listener, as
+# described in Chapter 20 of _Oracle8 PL/SQL Programming_ by Scott Urman.
+
+#Replace <<ORACLE_HOME>> with the $ORACLE_HOME directory,
+#replace <<LISTENER_KEY>> with an IPC key, and
+#replace <<EXTPROC_SID>> with an identifier for extproc.
+
+listener =
+  (ADDRESS_LIST =
+    (ADDRESS =
+       (PROTOCOL = ipc)
+       (KEY = <<LISTENER_KEY>>)
+    )
+  )
+
+sid_list_listener =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = <<EXTPROC_SID>>)
+      (ORACLE_HOME = <<ORACLE_HOME>>)
+      (PROGRAM = extproc)
+    )
+  )

@@ -1,0 +1,16 @@
+/* Copyright (c) Oracle Corporation 1994.  All Rights Reserved */
+
+/************************************************************************
+  NAME
+    user.lic - user license file
+
+  DESCRIPTION
+    This script allows users access to their own customizable .lic script.
+    It can be used to display license agreement information.
+
+  MODIFIED    MM/DD/YY  Reason
+  zzerhoun    09/28/95  Created.
+**************************************************************************/
+
+{
+}

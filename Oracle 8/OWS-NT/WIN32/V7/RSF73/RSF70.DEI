@@ -1,0 +1,140 @@
+/* Copyright (c) Oracle Corporation 1992.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    rsf70.dei - WinNT V3 de-installation script for ORACLE Required Support Files.
+
+  DESCRIPTION
+    This script removes the Windows NT ORACLE RSF files and un-registers the
+    product.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY Reason
+   syau       09/14/94 - Don't deinstall oraspawn.dll if post 7.0 exists.
+    trodgers  01-APR-92 Created.
+*****************************************************************************/
+{
+  registry = registration("ntrsf70");
+  registry_label = registry_interface_label(registry);
+
+  ui_product(registry_label);
+
+/*****************************************************************************
+   Bind all NLS deinstall strings here...
+*****************************************************************************/
+
+  unknown_rdbms70_prompt = nls("unknown_rdbms70_prompt","It is not possible to remove %%product_label%% because of a problem with the RDBMS70 value in the Oracle component of the NT Registry.");
+  unknown_rdbms70_content = nls("unknown_rdbms70_content","Configuration Problem");
+  unknown_rdbms70_help = nls("unknown_rdbms70_help","In order to remove %%product_label%%, it is necessary to have a correct value for the RDBMS70 value in the Oracle component of the NT Registry. The RDBMS70 variable should point to the directory to whic
+h Oracle7 was installed.");
+
+  unknown_plsql20_prompt = nls("unknown_plsql20_prompt","It is not possible to remove %%product_label%% because of a problem with the PLSQL20 value in the Oracle component of the NT Registry.");
+  unknown_plsql20_content = nls("unknown_plsql20_content","Configuration Problem");
+  unknown_plsql20_help = nls("unknown_plsql20_help","In order to remove %%product_label%%, it is necessary to have a correct value for the PLSQL20 value in the Oracle component of the NT Registry. The PLSQL20 variable should point to the directory to whic
+h PLSQL files were installed.");
+
+  unknown_pro15_prompt = nls("unknown_pro15_prompt","It is not possible to remove %%product_label%% because of a problem with the PRO15 value in the Oracle component of the NT Registry.");
+  unknown_pro15_content = nls("unknown_pro15_content","Configuration Problem");
+  unknown_pro15_help = nls("unknown_pro15_help","In order to remove %%product_label%%, it is necessary to have a correct value for the PRO15 value in the Oracle component of the NT Registry. The PRO15 variable should point to the directory to which precom
+piler files were installed.");
+
+  unregistering = nls("unregistering","Unregistering %%registry_label%%...");
+  deinst_sql = nls("deinst_sql","Deinstalling %%registry_label%% SQL Scripts...");
+  deinst_msb = nls("deinst_msb","Deinstalling %%registry_label%% Message Files...");
+  deinst_dll = nls("deinst_dll","Deinstalling %%registry_label%% Dynamic Link Libraries...");
+  deinst_exe = nls("deinst_exe","Deinstalling %%registry_label%% Executables...");
+  deinst_script = nls("deinst_script","Deinstalling %%registry_label%% Installation Scripts...");
+
+  service_prompt = nls("service_prompt","You must stop all oracle services in order to deinstall the rsf.");
+  service_content = nls("service_content","Stop Oracle Services");
+  service_help = nls("service_help","You should use the orasrv utility or go into the services control panel application and stop all services starting with Oracle.");
+
+/*****************************************************************************
+   Continue with the deinstallation
+*****************************************************************************/
+
+  doit = FALSE;
+
+  if (unreferenced(registry))
+    doit = TRUE;
+  else if (not(internally_called))
+    if (uniquely_self_referenced(registry))
+      doit = TRUE;
+    else
+      doit = yesno_dialog(instantiate(deinstall_prompt01));
+
+  if (doit)
+  {
+  /* check to see if all of the oracle services are shutdown */
+    { remove_file("%ORACLE_HOME%\bin\corent.dll"); }
+    ['PERMISSION_DENIED:{
+    	 information_dialog(service_prompt, service_content,service_help);
+	 signal('FAILURE, "Deinstallation terminated.  Please stop all Oracle services.");
+         }
+    ]
+
+
+    ui_product(registry_label);
+
+    { rdbms70 = v7_translate("RDBMS70"); }
+      [ 'UNBOUND_ENVIRONMENT_VARIABLE:
+          information_dialog(instantiate( unknown_rdbms70_prompt ),
+                             instantiate( unknown_rdbms70_content ),
+                             instantiate( unknown_rdbms70_help ) );
+      ]
+
+    { plsql20 = v7_translate("PLSQL20"); }
+      [ 'UNBOUND_ENVIRONMENT_VARIABLE:
+          information_dialog(instantiate( unknown_plsql20_prompt ),
+                             instantiate( unknown_plsql20_content ),
+                             instantiate( unknown_plsql20_help ) );
+      ]
+
+    { pro15 = v7_translate("PRO15"); }
+      [ 'UNBOUND_ENVIRONMENT_VARIABLE:
+          information_dialog(instantiate( unknown_pro15_prompt ),
+                             instantiate( unknown_pro15_content ),
+                             instantiate( unknown_pro15_help ) );
+      ]
+
+
+    ui_action( instantiate( deinst_sql ) );
+    remove(sql);
+
+    ui_action( instantiate( deinst_msb ) );
+    remove(msg);
+
+    ui_action( instantiate( deinst_dll ) );
+
+    if (not(registered("ntrdbms71")) && not(registered("ntrdbms72")) &&
+        not(registered("ntrdbms73")) && not(registered("ntrdbms80")))
+      remove(dll);
+    else
+    {
+      move_file("%ORACLE_HOME%\bin\oraspawn.dll","%ORACLE_HOME%\bin\oraspawn.701");
+      remove(dll);
+      move_file("%ORACLE_HOME%\bin\oraspawn.701","%ORACLE_HOME%\bin\oraspawn.dll");
+    }
+
+    ui_action( instantiate( deinst_exe ) );
+    remove(exe);
+
+    ui_action( instantiate( deinst_script ) );
+    remove(deinstl);
+
+    ui_action( instantiate( unregistering ) );
+    unregister(registry);
+
+    if (not(registered("ntrdbms70")) && not(registered("ntutil70")))
+    {
+      modify("RDBMS70","",ora_config,"=");
+      modify("PLSQL20","",ora_config,"=");
+    }
+
+    if (not(registered("ntproc15")) && not(registered("ntpro15")))
+    {
+      modify("PRO15","",ora_config,"=");
+    }
+  }
+}

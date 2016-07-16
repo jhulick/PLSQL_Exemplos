@@ -1,0 +1,178 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwt13.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwt15.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="421803">
+OWA_OPT_LOCK
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="421804">
+Since HTTP is a stateless protocol, conventional database locking schemes cannot be used directly. The owa_opt_lock package works around this by giving you a choice of two ways of dealing with the lost update problem: the problem caused if a user selects and then attempts to update a row whose value has been changed in the meantime by another user. The two techniques this package provides are as follows:<P>
+</A><ul type=disc><A NAME="421805">
+<LI>The hidden fields method. This stores the previous values in hidden fields in the HTML page. When the update is performed, it checks these values against the current state of the database. This is implemented with the procedure owa_opt_lock.hidden_fields.
+</A>
+<A NAME="421806">
+<LI>The checksum method. This stores a checksum rather than the values themselves. This is implemented with the procedure owa_opt_lock.checksum.
+</A>
+</ul><A NAME="421807">
+Both of these techniques are "optimistic". That is to say, they do not prevent other users from performing updates, but reject the current update if an intervening update has occurred.<P>
+</A><HR>
+<H2>
+<A NAME="421808">
+Datatypes
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421809">
+vcArray
+</A></DL><A NAME="421810">
+<b>Note</b>: This is distinct from vc_arr, the datatype used in the owa_text package.<P>
+</A><A NAME="421811">
+This is a PL/SQL table of varchar2(2000) indexed by binary integer. It is intended to hold rowids.<P>
+</A><A NAME="421812">
+<PRE>vcArray		table of varchar2(2000) index by binary integer.</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="421813">
+owa_opt_lock.checksum (version 1)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421814">
+Syntax
+</A></DL><A NAME="421815">
+owa_opt_lock.checksum(p_buff)<P>
+</A><DL COMPACT><DT><A NAME="421816">
+Purpose
+</A></DL><A NAME="421817">
+This function returns a checksum based on the information passed. p_buff should include the primary key of the table being "locked". This is a "pure" 32-bit checksum executed by the database and based on the Internet 1 protocol.<P>
+</A><DL COMPACT><DT><A NAME="421818">
+Parameters
+</A></DL><A NAME="421819">
+p_buff	   	in	varchar2<P>
+</A><DL COMPACT><DT><A NAME="421820">
+Generates
+</A></DL><A NAME="421821">
+A checksum of type number.<P>
+</A><HR>
+<H2>
+<A NAME="421822">
+owa_opt_lock.checksum (version 2)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421823">
+Syntax
+</A></DL><A NAME="421824">
+owa_opt_lock.checksum(p_owner, p_tname, p_rowid)<P>
+</A><DL COMPACT><DT><A NAME="421825">
+Purpose
+</A></DL><A NAME="421826">
+This function returns a checksum based on the information passed. The input parameters are the owner, name, and rowid of the table and row being "locked". Use the owa_opt_lock.get_rowid function to convert vcArray values to proper rowids for processing by this function. This is a "impure" 32-bit checksum based on the Internet 1 protocol.<P>
+</A><DL COMPACT><DT><A NAME="421827">
+Parameters
+</A></DL><A NAME="421828">
+p_owner	   	in	varchar2<br>p_tname	   	in	varchar2<br>p_rowid	   	in	rowid<P>
+</A><DL COMPACT><DT><A NAME="421829">
+Generates
+</A></DL><A NAME="421830">
+A checksum of type number.<P>
+</A><HR>
+<H2>
+<A NAME="421831">
+owa_opt_lock.get_rowid
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421832">
+Syntax
+</A></DL><A NAME="421833">
+owa_opt_lock.get_rowid(p_old_values)<P>
+</A><DL COMPACT><DT><A NAME="421834">
+Purpose
+</A></DL><A NAME="421835">
+This function converts the vcArray passed to it to the special datatype ROWID. .<P>
+</A><DL COMPACT><DT><A NAME="421836">
+Parameters
+</A></DL><A NAME="421837">
+p_old_values	 	in	vcArray<P>
+</A><DL COMPACT><DT><A NAME="421838">
+Generates
+</A></DL><A NAME="421839">
+A ROWID.<P>
+</A><HR>
+<H2>
+<A NAME="421840">
+owa_opt_lock.hidden_fields
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421841">
+Syntax
+</A></DL><A NAME="421842">
+owa_opt_lock.hidden_fields(p_owner, p_tname, p_rowid)<P>
+</A><DL COMPACT><DT><A NAME="421843">
+Purpose
+</A></DL><A NAME="421844">
+This procedure takes the owner, name, and rowids of the table and rows being "locked" and stores them with the curent values in hidden HTML fields in the Web page. At update date, you can use owa_opt_lock.verify_hidden_fields to cause a reject if these values have changed.<P>
+</A><DL COMPACT><DT><A NAME="421845">
+Parameters
+</A></DL><A NAME="421846">
+p_owner	   	in	varchar2<br>p_tname	   	in	varchar2<br>p_rowid	   	in	rowid<P>
+</A><DL COMPACT><DT><A NAME="421847">
+Generates
+</A></DL><A NAME="421848">
+A series of hidden fields.<P>
+</A><HR>
+<H2>
+<A NAME="421849">
+owa_opt_lock.verify_hidden_fields
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421850">
+Syntax
+</A></DL><A NAME="421851">
+owa_opt_lock.verify_hidden_fields(p_old_values)<P>
+</A><DL COMPACT><DT><A NAME="421852">
+Purpose
+</A></DL><A NAME="421853">
+This function takes a vcArray containing rowid values and returns a boolean indicating whether the associated rows have been changed since these fields were hidden with the owa_opt_lock.hidden fields procedure.<P>
+</A><DL COMPACT><DT><A NAME="421854">
+Parameters
+</A></DL><A NAME="421855">
+p_old_values	 	in	vcArray<P>
+</A><DL COMPACT><DT><A NAME="421856">
+Generates
+</A></DL><A NAME="421857">
+True if no other update has been performed; false otherwise.<P>
+</A><A NAME="421651">
+<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwt13.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwt15.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

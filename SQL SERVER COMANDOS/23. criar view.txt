@@ -1,0 +1,4 @@
+USE [CorporeRm]
+GO
+CREATE VIEW [dbo].[ViewRegTick] AS
+SELECT * FROM Guardian.DBO.RegTick

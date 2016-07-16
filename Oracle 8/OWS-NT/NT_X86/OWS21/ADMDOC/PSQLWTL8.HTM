@@ -1,0 +1,111 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl7.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl9.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="419159">
+Physical Format Tags
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="419161">
+The physical format tags are used to specify the format of the marked text.<P>
+</A><A NAME="419162">
+Note: All the hypertext procedures (HTP) shown in this section are also available as hypertext functions (HTF).<P>
+</A><HR>
+<H2>
+<A NAME="419163">
+htp.bold
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419164">
+Syntax
+</A></DL><A NAME="419165">
+htp.bold (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419166">
+Purpose
+</A></DL><A NAME="419167">
+Prints a pair of HTML tags that specify the text they surround is to be rendered as boldface.<P>
+</A><DL COMPACT><DT><A NAME="419168">
+Parameters
+</A></DL><A NAME="419169">
+ctext   		in varchar2<br>cattributes		in varchar2		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419170">
+Generates
+</A></DL><A NAME="419171">
+&lt;B <em>cattributes&gt;ctext</em>&lt;/B&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419172">
+htp.italic
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419173">
+Syntax
+</A></DL><A NAME="419174">
+htp.italic (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419175">
+Purpose
+</A></DL><A NAME="419176">
+Prints a pair of HTML tags that specify the text they surround is to be rendered as italics.<P>
+</A><DL COMPACT><DT><A NAME="419177">
+Parameters
+</A></DL><A NAME="419178">
+ctext   		in varchar2<br>cattributes		in varchar2		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419179">
+Generates
+</A></DL><A NAME="419180">
+&lt;I <em>cattributes</em>&gt;<em>ctext</em>&lt;/I&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419181">
+htp.teletype
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419182">
+Syntax
+</A></DL><A NAME="419183">
+htp.teletype (ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419184">
+Purpose
+</A></DL><A NAME="419185">
+Prints a pair of HTML tags that specify the text they surround is to be rendered in a fixed width typewriter font, e.g. Courier.<P>
+</A><DL COMPACT><DT><A NAME="419186">
+Parameters
+</A></DL><A NAME="419187">
+ctext   		in varchar2<br>cattributes		in varchar2		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419188">
+Generates
+</A></DL><A NAME="419189">
+&lt;TT <em>cattributes</em>&gt;<em>ctext</em>&lt;/TT&gt;<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl7.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl9.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

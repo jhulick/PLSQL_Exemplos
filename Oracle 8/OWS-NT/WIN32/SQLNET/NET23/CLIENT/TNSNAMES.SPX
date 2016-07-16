@@ -1,0 +1,12 @@
+%found_alias% = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = %its_community%)
+          (PROTOCOL = SPX)
+          (Service = %its_service%)
+        )
+    )
+    (CONNECT_DATA = (SID = %its_sid%)
+    )
+  )

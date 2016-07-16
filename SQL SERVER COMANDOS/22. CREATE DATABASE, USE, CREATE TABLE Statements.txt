@@ -1,0 +1,11 @@
+CREATE DATABASE teste //cria a base de dados
+
+USE teste //abre a base de dados
+
+//cria uma tabela nesta base de dados
+CREATE TABLE teste (
+    <nome_do_campo>  <Tipo>,
+    <nome_do_campo>  <Tipo>
+);
+
+*em MySQL

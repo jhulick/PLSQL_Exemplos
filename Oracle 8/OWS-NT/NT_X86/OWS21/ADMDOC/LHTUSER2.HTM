@@ -1,0 +1,204 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using LiveHTML
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="lhtuserf.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="lhtuser1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418405">
+LiveHTML Examples
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418429">
+This section provides examples of the use of various LiveHTML tags. Assume your file contains the following include tag:<P>
+</A><A NAME="418430">
+<PRE> &lt;!--#include file="inc1.html"--&gt;</PRE><P>
+</A>
+<A NAME="418432">
+<PRE>The content of the file <em>incl1.html</em> is as follows:</PRE><P>
+</A>
+<A NAME="418434">
+<PRE>&lt;p align=center&gt;</PRE><P>
+</A>
+<A NAME="418435">
+<PRE>&lt;a href="#FileIncludes"&gt;File Includes&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418436">
+<PRE>&lt;a href="#Date/TimeInserts"&gt;Dates/Times&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418437">
+<PRE>&lt;a href="#Date/TimeFormatting"&gt;Date/Time Formats&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418438">
+<PRE>&lt;a href="#DocumentNames/Paths"&gt;Doc Names/Paths&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418439">
+<PRE>&lt;a href="#FileSizeAndDate"&gt;File Size/Date&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418440">
+<PRE>&lt;a href="#HostServer"&gt;Host/Server Info&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418441">
+<PRE>&lt;a href="#Browser"&gt;Browser Info&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418442">
+<PRE>&lt;a href="#Animation"&gt;Server Push Animation&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418443">
+<PRE>&lt;a href="#HitCounters"&gt;Counters&lt;/a&gt; |</PRE><P>
+</A>
+<A NAME="418444">
+<PRE>&lt;a href="#ReferringURL"&gt;Referring URL&lt;/a&gt;</PRE><P>
+</A>
+<A NAME="418445">
+<PRE>&lt;/p&gt;</PRE><P>
+</A>
+<A NAME="418455">
+This would result in the following group of links being inserted into your Web page:<P>
+</A><A NAME="418641">
+<PRE>File Includes    Dates/Times    Date/Time Formats  Doc Names/Paths</PRE><P>
+</A>
+<A NAME="418456">
+<PRE>FileSize/Date    Host/Server Info    Browser Info</PRE><P>
+</A>
+<A NAME="418669">
+<PRE>Server Push Animation   Counters   Referring URL</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="418676">
+Date and Time Formats
+</A>
+</H2>
+<A NAME="418677">
+The following tags impose DATE and TIME formats and then echo that information into the Web page:<P>
+</A><A NAME="418466">
+<PRE>&lt;!--#config timefmt="%A, %B %d, %Y, at %I:%M %p"--&gt;</PRE><P>
+</A>
+<A NAME="418468">
+<PRE>GMT date/time is Friday, August 23, 1996, at 03:14 AM</PRE><P>
+</A>
+<A NAME="418470">
+<PRE>LOCAL date/time is Thursday, August 22, 1996, at 08:14 PM</PRE><P>
+</A>
+<A NAME="418472">
+<PRE>Updated on Tuesday, August 13, 1996, at 03:42 AM</PRE><P>
+</A>
+<A NAME="418483">
+<b>Note: </b>Unix strftime settings are used in the #config timefmt= string. Ordinary characters are copied to the document without conversion, so you can insert "on" or "at" or whatever may be useful.<P>
+</A>
+<HR>
+<H2>
+<A NAME="418727">
+Info about the Present File
+</A>
+</H2>
+<A NAME="418496">
+Here are some other useful tags:<P>
+</A><A NAME="418497">
+<PRE>This document is &lt;!--#echo var="PATH_TRANSLATED"--&gt;</PRE><P>
+</A>
+<A NAME="418714">
+<PRE>Its virtual path is &lt;!--#echo var="DOCUMENT_URI"--&gt;</PRE><P>
+</A>
+<A NAME="418712">
+translates to: <P>
+</A><A NAME="418499">
+<PRE>This document is /private1/oracle/ows21/sample/ssi/sstest.html</PRE><P>
+</A>
+<A NAME="418503">
+<PRE>Its virtual path is /sample/ssi/sstest.html</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="418729">
+Info about the Other Files
+</A>
+</H2>
+<A NAME="418514">
+Two other useful directives are #fsize and #flastmod, which allow you to give the size and date of any file on the server-computer rather than just the current document. They work as follows, using file= for relative addressing and virtual= for full path addressing based on your own home directory.<P>
+</A><A NAME="418519">
+<PRE>&lt;!--#config sizefmt="bytes"--&gt;</PRE><P>
+</A>
+<A NAME="418521">
+<PRE>This gives the file size of 'sstest.html' in bytes: 6405 bytes</PRE><P>
+</A>
+<A NAME="418523">
+<PRE>                                      or</PRE><P>
+</A>
+<A NAME="418525">
+<PRE>&lt;!--#config sizefmt="abbrev"--&gt;</PRE><P>
+</A>
+<A NAME="418527">
+<PRE>This gives the file size of 'sstest.html' in kilobytes: 6 Kbytes</PRE><P>
+</A>
+<A NAME="418760">
+<P>
+</A><A NAME="418529">
+<PRE>One of the best uses of the #fsize directive is to provide your visitor with the size of any graphics files to be downloaded. This is a tremendous timesaver for you, as an HTML author, if you add and change downloadable images a lot, since you never have to look up the sizes and type them in.</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="418548">
+Naming the Client's Browser
+</A>
+</H2>
+<A NAME="418550">
+It is not of particular interest to the web author, but you may reflect back to the person visiting your pages the browser and version that he or she is using to read your pages.<P>
+</A><A NAME="418554">
+<PRE>The code Browser: &lt;!--#echo var="HTTP_USER_AGENT"--&gt;</PRE><P>
+</A>
+<A NAME="418556">
+produces the following:<P>
+</A><A NAME="418558">
+<PRE>Mozilla/1.1N (X11; I; SunOS 4.1.3 sun4m)</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="418567">
+Providing Host and Server Information
+</A>
+</H2>
+<A NAME="418569">
+<PRE>The following line at the top of a document:</PRE><P>
+</A>
+<A NAME="418571">
+<PRE>Host: &lt;!--#echo var="REMOTE_HOST"--&gt; (&lt;!--#echo var="REMOTE_ADDR"--&gt;) - Server: &lt;!--#echo var="SERVER_NAME"--&gt; (&lt;!--#echo var="SERVER_SOFTWARE"-&gt;)</PRE><P>
+</A>
+<A NAME="418574">
+generates the following information:<P>
+</A><A NAME="418576">
+<PRE>Host:stingray.us.oracle.com (186.91.622.103)- Server: tse-tse.us.oracle.com</PRE><P>
+</A>
+<A NAME="418577">
+<PRE>(Oracle_Web_listener2.1/1.20in2)</PRE><P>
+</A>
+<A NAME="418401">
+<PRE></PRE><P>
+</A>
+ <P>
+ 
+<HR>
+<A HREF="lhtuserf.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to"> Go to the top of the section</A><P>
+<A HREF="lhtuser1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

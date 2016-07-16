@@ -1,0 +1,3733 @@
+# 
+# $Header: migrate.bsq,v 1.62 1995/11/13 13:05:40 jbellemo Exp $ 
+# 
+#  Copyright (c) 1991 by Oracle Corporation 
+#    NAME
+#      migrate.bsq - script for the migration utility
+#    NOTES
+#
+#      READ THIS IF YOU ARE CHANGING THIS FILE!!!!!!!!!!
+#
+#      1) Comments must be prefixed with #, *NOT* "Rem"
+#      2) This file runs under the V6 kernel, *NOT* V7.  So don't use
+#         V7 datatypes like VARCHAR2.
+#      3) If you add a new object, be sure to also add it to the V7_OBJECTS
+#         table, *AND* add a drop statement for it.  This script may be run
+#         multiple times under V6 before the user actually brings up V7.
+#
+#    MODIFIED   (MM/DD/YY)
+#     jbellemo   11/11/95 -  merge changes from branch 1.56.720.3
+#     rmarimon   08/30/95 -  Bug 304749
+#     rmarimon   05/03/95 -  Bug 110894: add d_owner# column to dependency$
+#     glumpkin   12/13/94 -  Histograms: add c_obj#_col#,hist_head$,histgrm$
+#     jstamos    12/12/94 -  merge changes from branch 1.56.720.2
+#     gpongrac   11/29/94 -  merge changes from branch 1.56.720.1
+#     jbellemo   05/25/95 -  TRUSTSP: add new MAC privileges
+#     jstamos    11/30/94 -  merge changes from branch 1.40.710.17
+#     gpongrac   11/22/94 -  merge changes from branch 1.40.710.16; resync
+#     gpongrac   10/20/94 -  #244274; add I_ACCESS1, I_TRIGGERCOL, RESOURCE_MAP
+#     mramache   09/13/94 -  corrected column order on undo$ bootstrap entry
+#     bwadding   08/24/94 -  Fix updating of synonyms for DBlinks
+#     vraghuna   08/19/94 -  move export compatibility to catexp.sql
+#     jbellemo   06/23/94 -  TRUSTSP: add objpriv$
+#     gpongrac   06/24/94 -  merge changes from branch 1.40.710.14
+#     gpongrac   05/26/94 -  merge changes from branch 1.40.710.13
+#     vraghuna   04/08/94 -  merge changes from branch 1.40.710.10
+#     jbellemo   04/07/94 -  merge changes from branch 1.40.710.12
+#     gpongrac   04/07/94 -  merge changes from branch 1.40.710.11
+#     gpongrac   04/07/94 -  merge changes from branch 1.40.710.7
+#     gpongrac   04/07/94 -  merge changes from branch 1.40.710.5
+#     dleary     04/04/94 -  merge changes from branch 1.40.710.1
+#     rjenkins   03/09/94 -  merge changes from branch 1.40.710.8
+#     rjenkins   03/09/94 -  merge changes from branch 1.40.710.4
+#     rjenkins   01/19/94 -  merge changes from branch 1.40.710.3
+#     gpongrac   11/30/93 -  merge changes from branch 1.40.710.2
+#     gpongrac   06/07/94 -  #219765 populate ind$ after creating i_objauth1
+#     gpongrac   05/25/94 -  #208424: set maxextents back to 99 for sys rollb
+#     jbellemo   03/17/94 -  #206214: fix entries in stmt_audit_option_map
+#     gpongrac   02/15/94 -  #191563 drop TMPIDX before populating ind$
+#     vraghuna   02/10/94 -  replace expver$ with a row in props$
+#     vraghuna   02/07/94 -  add expver$ for versioning support
+#     rjenkins   02/07/94 -  adding unique index on rgroup
+#     gpongrac   02/07/94 -  move expact$, add it to v7_objects; drop jobseq$
+#     vraghuna   02/02/94 -  bug 191751 - add expact
+#     gpongrac   02/02/94 -  change Rem to #, remove varchar2 reference
+#     rjenkins   01/13/94 -  adding rollback seg col to rgroup$
+#     rjenkins   12/17/93 -  creating job queue
+#     gpongrac   11/30/93 -  merge changes from branch 1.25.312.8
+#     gpongrac   11/04/93 -  add comments about tmpidx; change objauth$ stuff
+#			     fix bug 188883 (pop obj$ after all objs created)
+#     dleary     10/26/93 -  add ora_tq_base$ sequence
+#     gpongrac   11/30/93 -  merge changes from branch 1.25.312.8
+#     dleary     10/26/93 -  add ora_tq_base$ sequence
+#     rjenkins   08/09/93 -  new snap$ columns for 7.1
+#     gpongrac   07/06/93 -  merge changes from branch 1.25.312.7
+#     gpongrac   07/02/93 -  change rem to #
+#     ajasuja    06/23/93 -  new rows into system_privilege_map
+#     jbellemo   06/14/93 -  #166465: change label column to raw(255)
+#     gpongrac   05/10/93 -  merge changes from branch 1.25.312.6 
+#     gpongrac   05/07/93 -  merge changes from branch 1.25.312.5 
+#     gpongrac   05/07/93 -  merge changes from branch 1.25.312.3 
+#     gpongrac   05/07/93 -  bug 159122 
+#     jbellemo   05/05/93 -  fix bogus  #'s 
+#     jbellemo   04/14/93 - #(158690) set defrole for PUBLIC 
+#     jbellemo   03/08/93 -  add SYSTEM GRANT back into audit_option table 
+#     jwijaya    03/05/93 -  merge changes from branch 1.25.312.2 
+#     jwijaya    03/04/93 -  merge changes from branch 1.25.312.1 
+#     jbellemo   02/22/93 -  remove SYSTEM GRANT and TRUNCATE as privs 
+#     aho        01/18/93 -  add semi-colons (bug 146865) 
+#     gpongrac   07/01/93 -  bug 155726 again; deal with nul val in col
+#     gpongrac   05/10/93 -  dont use concat operator 
+#     gpongrac   05/06/93 -  bug 159122 
+#     gpongrac   03/18/93 -  bug 155726; delete duplicate rows in objauth$
+#     jwijaya    03/03/93 -  fix a typo 
+#     jwijaya    03/01/93 -  idl_* changes 
+#     gpongrac   11/18/92 -  argument$ changes 
+#     ajasuja    11/18/92 -  merge changes from branch 1.16.311.3 
+#     gpongrac   11/13/92 -  change Rem to # 
+#     gpongrac   11/11/92 -  change lengths of char cols in argument$ 
+#     gpongrac   11/10/92 -  add rows for new MAP table indexes to v7_objects
+#     gpongrac   11/10/92 -  i_argument is a New object, not a Modified one 
+#     gpongrac   11/10/92 -  add argument$ table and sequence col to error$
+#     vraghuna   10/28/92 -  bug 130560 - move map tables into bsq 
+#     ajasuja    09/23/92 -  unique index on audit$ 
+#     gpongrac   09/10/92 -  prevent any space operations after we populate seg$
+#     gpongrac   09/09/92 -  set maxexts to 99 in the V7 catalog, not the V6
+#     gpongrac   09/08/92 -  improve objauth$ delete performance; bug 127869
+#     gpongrac   09/08/92 -  fix update of pctincrease for rollbacks to not sort
+#     gpongrac   09/08/92 -  bug 127942 - set default tablespace for migrate
+#     gpongrac   09/04/92 -  add dual to v7_objects as an 'N' type;
+#                            create c_file#_block# first so it gets the big xtnt
+#     gpongrac   09/03/92 -  account for c_file#_block# twice as big
+#     gpongrac   08/25/92 -  offline ts migration bug; drop maint.v7_objects 
+#     aho        08/24/92 -  use v7_objects table to swap sys & migrate 
+#     aho        08/17/92 -  rewrite sys/migrate swap (bg 124183) 
+#     alaursen   07/08/92 -  Move space computation 
+#     aho        07/07/92 -  more syntax silliness!
+#     aho        07/06/92 -  fix syntax errors 
+#     aho        06/29/92 -  drop junk from v6 and v5 before migration
+#                         -  (e.g. expvew, expvew5, catalog, catalog5, ulview)
+#     aho        06/24/92 -  add epeeler's changes for null constraints 
+#                         -  update comments in col$ and cdef$
+#     aho        06/02/92 -  remove duplicate grants in objauth (#110680) 
+#     aho        04/08/92 -  merge changes from branch 1.7.300.1 
+#     aho        04/07/92 -  enable not null constraints (103146 & 103233) 
+#     mmoore     02/19/92 -  add more privileges to the connect role 
+#     alaursen   01/27/92 -  add in space checking 
+#     alaursen   01/09/92 -  Fix PIDL types
+#     mmoore     12/13/91 -  new pidl tables,merge forward other changes
+#     aho        12/06/91 -  convert_nls() 
+#     alaursen   10/23/91 -  Add grant to dual 
+#     alaursen   10/16/91 -  Too many files under sys are moved to migrate 
+#     alaursen   10/06/91 -  Fix version number in bootstrap 
+#     alaursen   09/28/91 -  Creation 
+#^ connect (maint, internal)
+grant connect, resource, dba to migrate identified by migrate;
+alter user migrate default tablespace system;
+drop table dual;
+drop public synonym dual;
+drop table v7_objects;
+drop index tmpidx;
+#^ connect (migrate, migrate)
+
+##
+## m_delete
+##
+
+drop table bootstrap$;
+drop cluster c_obj# including tables;
+drop cluster c_ts# including tables;
+drop cluster c_file#_block# including tables;
+drop cluster c_user# including tables;
+drop table undo$;
+drop table file$;
+drop table obj$;
+drop table con$;
+drop cluster c_cobj# including tables;
+
+drop table syn$;
+drop table view$;
+drop table seq$;
+drop table procedure$;
+drop table argument$;
+drop table source$;
+drop table idl_ub1$;
+drop table idl_char$;
+drop table idl_ub2$;
+drop table idl_sb4$;
+drop table error$;
+drop table trigger$;
+drop table triggercol$;
+drop table objauth$;
+drop table sysauth$;
+drop table defrole$;
+drop table profile$;
+drop table profname$;
+drop table dependency$;
+drop table access$;
+drop table aud$;
+drop table lab$;
+drop table link$;
+drop table props$;
+drop table com$;
+drop table resource_cost$;
+drop sequence object_grant;
+drop sequence system_grant;
+drop sequence profnum$;
+drop table incexp;
+drop table expact$;
+drop table incvid;
+drop table incfil;
+drop table "_default_auditing_options_";
+drop sequence audses$;
+drop table audit$;
+drop table pending_trans$;
+drop table pending_sessions$;
+drop table pending_sub_sessions$;
+drop cluster c_mlog# including tables;
+drop table snap$;
+drop cluster c_rg# including tables;
+drop table job$;
+drop table duc$;
+drop cluster c_obj#_col# including tables;
+drop table hist_head$;
+drop table dual;
+drop public synonym dual;
+drop sequence label_translation;
+drop table SYSTEM_PRIVILEGE_MAP;
+drop table TABLE_PRIVILEGE_MAP;
+drop table STMT_AUDIT_OPTION_MAP;
+drop sequence jobseq;
+drop sequence rgroupseq;
+drop sequence ora_tq_base$;
+drop table objpriv$;
+
+##
+## create v7_objects table to enumerate how to migrate the v6 data dictionary
+##
+#
+# L : leave this object alone.  it should be migrated from v6 to v7 in
+#     sys' schema unchanged.
+# M : migrate the object.  we will create an equivalent v7 in migrate's
+#     schema and then swap.  (the object exists in v6 and v7)
+# N : new object that did not exist in v6.  we need to check to make sure
+#     that the v6 sys schema does not contain the an object with the same
+#     name; it will change into the new v7 object without warning.
+# O : overlap.  if a type 'N' object exists in the v6 sys schema then
+#     it is changed into an 'O'.
+# P : purge.  this is an v6 object that no longer exists in v7.  it will
+#     disappear during the migration
+#
+
+#^ connect (maint, internal)
+
+create table v7_objects
+(
+ type   char(1),
+ name   char(30),
+ v6obj# number                             /* used by space calculation */
+);
+
+create index i_v7_objects on v7_objects(v6obj#);
+
+insert into v7_objects values ('P', 'V7_OBJECTS', -1);
+insert into v7_objects values ('N', 'ACCESS$', -1);
+insert into v7_objects values ('N', 'ARGUMENT$', -1);
+insert into v7_objects values ('M', 'AUD$', -1);
+insert into v7_objects values ('N', 'AUDIT$', -1);
+insert into v7_objects values ('L', 'AUDSES$', -1);
+insert into v7_objects values ('N', 'BOOTSTRAP$', -1);
+insert into v7_objects values ('M', 'CCOL$', -1);
+insert into v7_objects values ('M', 'CDEF$', -1);
+insert into v7_objects values ('M', 'CLU$', -1);
+insert into v7_objects values ('M', 'COL$', -1);
+insert into v7_objects values ('P', 'COLAUTH$', -1);
+insert into v7_objects values ('P', 'COLUMN_GRANT', -1);
+insert into v7_objects values ('M', 'COM$', -1);
+insert into v7_objects values ('M', 'CON$', -1);
+insert into v7_objects values ('M', 'C_COBJ#', -1);
+insert into v7_objects values ('M', 'C_FILE#_BLOCK#', -1);
+insert into v7_objects values ('N', 'C_MLOG#', -1);
+insert into v7_objects values ('M', 'C_OBJ#', -1);
+insert into v7_objects values ('N', 'C_OBJ#_COL#', -1);
+insert into v7_objects values ('N', 'C_RG#', -1);
+insert into v7_objects values ('M', 'C_TS#', -1);
+insert into v7_objects values ('M', 'C_USER#', -1);
+insert into v7_objects values ('N', 'DEFROLE$', -1);
+insert into v7_objects values ('N', 'DEPENDENCY$', -1);
+insert into v7_objects values ('N', 'DUAL', -1);
+insert into v7_objects values ('N', 'DUC$', -1);
+insert into v7_objects values ('N', 'ERROR$', -1);
+insert into v7_objects values ('N', 'EXPACT$', -1);
+insert into v7_objects values ('M', 'FET$', -1);
+insert into v7_objects values ('M', 'FILE$', -1);
+insert into v7_objects values ('N', 'HISTGRM$', -1);
+insert into v7_objects values ('N', 'HIST_HEAD$', -1);
+insert into v7_objects values ('M', 'ICOL$', -1);
+insert into v7_objects values ('N', 'IDL_CHAR$', -1);
+insert into v7_objects values ('N', 'IDL_SB4$', -1);
+insert into v7_objects values ('N', 'IDL_UB1$', -1);
+insert into v7_objects values ('N', 'IDL_UB2$', -1);
+insert into v7_objects values ('M', 'INCEXP', -1);
+insert into v7_objects values ('M', 'INCFIL', -1);
+insert into v7_objects values ('M', 'INCVID', -1);
+insert into v7_objects values ('M', 'IND$', -1);
+insert into v7_objects values ('N', 'I_ACCESS1', -1);
+insert into v7_objects values ('M', 'I_AUD1', -1);
+insert into v7_objects values ('N', 'I_ARGUMENT1', -1);
+insert into v7_objects values ('N', 'I_AUDIT', -1);
+insert into v7_objects values ('M', 'I_CCOL1', -1);
+insert into v7_objects values ('M', 'I_CDEF1', -1);
+insert into v7_objects values ('M', 'I_CDEF2', -1);
+insert into v7_objects values ('N', 'I_CDEF3', -1);
+insert into v7_objects values ('M', 'I_COBJ#', -1);
+insert into v7_objects values ('M', 'I_COL1', -1);
+insert into v7_objects values ('M', 'I_COL2', -1);
+insert into v7_objects values ('P', 'I_COLAUTH1', -1);
+insert into v7_objects values ('P', 'I_COLAUTH2', -1);
+insert into v7_objects values ('P', 'I_COLAUTH3', -1);
+insert into v7_objects values ('M', 'I_COM1', -1);
+insert into v7_objects values ('M', 'I_CON1', -1);
+insert into v7_objects values ('M', 'I_CON2', -1);
+insert into v7_objects values ('N', 'I_DEFROLE1', -1);
+insert into v7_objects values ('N', 'I_DEPENDENCY1', -1);
+insert into v7_objects values ('N', 'I_DEPENDENCY2', -1);
+insert into v7_objects values ('N', 'I_DUC', -1);
+insert into v7_objects values ('N', 'I_ERROR1', -1);
+insert into v7_objects values ('M', 'I_FILE#_BLOCK#', -1);
+insert into v7_objects values ('M', 'I_FILE1', -1);
+insert into v7_objects values ('M', 'I_ICOL1', -1);
+insert into v7_objects values ('N', 'I_IDL_CHAR1', -1);
+insert into v7_objects values ('N', 'I_IDL_SB41', -1);
+insert into v7_objects values ('N', 'I_IDL_UB11', -1);
+insert into v7_objects values ('N', 'I_IDL_UB21', -1);
+insert into v7_objects values ('M', 'I_INCEXP', -1);
+insert into v7_objects values ('M', 'I_IND1', -1);
+insert into v7_objects values ('N', 'I_JOB_JOB', -1);
+insert into v7_objects values ('N', 'I_JOB_NEXT', -1);
+insert into v7_objects values ('M', 'I_LINK1', -1);
+insert into v7_objects values ('N', 'I_MLOG#', -1);
+insert into v7_objects values ('M', 'I_OBJ#', -1);
+insert into v7_objects values ('N', 'I_OBJ#_COL#', -1);
+insert into v7_objects values ('M', 'I_OBJ1', -1);
+insert into v7_objects values ('M', 'I_OBJ2', -1);
+insert into v7_objects values ('N', 'I_OBJAUTH1', -1);
+insert into v7_objects values ('N', 'I_OBJAUTH2', -1);
+insert into v7_objects values ('N', 'I_PENDING_TRANS1', -1);
+insert into v7_objects values ('N', 'I_PROCEDURE1', -1);
+insert into v7_objects values ('N', 'I_PROFILE', -1);
+insert into v7_objects values ('N', 'I_PROFNAME', -1);
+insert into v7_objects values ('N', 'I_RG#', -1);
+insert into v7_objects values ('N', 'I_RGCHILD', -1);
+insert into v7_objects values ('N', 'I_RGJOB', -1);
+insert into v7_objects values ('N', 'I_RGREF', -1);
+insert into v7_objects values ('N', 'I_RGROUP', -1);
+insert into v7_objects values ('M', 'I_SEQ1', -1);
+insert into v7_objects values ('N', 'I_SLOG1', -1);
+insert into v7_objects values ('N', 'I_SNAP1', -1);
+insert into v7_objects values ('N', 'I_SOURCE1', -1);
+insert into v7_objects values ('N', 'I_STMT_AUDIT_OPTION_MAP', -1);
+insert into v7_objects values ('M', 'I_SYN1', -1);
+insert into v7_objects values ('N', 'I_SYSAUTH1', -1);
+insert into v7_objects values ('N', 'I_SYSTEM_PRIVILEGE_MAP', -1);
+insert into v7_objects values ('M', 'I_TAB1', -1);
+insert into v7_objects values ('P', 'I_TABAUTH1', -1);
+insert into v7_objects values ('P', 'I_TABAUTH2', -1);
+insert into v7_objects values ('N', 'I_TABLE_PRIVILEGE_MAP', -1);
+insert into v7_objects values ('N', 'I_TRIGGER1', -1);
+insert into v7_objects values ('N', 'I_TRIGGER2', -1);
+insert into v7_objects values ('N', 'I_TRIGGERCOL', -1);
+insert into v7_objects values ('M', 'I_TS#', -1);
+insert into v7_objects values ('M', 'I_UNDO1', -1);
+insert into v7_objects values ('M', 'I_USER#', -1);
+insert into v7_objects values ('M', 'I_USER1', -1);
+insert into v7_objects values ('M', 'I_VIEW1', -1);
+insert into v7_objects values ('P', 'I_V7_OBJECTS', -1);
+insert into v7_objects values ('P', 'I_XREF1', -1);
+insert into v7_objects values ('N', 'JOB$', -1);
+insert into v7_objects values ('N', 'JOBSEQ', -1);
+insert into v7_objects values ('N', 'LAB$', -1);
+insert into v7_objects values ('N', 'LABEL_TRANSLATION', -1);
+insert into v7_objects values ('M', 'LINK$', -1);
+insert into v7_objects values ('N', 'MLOG$', -1);
+insert into v7_objects values ('M', 'OBJ$', -1);
+insert into v7_objects values ('N', 'OBJAUTH$', -1);
+insert into v7_objects values ('N', 'OBJECT_GRANT', -1);
+insert into v7_objects values ('N', 'OBJPRIV$', -1);
+insert into v7_objects values ('N', 'ORA_TQ_BASE$', -1);
+insert into v7_objects values ('N', 'PENDING_SESSIONS$', -1);
+insert into v7_objects values ('N', 'PENDING_SUB_SESSIONS$', -1);
+insert into v7_objects values ('N', 'PENDING_TRANS$', -1);
+insert into v7_objects values ('N', 'PROCEDURE$', -1);
+insert into v7_objects values ('N', 'PROFILE$', -1);
+insert into v7_objects values ('N', 'PROFNAME$', -1);
+insert into v7_objects values ('N', 'PROFNUM$', -1);
+insert into v7_objects values ('M', 'PROPS$', -1);
+insert into v7_objects values ('N', 'RESOURCE_COST$', -1);
+insert into v7_objects values ('N', 'RESOURCE_MAP', -1);
+insert into v7_objects values ('N', 'RGCHILD$', -1);
+insert into v7_objects values ('N', 'RGROUP$', -1);
+insert into v7_objects values ('N', 'RGROUPSEQ', -1);
+insert into v7_objects values ('M', 'SEG$', -1);
+insert into v7_objects values ('M', 'SEQ$', -1);
+insert into v7_objects values ('N', 'SLOG$', -1);
+insert into v7_objects values ('N', 'SNAP$', -1);
+insert into v7_objects values ('N', 'SOURCE$', -1);
+insert into v7_objects values ('N', 'STMT_AUDIT_OPTION_MAP', -1);
+insert into v7_objects values ('M', 'SYN$', -1);
+insert into v7_objects values ('N', 'SYSAUTH$', -1);
+insert into v7_objects values ('N', 'SYSTEM_GRANT', -1);
+insert into v7_objects values ('N', 'SYSTEM_PRIVILEGE_MAP', -1);
+insert into v7_objects values ('M', 'TAB$', -1);
+insert into v7_objects values ('P', 'TABAUTH$', -1);
+insert into v7_objects values ('P', 'TABLE_GRANT', -1);
+insert into v7_objects values ('N', 'TABLE_PRIVILEGE_MAP', -1);
+insert into v7_objects values ('N', 'TRIGGER$', -1);
+insert into v7_objects values ('N', 'TRIGGERCOL$', -1);
+insert into v7_objects values ('M', 'TS$', -1);
+insert into v7_objects values ('M', 'TSQ$', -1);
+insert into v7_objects values ('M', 'UET$', -1);
+insert into v7_objects values ('M', 'UNDO$', -1);
+insert into v7_objects values ('M', 'USER$', -1);
+insert into v7_objects values ('M', 'VIEW$', -1);
+insert into v7_objects values ('P', 'XREF$', -1);
+insert into v7_objects values ('L', '_NEXT_OBJECT', -1);
+insert into v7_objects values ('M', '_default_auditing_options_', -1);
+insert into v7_objects values ('P', '_system_auditing_options_', -1);
+
+update v7_objects set type = 'O' 
+   where type = 'N' and
+         name in (select name from obj$ 
+                  where owner# = (select user# from user$ 
+                                  where name = 'SYS'));
+
+update v7_objects x set v6obj# =
+	(select obj# from obj$ y
+	 where x.name = y.name
+	  and  y.owner# =
+		(select user# from user$ where name = 'SYS'))
+	 where type <> 'N' and type <> 'P';
+
+##
+## m_space
+##
+## is there enough space?
+##
+#^ space_fb()
+#^ connect (migrate, migrate)
+#^ create_cluster_fb()
+#^ connect (maint,internal)
+#^ space_ts()
+#^ connect (migrate, migrate)
+#^ create_cluster_ts()
+#^ connect (maint, internal)
+#^ space_out()
+
+##
+## m_catalog
+##
+## remove v6 and v5 views and catalogs
+## don't remove the table dual!
+##
+
+#
+# expvew.sql
+#
+drop view exutab;
+drop view exutabi;
+drop view exutabc;
+drop view exutabu;
+drop view exucol;
+drop view exucolu;
+drop view exuico;
+drop view exuicou;
+drop view exuusr;
+drop view exuusru;
+drop view exugrn;
+drop view exugrnu;
+drop view exucgr;
+drop view exucgru;
+drop view exuind;
+drop view exuindu;
+drop view exuvew;
+drop view exuvewi;
+drop view exuvewc;
+drop view exuvewu;
+drop view exusyn;
+drop view exusyni;
+drop view exusync;
+drop view exusynu;
+drop view exucco;
+drop view exuccou;
+drop view exuclu;
+drop view exuclui;
+drop view exucluc;
+drop view exucluu;
+drop view exusto;
+drop view exustou;
+drop view exutbs;
+drop view exutsq;
+drop view exubsz;
+drop view exufil;
+drop view exulnk;
+drop view exulnku;
+drop view exursg;
+drop view exudel;
+drop view exuseq;
+drop view exusequ;
+drop view exucon;
+drop view exuconu;
+drop view exuref;
+drop view exurefu;
+drop view exurefic;
+drop view exurefi;
+drop view exurefc;
+drop view exuccl;
+drop view exucclu;
+drop view exucclo;
+drop view exurep;
+drop view exurepu;
+drop view exurepic;
+drop view exurepi;
+drop view exurepc;
+#
+# expvew5.sql
+#
+drop view tables;
+drop view columns;
+drop view extents;
+drop table tabauth;
+drop view views;
+drop table spaces;
+drop view indexes;
+drop view userauth;
+drop view partitions;
+drop view segquotas;
+drop view v4expuser;
+drop view v4expspace;
+drop view v4expindex;
+drop view v4exptab;
+drop view v4expclus;
+drop view v4exptabauth;
+drop view v4expextents;
+drop view v4expcol;
+drop view v4expsyn;
+drop view v4expview;
+#
+# catalog.sql
+#
+drop table AUDIT_ACTIONS;
+drop public synonym AUDIT_ACTIONS;
+drop view USER_AUDIT_TRAIL;
+drop public synonym USER_AUDIT_TRAIL;
+drop public synonym DBA_AUDIT_TRAIL;
+drop view USER_AUDIT_CONNECT;
+drop public synonym USER_AUDIT_CONNECT;
+drop public synonym DBA_AUDIT_CONNECT;
+drop view DBA_AUDIT_EXISTS;
+drop public synonym DBA_AUDIT_EXISTS;
+drop view USER_AUDIT_RESOURCE;
+drop public synonym USER_AUDIT_RESOURCE;
+drop public synonym DBA_AUDIT_RESOURCE;
+drop view DBA_AUDIT_DBA;
+drop public synonym DBA_AUDIT_DBA;
+drop view USER_CATALOG;
+drop public synonym USER_CATALOG;
+drop public synonym CAT;
+drop view ALL_CATALOG;
+drop public synonym ALL_CATALOG;
+drop view ACCESSIBLE_TABLES;
+drop public synonym ACCESSIBLE_TABLES;
+drop view DBA_CATALOG;
+drop view USER_CLUSTERS;
+drop public synonym USER_CLUSTERS;
+drop public synonym CLU;
+drop view DBA_CLUSTERS;
+drop view USER_CLU_COLUMNS;
+drop public synonym USER_CLU_COLUMNS;
+drop view DBA_CLU_COLUMNS;
+drop view USER_COL_COMMENTS;
+drop public synonym USER_COL_COMMENTS;
+drop view ALL_COL_COMMENTS;
+drop public synonym ALL_COL_COMMENTS;
+drop view DBA_COL_COMMENTS;
+drop view USER_COL_GRANTS;
+drop public synonym USER_COL_GRANTS;
+drop view COLUMN_PRIVILEGES;
+drop public synonym COLUMN_PRIVILEGES;
+drop public synonym ALL_COL_GRANTS;
+drop view DBA_COL_GRANTS;
+drop view USER_COL_GRANTS_MADE;
+drop public synonym USER_COL_GRANTS_MADE;
+drop view ALL_COL_GRANTS_MADE;
+drop public synonym ALL_COL_GRANTS_MADE;
+drop view USER_COL_GRANTS_RECD;
+drop public synonym USER_COL_GRANTS_RECD;
+drop view ALL_COL_GRANTS_RECD;
+drop public synonym ALL_COL_GRANTS_RECD;
+drop view USER_CROSS_REFS;
+drop public synonym USER_CROSS_REFS;
+drop view DBA_CROSS_REFS;
+drop view DBA_DATA_FILES;
+drop view USER_DB_LINKS;
+drop public synonym USER_DB_LINKS;
+drop view ALL_DB_LINKS;
+drop public synonym ALL_DB_LINKS;
+drop view DBA_DB_LINKS;
+drop view ALL_DEF_AUDIT_OPTS;
+drop public synonym ALL_DEF_AUDIT_OPTS;
+drop view DICTIONARY;
+drop public synonym DICTIONARY;
+drop public synonym DICT;
+drop view DICT_COLUMNS;
+drop public synonym DICT_COLUMNS;
+drop view DBA_EXP_OBJECTS;
+drop view DBA_EXP_VERSION;
+drop view DBA_EXP_FILES;
+drop view USER_FREE_SPACE;
+drop public synonym USER_FREE_SPACE;
+drop view DBA_FREE_SPACE;
+drop view USER_INDEXES;
+drop public synonym USER_INDEXES;
+drop public synonym IND;
+drop view ALL_INDEXES;
+drop public synonym ALL_INDEXES;
+drop view DBA_INDEXES;
+drop view USER_IND_COLUMNS;
+drop public synonym USER_IND_COLUMNS;
+drop view ALL_IND_COLUMNS;
+drop public synonym ALL_IND_COLUMNS;
+drop view DBA_IND_COLUMNS;
+drop view INDEX_STATS;
+drop public synonym INDEX_STATS;
+drop view INDEX_HISTOGRAM;
+drop public synonym INDEX_HISTOGRAM;
+drop view USER_OBJECTS;
+drop public synonym USER_OBJECTS;
+drop public synonym OBJ;
+drop view ALL_OBJECTS;
+drop public synonym ALL_OBJECTS;
+drop view DBA_OBJECTS;
+drop view DBA_ROLLBACK_SEGS;
+drop view SYS_OBJECTS;
+drop view USER_SEGMENTS;
+drop public synonym USER_SEGMENTS;
+drop view DBA_SEGMENTS;
+drop view USER_EXTENTS;
+drop public synonym USER_EXTENTS;
+drop view DBA_EXTENTS;
+drop view USER_SEQUENCES;
+drop public synonym USER_SEQUENCES;
+drop public synonym SEQ;
+drop view ALL_SEQUENCES;
+drop public synonym ALL_SEQUENCES;
+drop view DBA_SEQUENCES;
+drop view USER_SYNONYMS;
+drop public synonym SYN;
+drop public synonym USER_SYNONYMS;
+drop view ALL_SYNONYMS;
+drop public synonym ALL_SYNONYMS;
+drop view DBA_SYNONYMS;
+drop view DBA_SYS_AUDIT_OPTS;
+drop view USER_TABLES;
+drop public synonym USER_TABLES;
+drop public synonym TABS;
+drop view ALL_TABLES;
+drop public synonym ALL_TABLES;
+drop view DBA_TABLES;
+drop view USER_TABLESPACES;
+drop public synonym USER_TABLESPACES;
+drop view DBA_TABLESPACES;
+drop view USER_TAB_AUDIT_OPTS;
+drop public synonym USER_TAB_AUDIT_OPTS;
+drop view DBA_TAB_AUDIT_OPTS;
+drop view USER_TAB_COLUMNS;
+drop public synonym USER_TAB_COLUMNS;
+drop public synonym COLS;
+drop view ACCESSIBLE_COLUMNS;
+drop public synonym ACCESSIBLE_COLUMNS;
+drop public synonym ALL_TAB_COLUMNS;
+drop view DBA_TAB_COLUMNS;
+drop view USER_TAB_COMMENTS;
+drop public synonym USER_TAB_COMMENTS;
+drop view ALL_TAB_COMMENTS;
+drop public synonym ALL_TAB_COMMENTS;
+drop view DBA_TAB_COMMENTS;
+drop view USER_TAB_GRANTS;
+drop public synonym USER_TAB_GRANTS;
+drop view TABLE_PRIVILEGES;
+drop public synonym TABLE_PRIVILEGES;
+drop public synonym ALL_TAB_GRANTS;
+drop view DBA_TAB_GRANTS;
+drop view USER_TAB_GRANTS_MADE;
+drop public synonym USER_TAB_GRANTS_MADE;
+drop view ALL_TAB_GRANTS_MADE;
+drop public synonym ALL_TAB_GRANTS_MADE;
+drop view USER_TAB_GRANTS_RECD;
+drop public synonym USER_TAB_GRANTS_RECD;
+drop view ALL_TAB_GRANTS_RECD;
+drop public synonym ALL_TAB_GRANTS_RECD;
+drop view USER_TS_QUOTAS;
+drop public synonym USER_TS_QUOTAS;
+drop view DBA_TS_QUOTAS;
+drop view USER_USERS;
+drop public synonym USER_USERS;
+drop public synonym MYPRIVS;
+drop view ALL_USERS;
+drop public synonym ALL_USERS;
+drop view DBA_USERS;
+drop view USER_VIEWS;
+drop public synonym USER_VIEWS;
+drop view ALL_VIEWS;
+drop public synonym ALL_VIEWS;
+drop view DBA_VIEWS;
+drop view USER_CONSTRAINTS;
+drop public synonym USER_CONSTRAINTS;
+drop view ALL_CONSTRAINTS;
+drop public synonym ALL_CONSTRAINTS;
+drop view DBA_CONSTRAINTS;
+drop public synonym DBA_CONSTRAINTS;
+drop view USER_CONS_COLUMNS;
+drop public synonym USER_CONS_COLUMNS;
+drop view ALL_CONS_COLUMNS;
+drop public synonym ALL_CONS_COLUMNS;
+drop view DBA_CONS_COLUMNS;
+drop public synonym DBA_CONS_COLUMNS;
+drop view CONSTRAINT_DEFS;
+drop public synonym CONSTRAINT_DEFS;
+drop view CONSTRAINT_COLUMNS;
+drop public synonym CONSTRAINT_COLUMNS;
+drop view v_$waitstat;
+drop public synonym v$waitstat;
+drop view v_$process;
+drop public synonym v$process;
+drop view v_$bgprocess;
+drop public synonym v$bgprocess;
+drop view v_$session;
+drop public synonym v$session;
+drop view v_$transaction;
+drop public synonym v$transaction;
+drop view v_$latch;
+drop public synonym v$latch;
+drop view v_$latchname;
+drop public synonym v$latchname;
+drop view v_$latchholder;
+drop public synonym v$latchholder;
+drop view v_$resource;
+drop public synonym v$resource;
+drop view v_$_lock;
+drop public synonym v$_lock;
+drop view v_$lock;
+drop public synonym v$lock;
+drop view v_$sesstat;
+drop public synonym v$sesstat;
+drop view v_$sysstat;
+drop public synonym v$sysstat;
+drop view v_$statname;
+drop public synonym v$statname;
+drop view v_$access;
+drop public synonym v$access;
+drop view v_$dbfile;
+drop public synonym v$dbfile;
+drop view v_$filestat;
+drop public synonym v$filestat;
+drop view v_$logfile;
+drop public synonym v$logfile;
+drop view v_$rollname;
+drop public synonym v$rollname;
+drop view v_$rollstat;
+drop public synonym v$rollstat;
+drop view v_$sga;
+drop public synonym v$sga;
+drop view v_$parameter;
+drop public synonym v$parameter;
+drop view v_$rowcache;
+drop public synonym v$rowcache;
+drop view syscatalog_;
+drop view syscatalog;
+drop view catalog;
+drop view tab;
+drop view col;
+drop view syssegobj;
+drop view tabquotas;
+drop view sysfiles;
+drop view synonyms;
+drop view publicsyn;
+#
+# catalog5.sql
+#
+drop view systaballoc_;
+drop view systaballoc;
+drop view taballoc;
+drop view syssegobj;
+drop view sysstorage_;
+drop view sysstorage;
+drop view freespace;
+drop view storage;
+drop view sysextents_;
+drop view sysextents;
+drop view extents;
+drop view syscolumns_;
+drop view syscolumns;
+drop view columns;
+drop view syscatalog_;
+drop view syscatalog;
+drop view catalog;
+drop view sysindexes_;
+drop view sysindexes;
+drop view indexes;
+drop view clusters;
+drop view clustercolumns;
+drop view views;
+drop view sysviews;
+drop view systabauth;
+drop view syscolauth;
+drop view sysuserauth;
+drop view sysuserlist;
+drop view synonyms;
+drop view publicsyn;
+drop view privatesyn;
+drop view tab;
+drop view col;
+drop view tabquotas;
+drop view SYSTEM_AUDIT;
+drop view DEFAULT_AUDIT;
+drop view TABLE_AUDIT;
+drop table audit_actions;
+drop view audit_trail;
+drop view AUDIT_DBA;
+drop view AUDIT_EXISTS;
+drop view AUDIT_CONNECT;
+drop view SESSIONS;
+drop view AUDIT_ACCESS;
+drop view dblinks;
+drop view sysdblinks;
+drop view systabspaces;
+drop view tabspaces;
+drop view sysfiles;
+drop view systsquotas_;
+drop view systsquotas;
+drop view tsquotas;
+drop view sysrollbackseg;
+drop table dtab;
+#
+# ulview.sql
+#
+drop view LOADER_COL_INFO;
+drop public synonym LOADER_COL_INFO;
+drop view LOADER_TAB_INFO;
+drop public synonym LOADER_TAB_INFO;
+drop view LOADER_IND_INFO;
+drop public synonym LOADER_IND_INFO;
+drop view LOADER_INDCOL_INFO;
+drop public synonym LOADER_INDCOL_INFO;
+drop view LOADER_PARAM_INFO;
+drop public synonym LOADER_PARAM_INFO;
+drop view v_$loadcstat;
+drop public synonym v$loadcstat;
+drop view v_$loadtstat;
+drop public synonym v$loadtstat;
+
+#^ connect (migrate, migrate)
+
+#
+# m_sqlbsq
+#
+
+create cluster c_obj# (obj# number)
+  pctfree 5 size 800                           /* don't waste too much space */
+  /* A table of 32 cols, 2 index, 2 col per index requires about 2K.
+   * A table of 10 cols, 2 index, 2 col per index requires about 750.
+   */
+  storage (initial 120K)              /* avoid space management during IOR I */
+/
+create index i_obj# on cluster c_obj#
+/
+create table tab$                                             /* table table */
+( obj# 	        number not null,                            /* object number */
+  ts#		number not null,                        /* tablespace number */
+  file#		number not null,               /* segment header file number */
+  block#	number not null,              /* segment header block number */
+  clu#          number,      /* cluster object number, NULL if not clustered */
+  tab#		number,    /* table number in cluster, NULL if not clustered */
+  cols          number not null,			/* number of columns */
+  clucols       number,/* number of clustered columns, NULL if not clustered */
+  pctfree$      number not null, /* minimum free space percentage in a block */
+  pctused$      number not null, /* minimum used space percentage in a block */
+  initrans      number not null,            /* initial number of transaction */
+  maxtrans      number not null,            /* maximum number of transaction */
+  modified      number not null,                               /* dirty bit: */
+                /* 0 = unmodified since last backup, 1 = modified since then */
+  audit$	char("S_OPFL") not null,             /* auditing options */
+  rowcnt        number,                                    /* number of rows */
+  blkcnt        number,                                  /* number of blocks */
+  empcnt        number,                            /* number of empty blocks */
+  avgspc        number,                      /* average available free space */
+  chncnt        number,                            /* number of chained rows */
+  avgrln        number,                                /* average row length */
+  spare1        number,
+  spare2        number)
+cluster c_obj#(obj#)
+/  
+create table clu$					    /* cluster table */
+( obj# 		number not null,                            /* object number */
+  ts#		number not null,                        /* tablespace number */
+  file#		number not null,               /* segment header file number */
+  block#	number not null,              /* segment header block number */
+  cols          number not null,			/* number of columns */
+  pctfree$      number not null, /* minimum free space percentage in a block */
+  pctused$      number not null, /* minimum used space percentage in a block */
+  initrans      number not null,            /* initial number of transaction */
+  maxtrans      number not null,            /* maximum number of transaction */
+  size$         number,
+       /* if b-tree, estimated number of bytes for each cluster key and rows */
+  hashfunc      char("M_IDEN"),        /* if hashed, function identifier */
+
+  /* Some of the spare columns may give the initial # bytes in the hash table
+   * and the # hash keys per block.  These are user-specified parameters.
+   * For extendible hash tables, two columns might include the # bits
+   * currently be used in the hash function and the number of the next
+   * bucket to split.
+   * Some spare columns may be used for hash table statistics
+   * such as # distinct keys, # distinct values of first key column, and
+   * average # blocks per key.  Some spare columns  may give the number of
+   * the cluster table for which the cluster key is unique or indicate
+   * whether the cluster is normal or referential.
+   * We can encode multiple pieces of info in a single column.
+   */
+  hashkeys      number,                                    /* hash key count */
+  func          number, /* function: 0 (key is function), 1 (system default) */
+  extind        number,             /* extent index value of fixed hash area */
+  spare4        number,
+  spare5        number,
+  spare6        number,
+  spare7        number,
+  spare8        number,
+  spare9        number
+)
+cluster c_obj#(obj#)
+/
+create cluster c_user#(user# number) 
+  size  315 /* cluster key ~ 20, sizeof(user$) ~ 170, 5 * sizeof(tsq$) ~ 125 */
+/
+create index i_user# on cluster c_user#
+/
+create table fet$                                       /* free extent table */
+( ts#           number not null,        /* tablespace containing free extent */
+  file#         number not null,              /* file containing free extent */
+  block#        number not null,              /* starting dba of free extent */
+  length        number not null)          /* length in blocks of free extent */
+cluster c_ts#(ts#)
+/
+create table undo$                                     /* undo segment table */
+( us#           number not null,                      /* undo segment number */
+  name          char("M_IDEN") not null,    /* name of this undo segment */
+  user#         number not null,      /* owner: 0 = SYS(PRIVATE), 1 = PUBLIC */
+  file#         number not null,               /* segment header file number */
+  block#        number not null,              /* segment header block number */
+  scnbas        number,           /* highest commit time in rollback segment */
+  scnwrp        number,              /* scnbas - scn base, scnwrp - scn wrap */
+  xactsqn       number,               /* highest transaction sequence number */
+  undosqn       number,                /* highest undo block sequence number */
+  inst#         number,    /* parallel server instance that owns the segment */
+  status$       number not null)              /* segment status (see KTS.H): */
+    /* 1 = INVALID, 2 = AVAILABLE, 3 = IN USE, 4 = OFFLINE 5 = NEED RECOVERY */
+/
+create table ts$                                         /* tablespace table */
+( ts#           number not null,             /* tablespace identifier number */
+  name          char("M_IDEN") not null,           /* name of tablespace */
+  owner#        number not null,                      /* owner of tablespace */
+  online$       number not null,                      /* status (see KTT.H): */
+                                     /* 1 = ONLINE, 2 = OFFLINE, 3 = INVALID */
+  undofile#     number,  /* undo_off segment file number (status is OFFLINE) */
+  undoblock#    number,               /* undo_off segment header file number */
+  blocksize     number not null,                   /* size of block in bytes */
+  inc#          number not null,             /* incarnation number of extent */
+  scnwrp	number,     /* clean offline scn - zero if not offline clean */
+  scnbas        number,              /* scnbas - scn base, scnwrp - scn wrap */
+  dflminext     number not null,       /*  default minimum number of extents */
+  dflmaxext     number not null,        /* default maximum number of extents */
+  dflinit       number not null,              /* default initial extent size */
+  dflincr       number not null,                 /* default next extent size */
+  dflextpct     number not null)     /* default percent extent size increase */
+cluster c_ts#(ts#)
+/
+create table file$                                             /* file table */
+( file#         number not null,                   /* file identifier number */
+  status$       number not null,                      /* status (see KTS.H): */
+                                               /* 1 = INVALID, 2 = AVAILABLE */
+  blocks        number not null,                   /* size of file in blocks */
+  ts#           number not null)                /* tablespace that owns file */
+/
+create table obj$                                            /* object table */
+( obj#          number not null,                            /* object number */
+  owner#        number not null,                        /* owner user number */
+  name		char("M_IDEN") not null,		      /* object name */
+  namespace     number not null,         /* namespace of object (see KQD.H): */
+       /* 1 = TABLE/PROCEDURE, 2 = BODY, 3 = TRIGGER, 4 = INDEX, 5 = CLUSTER */
+  type          number not null,                 /* object type (see KQD.H): */
+  /* 1 = INDEX, 2 = TABLE, 3 = CLUSTER, 4 = VIEW, 5 = SYNONYM, 6 = SEQUENCE, */
+             /* 7 = PROCEDURE, 8 = FUNCTION, 9 = PACKAGE, 10 = NON-EXISTENT, */
+                                          /* 11 = PACKAGE BODY, 12 = TRIGGER */
+  ctime		date not null,                       /* object creation time */
+  mtime		date not null,                      /* DDL modification time */
+  stime		date not null,          /* specification timestamp (version) */
+  status        number not null,            /* status of object (see KQD.H): */
+                                     /* 1 = VALID/AUTHORIZED WITHOUT ERRORS, */
+                          /* 2 = VALID/AUTHORIZED WITH AUTHORIZATION ERRORS, */
+                            /* 3 = VALID/AUTHORIZED WITH COMPILATION ERRORS, */
+                         /* 4 = VALID/UNAUTHORIZED, 5 = INVALID/UNAUTHORIZED */
+  remoteowner   char("M_IDEN"),	/* remote owner name (remote object) */
+  linkname      char("M_XDBI"))	        /* link name (remote object) */
+/
+create table ind$                                             /* index table */
+( obj#          number not null,			    /* object number */
+  ts#		number not null,                        /* tablespace number */
+  file#		number not null,               /* segment header file number */
+  block#	number not null,              /* segment header block number */
+  bo#		number not null,	      /* object number of base table */
+  cols          number not null,			/* number of columns */
+  pctfree$      number not null, /* minimum free space percentage in a block */
+  initrans      number not null,            /* initial number of transaction */
+  maxtrans      number not null,            /* maximum number of transaction */
+  compress$     number not null,       /* 0 = not compressed, 1 = compressed */
+  unique$       number not null,               /* 0 = not unique, 1 = unique */
+                                            /* future: 2 = ansi-style unique */
+  /* The following spare columns may be used for index statistics such
+   * as # btree levels, # btree leaf blocks, # distinct keys, 
+   * # distinct values of first key column, average # leaf blocks per key,
+   * clustering info, and # blocks in index segment.
+   */
+  blevel        number,                                       /* btree level */
+  leafcnt       number,                                  /* # of leaf blocks */
+  distkey       number,                                   /* # distinct keys */
+  lblkkey       number,                          /* avg # of leaf blocks/key */
+  dblkkey       number,                          /* avg # of data blocks/key */
+  clufac        number,                                 /* clustering factor */
+  spare7        number,
+  spare8        number)
+cluster c_obj#(bo#)
+/
+create table icol$                                     /* index column table */
+( obj#          number not null,                      /* index object number */
+  bo#           number not null,		       /* base object number */
+  col#          number not null,                            /* column number */
+  pos#          number not null,        /* column position number as created */
+  segcol#       number not null,		 /* column number in segment */
+  segcollength  number not null,             /* length of the segment column */
+  offset        number not null)                         /* offset of column */
+cluster c_obj#(bo#)
+/
+create table col$                                            /* column table */
+( obj#          number not null,             /* object number of base object */
+  col#		number not null,                 /* column number as created */
+  segcol#	number not null,		 /* column number in segment */
+  segcollength  number not null,             /* length of the segment column */
+  offset        number not null,                         /* offset of column */
+  name		char("M_IDEN") not null,		   /* name of column */
+  type#      	number  not null,		      /* data type of column */
+  length	number  not null,		/* length of column in bytes */
+  fixedstorage  number  not null,                /* 0 = not fixed, 1 = fixed */
+  precision     number,                                         /* precision */
+  scale         number,                                             /* scale */
+  null$         number not null,                     /* 0 = NULLs permitted, */
+                                                /* > 0 = no NULLs permitted  */
+  distcnt       number,                              /* # of distinct values */
+  lowval        raw(32),/* lowest value of column (second lowest if default) */
+  hival         raw(32),
+                      /* highest value of column (second highest if default) */
+  deflength     number,              /* default value expression text length */
+  default$      long,                       /* default value expression text */
+  /* The spares may be used as the column's NLS character set, 
+   * the number of distinct column values, and the column's domain.
+   */
+  spare2        number,
+  spare3        number)
+cluster c_obj#(obj#)
+/
+create table user$                                             /* user table */
+( user#		number not null,                   /* user identifier number */
+  name        	char("M_IDEN") not null,		     /* name of user */
+  type          number not null,                       /* 0 = role, 1 = user */
+  password	char("M_IDEN"),		       /* encrypted password */
+  datats#     	number not null, /* default tablespace for permanent objects */
+  tempts#     	number not null,  /* default tablespace for temporary tables */
+  ctime         date not null,                 /* user account creation time */
+  ptime         date,                            /* password expiration time */
+  resource$     number not null,                        /* resource profile# */
+  audit$	char("S_OPFL"),  	               /* user audit options */
+  defrole       number not null,                  /* default role indicator: */
+               /* 0 = no roles, 1 = all roles granted, 2 = roles in defrole$ */
+  spare1        number,                               /* reserved for future */
+  spare2        number)                               /* reserved for future */
+cluster c_user#(user#)
+/
+create table con$                                        /* constraint table */
+( owner#        number not null,                        /* owner user number */
+  name          char("M_IDEN") not null,                  /* constraint name */
+  con#          number not null,                        /* constraint number */
+  spare1        number)
+/
+create cluster c_cobj# (obj# number)
+  pctfree 0 pctused 50
+  /* space for: update cdef$ set condition = 'col IS NOT NULL' at // */
+  size 300
+  storage (initial 50K)               /* avoid space management during IOR I */
+/
+create index i_cobj# on cluster c_cobj#
+/
+create table cdef$                            /* constraint definition table */
+( con#          number not null,                        /* constraint number */
+  obj#          number not null,         /* object number of base table/view */
+  cols          number,                   /* number of columns in constraint */
+  type          number not null,                         /* constraint type: */
+                            /* 1 = table check, 2 = primary key, 3 = unique, */
+                                         /* 4 = referential, 5 = view check, */
+			         /* 6 = special for replication logging hook */
+               /* 7 - table check constraint associated with column NOT NULL */
+  robj#         number,                 /* object number of referenced table */
+  rcon#         number,           /* constraint number of referenced columns */
+  rrules        char(3),             /* future: use this columns for pendant */
+  match         number,                /* referential constraint match type: */
+                                                 /* null = FULL, 1 = PARTIAL */
+        /* this column can also store information for other constraint types */
+  refact        number,                               /* referential action: */
+              /* null = RESTRICT, 1 = CASCADE, 2 = SET NULL, 3 = SET DEFAULT */
+  enabled        number,          /* is constraint enabled? NULL if disabled */
+  condlength    number,                 /* table check condition text length */
+  condition     long,                          /* table check condition text */
+  spare1        number)
+cluster c_cobj#(obj#)
+/
+create table ccol$                                /* constraint column table */
+( con#          number not null,                        /* constraint number */
+  obj#		number not null,		       /* base object number */
+  col#          number not null,                            /* column number */
+  pos#          number,                 /* column position number as created */
+  spare1        number)
+cluster c_cobj#(obj#)
+/
+create index i_tab1 on tab$(clu#)
+/
+create unique index i_undo1 on undo$(us#)
+/
+create unique index i_obj1 on obj$(obj#)
+/
+create unique index i_obj2 on obj$(owner#, name, namespace,
+remoteowner, linkname)
+/
+create unique index i_ind1 on ind$(obj#)
+/
+create index i_icol1 on icol$(obj#)
+/
+create unique index i_file1 on file$(file#)
+/
+create unique index i_user1 on user$(name)
+/
+create unique index i_col1 on col$(obj#, name)
+  storage (initial 30k)
+/
+create unique index i_col2 on col$(obj#, col#)
+  storage (initial 30k)
+/
+create unique index i_con1 on con$(owner#, name)
+/
+create unique index i_con2 on con$(con#)
+/
+create unique index i_cdef1 on cdef$(con#)
+/
+create index i_cdef2 on cdef$(obj#)
+/
+create index i_cdef3 on cdef$(robj#)
+/
+create unique index i_ccol1 on ccol$(con#, col#)
+/
+create table bootstrap$
+( line#         number not null,                       /* statement order id */
+  obj#          number not null,                            /* object number */
+  sql_text      long not null)                                  /* statement */
+  storage (initial 50K)            /* to avoid space management during IOR I */
+//
+create table tsq$                                  /* tablespace quota table */
+( ts#           number not null,                        /* tablespace number */
+  user#         number not null,                              /* user number */
+  grantor#      number not null,                               /* grantor id */
+  blocks        number not null,         /* number of blocks charged to user */
+  maxblocks     number,     /* user's maximum number of blocks, NULL if none */
+  priv1         number not null,            /* reserved for future privilege */
+  priv2         number not null,            /* reserved for future privilege */
+  priv3         number not null)            /* reserved for future privilege */
+cluster c_user# (user#)
+/
+create table syn$                                           /* synonym table */
+( obj#          number not null,			    /* object number */
+  node		char("M_XDBI"),			   /* node of object */
+  owner 	char("M_IDEN"),                          /* object owner */
+  name		char("M_IDEN") not null)		      /* object name */
+/
+create table view$                                             /* view table */
+( obj#          number not null,			    /* object number */
+  audit$	char("S_OPFL") not null,		 /* auditing options */
+  cols          number not null,			/* number of columns */
+  textlength	number,				      /* length of view text */
+  text          long)						/* view text */
+/
+create table seq$
+( obj#	        number not null,                            /* object number */
+  increment$    number not null,            /* the sequence number increment */
+  minvalue      number,                         /* minimum value of sequence */
+  maxvalue      number,                         /* maximum value of sequence */
+  cycle         number not null,                      /* 0 = FALSE, 1 = TRUE */
+  order$        number not null,                      /* 0 = FALSE, 1 = TRUE */
+  cache         number not null,                 /* how many to cache in sga */
+  highwater     number not null,                     /* disk high water mark */
+  audit$	char("S_OPFL") not null)             /* auditing options */
+/
+create table procedure$				          /* procedure table */
+( obj#          number not null,			    /* object number */
+  audit$	char("S_OPFL") not null,		 /* auditing options */
+  storagesize   number,				/* storage size of procedure */
+  options       number)                     		  /* compile options */
+/
+create table argument$                     /* procedure argument description */
+( obj#           number not null,                           /* object number */ 
+  procedure$     char(30),             /* procedure name (within a package) */ 
+  overload#      number not null,
+                /* 0 = not overloaded, n = unique id of overloaded procedure */
+  position       number not null,  /* argument position (0 for return value) */
+  sequence#      number not null,
+  level#         number not null,
+  argument       char(30),          /* argument name (null for return value) */
+  type           number not null,                           /* argument type */
+  default#       number,   /* null = no default value, 1 = has default value */
+  in_out         number,
+  length         number,                                      /* data length */
+  precision      number,                                /* numeric precision */
+  scale          number,                                    /* numeric scale */
+  radix          number,                                    /* numeric radix */
+  deflength      number,             /* default value expression text length */
+  default$       long)                      /* default value expression text */
+/
+create table source$				             /* source table */
+( obj#          number not null,			    /* object number */
+  line          number not null,			      /* line number */
+  source        long)                                         /* source line */
+/
+create table idl_ub1$                            /* idl table for ub1 pieces */
+( obj#          number not null,                            /* object number */
+  part          number not null,
+         /* part: 0 = diana, 1 = portable pcode, 2 = machine-dependent pcode */
+  version       number,                                    /* version number */
+  piece#        number not null,                             /* piece number */
+  length        number not null,                             /* piece length */
+  piece         long raw not null)                              /* ub1 piece */
+/
+create table idl_char$                          /* idl table for char pieces */
+( obj#          number not null,                            /* object number */
+  part          number not null,
+         /* part: 0 = diana, 1 = portable pcode, 2 = machine-dependent pcode */
+  version       number,                                    /* version number */
+  piece#        number not null,                             /* piece number */
+  length        number not null,                             /* piece length */
+  piece         long not null)                                 /* char piece */
+/
+create table idl_ub2$                            /* idl table for ub2 pieces */
+( obj#          number not null,                            /* object number */
+  part          number not null,
+         /* part: 0 = diana, 1 = portable pcode, 2 = machine-dependent pcode */
+  version       number,                                    /* version number */
+  piece#        number not null,                             /* piece number */
+  length        number not null,                             /* piece length */
+  piece         long not null)                                  /* ub2 piece */
+/
+create table idl_sb4$                            /* idl table for sb4 pieces */
+( obj#          number not null,                            /* object number */
+  part          number not null,
+         /* part: 0 = diana, 1 = portable pcode, 2 = machine-dependent pcode */
+  version       number,                                    /* version number */
+  piece#        number not null,                             /* piece number */
+  length        number not null,                             /* piece length */
+  piece         long not null)                                  /* sb4 piece */
+/
+create table error$                                           /* error table */
+( obj#          number not null,                            /* object number */
+  sequence      number default 0 not null,
+                                  /* sequence number (for ordering purposes) */
+  line          number not null,                              /* line number */
+  position      number not null,                         /* position in line */
+  textlength    number not null,                 /* length of the error text */
+  text          long not null)                                 /* error text */
+/
+create table trigger$				            /* trigger table */
+( obj#    	number not null,			    /* object number */
+  type          number not null,                            /* trigger type: */
+        /*  0 = BEFORE TABLE, 1 = BEFORE ROW, 2 = AFTER TABLE, 3 = AFTER ROW */
+  update$       number not null, 	   		   /* fire on update */
+  insert$       number not null,			   /* fire on insert */
+  delete$       number not null,			   /* fire on delete */
+  baseobject 	number not null,                   	/* triggering object */
+  refoldname    char("M_IDEN"),		             /* old referencing name */
+  refnewname    char("M_IDEN"),		             /* new referencing name */
+  definition    char(255),		               /* trigger definition */
+  whenclause    char(255),                            /* text of when clause */
+  action        long,	 	   	           	   /* action to fire */
+  actionsize    number,				      /* size of action text */
+  enabled       number)				/* 0 = DISABLED, 1 = ENABLED */
+/
+create table triggercol$
+( obj#		number not null,			    /* object number */
+  col#          number not null,			    /* column number */
+  type          number not null,                /* type of column reference: */
+      /* 2 = OLD IN-ARG, 3 = NEW IN-ARG, 5 = NEW OUT-VAR, 7 = NEW IN/OUT-VAR */
+  position      number)				      /* position in trigger */
+/
+#^ create_objauth()
+create table sysauth$                          /* system authorization table */
+( grantee# 	number not null,          /* grantee number (user# or role#) */
+  privilege# 	number not null,                      /* role or privilege # */
+  sequence#	number not null, 		    /* unique grant sequence */
+  option$	number)                     /* null = none, 1 = admin option */
+/
+create table objpriv$                       /* privileges granted to objects */
+( obj#          number not null,                            /* object number */
+  privilege# 	number not null)                         /* privilege number */
+/
+create table defrole$                                  /* default role table */
+( user#		number not null, 				  /* user id */
+  role#		number not null)  			  /* default role id */
+/
+create table profile$                                    /* resource profile */
+( profile#	number not null,   /* user$.resource$ and profname$.profile# */
+  resource#	number not null,                          /* resource number */
+  type		number not null,  /* 0 = kernel resource, else tool resource */
+  limit		number not null)                           /* resource limit */
+/
+create table profname$                /* mapping of profile# to profile name */
+( profile#	number not null,
+  name		char("M_IDEN") not null)
+/
+create table dependency$                                 /* dependency table */
+( d_obj#        number not null,                  /* dependent object number */
+  d_timestamp   date not null,   /* dependent object specification timestamp */
+  order#        number not null,                             /* order number */
+  p_obj#        number not null,		     /* parent object number */
+  p_timestamp   date not null,     /* parent object specification timestamp */
+  d_owner#      number not null)                  /*  dependent owner number */
+/
+create table access$				             /* access table */
+( d_obj#        number not null,	          /* dependent object number */
+  order#        number not null,                  /* dependency order number */
+  columns       raw("M_BVCO"),                /* list of cols for this entry */
+  types         number not null)                             /* access types */
+/
+create table lab$
+( lab#          number not null,           /* internal database label number */
+  olab          raw(255),                   /* operating system label number */
+  alias         char("M_IDEN"))                      /* alias for label name */
+/
+create table aud$					/* audit trail table */
+( sessionid     number not null,
+  entryid	number not null,
+  statement	number not null,
+  timestamp	date not null,
+  userid	char("M_IDEN"),
+  userhost	char("M_HOST"),
+  terminal	char("M_TERM"),
+  action	number not null,
+  returncode	number not null,
+  obj$creator	char("M_IDEN"),
+  obj$name	char("M_XDBI"),
+  auth$privileges char("S_PRFL"),
+  auth$grantee	char("M_IDEN"),
+  new$owner     char("M_IDEN"),
+  new$name	char("M_XDBI"),
+  ses$actions	char("S_ACFL"),
+  ses$tid	number,
+  logoff$lread	number,
+  logoff$pread	number,
+  logoff$lwrite number,
+  logoff$dead	number,
+  logoff$time	date,
+  comment$text	long,
+  spare1        char(255),
+  spare2        number,
+  obj$label     raw(255),                                   /* K_MLS changes */
+  ses$label     raw(255),
+  priv$used     number)
+/
+create table link$                             /* remote database link table */
+( owner#        number not null,                        /* owner user number */
+  name          char("M_XDBI") not null,              	/* link name */
+  ctime	        date not null,                              /* creation time */
+  host	        char("M_HOST"),    /* optional driver string for connect */
+  userid        char("M_IDEN"),             /* optional user to logon as */
+  password      char("M_IDEN"))                    /* password for logon */
+/
+create table props$
+( name          char("M_IDEN") not null,                /* property name */
+  value$        char(255),                        /* property value */
+  comment$      char(255))               /* description of property */
+/
+create table com$                                           /* comment table */
+( obj#          number not null,                            /* object number */
+  col#          number,		       /* column number (NULL if for object) */
+  comment$	long)	       /* user-specified description */
+/
+create table resource_cost$
+( resource#	number not null,                         /* 2, 4, 6, 7, 8, 9 */
+  cost		number not null)                                     /* >= 0 */
+/
+create unique index i_view1 on view$(obj#)
+/
+create unique index i_syn1 on syn$(obj#)
+/
+create unique index i_seq1 on seq$(obj#)
+/
+# defer creating this index until after we populate the table.
+# the table objauth$ will not be unique after we copy it from v6;
+# some pruning work will need to be done (later).
+#
+# create unique index i_objauth1 on 
+#   objauth$(obj#, grantor#, grantee#, privilege#, col#)
+# /
+#^ create_i_objauth2()
+
+create unique index i_sysauth1 on sysauth$(grantee#, privilege#)
+/
+create unique index i_defrole1 on defrole$(user#, role#)
+/
+create index i_aud1 on aud$(sessionid, ses$tid)
+/
+create index i_link1 on link$(owner#, name)
+/
+create unique index i_com1 on com$(obj#,col#)
+/
+create unique index i_procedure1 on procedure$(obj#)
+/
+create unique index i_argument1 on 
+  argument$(obj#, procedure$, overload#, sequence#)
+/
+create unique index i_source1 on source$(obj#,line)
+/
+create unique index i_idl_ub11 on idl_ub1$(obj#, part, version, piece#)
+/
+create unique index i_idl_char1 on idl_char$(obj#, part, version, piece#)
+/
+create unique index i_idl_ub21 on idl_ub2$(obj#, part, version, piece#)
+/
+create unique index i_idl_sb41 on idl_sb4$(obj#, part, version, piece#)
+/
+create index i_error1 on error$(obj#, sequence)
+/
+create unique index i_dependency1 on dependency$(d_obj#, d_timestamp, order#)
+/
+create index i_access1 on access$(d_obj#)
+/
+create index i_dependency2 on dependency$(p_obj#, p_timestamp)
+/
+create index i_trigger1 on trigger$(baseobject)
+/                                             
+create unique index i_trigger2 on trigger$(obj#)
+/
+create index i_triggercol on triggercol$(obj#, col#, type, position)
+/
+create unique index i_profname on profname$(name)
+/
+create index i_profile on profile$(profile#)
+/
+create sequence label_translation   /* sequence for translation cache (lab$) */
+  increment by 1
+  start with 3
+  minvalue 3
+  nomaxvalue
+  cache 20
+  order
+  nocycle
+/
+create sequence object_grant                 /* object grant sequence number */
+  start with 1
+  increment by 1
+  minvalue 1
+  nomaxvalue
+  cache 20
+  order
+  nocycle
+/
+create sequence system_grant                 /* system grant sequence number */
+  start with 1
+  increment by 1
+  minvalue 1
+  nomaxvalue
+  cache 20
+  order
+  nocycle
+/
+create sequence profnum$                   /* profile number sequence number */
+  increment by 1
+  start with 0                              /* profile# for DEFAULT always 0 */
+  minvalue 0
+  nocache                                           /* don't want to reuse 0 */
+/
+#create profile "DEFAULT" limit            /* default value, always present */
+#  composite_limit		unlimited                   /* service units */
+#  sessions_per_user		unlimited              /* logins per user id */
+#  cpu_per_session		unlimited            /* cpu usage in minutes */
+#  cpu_per_call			unlimited        /* max cpu minutes per call */
+#  logical_reads_per_session	unlimited
+#  logical_reads_per_call	unlimited
+#  idle_time			unlimited
+#  connect_time 			unlimited
+#  private_sga			unlimited      /* valid only with TP-monitor */
+#/
+create table incexp                      /* incremental export support table */
+( owner#        number not null,                                 /* owner id */
+  name          char("M_IDEN") not null,                  /* object name */
+  type	        number(1) not null,                           /* object type */
+  ctime	        date,                      /* time of last cumulative export */
+  itime	        date not null,            /* time of last incremental export */
+  expid         number(3) not null)                             /* export id */
+/
+create unique index i_incexp on incexp(owner#, name, type)
+/
+create table expact$
+( owner char(30) not null,                                 /* owner of table */
+  name  char(30) not null,                                  /* name of table */
+  func_schema char(30) not null,                 /* schema func is run under */
+  func_package  char(30) not null,                           /* package name */
+  func_proc  char(30) not null,                            /* procedure name */
+  code  number not null,                            /* PRETABLE OR POSTTABLE */
+  callorder number)
+/
+#create user sys identified by change_on_install
+#/
+#create role public
+#/
+#create role connect
+#/
+#grant create session,alter session,create synonym,create view,
+# create database link to connect
+#/
+#create role resource
+#/
+#grant create table,create cluster,create sequence,create trigger,
+# create procedure to resource
+#/
+#create role dba
+#/
+#grant all privileges to dba with admin option
+#/
+#create user system identified by manager
+#/
+#grant dba,unlimited tablespace to system with admin option
+#/
+#grant all on incexp to system
+#/
+create table incvid                    /* incremental valid identifier table */
+( expid         number(3) not null)               /* id of last valid export */
+/
+grant all on incvid to system
+/
+create table incfil                         /* incremental file export table */
+( expid         number(3) not null,                             /* export id */
+  exptype       char(1) not null,                        /* export type: */
+                                /* f - full, i - incremental, c - cumulative */
+  expfile       char(100) not null,                  /* export file name */
+  expdate       date not null,                                /* export date */
+  expuser       char("M_IDEN") not null)            /* user doing export */
+/
+grant all on incfil to system
+/
+create table "_default_auditing_options_"   /* default auditing option table */
+( a             char(1))                              /* auditing option */
+/
+#
+# we don't need to create audses$ since it is carried over from v6
+#
+#create sequence audses$                               /* auditing session id */
+#  start with 1
+#  increment by 1
+#  minvalue 1
+#  maxvalue 2E9                                     /* maxvalue fits in a ub4 */
+#  cycle
+#  cache 20
+#  noorder
+#/
+create table audit$                                 /* auditing option table */
+( user#		number not null,                   /* user identifier number */
+  option#       number not null,                   /* auditing option number */
+  success       number,                                 /* audit on success? */
+  failure       number)                                 /* audit on failure? */
+               /* null = no audit, 1 = audit by session, 2 = audit by access */
+/
+create unique index i_audit on audit$(user#, option#)
+   /* this index is to ensure uniqueness and not performance */
+/
+create table pending_trans$		/* pending or "indoubt" transactions */
+( local_tran_id	  char("M_LTID") not null, /* print form of kxid (local) */
+  global_tran_fmt integer not null,               /* global tran format code */
+  global_oracle_id  char("M_GTID"),                      /* Oracle k2gti */
+  global_foreign_id raw("M_GTID"),                       /* non-Oracle k2gti */
+  tran_comment	  char("M_XCMT"),             /* commit/rollback comment */
+  state		  char(16) not null,       /* see k2.h: k2sta (tx state) */
+  status          char(1) not null,                   /* Pending, Damage */
+  heuristic_dflt  char(1),                  /* advice: Commit/Rollback/? */
+  session_vector  raw(4) not null,              /* bit map of pending sess's */
+  reco_vector	  raw(4) not null,             /* map of sess's rdy for reco */
+  fail_time	  date not null,                            /* time inserted */
+  heuristic_time  date,                        /* time of heuristic decision */
+  reco_time	  date not null,               /* last time tried (exp.b.o.) */
+  top_db_user     char("M_IDEN"),        /* top level DB session created */
+  top_os_user     char("M_UNML"),              /* top level OS user name */
+  top_os_host	  char("M_HOST"),         /* top level user OS host name */
+  top_os_terminal char("M_TERM"),            /* top level OS terminal id */
+  global_commit#  char(16) )              /* global system commit number */
+/
+create unique index i_pending_trans1 on pending_trans$(local_tran_id)
+  /* this index is not for performance, but rather to ensure uniqueness */
+/
+create table pending_sessions$		          /* child of pending_trans$ */
+( local_tran_id   char("M_LTID") not null,	            /* 1:n w/ parent */
+  session_id	  smallint not null,
+  branch_id	  raw("M_GBID") not null,                        /* of local */
+  interface	  char(1) not null,	         /* C=commit/confirm, P=prep */
+  parent_dbid	  char("M_IDBI"),  		   /* null string->top level */
+  parent_db	  char("M_XDBI"),      /* global name of parent database */
+  db_userid	  integer not null)                 /* creator of DB session */
+/
+create table pending_sub_sessions$	       /* child of pending_sessions$ */
+( local_tran_id   char("M_LTID") not null,	/* w/session_id,1:n w/parent */
+  session_id	  smallint not null,                             /* of local */
+  sub_session_id  smallint not null, /* session,sub_session is remote branch */
+  interface	  char(1) not null,		 /* C=hold commit, N=no hold */
+  dbid		  char("M_IDBI") not null,			/* of remote */
+  link_owner	  integer not null,			  /* owner of dblink */
+  dblink	  char("M_XDBI") not null)
+/
+create cluster c_mlog# (master char("M_IDEN"),
+                        mowner char("M_IDEN"))
+/
+create index i_mlog# on cluster c_mlog#
+/
+create table mlog$          /* list of local master tables used by snapshots */
+( mowner          char("M_IDEN") not null,            /* owner of master */
+  master          char("M_IDEN") not null,             /* name of master */
+  oldest          date,                                /* maximum age of log */
+  oscn            number,                                   /* scn of oldest */
+  youngest        date,                     /* most recent snaptime assigned */
+  yscn            number,                                 /* scn of youngest */
+  log             char("M_IDEN") not null,                /* name of log */
+  trig            char("M_IDEN") not null)  /* trigger on master for log */
+cluster c_mlog# (master, mowner)
+/
+create table slog$                     /* list of snapshots on local masters */
+( mowner          char("M_IDEN") not null,            /* owner of master */
+  master          char("M_IDEN") not null,             /* name of master */
+  snapshot        date,                               /* identifies snapshot */
+  sscn            number,                                 /* scn of snapshot */
+  snaptime        date               not null,        /* when last refreshed */
+  tscn            number)                                 /* scn of snaptime */
+cluster c_mlog# (master, mowner)
+/
+create index i_slog1 on slog$(snaptime)
+/
+create table snap$                                /* list of local snapshots */
+( sowner          char("M_IDEN") not null,              /* owner of snapshot */
+  vname           char("M_IDEN") not null,          /* name of snapshot view */
+  tname           char("M_IDEN") not null,         /* name of snapshot table */
+  mview           char("M_IDEN") not null,     /* view snapshot is made from */
+  mowner          char("M_IDEN"),                         /* owner of master */
+  master          char("M_IDEN"),                          /* name of master */
+  mlink           char("M_XDBI"),            /* database link to master site */
+  can_use_log     char(1),                                         /* unused */
+  snapshot        date,       /* used by the master to identify the snapshot */
+  sscn            number,                                 /* scn of snapshot */
+  snaptime        date,             /* when this snapshot was last refreshed */
+  tscn            number,                                 /* scn of snaptime */
+  error#          number,          /* last error caused by automatic refresh */
+  auto_fast       char(1),            /* date function for automatic refresh */
+  auto_fun        char("M_DATF"),         /* time for next automatic refresh */
+  auto_date       date,             /* time for next automatic refresh force */
+  refgroup        number,                    /* group for consistent refresh */
+  ustrg           char("M_IDEN"),         /* trigger for updatable snapshots */
+  uslog           char("M_IDEN"),             /* log for updatable snapshots */
+  field1          number,                                  /* for future use */
+  field2          char("M_IDEN"),                          /* for future use */
+  flag            number,                     /* 0x01, can use master log    */
+                                              /* 0x02, snapshot is updatable */
+  query_txt       long)                /* query which this view instantiates */
+/
+create unique index i_snap1 on snap$(vname, sowner)
+/
+# 
+#  Job Queue
+#
+create sequence jobseq
+  start with 1
+  increment by 1
+  minvalue 1
+  maxvalue 999999999                        /* should be less than MAXSB4VAL */
+  cache 20
+  noorder
+  cycle
+/
+create table job$
+( job             number not null,                  /* identifier of the job */
+  lowner          char("M_IDEN") not null,             /* logged in user */
+  powner          char("M_IDEN") not null,                   /* security */
+  cowner          char("M_IDEN") not null,                    /* parsing */
+  last_date       date,                      /* when this job last succeeded */
+  this_date       date,    /* when the current execute started, usually null */
+  next_date       date not null,             /* when to execute the job next */
+  total           number default 0 not null, /* total time spent on this job */
+  interval        char("M_DATF") not null,/* function for next next_date */
+  failures        number,           /* number of failures since last success */
+  flag            number default 0 not null,     /* 0x01, this job is broken */
+  what            char(100),        /* PL/SQL text, what is the job */
+  nlsenv          char(100),                      /* nls parameters */
+  env             raw(32),                    /* other environment variables */
+  cur_ses_label   char(20),      /* current session label for trusted oracle */
+  clearance_hi    char(20),             /* clearance high for trusted oracle */
+  clearance_lo    char(20),              /* clearance low for trusted oracle */
+  charenv         char(100),                            /* not used */
+  field1          number default 0)                              /* not used */
+/
+create unique index i_job_job on job$ (job)
+/
+create index i_job_next on job$ (next_date)
+/
+#
+#  Refresh Groups
+#
+create sequence rgroupseq
+  start with 1
+  increment by 1
+  minvalue 1
+  maxvalue 999999999                        /* should be less than MAXSB4VAL */
+  cache 20
+  noorder
+  cycle
+/
+create cluster c_rg#
+( refgroup        number)                            /* refresh group number */
+/
+create index i_rg# on cluster c_rg#
+/
+create table rgroup$
+( refgroup        number,                         /* number of refresh group */
+  owner           char("M_IDEN") not null,     /* owner of refresh group */
+  name            char("M_IDEN") not null,      /* name of refresh group */
+  flag            number default 0,        /* 0x01, destroy group when empty */
+                                                 /* 0x02, do not push queues */
+                                               /* 0x04, refresh after errors */
+  rollback_seg    char("M_IDEN"),                 /* rollback segment to use */
+  field1          number default 0,
+  job             number not null)  /* job in job$ for refreshing this group */
+cluster c_rg# (refgroup)
+/
+create unique index i_rgroup on rgroup$ (owner, name)
+/
+create unique index i_rgref on rgroup$ (refgroup)
+/
+create index i_rgjob on rgroup$ (job)
+/
+create table rgchild$
+( owner           char("M_IDEN") not null,             /* owner of child */
+  name            char("M_IDEN") not null,              /* name of child */
+  type            char("M_IDEN") default 'SNAPSHOT',   /* type of object */
+  field1          number default 0,
+  refgroup        number)                   /* refresh group the child is in */
+cluster c_rg# (refgroup)
+/
+create unique index i_rgchild on rgchild$ (owner, name, type)
+/
+#
+#  Drop User Cascade
+#
+create table duc$
+( owner           char("M_IDEN") not null,            /* procedure owner */
+  pack            char("M_IDEN") not null,          /* procedure package */
+  proc            char("M_IDEN") not null,             /* procedure name */
+  field1          number default 0,
+  operation       number not null,                    /* 1=drop user cascade */
+  seq             number not null,            /* for ordering the procedures */
+  com             char(80))       /* comment on what this routine is for */
+/
+create unique index i_duc on duc$ (owner,pack,proc,operation)
+/
+#
+#  Histograms
+# 
+create cluster c_obj#_col#
+( obj#            number,                                   /* object number */
+  col#            number)                                   /* column number */
+  pctfree 5
+/
+create index i_obj#_col# on cluster c_obj#_col#
+/
+create table histgrm$                                     /* histogram table */
+( obj#            number not null,                          /* object number */
+  col#            number not null,                          /* column number */
+  row#            number,                       /* row number (in row cache) */
+  bucket          number not null,                          /* bucket number */
+  endpoint        number not null)                  /* endpoint hashed value */
+cluster c_obj#_col#(obj#, col#)
+/
+create table hist_head$                            /* histogram header table */
+ (obj#            number not null,                          /* object number */
+  col#            number not null,                          /* column number */
+  bucket_cnt      number not null,                      /* number of buckets */
+  row_cnt         number not null,             /* number of rows in histgrm$ */
+  cache_cnt       number,                     /* number of rows in row cache */
+  null_cnt        number,                  /* number of nulls in this column */
+  timestamp       date,                   /* date of histogram's last update */
+  sample_size     number,             /* for estimated stats, size of sample */
+  minimum         number,           /* minimum value (if 1-bucket histogram) */
+  maximum         number,           /* minimum value (if 1-bucket histogram) */
+  spare1          number,                                           /* spare */
+  spare2          number)                                           /* spare */
+/
+create table dual (dummy char(1))    /* pl/sql's standard pckg requires dual */
+/
+insert into dual values('X')
+/
+create public synonym dual for dual
+/
+grant select on dual to public with grant option
+/
+#
+#  FAMILY "PRIVILEGE MAP"
+#  Tables for mapping privilege numbers to privilege names.
+#
+#  SYSTEM_PRIVILEGE_MAP maps a system privilege  number
+#  to the name.
+#
+create table SYSTEM_PRIVILEGE_MAP (
+        PRIVILEGE       number not null,
+        NAME            char(40) not null)
+/
+comment on table SYSTEM_PRIVILEGE_MAP is
+'Description table for privilege type codes.  Maps privilege  type numbers to type names'
+/
+comment on column SYSTEM_PRIVILEGE_MAP.PRIVILEGE is
+'Numeric privilege type code'
+/
+comment on column SYSTEM_PRIVILEGE_MAP.NAME is
+'Name of the type of privilege'
+/
+insert into SYSTEM_PRIVILEGE_MAP values (-3, 'ALTER SYSTEM');
+insert into SYSTEM_PRIVILEGE_MAP values (-4, 'AUDIT SYSTEM');
+insert into SYSTEM_PRIVILEGE_MAP values (-5, 'CREATE SESSION');
+insert into SYSTEM_PRIVILEGE_MAP values (-6, 'ALTER SESSION');
+insert into SYSTEM_PRIVILEGE_MAP values (-7, 'RESTRICTED SESSION');
+insert into SYSTEM_PRIVILEGE_MAP values (-10, 'CREATE TABLESPACE');
+insert into SYSTEM_PRIVILEGE_MAP values (-11, 'ALTER TABLESPACE');
+insert into SYSTEM_PRIVILEGE_MAP values (-12, 'MANAGE TABLESPACE');
+insert into SYSTEM_PRIVILEGE_MAP values (-13, 'DROP TABLESPACE');
+insert into SYSTEM_PRIVILEGE_MAP values (-15, 'UNLIMITED TABLESPACE');
+insert into SYSTEM_PRIVILEGE_MAP values (-20, 'CREATE USER');
+insert into SYSTEM_PRIVILEGE_MAP values (-21, 'BECOME USER');
+insert into SYSTEM_PRIVILEGE_MAP values (-22, 'ALTER USER');
+insert into SYSTEM_PRIVILEGE_MAP values (-23, 'DROP USER');
+insert into SYSTEM_PRIVILEGE_MAP values (-30, 'CREATE ROLLBACK SEGMENT');
+insert into SYSTEM_PRIVILEGE_MAP values (-31, 'ALTER ROLLBACK SEGMENT');
+insert into SYSTEM_PRIVILEGE_MAP values (-32, 'DROP ROLLBACK SEGMENT');
+insert into SYSTEM_PRIVILEGE_MAP values (-40, 'CREATE TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-41, 'CREATE ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-42, 'ALTER ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-43, 'BACKUP ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-44, 'DROP ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-45, 'LOCK ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-46, 'COMMENT ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-47, 'SELECT ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-48, 'INSERT ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-49, 'UPDATE ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-50, 'DELETE ANY TABLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-60, 'CREATE CLUSTER');
+insert into SYSTEM_PRIVILEGE_MAP values (-61, 'CREATE ANY CLUSTER');
+insert into SYSTEM_PRIVILEGE_MAP values (-62, 'ALTER ANY CLUSTER');
+insert into SYSTEM_PRIVILEGE_MAP values (-63, 'DROP ANY CLUSTER');
+insert into SYSTEM_PRIVILEGE_MAP values (-71, 'CREATE ANY INDEX');
+insert into SYSTEM_PRIVILEGE_MAP values (-72, 'ALTER ANY INDEX');
+insert into SYSTEM_PRIVILEGE_MAP values (-73, 'DROP ANY INDEX');
+insert into SYSTEM_PRIVILEGE_MAP values (-80, 'CREATE SYNONYM');
+insert into SYSTEM_PRIVILEGE_MAP values (-81, 'CREATE ANY SYNONYM');
+insert into SYSTEM_PRIVILEGE_MAP values (-82, 'DROP ANY SYNONYM');
+insert into SYSTEM_PRIVILEGE_MAP values (-83, 'SYSDBA');
+insert into SYSTEM_PRIVILEGE_MAP values (-84, 'SYSOPER');
+insert into SYSTEM_PRIVILEGE_MAP values (-85, 'CREATE PUBLIC SYNONYM');
+insert into SYSTEM_PRIVILEGE_MAP values (-86, 'DROP PUBLIC SYNONYM');
+insert into SYSTEM_PRIVILEGE_MAP values (-90, 'CREATE VIEW');
+insert into SYSTEM_PRIVILEGE_MAP values (-91, 'CREATE ANY VIEW');
+insert into SYSTEM_PRIVILEGE_MAP values (-92, 'DROP ANY VIEW');
+insert into SYSTEM_PRIVILEGE_MAP values (-105, 'CREATE SEQUENCE');
+insert into SYSTEM_PRIVILEGE_MAP values (-106, 'CREATE ANY SEQUENCE');
+insert into SYSTEM_PRIVILEGE_MAP values (-107, 'ALTER ANY SEQUENCE');
+insert into SYSTEM_PRIVILEGE_MAP values (-108, 'DROP ANY SEQUENCE');
+insert into SYSTEM_PRIVILEGE_MAP values (-109, 'SELECT ANY SEQUENCE');
+insert into SYSTEM_PRIVILEGE_MAP values (-115, 'CREATE DATABASE LINK');
+insert into SYSTEM_PRIVILEGE_MAP values (-120, 'CREATE PUBLIC DATABASE LINK');
+insert into SYSTEM_PRIVILEGE_MAP values (-121, 'DROP PUBLIC DATABASE LINK');
+insert into SYSTEM_PRIVILEGE_MAP values (-125, 'CREATE ROLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-126, 'DROP ANY ROLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-127, 'GRANT ANY ROLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-128, 'ALTER ANY ROLE');
+insert into SYSTEM_PRIVILEGE_MAP values (-130, 'AUDIT ANY');
+insert into SYSTEM_PRIVILEGE_MAP values (-135, 'ALTER DATABASE');
+insert into SYSTEM_PRIVILEGE_MAP values (-138, 'FORCE TRANSACTION');
+insert into SYSTEM_PRIVILEGE_MAP values (-139, 'FORCE ANY TRANSACTION');
+insert into SYSTEM_PRIVILEGE_MAP values (-140, 'CREATE PROCEDURE');
+insert into SYSTEM_PRIVILEGE_MAP values (-141, 'CREATE ANY PROCEDURE');
+insert into SYSTEM_PRIVILEGE_MAP values (-142, 'ALTER ANY PROCEDURE');
+insert into SYSTEM_PRIVILEGE_MAP values (-143, 'DROP ANY PROCEDURE');
+insert into SYSTEM_PRIVILEGE_MAP values (-144, 'EXECUTE ANY PROCEDURE');
+insert into SYSTEM_PRIVILEGE_MAP values (-151, 'CREATE TRIGGER');
+insert into SYSTEM_PRIVILEGE_MAP values (-152, 'CREATE ANY TRIGGER');
+insert into SYSTEM_PRIVILEGE_MAP values (-153, 'ALTER ANY TRIGGER');
+insert into SYSTEM_PRIVILEGE_MAP values (-154, 'DROP ANY TRIGGER');
+insert into SYSTEM_PRIVILEGE_MAP values (-160, 'CREATE PROFILE');
+insert into SYSTEM_PRIVILEGE_MAP values (-161, 'ALTER PROFILE');
+insert into SYSTEM_PRIVILEGE_MAP values (-162, 'DROP PROFILE');
+insert into SYSTEM_PRIVILEGE_MAP values (-163, 'ALTER RESOURCE COST');
+insert into SYSTEM_PRIVILEGE_MAP values (-165, 'ANALYZE ANY');
+insert into SYSTEM_PRIVILEGE_MAP values (-167, 'GRANT ANY PRIVILEGE');
+insert into SYSTEM_PRIVILEGE_MAP values (-172, 'CREATE SNAPSHOT');
+insert into SYSTEM_PRIVILEGE_MAP values (-173, 'CREATE ANY SNAPSHOT');
+insert into SYSTEM_PRIVILEGE_MAP values (-174, 'ALTER ANY SNAPSHOT');
+insert into SYSTEM_PRIVILEGE_MAP values (-175, 'DROP ANY SNAPSHOT');
+insert into SYSTEM_PRIVILEGE_MAP values (-194, 'WRITEDOWN DBLOW');
+insert into SYSTEM_PRIVILEGE_MAP values (-195, 'READUP DBHIGH');
+insert into SYSTEM_PRIVILEGE_MAP values (-196, 'WRITEUP DBHIGH');
+insert into SYSTEM_PRIVILEGE_MAP values (-197, 'WRITEDOWN');
+insert into SYSTEM_PRIVILEGE_MAP values (-198, 'READUP');
+insert into SYSTEM_PRIVILEGE_MAP values (-199, 'WRITEUP');
+create unique index I_SYSTEM_PRIVILEGE_MAP
+        on SYSTEM_PRIVILEGE_MAP (PRIVILEGE, NAME)
+/
+drop public synonym SYSTEM_PRIVILEGE_MAP
+/
+create public synonym SYSTEM_PRIVILEGE_MAP for SYSTEM_PRIVILEGE_MAP
+/
+grant select on SYSTEM_PRIVILEGE_MAP to public with grant option
+/
+#
+#  TABLE_PRIVILEGE_MAP maps a table privilege (auditing option) number
+#  to the name.
+#
+create table TABLE_PRIVILEGE_MAP (
+        PRIVILEGE       number not null,
+        NAME            char(40) not null)
+/
+comment on table TABLE_PRIVILEGE_MAP is
+'Description table for privilege (auditing option) type codes.  Maps privilege (auditing option) type numbers to type names'
+/
+comment on column TABLE_PRIVILEGE_MAP.PRIVILEGE is
+'Numeric privilege (auditing option) type code'
+/
+comment on column TABLE_PRIVILEGE_MAP.NAME is
+'Name of the type of privilege (auditing option)'
+/
+insert into TABLE_PRIVILEGE_MAP values (0, 'ALTER');
+insert into TABLE_PRIVILEGE_MAP values (1, 'AUDIT');
+insert into TABLE_PRIVILEGE_MAP values (2, 'COMMENT');
+insert into TABLE_PRIVILEGE_MAP values (3, 'DELETE');
+insert into TABLE_PRIVILEGE_MAP values (4, 'GRANT');
+insert into TABLE_PRIVILEGE_MAP values (5, 'INDEX');
+insert into TABLE_PRIVILEGE_MAP values (6, 'INSERT');
+insert into TABLE_PRIVILEGE_MAP values (7, 'LOCK');
+insert into TABLE_PRIVILEGE_MAP values (8, 'RENAME');
+insert into TABLE_PRIVILEGE_MAP values (9, 'SELECT');
+insert into TABLE_PRIVILEGE_MAP values (10, 'UPDATE');
+insert into TABLE_PRIVILEGE_MAP values (11, 'REFERENCES');
+insert into TABLE_PRIVILEGE_MAP values (12, 'EXECUTE');
+create unique index I_TABLE_PRIVILEGE_MAP
+        on TABLE_PRIVILEGE_MAP (PRIVILEGE, NAME)
+/
+drop public synonym TABLE_PRIVILEGE_MAP
+/
+create public synonym TABLE_PRIVILEGE_MAP for TABLE_PRIVILEGE_MAP
+/
+grant select on TABLE_PRIVILEGE_MAP to public with grant option
+/
+#
+#  FAMILY "OPTION MAP"
+#	Tables for mapping auditing option numbers to auditing 
+#  the name.
+#
+#  STMT_AUDIT_OPTION_MAP maps a auditing option number to the name.
+#
+create table STMT_AUDIT_OPTION_MAP (
+	OPTION#	        number not null,
+	NAME            char(40) not null)
+/
+comment on table STMT_AUDIT_OPTION_MAP is
+'Description table for auditing option type codes.  Maps auditing option type numbers to type names'
+/
+comment on column STMT_AUDIT_OPTION_MAP.OPTION# is
+'Numeric auditing option type code'
+/
+comment on column STMT_AUDIT_OPTION_MAP.NAME is
+'Name of the type of auditing option'
+/
+insert into STMT_AUDIT_OPTION_MAP values (  3, 'ALTER SYSTEM');
+insert into STMT_AUDIT_OPTION_MAP values (  4, 'SYSTEM AUDIT');
+insert into STMT_AUDIT_OPTION_MAP values (  5, 'CREATE SESSION');
+insert into STMT_AUDIT_OPTION_MAP values (  6, 'ALTER SESSION');
+insert into STMT_AUDIT_OPTION_MAP values (  7, 'RESTRICTED SESSION');
+insert into STMT_AUDIT_OPTION_MAP values (  8, 'TABLE');
+insert into STMT_AUDIT_OPTION_MAP values (  9, 'CLUSTER');
+insert into STMT_AUDIT_OPTION_MAP values ( 10, 'CREATE TABLESPACE');
+insert into STMT_AUDIT_OPTION_MAP values ( 11, 'ALTER TABLESPACE');
+insert into STMT_AUDIT_OPTION_MAP values ( 12, 'MANAGE TABLESPACE');
+insert into STMT_AUDIT_OPTION_MAP values ( 13, 'DROP TABLESPACE');
+insert into STMT_AUDIT_OPTION_MAP values ( 14, 'TABLESPACE');
+insert into STMT_AUDIT_OPTION_MAP values ( 15, 'UNLIMITED TABLESPACE');
+insert into STMT_AUDIT_OPTION_MAP values ( 16, 'USER');
+insert into STMT_AUDIT_OPTION_MAP values ( 17, 'ROLLBACK SEGMENT');
+insert into STMT_AUDIT_OPTION_MAP values ( 19, 'INDEX');
+insert into STMT_AUDIT_OPTION_MAP values ( 20, 'CREATE USER');
+insert into STMT_AUDIT_OPTION_MAP values ( 21, 'BECOME USER');
+insert into STMT_AUDIT_OPTION_MAP values ( 22, 'ALTER USER');
+insert into STMT_AUDIT_OPTION_MAP values ( 23, 'DROP USER');
+insert into STMT_AUDIT_OPTION_MAP values ( 24, 'SYNONYM');
+insert into STMT_AUDIT_OPTION_MAP values ( 25, 'PUBLIC SYNONYM');
+insert into STMT_AUDIT_OPTION_MAP values ( 26, 'VIEW');
+insert into STMT_AUDIT_OPTION_MAP values ( 27, 'SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values ( 28, 'DATABASE LINK');
+insert into STMT_AUDIT_OPTION_MAP values ( 29, 'PUBLIC DATABASE LINK');
+insert into STMT_AUDIT_OPTION_MAP values ( 30, 'CREATE ROLLBACK SEGMENT');
+insert into STMT_AUDIT_OPTION_MAP values ( 31, 'ALTER ROLLBACK SEGMENT');
+insert into STMT_AUDIT_OPTION_MAP values ( 32, 'DROP ROLLBACK SEGMENT');
+insert into STMT_AUDIT_OPTION_MAP values ( 33, 'ROLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 35, 'PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values ( 36, 'TRIGGER');
+insert into STMT_AUDIT_OPTION_MAP values ( 37, 'PROFILE');
+insert into STMT_AUDIT_OPTION_MAP values ( 40, 'CREATE TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 41, 'CREATE ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 42, 'ALTER ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 43, 'BACKUP ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 44, 'DROP ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 45, 'LOCK ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 46, 'COMMENT ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 47, 'SELECT ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 48, 'INSERT ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 49, 'UPDATE ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 50, 'DELETE ANY TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 60, 'CREATE CLUSTER');
+insert into STMT_AUDIT_OPTION_MAP values ( 61, 'CREATE ANY CLUSTER');
+insert into STMT_AUDIT_OPTION_MAP values ( 62, 'ALTER ANY CLUSTER');
+insert into STMT_AUDIT_OPTION_MAP values ( 63, 'DROP ANY CLUSTER');
+insert into STMT_AUDIT_OPTION_MAP values ( 71, 'CREATE ANY INDEX');
+insert into STMT_AUDIT_OPTION_MAP values ( 72, 'ALTER ANY INDEX');
+insert into STMT_AUDIT_OPTION_MAP values ( 73, 'DROP ANY INDEX');
+insert into STMT_AUDIT_OPTION_MAP values ( 80, 'CREATE SYNONYM');
+insert into STMT_AUDIT_OPTION_MAP values ( 81, 'CREATE ANY SYNONYM');
+insert into STMT_AUDIT_OPTION_MAP values ( 82, 'DROP ANY SYNONYM');
+insert into STMT_AUDIT_OPTION_MAP values ( 83, 'SYSDBA');
+insert into STMT_AUDIT_OPTION_MAP values ( 84, 'SYSOPER');
+insert into STMT_AUDIT_OPTION_MAP values ( 85, 'CREATE PUBLIC SYNONYM');
+insert into STMT_AUDIT_OPTION_MAP values ( 86, 'DROP PUBLIC SYNONYM');
+insert into STMT_AUDIT_OPTION_MAP values ( 90, 'CREATE VIEW');
+insert into STMT_AUDIT_OPTION_MAP values ( 91, 'CREATE ANY VIEW');
+insert into STMT_AUDIT_OPTION_MAP values ( 92, 'DROP ANY VIEW');
+insert into STMT_AUDIT_OPTION_MAP values (105, 'CREATE SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values (106, 'CREATE ANY SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values (107, 'ALTER ANY SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values (108, 'DROP ANY SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values (109, 'SELECT ANY SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values (111, 'GRANT SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values (115, 'CREATE DATABASE LINK');
+insert into STMT_AUDIT_OPTION_MAP values (120, 'CREATE PUBLIC DATABASE LINK');
+insert into STMT_AUDIT_OPTION_MAP values (121, 'DROP PUBLIC DATABASE LINK');
+insert into STMT_AUDIT_OPTION_MAP values (125, 'CREATE ROLE');
+insert into STMT_AUDIT_OPTION_MAP values (126, 'DROP ANY ROLE');
+insert into STMT_AUDIT_OPTION_MAP values (127, 'GRANT ANY ROLE');
+insert into STMT_AUDIT_OPTION_MAP values (128, 'ALTER ANY ROLE');
+insert into STMT_AUDIT_OPTION_MAP values (130, 'AUDIT ANY');
+insert into STMT_AUDIT_OPTION_MAP values (131, 'SYSTEM GRANT');
+insert into STMT_AUDIT_OPTION_MAP values (135, 'ALTER DATABASE');
+insert into STMT_AUDIT_OPTION_MAP values (138, 'FORCE TRANSACTION');
+insert into STMT_AUDIT_OPTION_MAP values (139, 'FORCE ANY TRANSACTION');
+insert into STMT_AUDIT_OPTION_MAP values (140, 'CREATE PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values (141, 'CREATE ANY PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values (142, 'ALTER ANY PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values (143, 'DROP ANY PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values (144, 'EXECUTE ANY PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values (146, 'EXECUTE PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values (147, 'GRANT PROCEDURE');
+insert into STMT_AUDIT_OPTION_MAP values (151, 'CREATE TRIGGER');
+insert into STMT_AUDIT_OPTION_MAP values (152, 'CREATE ANY TRIGGER');
+insert into STMT_AUDIT_OPTION_MAP values (153, 'ALTER ANY TRIGGER');
+insert into STMT_AUDIT_OPTION_MAP values (154, 'DROP ANY TRIGGER');
+insert into STMT_AUDIT_OPTION_MAP values (160, 'CREATE PROFILE');
+insert into STMT_AUDIT_OPTION_MAP values (161, 'ALTER PROFILE');
+insert into STMT_AUDIT_OPTION_MAP values (162, 'DROP PROFILE');
+insert into STMT_AUDIT_OPTION_MAP values (163, 'ALTER RESOURCE COST');
+insert into STMT_AUDIT_OPTION_MAP values (165, 'ANALYZE ANY');
+insert into STMT_AUDIT_OPTION_MAP values (167, 'GRANT ANY PRIVILEGE');
+insert into STMT_AUDIT_OPTION_MAP values (172, 'CREATE SNAPSHOT');
+insert into STMT_AUDIT_OPTION_MAP values (173, 'CREATE ANY SNAPSHOT');
+insert into STMT_AUDIT_OPTION_MAP values (174, 'ALTER ANY SNAPSHOT');
+insert into STMT_AUDIT_OPTION_MAP values (175, 'DROP ANY SNAPSHOT');
+insert into STMT_AUDIT_OPTION_MAP values (194, 'WRITEDOWN DBLOW');
+insert into STMT_AUDIT_OPTION_MAP values (195, 'READUP DBHIGH');
+insert into STMT_AUDIT_OPTION_MAP values (196, 'WRITEUP DBHIGH');
+insert into STMT_AUDIT_OPTION_MAP values (197, 'WRITEDOWN');
+insert into STMT_AUDIT_OPTION_MAP values (198, 'READUP');
+insert into STMT_AUDIT_OPTION_MAP values (199, 'WRITEUP');
+insert into STMT_AUDIT_OPTION_MAP values ( 77, 'NOT EXISTS');
+insert into STMT_AUDIT_OPTION_MAP values ( 87, 'EXISTS');
+insert into STMT_AUDIT_OPTION_MAP values ( 54, 'ALTER TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 57, 'LOCK TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 58, 'COMMENT TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 65, 'SELECT TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 66, 'INSERT TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 67, 'UPDATE TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 68, 'DELETE TABLE');
+insert into STMT_AUDIT_OPTION_MAP values ( 69, 'GRANT TABLE');
+insert into STMT_AUDIT_OPTION_MAP values (103, 'ALTER SEQUENCE');
+insert into STMT_AUDIT_OPTION_MAP values (104, 'SELECT SEQUENCE');
+create unique index I_STMT_AUDIT_OPTION_MAP
+        on STMT_AUDIT_OPTION_MAP (OPTION#, NAME)
+/
+drop public synonym STMT_AUDIT_OPTION_MAP
+/
+create public synonym  STMT_AUDIT_OPTION_MAP for STMT_AUDIT_OPTION_MAP
+/
+grant select on STMT_AUDIT_OPTION_MAP to public
+/
+#
+# FAMILY "RESOURCE PROFILES"
+#
+create table RESOURCE_MAP (
+	RESOURCE#	number not null,
+	NAME		char(32) not null)
+/
+comment on table RESOURCE_MAP is
+'Description table for resources.  Maps resource name to number'
+/
+comment on column RESOURCE_MAP.RESOURCE# is
+'Numeric resource code'
+/
+comment on column RESOURCE_MAP.NAME is
+'Name of resource'
+/
+insert into resource_map values ( 0, 'COMPOSITE_LIMIT' );
+insert into resource_map values ( 1, 'SESSIONS_PER_USER' );
+insert into resource_map values ( 2, 'CPU_PER_SESSION' );
+insert into resource_map values ( 3, 'CPU_PER_CALL' );
+insert into resource_map values ( 4, 'LOGICAL_READS_PER_SESSION' );
+insert into resource_map values ( 5, 'LOGICAL_READS_PER_CALL' );
+insert into resource_map values ( 6, 'IDLE_TIME' );
+insert into resource_map values ( 7, 'CONNECT_TIME' );
+insert into resource_map values ( 8, 'PRIVATE_SGA' )
+/
+create table uet$                                       /* used extent table */
+( segfile#      number not null,               /* segment header file number */
+  segblock#     number not null,              /* segment header block number */
+  ext#          number not null,         /* extent number within the segment */
+  ts#           number not null,        /* tablespace containing this extent */
+  file#         number not null,              /* file containing this extent */
+  block#        number not null,              /* starting dba of this extent */
+  length        number not null)          /* length in blocks of this extent */
+cluster c_file#_block#(segfile#, segblock#)
+/
+create table seg$                                           /* segment table */
+( file#         number not null,               /* segment header file number */
+  block#        number not null,              /* segment header block number */
+  type          number not null,                /* segment type (see KTS.H): */
+   /* 1 = UNDO, 2 = SAVE UNDO, 3 = TEMPORARY, 4 = CACHE, 5 = DATA, 6 = INDEX */
+  ts#           number not null,       /* tablespace containing this segment */
+  blocks        number not null,       /* blocks allocated to segment so far */
+  extents       number not null,      /* extents allocated to segment so far */
+  iniexts       number not null,                      /* initial extent size */
+  minexts       number not null,                /* minimum number of extents */
+  maxexts       number not null,                /* maximum number of extents */
+  extsize       number not null,                 /* initial next extent size */
+  extpct        number not null,                    /* percent size increase */
+  user#         number not null,               /* user who owns this segment */
+  lists	        number,                        /* freelists for this segment */
+  groups        number)                  /* freelist groups for this segment */
+cluster c_file#_block#(file#, block#)
+/
+# the following is required by the parallel query option:
+create sequence ora_tq_base$
+  start with 1
+  increment by 1
+  nominvalue
+  nomaxvalue
+  nocache
+  noorder
+  nocycle
+/
+
+#
+# m_convert
+#
+insert into tab$ select obj#, ts#, file#, block#, clu#, tab#, cols, clucols,
+   pctfree$, pctused$, initrans, maxtrans, modified, 
+   substr (audit$, 1, 22) || '----',
+   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL from sys.tab$;
+insert into clu$ select obj#, ts#, file#, block#, cols, pctfree$, pctused$,
+   initrans, maxtrans, size$, hashfunc, 0, 0, 0, 0, 0, 0, 0, 0, 0 
+   from sys.clu$;
+insert into undo$ select us#, name, user#, file#, block#, scnbas, scnwrp,
+   xactsqn, undosqn, NULL, status$ from sys.undo$;
+insert into ts$ select ts#, name, owner#, online$, undofile#, undoblock#, 
+   blocksize, inc#, 0, 0, dflminext, dflmaxext, dflinit, dflincr, dflextpct
+   from sys.ts$;
+#^ set_clean_offline()
+insert into file$ select * from sys.file$;
+insert into col$ select obj#, col#, segcol#, segcollength, offset, name, 
+   type#, length, fixedstorage, precision, scale, null$, 0, 
+   lowval, hival, deflength, NULL, 0, 0 from sys.col$;
+#^ copy_long (sys, col$, default$, migrate, col$, default$, obj#, col#)
+insert into user$ select user#, name, 1, password, datats#, tempts#, ctime,
+   ptime, 0, audit$, 1, 0, 0 from sys.user$;
+insert into con$ select owner#, name, con#, NULL from sys.con$;
+insert into cdef$ select con#, obj#, cols, type, robj#, rcon#, rrules, NULL, 
+   NULL, NULL, condlength, NULL, NULL from sys.cdef$;
+#^ copy_long (sys, cdef$, condition, migrate, cdef$, condition, con#)
+
+#
+# by default all constraints in cdef$ are disabled (enabled = null).
+# however, columns in v6 that are not null should be enabled (103146 & 103233)
+#
+update cdef$ set cdef$.enabled = 1 where cdef$.con# in
+   (select col$.null$ from col$ where col$.null$ > 0);
+
+insert into ccol$ select con#, obj#, col#, pos#, NULL from sys.ccol$;
+
+insert into tsq$ select * from sys.tsq$;
+insert into syn$ select * from sys.syn$;
+
+# move synonym for dual to sys
+update syn$ set owner = 'SYS' where owner = 'MIGRATE';
+
+# edit any synonym that uses a dblink by adding the default domain if they
+# do not already have a domain
+update syn$ set node = upper(node) || '.WORLD'
+ where node is not null
+   and node not like '%.%';
+
+insert into view$ select obj#,
+   '--' || substr (audit$, 3, 8) || '--' || substr (audit$, 13, 10) || '----',
+   cols, textlength, NULL from sys.view$;
+#^ copy_long (sys, view$, text, migrate, view$, text, obj#)
+insert into seq$ select obj#, increment$, minvalue, maxvalue, cycle,
+   order$, cache, highwater, 
+   substr (audit$, 1, 4) || '----' || substr (audit$, 9, 2) ||
+     '--------' || substr (audit$, 19, 2) || '------'
+   from sys.seq$;
+insert into aud$ select sessionid, entryid, statement, timestamp, userid,
+   userhost, terminal, action, returncode, obj$creator, obj$name, 
+   auth$privileges, auth$grantee, NULL, new$name, ses$actions, ses$tid, 
+   logoff$lread, logoff$pread, logoff$lwrite, logoff$dead, logoff$time, 
+   comment$text, NULL, 0, NULL, NULL, NULL from sys.aud$;
+insert into link$ select owner#, upper (name) || '.WORLD',
+                         ctime, host, userid, password from sys.link$;
+insert into props$ select * from sys.props$;
+#insert into props$ values('NLS_LANGUAGE','AMERICAN','Language');
+#insert into props$ values('NLS_TERRITORY','AMERICA','Territory');
+#insert into props$ values('NLS_CURRENCY','$','Local currency');
+#insert into props$ values('NLS_ISO_CURRENCY','AMERICA','ISO currency');
+#insert into props$ values('NLS_NUMERIC_CHARACTERS','.,','Numeric characters');
+#insert into props$ values('NLS_DATE_FORMAT','DD-MON-YY','Date format');
+#insert into props$ values('NLS_DATE_LANGUAGE','AMERICAN','Date language');
+#insert into props$ values('NLS_CHARACTERSET','US7ASCII','Character set');
+#insert into props$ values('NLS_SORT','BINARY','Linguistic definition');
+insert into props$ values('GLOBAL_DB_NAME','CHANGE_ON_INSTALL.WORLD','Global database name');
+insert into com$ select * from sys.com$;
+insert into incexp select * from sys.incexp;
+insert into incvid select * from sys.incvid;
+insert into incfil select * from sys.incfil;
+
+insert into "_default_auditing_options_" 
+   select * from sys."_default_auditing_options_";
+
+#
+#  the following is from conv6to7.bsq
+#
+
+# Convert colauth$ and tabauth$ into objauth$
+# tmpidx is use to sort and order the rows of tabauth$ and colauth$ by grant
+# sequence number (the sequence# column).  The grants must be inserted into
+# objauth$ in the V6 sequence# order because the V7 sequence# column is
+# generated via object_grant.nextval.  The V7 sequence# column cannot simply be
+# copied from the V6 sequence# column because a single tabauth$ row may
+# become several objauth$ rows.  An order by in the where clause of the
+# sub-select would achieve the same thing as tmpidx, but order-by's are not
+# allowed in the sub-select of an insert statement.
+# 
+#^ connect (maint, internal)
+create index tmpidx on tabauth$(sequence#);
+#^ connect (migrate, migrate)
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$) 
+  select obj#,grantor#,grantee#,0,object_grant.nextval,decode(alter$,3,1,null)
+  from sys.tabauth$ x where 
+     ((x.alter$=2 and not exists(select 1 from sys.tabauth$ y where
+		                 y.alter$=3 and
+                                 x.obj#=y.obj# and x.grantor# = y.grantor# and
+                                 x.grantee#=y.grantee#))
+       or x.alter$=3) and x.sequence#>0
+/
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$) 
+  select obj#,grantor#,grantee#,3,object_grant.nextval,decode(delete$,3,1,null)
+  from sys.tabauth$ x where
+     ((x.delete$=2 and not exists(select 1 from sys.tabauth$ y where
+		                 y.delete$=3 and
+                                 x.obj#=y.obj# and x.grantor# = y.grantor# and
+                                 x.grantee#=y.grantee#))
+       or x.delete$=3) and x.sequence#>0
+/
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$) 
+  select obj#,grantor#,grantee#,5,object_grant.nextval,decode(index$,3,1,null)
+  from sys.tabauth$ x where
+     ((x.index$=2 and not exists(select 1 from sys.tabauth$ y where
+		                 y.index$=3 and
+                                 x.obj#=y.obj# and x.grantor# = y.grantor# and
+                                 x.grantee#=y.grantee#))
+       or x.index$=3) and x.sequence#>0
+/
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$) 
+  select obj#,grantor#,grantee#,6,object_grant.nextval,decode(insert$,3,1,null)
+  from sys.tabauth$ x where
+     ((x.insert$=2 and not exists(select 1 from sys.tabauth$ y where
+		                 y.insert$=3 and
+                                 x.obj#=y.obj# and x.grantor# = y.grantor# and
+                                 x.grantee#=y.grantee#))
+       or x.insert$=3) and x.sequence#>0
+/
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$) 
+  select obj#,grantor#,grantee#,9,object_grant.nextval,decode(select$,3,1,null)
+  from sys.tabauth$ x where
+     ((x.select$=2 and not exists(select 1 from sys.tabauth$ y where
+		                 y.select$=3 and
+                                 x.obj#=y.obj# and x.grantor# = y.grantor# and
+                                 x.grantee#=y.grantee#))
+       or x.select$=3) and x.sequence#>0
+/
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$) 
+  select obj#,grantor#,grantee#,10,object_grant.nextval,decode(update$,3,1,null)
+  from sys.tabauth$ x where
+     ((x.update$=2 and not exists(select 1 from sys.tabauth$ y where
+		                 y.update$=3 and
+                                 x.obj#=y.obj# and x.grantor# = y.grantor# and
+                                 x.grantee#=y.grantee#))
+       or x.update$=3) and x.sequence#>0
+/
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$) 
+  select obj#,grantor#,grantee#,11,object_grant.nextval,decode(references$,1,null)
+  from sys.tabauth$ x where
+     ((x.references$=2 and not exists(select 1 from sys.tabauth$ y where
+		                 y.references$=3 and
+                                 x.obj#=y.obj# and x.grantor# = y.grantor# and
+                                 x.grantee#=y.grantee#))
+       or x.references$=3) and x.sequence#>0
+/
+#^ connect (maint, internal)
+drop index tmpidx;
+create index tmpidx on colauth$(sequence#);
+#^ connect (migrate, migrate)
+
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$,col#) 
+  select col$.obj#,grantor#,grantee#,10,object_grant.nextval,
+  decode(update$,3,1,null),col# 
+  from sys.colauth$ x,sys.col$ 
+  where col$.name=x.name and col$.obj# = x.obj#
+    and ((x.update$=2 and not exists(select 1 from sys.colauth$ y where
+	                                 (y.update$=3 and
+                                          x.obj#=y.obj# and
+				          x.grantor# = y.grantor# and
+                                          x.grantee#=y.grantee#)
+					 or
+					 (y.update$=2 and
+					  x.obj#=y.obj# and
+				          x.grantor# = y.grantor# and
+                                          x.grantee#=y.grantee# and
+					  y.rowid > x.rowid)))
+        or (x.update$=3 and not exists (select 1 from sys.colauth$ y where
+					    y.update$=3 and
+					    x.obj#=y.obj# and
+				            x.grantor# = y.grantor# and
+                                            x.grantee#=y.grantee# and
+					    y.rowid > x.rowid)))
+    and x.sequence#>0
+/
+insert into objauth$(obj#,grantor#,grantee#,privilege#,sequence#,option$,col#) 
+  select col$.obj#,grantor#,grantee#,10,object_grant.nextval,
+  decode(references$,3,1,null),col# 
+  from sys.colauth$ x,sys.col$ 
+  where col$.name=x.name and col$.obj# = x.obj#
+    and ((x.references$=2 and not exists(select 1 from sys.colauth$ y where
+	                                 (y.references$=3 and
+                                          x.obj#=y.obj# and
+				          x.grantor# = y.grantor# and
+                                          x.grantee#=y.grantee#)
+					 or
+					 (y.references$=2 and
+					  x.obj#=y.obj# and
+				          x.grantor# = y.grantor# and
+                                          x.grantee#=y.grantee# and
+					  y.rowid > x.rowid)))
+        or (x.references$=3 and not exists (select 1 from sys.colauth$ y where
+					    y.references$=3 and
+					    x.obj#=y.obj# and
+				            x.grantor# = y.grantor# and
+                                            x.grantee#=y.grantee# and
+					    y.rowid > x.rowid)))
+    and x.sequence#>0
+/
+#^ connect (maint, internal)
+drop index tmpidx;
+#^ connect (migrate, migrate)
+
+# Delete any un-needed grants
+delete from objauth$ a where not exists
+  (select 1 from sys.obj$ o where o.obj# = a.obj#);
+
+# we need to create the index here after we insert into objauth above.
+# the inserts will create duplicate entries in objauth which we have just 
+#   purged.  now we can create the unique index i_objauth1 
+#
+#^ create_i_objauth1()
+
+#
+# Now populate IND$ and ICOL$
+#
+insert into ind$ select obj#, ts#, file#, block#, bo#, cols, pctfree$, 
+   initrans, maxtrans, compress$, unique$, 
+   0, 0, 0, 0, 0, 0, 0, 0 from sys.ind$;
+insert into icol$ select * from sys.icol$;
+
+#
+# Now populate obj$.  After this statement, no new objects can be
+# created in this script.
+#
+insert into obj$ select obj#, owner#, name,
+   decode (type, 1, 4, 3, 5, 1),
+   type, ctime, mtime, mtime, 1, NULL, NULL from sys.obj$;
+
+# Create Connect, Resource and Dba roles 
+insert into user$ (user#, name, type, datats#, tempts#, ctime, resource$,
+    defrole) 
+    select user#, 'CONNECT', 0, 0, 0, sysdate, 0, 1 from sys.user$ 
+    where name = '_NEXT_USER';
+insert into user$ (user#, name, type, datats#, tempts#, ctime, resource$,
+    defrole)
+    select user# + 1, 'RESOURCE', 0, 0, 0, sysdate, 0, 1 from sys.user$
+    where name = '_NEXT_USER';
+insert into user$ (user#, name, type, datats#, tempts#, ctime, resource$,
+    defrole)
+    select user# + 2, 'DBA', 0, 0, 0, sysdate, 0, 1 from sys.user$
+    where name = '_NEXT_USER';
+update user$ set user#=user#+3 where name='_NEXT_USER';
+
+# Change Public to a role
+update user$ set type=0,defrole=1 where name='PUBLIC'
+/
+# Convert user$ privileges into sysauth$ entries
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  select user#, -1, system_grant.nextval from sys.user$ where connect$=1
+  and user#!=1
+/
+update sysauth$ set privilege#=(select user# from user$ where name='CONNECT')
+  where privilege#=-1
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  select user#, -1, system_grant.nextval from sys.user$ where resource$=1
+  and user#!=1
+/
+update sysauth$ set privilege#=(select user# from user$ where name='RESOURCE')
+  where privilege#=-1
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  select user#, -1, system_grant.nextval from sys.user$ where dba$=1
+  and user#!=1
+/
+update sysauth$ set privilege#=(select user# from user$ where name='DBA')
+  where privilege#=-1
+/
+# Grant create sequence priv to anyone who had resource() on a tablespace 
+insert into sysauth$(grantee#,privilege#,sequence#) 
+  select tsq$.user#,-105,-1
+  from sys.tsq$,sys.user$
+  where tsq$.user#=user$.user# and maxblocks is null
+    and user$.resource$!=0
+/
+update sysauth$ set sequence# = system_grant.nextval where sequence# = -1
+/
+# Grant each user who had v6 RESOURCE privilege the "unlimited tablespace"
+# privilege.
+#
+insert into sysauth$(grantee#, privilege#, sequence#)
+   select user#, -15, system_grant.nextval from sys.user$ 
+   where resource$ = 1 and dba$ != 1;
+
+# Grant each user who had v6 DBA privilege the "unlimited tablespace" 
+# privilege with the admin option.
+#
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+   select user#, -15, system_grant.nextval, 1 from sys.user$ where dba$ = 1;
+
+# Perform grants to Connect, Resource and Dba roles
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -5, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -6, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -80, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -90, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -115, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -40, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -60, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -105, system_grant.nextval)
+/
+update sysauth$ set grantee#=(select user# from user$ where name='CONNECT')
+  where grantee#=-1
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -40, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -60, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -105, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -140, system_grant.nextval)
+/
+insert into sysauth$(grantee#, privilege#, sequence#) 
+  values (-1, -151, system_grant.nextval)
+/
+update sysauth$ set grantee#=(select user# from user$ where name='RESOURCE')
+  where grantee#=-1
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -3  ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -4  ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -5  ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -6  ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -7  ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -10 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -11 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -12 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -13 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -20 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -21 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -22 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -23 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -30 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -31 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -32 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -40 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -41 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -42 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -43 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -44 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -45 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -46 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -47 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -48 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -49 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -50 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -60 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -61 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -62 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -63 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -71 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -72 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -73 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -80 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -81 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -82 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -85 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -86 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -90 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -91 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -92 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -105 ,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -106,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -107,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -108,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -109,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -115,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -120,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -121,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -125,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -126,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -127,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -128,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -130,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -131,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -135,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -138,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -139,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -140,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -141,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -142,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -143,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -144,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -151,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -152,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -153,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -154,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -160,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -161,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -162,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -163,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -165,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -167,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -170,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -171,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -172,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -173,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -174,system_grant.nextval, 1)
+/
+insert into sysauth$(grantee#, privilege#, sequence#, option$)
+  values (-1, -175,system_grant.nextval, 1)
+/
+update sysauth$ set grantee#=(select user# from user$ where name='DBA')
+  where grantee#=-1
+/
+
+# Add resource profiles
+insert into resource_cost$ values (0, 0);
+insert into resource_cost$ values (1, 0);
+insert into resource_cost$ values (2, 0);
+insert into resource_cost$ values (3, 0);
+insert into resource_cost$ values (4, 0);
+insert into resource_cost$ values (5, 0);
+insert into resource_cost$ values (6, 0);
+insert into resource_cost$ values (7, 0);
+insert into resource_cost$ values (8, 0);
+insert into resource_cost$ values (9, 0);
+
+# under version six we can't ``create profile PUBLIC_DEFAULT''
+# so we'll populate the tables ourselves
+insert into profname$ values (0, 'DEFAULT');
+#
+insert into profile$ values (0, 0, 0, 2147483647);
+insert into profile$ values (0, 1, 0, 2147483647);
+insert into profile$ values (0, 2, 0, 2147483647);
+insert into profile$ values (0, 3, 0, 2147483647);
+insert into profile$ values (0, 4, 0, 2147483647);
+insert into profile$ values (0, 5, 0, 2147483647);
+insert into profile$ values (0, 6, 0, 2147483647);
+insert into profile$ values (0, 7, 0, 2147483647);
+insert into profile$ values (0, 8, 0, 2147483647);
+insert into profile$ values (0, 9, 0, 0);
+
+#
+# m_bootstrap
+#
+insert into bootstrap$ values (1, 0, '7.0.7.0.0');
+
+insert into bootstrap$ select 2, 0,
+   'create rollback segment system storage ( initial ' || 
+      seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize || 
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' objno 0' ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))' 
+   from sys.seg$, sys.undo$, sys.ts$
+   where seg$.file# = undo$.file# and seg$.block# = undo$.block# and
+         undo$.name = 'SYSTEM' and ts$.ts# = 0;
+
+insert into bootstrap$ select 3, clu$.obj#,
+   'create cluster c_obj# (obj# number)' ||
+   ' pctfree ' || clu$.pctfree$ ||
+   ' pctused ' || clu$.pctused$ ||
+   ' initrans ' || clu$.initrans ||
+   ' maxtrans ' || clu$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || clu$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))' ||
+   ' size ' || clu$.size$
+   from sys.clu$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = clu$.file# and seg$.block# = clu$.block# and
+      clu$.obj# = obj$.obj# and obj$.name = 'C_OBJ#' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 4, ind$.obj#,
+   'create index i_obj# on cluster c_obj#' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_OBJ#' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(5, tab$, "c_obj#(obj#)",
+    "create table tab$ 
+     (obj#     number not null, 
+      ts#      number not null,
+      file#    number not null, 
+      block#   number not null, 
+      clu#     number,
+      tab#     number, 
+      cols     number not null, 
+      clucols  number,
+      pctfree$ number not null,
+      pctused$ number not null,
+      initrans number not null, 
+      maxtrans number not null,
+      modified number not null, 
+      audit$   char(32) not null,
+      rowcnt   number, 
+      blkcnt   number, 
+      empcnt   number,
+      avgspc   number,
+      chncnt   number, 
+      avgrln   number,
+      spare1   number,
+      spare2   number)")
+
+insert into bootstrap$ select 6, ind$.obj#,
+   'create index i_tab1 on tab$(clu#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_TAB1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(7, clu$, "c_obj#(obj#)",
+   "create table clu$ 
+    (obj#     number not null, 
+     ts#      number not null,
+     file#    number not null, 
+     block#   number not null,
+     cols     number not null, 
+     pctfree$ number not null,
+     pctused$ number not null,
+     initrans number not null, 
+     maxtrans number not null,
+     size$    number, 
+     hashfunc char (30), 
+     hashkeys number,
+     func     number, 
+     extind   number, 
+     spare4   number, 
+     spare5   number,
+     spare6   number, 
+     spare7   number, 
+     spare8   number,
+     spare9   number)")
+
+insert into bootstrap$ select 8, clu$.obj#,
+   'create cluster c_ts# (ts# number)' ||
+   ' pctfree ' || clu$.pctfree$ ||
+   ' pctused ' || clu$.pctused$ ||
+   ' initrans ' || clu$.initrans ||
+   ' maxtrans ' || clu$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents 99' ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || clu$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.clu$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = clu$.file# and seg$.block# = clu$.block# and
+      clu$.obj# = obj$.obj# and obj$.name = 'C_TS#' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 9, ind$.obj#,
+   'create index i_ts# on cluster c_ts#' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents 99' ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_TS#' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 10, clu$.obj#,
+   'create cluster c_file#_block# (segfile# number, segblock# number)' ||
+   ' pctfree ' || clu$.pctfree$ ||
+   ' pctused ' || clu$.pctused$ ||
+   ' initrans ' || clu$.initrans ||
+   ' maxtrans ' || clu$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents 99' || 
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || clu$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))' ||
+   ' size ' || clu$.size$
+   from sys.clu$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = clu$.file# and seg$.block# = clu$.block# and
+      clu$.obj# = obj$.obj# and obj$.name = 'C_FILE#_BLOCK#' and 
+      ts$.ts# = 0 and obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 11, ind$.obj#,
+   'create index i_file#_block# on cluster c_file#_block#' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents 99' ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_FILE#_BLOCK#' and 
+      ts$.ts# = 0 and obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+
+insert into bootstrap$ select 12, clu$.obj#,
+   'create cluster c_user# (user# number)' ||
+   ' pctfree ' || clu$.pctfree$ ||
+   ' pctused ' || clu$.pctused$ ||
+   ' initrans ' || clu$.initrans ||
+   ' maxtrans ' || clu$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || clu$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))' ||
+   ' size ' || clu$.size$
+   from sys.clu$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = clu$.file# and seg$.block# = clu$.block# and
+      clu$.obj# = obj$.obj# and obj$.name = 'C_USER#' and 
+      ts$.ts# = 0 and obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 13, ind$.obj#,
+   'create index i_user# on cluster c_user#' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_USER#' and 
+      ts$.ts# = 0 and obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(14, fet$, "c_ts#(ts#)",
+   "create table fet$ 
+     (ts#    number not null,
+      file#  number not null, 
+      block# number not null,
+      length number not null)")
+
+#^ create_table_clu(15, uet$,  "c_file#_block#(segfile#, segblock#)",
+   "create table uet$ 
+    (segfile#  number not null,
+     segblock# number not null, 
+     ext#      number not null,
+     ts#       number not null, 
+     file#     number not null,
+     block#    number not null, 
+     length    number not null)")
+
+#^ create_table_clu(16, seg$, "c_file#_block#(file#, block#)",
+   "create table seg$ 
+    (file#   number not null,
+     block#  number not null, 
+     type    number not null,
+     ts#     number not null, 
+     blocks  number not null,
+     extents number not null, 
+     iniexts number not null,
+     minexts number not null,
+     maxexts number not null,
+     extsize number not null,
+     extpct  number not null,
+     user#   number not null,
+     lists   number,
+     groups  number)")
+
+#^ create_table(17, undo$, 
+   "create table undo$ 
+    (us#     number not null,
+     name    char (30) not null, 
+     user#   number not null,
+     file#   number not null, 
+     block#  number not null,
+     scnbas  number not null, 
+     scnwrp  number, 
+     xactsqn number,
+     undosqn number,
+     inst#   number,
+     status$ number not null)")
+
+insert into bootstrap$ select 18, ind$.obj#,
+   'create unique index i_undo1 on undo$(us#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_UNDO1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(19, ts$, "c_ts#(ts#)",
+   "create table ts$ 
+    (ts#        number not null,
+     name       char (30) not null,
+     owner#     number not null,
+     online$    number not null, 
+     undofile#  number,
+     undoblock# number, 
+     blocksize  number not null,
+     inc#       number not null, 
+     scnwrp     number,
+     scnbas     number, 
+     dflminext  number not null,
+     dflmaxext  number not null, 
+     dflinit    number not null,
+     dflincr    number not null, 
+     dflextpct  number not null)")
+
+#^ create_table(20, file$,
+   "create table file$ 
+    (file#   number not null,
+     status$ number not null, 
+     blocks  number not null,
+     ts#     number not null)")
+
+insert into bootstrap$ select 21, ind$.obj#,
+   'create unique index i_file1 on file$(file#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_FILE1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table(22, obj$, 
+   "create table obj$ 
+    (obj#        number not null,
+     owner#      number not null, 
+     name        char (30) not null,
+     namespace   number not null, 
+     type        number not null,
+     ctime       date not null,
+     mtime       date not null, 
+     stime       date not null,
+     status      number not null, 
+     remoteowner char (30),
+     linkname    char (128))")
+
+insert into bootstrap$ select 23, ind$.obj#,
+   'create unique index i_obj1 on obj$(obj#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_OBJ1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 24, ind$.obj#,
+   'create unique index i_obj2 on obj$(owner#, name, namespace,' ||
+   ' remoteowner, linkname)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_OBJ2' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(25, ind$, "c_obj#(bo#)",
+   "create table ind$ 
+    (obj#      number not null,
+     ts#       number not null, 
+     file#     number not null,
+     block#    number not null, 
+     bo#       number not null,
+     cols      number not null, 
+     pctfree$  number not null,
+     initrans  number not null, 
+     maxtrans  number not null,
+     compress$ number not null, 
+     unique$   number not null,
+     blevel    number, 
+     leafcnt   number, 
+     distkey   number,
+     lblkkey   number, 
+     dblkkey   number, 
+     clufac    number, 
+     spare7    number,
+     spare8    number)")
+
+insert into bootstrap$ select 26, ind$.obj#,
+   'create unique index i_ind1 on ind$(obj#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_IND1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+
+#^ create_table_clu(27, icol$, "c_obj#(bo#)",
+   "create table icol$ 
+    (obj#         number not null,
+     bo#          number not null, 
+     col#         number not null,
+     pos#         number not null,
+     segcol#      number not null,
+     segcollength number not null, 
+     offset        number not null)")
+
+insert into bootstrap$ select 28, ind$.obj#,
+   'create  index i_icol1 on icol$(obj#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_ICOL1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(29, col$, "c_obj#(obj#)",
+   "create table col$ 
+    (obj#          number not null,
+     col#          number not null, 
+     segcol#       number not null,
+     segcollength  number not null, 
+     offset        number not null,
+     name          char (30) not null, 
+     type#         number not null,
+     length        number not null, 
+     fixedstorage  number not null,
+     precision     number, 
+     scale         number,
+     null$         number not null,
+     distcnt       number, 
+     lowval        raw(32),
+     hival         raw(32), 
+     deflength     number,
+     default$      long,
+     spare2        number, 
+     spare3        number)")
+
+insert into bootstrap$ select 30, ind$.obj#,
+   'create unique index i_col1 on col$(obj#, name)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_COL1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 31, ind$.obj#,
+   'create unique index i_col2 on col$(obj#, col#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_COL2' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+
+#^ create_table_clu(32, user$, "c_user#(user#)",
+   "create table user$ 
+    (user#     number not null,
+     name      char (30) not null,
+     type      number not null,
+     password  char (30), 
+     datats#   number not null,
+     tempts#   number not null, 
+     ctime     date not null,
+     ptime     date, 
+     resource$ number not null,
+     audit$    char (32),
+     defrole   number not null,
+     spare1    number,
+     spare2    number)")
+
+insert into bootstrap$ select 33, ind$.obj#,
+   'create unique index i_user1 on user$(name)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_USER1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table(34, con$, 
+   "create table con$ 
+    (owner# number not null,
+     name   char (30) not null, 
+     con#   number not null,
+     spare1 number)")
+
+insert into bootstrap$ select 35, ind$.obj#,
+   'create unique index i_con1 on con$(owner#, name)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_CON1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 36, ind$.obj#,
+   'create unique index i_con2 on con$(con#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_CON2' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+
+insert into bootstrap$ select 37, clu$.obj#,
+   'create cluster c_cobj# (obj# number)' ||
+   ' pctfree ' || clu$.pctfree$ ||
+   ' pctused ' || clu$.pctused$ ||
+   ' initrans ' || clu$.initrans ||
+   ' maxtrans ' || clu$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || clu$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))' ||
+   ' size ' || clu$.size$
+   from sys.clu$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = clu$.file# and seg$.block# = clu$.block# and
+      clu$.obj# = obj$.obj# and obj$.name = 'C_COBJ#' and 
+      ts$.ts# = 0 and obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 38, ind$.obj#,
+   'create index i_cobj# on cluster c_cobj#' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_COBJ#' and 
+      ts$.ts# = 0 and obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(39, cdef$, "c_cobj#(obj#)",
+   "create table cdef$ 
+    (con#       number not null,
+     obj#       number not null, 
+     cols       number, 
+     type       number not null,
+     robj#      number, 
+     rcon#      number,
+     rrules     char (3), 
+     match      number, 
+     refact     number,
+     enabled    number, 
+     condlength number, 
+     condition  long,
+     spare1     number)")
+
+insert into bootstrap$ select 40, ind$.obj#,
+   'create unique index i_cdef1 on cdef$(con#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_CDEF1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 41, ind$.obj#,
+   'create index i_cdef2 on cdef$(obj#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_CDEF2' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+insert into bootstrap$ select 42, ind$.obj#,
+   'create index i_cdef3 on cdef$(robj#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_CDEF3' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table_clu(43, ccol$, "c_cobj#(obj#)",
+   "create table ccol$ 
+    (con# number not null,
+     obj# number not null, 
+     col# number not null, 
+     pos# number,
+     spare1 number)")
+
+insert into bootstrap$ select 44, ind$.obj#,
+   'create unique index i_ccol1 on ccol$(con#, col#)' ||
+   ' pctfree ' || ind$.pctfree$ ||
+   ' initrans ' || ind$.initrans ||
+   ' maxtrans ' || ind$.maxtrans ||
+   ' storage ( initial ' || seg$.iniexts * ts$.blocksize ||
+   ' next ' || seg$.extsize * ts$.blocksize ||
+   ' minextents ' || seg$.minexts ||
+   ' maxextents ' || seg$.maxexts ||
+   ' pctincrease ' || seg$.extpct ||
+   ' objno ' || ind$.obj# ||
+   ' extents ( file ' || seg$.file# ||
+   ' block ' || seg$.block# || '))'
+   from sys.ind$, sys.seg$, sys.ts$, sys.obj$, sys.user$
+   where seg$.file# = ind$.file# and seg$.block# = ind$.block# and
+      ind$.obj# = obj$.obj# and obj$.name = 'I_CCOL1' and ts$.ts# = 0 and
+      obj$.owner# = user$.user# and user$.name = 'MIGRATE';
+
+#^ create_table(45, bootstrap$,
+   "create table bootstrap$ 
+    (line# number not null,
+     obj#     number not null, 
+     sql_text long not null)")
+
+#              
+# m_misc
+#
+
+## the following changes are for epeeler and deal with
+## how not null column constraints are handled
+
+## update the cdef$ table first to make the NULL$ constraints type 7
+update cdef$ set type=7 where
+  con# in (select abs(null$) from col$ where null$>0 or
+	   null$ < 0);
+
+## update the col$ for the enables NOT NULL column constraints
+update col$ set null$=1 where null$ > 0;
+
+## update the col$ table for the disables NOT NULL column constraints
+update col$ set null$=0 where null$ < 0;
+
+## update the col$ table for the enabled primary keys
+update col$ c set null$=null$+1 where
+(obj#,col#) = (select cc.obj#,cc.col# from ccol$ cc,cdef$ cd
+	       where cc.con#=cd.con# and cd.type=2 and
+	       enabled is not null and c.obj#=cc.obj# and
+	       c.col#=cc.col#);
+
+
+#
+# convert v6 nls parameters into their v7 equivalent
+#
+
+#^ convert_nls()
+
+#
+# convert v6 longs into v7 varchar2 (2000);
+#
+
+update col$ set type# = 1, length = 2000 where name = 'SQL_TEXT' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'BOOTSTRAP$');
+
+update col$ set type# = 1, length = 2000 where name = 'SOURCE' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'SOURCE$');
+
+update col$ set type# = 1, length = 2000 where name = 'TEXT' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'ERROR$');
+
+update col$ set type# = 1, length = 2000 where name = 'DEFINITION' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'TRIGGER$');
+
+update col$ set type# = 1, length = 2000 where name = 'WHENCLAUSE' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'TRIGGER$');
+
+update col$ set type# = 1, length = 2000 where name = 'COMMENT$TEXT' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'AUD$' and 
+           obj$.owner# = (select user$.user# from user$ 
+                                 where user$.name = 'MIGRATE'));
+
+update col$ set type# = 1, length = 2000 where name = 'COMMENT$' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'COM$' and 
+           obj$.owner# = (select user$.user# from user$ 
+                                 where user$.name = 'MIGRATE'));
+
+update col$ set type# = 1, length = 2000 where name = 'QUERY_TXT' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'SNAP$');
+
+update col$ set type# = 1, length = 2000 where name = 'WHAT' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'JOB$');
+
+update col$ set type# = 1, length = 2000 where name = 'NLSENV' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'JOB$');
+
+update col$ set type# = 1, length = 2000 where name = 'CHARENV' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'JOB$');
+
+#
+# convert v6 longs to pidl types
+#
+#sb4 = type 29
+#ub2 = type 25
+
+update col$ set type# = 29 where name = 'PIECE' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'IDL_SB4$');
+
+update col$ set type# = 25 where name = 'PIECE' and
+   obj# = (select obj$.obj# from obj$ where obj$.name = 'IDL_UB2$');
+
+#
+#  swap the ownership of the data dictionary in
+#  migrate's copy.
+#  use _NEXT_USER as the temp for swapping.
+#
+# _NEXT_USER <- SYS
+update obj$ set owner# = (select user# from user$ where name = '_NEXT_USER')
+   where owner# = (select user# from user$ where name = 'SYS') and
+         name in (select name from sys.v7_objects where type = 'M' or 
+						        type = 'P' or
+							type = 'O');
+#
+# SYS <- MIGRATE
+#
+update obj$ set owner# = (select user# from user$ where name = 'SYS')
+   where owner# = (select user# from user$ where name = 'MIGRATE');
+#
+# MIGRATE <- _NEXT_USER
+#
+update obj$ set owner# = (select user# from user$ where name = 'MIGRATE')
+   where owner# = (select user# from user$ where name = '_NEXT_USER');
+#
+#  swap SYS and MIGRATE in col GRANTOR# in table objauth$
+#
+update objauth$ set grantor# = 
+  (select user# from user$ where name = '_NEXT_USER') 
+  where grantor# = (select user# from user$ where name = 'SYS');
+update objauth$ set grantor# = 
+   (select user# from user$ where name = 'SYS')
+   where grantor# = (select user# from user$ where name = 'MIGRATE');
+update objauth$ set grantor# = 
+   (select user# from user$ where name = 'MIGRATE')
+   where grantor# = (select user# from user$ where name = '_NEXT_USER');
+#
+# invalidate all the views so they get recreated in v7
+#
+update obj$ set status = 5 where type = 4;
+#
+#  change migrate's password.  after sys and migrate change
+#  tables, one will no longer be able to log in as migrate.
+#
+update user$ set user$.password = 'no login' where user$.name = 'MIGRATE'; 
+
+#
+#  Now populate the space management tables.  This must be handled
+#  *very* delicately.  We cannot allow any space operations to
+#  occur while we are doing this.  The c_file#_block# and c_ts# cluster
+#  and their indexes were created with maxextents = 1, so they cannot
+#  extend.  We must also be careful not to issue any SQL that uses
+#  a sort, as they may cause a temp table to extend.  We also must
+#  get a consistant snapshot of all 3 tables, so we lock them
+#  all in exclusive mode.  This prevents SMON from doing any
+#  temp segment cleanup while we copy the tables.
+#  We also cannot allow the system rollback segment to extend while all 
+#  this is going on, so we freeze it at its current size.
+#
+
+#^ connect (maint, internal)
+#^ freeze_rb()
+#^ connect (migrate, migrate)
+
+#^ run ("lock table fet$ in exclusive mode")
+#^ run ("lock table seg$ in exclusive mode")
+#^ run ("lock table uet$ in exclusive mode")
+
+#
+#  populate seg$
+#
+#^ run ("insert into seg$ 
+	select file#, block#, type, ts#, blocks, extents, 
+	iniexts, minexts, maxexts, extsize, extpct, user#, NULL, NULL 
+	from sys.seg$")
+#
+#  populate fet$
+#
+#^ run ("insert into fet$ select * from sys.fet$")
+#
+#  populate uet$;
+#
+#^ run ("insert into uet$ select * from sys.uet$")
+#
+#  convert segment owners in seg$
+#
+update seg$ set user# = (select user# from user$ where name = 'SYS')
+  where user# = (select user# from user$ where name = 'MIGRATE');
+#
+#  all rollback segments in v7 have pctincrease = 0
+#
+update seg$ s set s.extpct = 0 where exists
+ (select u.file#, u.block# from undo$ u
+    where u.file# = s.file# and u.block# = s.block#);  
+#
+#  set maxexts to 99 for those space management objects that we created
+#  with maxextents 1
+#
+update seg$ s set s.maxexts = 99
+  where s.user# = (select user# from user$ where name = 'SYS')
+    and exists (select o.obj# from obj$ o, clu$ c
+		where (o.name = 'C_FILE#_BLOCK#' or o.name = 'C_TS#')
+		  and o.obj# = c.obj#
+		  and o.owner# = s.user#
+		  and c.file# = s.file# and c.block# = s.block#);
+
+update seg$ s set s.maxexts = 99
+  where s.user# = (select user# from user$ where name = 'SYS')
+    and exists (select o.obj# from obj$ o, ind$ i
+		where (o.name = 'I_FILE#_BLOCK#' or o.name = 'I_TS#')
+		  and o.obj# = i.obj#
+		  and o.owner# = s.user#
+		  and i.file# = s.file# and i.block# = s.block#);
+update seg$ s set s.maxexts = 99
+  where (s.file#, s.block#) =
+     (select u.file#, u.block# from undo$ u 
+        where us# = 0);
+update ts$ set inc# = (select inc# from sys.ts$ where name = 'SYSTEM')
+where name = 'SYSTEM';
+#^ connect (maint, internal)
+

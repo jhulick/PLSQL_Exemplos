@@ -1,0 +1,4 @@
+SELECT LCASE(<coluna>)
+FROM tabela
+
+*em MySQL deixa os caracteres da coluna em minusculo.

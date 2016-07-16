@@ -1,0 +1,136 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+<A HREF="wrbapi1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="419865">
+Web Request Broker API Reference
+</A>
+</H1>
+<HR><P><A NAME="420435">
+The Web Request Broker (WRB) API Reference provides a lookup reference for programmers using the WRB API to write server-side web applications. The WRB Overview section of <em><a href="wrbintro.pdf">Introduction to the Web Request Broker</a></em> describes WRB applications, called <em>cartridges</em>, and gives a general overview of the WRB architecture.<P>
+</A><A NAME="425207">
+To learn how to develop WRB cartridges, see <a href="wrbprog.htm#420150">Writing Applications Using the Web Request Broker API</a>.<P>
+</A><A NAME="425194">
+The WRB API Reference is divided into these sections:<P>
+</A><HR>
+<H2>
+<A NAME="425218">
+WRB Application Engine Functions
+</A>
+</H2>
+<ul type=disc><A NAME="425008">
+<LI><code><a href="wrbapi1.htm#425225">WRBClientRead()</a></code>--Read POST data from the client
+</A>
+<A NAME="425012">
+<LI><code><a href="wrbapi2.htm#425292">WRBClientWrite()</a></code>--Write response data to the client
+</A>
+<A NAME="425019">
+<LI><code><a href="wrbapi21.htm#426168">WRBLogMessage()</a></code>--Complete HTTP response header
+</A>
+<A NAME="425043">
+<LI><code><a href="wrbapi4.htm#425395">WRBGetAppConfig()</a></code>--Get cartridge configuration parameters
+</A>
+<A NAME="425050">
+<LI><code><a href="wrbapi5.htm#425434">WRBGetCharacterEncoding()</a></code>--Get the client's preferred character sets
+</A>
+<A NAME="425057">
+<LI><code><a href="wrbapi6.htm#425473">WRBGetClientIP()</a></code>--Get the client's IP address
+</A>
+<A NAME="425064">
+<LI><code><a href="wrbapi7.htm#425517">WRBGetConfigVal()</a></code>--Get cartridge configuration parameter value
+</A>
+<A NAME="425071">
+<LI><code><a href="wrbapi8.htm#425559">WRBGetContent()</a></code>--Get the request query string or POST data
+</A>
+<A NAME="425125">
+<LI><code><a href="wrbapi9.htm#426338">WRBGetEnvironment()</a></code>--Get all Web Listener environment variables
+</A>
+<A NAME="425078">
+<LI><code><a href="wrbapi10.htm#425649">WRBGetEnvironmentVariable()</a></code>--Get an environment variable value
+</A>
+<A NAME="425089">
+<LI><code><a href="wrbapi11.htm#425698">WRBGetLanguage()</a></code>--Get the client's preferred languages
+</A>
+<A NAME="425107">
+<LI><code><a href="wrbapi12.htm#425737">WRBGetMimeType()</a></code>--Get the MIME type for a specified file extension
+</A>
+<A NAME="424941">
+<LI><code><a href="wrbapi13.htm#425784">WRBGetNamedEntry()</a></code>--Get a name-value pair from parsed content
+</A>
+<A NAME="425114">
+<LI><code><a href="wrbapi14.htm#425841">WRBGetORACLE_HOME()</a></code>--Get the Web Listener's <code>ORACLE_HOME</code> value
+</A>
+<A NAME="425118">
+<LI><code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code>--Get request content as name-value pairs
+</A>
+<A NAME="425132">
+<LI><code><a href="wrbapi16.htm#425943">WRBGetPassword()</a></code>--Get the currently authenticated user's password
+</A>
+<A NAME="424949">
+<LI><code><a href="wrbapi17.htm#425990">WRBGetReqMimeType()</a></code>--Get the MIME type of the current request
+</A>
+<A NAME="425096">
+<LI><code><a href="wrbapi18.htm#426027">WRBGetURI()</a></code>--Get the current request URI
+</A>
+<A NAME="425100">
+<LI><code><a href="wrbapi19.htm#426073">WRBGetURL()</a></code>--Get the current request URL
+</A>
+<A NAME="424953">
+<LI><code><a href="wrbapi20.htm#426119">WRBGetUserID()</a></code>--Get the currently authenticated user's username
+</A>
+<A NAME="425026">
+<LI><code><a href="wrbapi21.htm#426168">WRBLogMessage()</a></code>--Append a text string to the WRBX's log file
+</A>
+<A NAME="424977">
+<LI><code><a href="wrbapi22.htm#426211">WRBReturnHTTPError()</a></code>--Return a standard HTTP error message
+</A>
+<A NAME="424981">
+<LI><code><a href="wrbapi23.htm#426279">WRBReturnHTTPRedirect()</a></code>--Redirect the current request to another URI
+</A>
+<A NAME="425034">
+<LI><code><a href="wrbapi24.htm#420842">WRBSetAuthorization()</a></code>--Set up authentication for a cartridge
+</A>
+</ul><HR>
+<H2>
+<A NAME="427169">
+WRB Data Types
+</A>
+</H2>
+<ul type=disc><A NAME="427173">
+<LI><a href="wrbapi25.htm#426826">WRB Return Codes</a>
+</A>
+<A NAME="427177">
+<LI><a href="wrbapi26.htm#426847">WRB Error Codes</a>
+</A>
+<A NAME="427181">
+<LI><a href="wrbapi27.htm#426922">The WRBCallbacks Structure</a>
+</A>
+<A NAME="427185">
+<LI><a href="wrbapi28.htm#426929">The WRBEntry Structure</a>
+</A>
+</ul>
+
+<HR>
+<A HREF="wrbapi1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+ 

@@ -1,0 +1,599 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwt14.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwt16.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="421654">
+OWA_PATTERN
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="419716">
+The OWA_PATTERN package enables you to do sophisticated string manipulation using regular expressions. OWA_PATTERN provides the following three operations:<P>
+</A><ul type=disc><A NAME="419717">
+<LI>MATCH. This determines whether a regular expression exists in a string. This is a function that returns TRUE or FALSE. 
+</A>
+<A NAME="419718">
+<LI>AMATCH. This is a more sophisticated variation on MATCH that lets you specify <em>where</em> in the string the match has to occur. This is a function that returns as an integer the end of the location in the string where the regular expression was found. If the regular expression is not found, it returns 0.
+</A>
+<A NAME="419719">
+<LI>CHANGE. This lets you replace the portion of the string that matched the regular expression with a new string. CHANGE can be either a procedure or a function. If a function, it returns the number of times the regular expression was found and replaced.
+</A>
+</ul><A NAME="419720">
+There are also operations that these operations use, but that you can also use directly. These are explained shortly.<P>
+</A><A NAME="419721">
+The OWA_PATTERN operations all use the following three parameters:<P>
+</A><ul type=disc><A NAME="419722">
+<LI><em>line</em>. This is the target to be examined for a match. Despite the name, it can be more than one line of text or can be a PL/SQL table of type multi_line
+</A>
+<A NAME="419726">
+<LI><em>pat</em>. This is the regular expression the functions attempts to locate in <em>line</em>. This regular expression uses the special tokens explained shortly. Note: in CHANGE, this is called <em>from_str</em>.
+</A>
+<A NAME="419727">
+<LI><em>flags. </em>These are arguments that control how the search is to be performed. 
+</A>
+</ul><A NAME="419728">
+Some of the operations take additional parameters as well. <P>
+</A><HR>
+<H2>
+<A NAME="419729">
+Regular Expressions
+</A>
+</H2>
+<A NAME="419730">
+You specify a regular expression by creating the string you want to match interspersed with various wildcard tokens and quantifiers. The wildcard tokens all match something other than themselves, and the quantifiers modify the meaning of tokens or of literals by specifying such things as how often each is to be applied. <P>
+</A><HR>
+<H3>
+<A NAME="419731">
+Tokens
+</A>
+</H3>
+<A NAME="419732">
+The wildcard tokens that are supported are as follows:<P>
+</A><DL COMPACT><DT>^
+</DL><A NAME="419734">
+Matches newline or the beginning of the target.<P>
+</A><DL COMPACT><DT>$
+</DL><A NAME="419736">
+Matches newline or the end of the target.<P>
+</A><DL COMPACT><DT>\n
+</DL><A NAME="419738">
+Matches newline.<P>
+</A><DL COMPACT><DT>.
+</DL><A NAME="419740">
+Matches any character except newline.<P>
+</A><DL COMPACT><DT>\t
+</DL><A NAME="419742">
+Matches tab.<P>
+</A><DL COMPACT><DT>\d 
+</DL><A NAME="419744">
+Matches digits [0-9]<P>
+</A><DL COMPACT><DT>\D
+</DL><A NAME="419746">
+Matches non-digits [not 0-9]<P>
+</A><DL COMPACT><DT>\w
+</DL><A NAME="419748">
+Matches word characters (alphanumeric) [0-9, a-z, A-Z or _]<P>
+</A><DL COMPACT><DT>\W
+</DL><A NAME="419750">
+Matches non-word characters [not 0-9, a-z, A-Z or _] <P>
+</A><DL COMPACT><DT>\s
+</DL><A NAME="419752">
+Matches whitespace characters [blank, tab, or newline]<P>
+</A><DL COMPACT><DT>\S
+</DL><A NAME="419754">
+Matches non-whitespace characters [not blank, tab, or newline]<P>
+</A><DL COMPACT><DT>\b
+</DL><A NAME="419756">
+Matches "word" boundaries (between \w and \W)<P>
+</A><DL COMPACT><DT>\x&lt;HEX&gt;
+</DL><A NAME="419758">
+Matches the value in the current character set of the two hexidecimal digits.<P>
+</A><DL COMPACT><DT>\&lt;OCT&gt;
+</DL><A NAME="419760">
+Matches the value in the current character set of the two or three octal digits.<P>
+</A><DL COMPACT><DT>\
+</DL><A NAME="419762">
+Followed by any character not covered by another case matches that character.<P>
+</A><DL COMPACT><DT>&amp;
+</DL><A NAME="419764">
+Applies only to CHANGE. This causes the string that matched the regular expression to be included in the string that replaces it. This differs from the other tokens in that it specifies how a target is changed rather than how it is matched. This is explained further under CHANGE.<P>
+</A><HR>
+<H3>
+<A NAME="419765">
+Quantifiers
+</A>
+</H3>
+<A NAME="419766">
+Any of the above tokens except &amp; can have its meaning extended by any of the following quantifiers. You can also apply these quantifiers to literals.<P>
+</A><DL COMPACT><DT>?
+</DL><A NAME="419768">
+0 or 1 occurrence(s)<P>
+</A><DL COMPACT><DT>*
+</DL><A NAME="419770">
+0 or more occurrences<P>
+</A><DL COMPACT><DT>+
+</DL><A NAME="419772">
+1 or more occurrence(s)<P>
+</A><DL COMPACT><DT>{n}
+</DL><A NAME="419774">
+Exactly <em>n</em> occurrences<P>
+</A><DL COMPACT><DT>(n,}
+</DL><A NAME="419776">
+At least <em>n</em> occurrences<P>
+</A><DL COMPACT><DT>{n,m}
+</DL><A NAME="419778">
+At least <em>n</em>, but not more than <em>m</em>, occurrences<P>
+</A><HR>
+<H2>
+<A NAME="419779">
+Flags
+</A>
+</H2>
+<A NAME="419780">
+In addition to targets and regular expressions, the OWA_PATTERN functions and procedures can use flags to affect how they are interpreted. The recognized flags are as follows:<P>
+</A><DL COMPACT><DT>i
+</DL><A NAME="419782">
+This indicates a case-insensitive search.<P>
+</A><DL COMPACT><DT>g
+</DL><A NAME="419784">
+This applies only to CHANGE. It indicates a global replace. That is to say, all portions of the target that match the regular expression are replaced.<P>
+</A><HR>
+<H2>
+<A NAME="419785">
+Datatypes
+</A>
+</H2>
+<A NAME="419787">
+The following special datatype is used by OWA_PATTERN. <P>
+</A><DL COMPACT><DT><A NAME="419788">
+pattern
+</A></DL><A NAME="419792">
+A PL/SQL table of 4 byte VARCHAR2 strings, indexed by BINARY INTEGER. This is an alternative way to store your regular expression than in simple VARCHAR2 strings. The advantages of this is that you can use a pattern as both an input and output parameter. Thus, you can pass the same regular expression to several subsequent OWA_PATTERN function calls, and it only has to be parsed once. <P>
+</A><A NAME="419793">
+Note: The following datatypes are used by OWA_PATTERN, but are part of the OWA_TEXT package. For information on these, see the section on OWA_TEXT: <em>owa_text.vc_arr, owa_text.multi_line, owa_text.int_array, owa_text.row_list.</em><P>
+</A><HR>
+<H2>
+<A NAME="419794">
+Using MATCH, AMATCH, and CHANGE
+</A>
+</H2>
+<A NAME="419795">
+Here is an example of MATCH. <P>
+</A><A NAME="419796">
+<PRE>MATCH ('BATMAN', 'Bat.*', i);</PRE><P>
+</A>
+<A NAME="419797">
+This is how the function is interpreted: BATMAN is the target where we are searching for the regular expression. Bat.* is the regular expression we are attempting to find. The period (.) indicates any character other than newline, and the asterisk (*) indicates any 0 or more of such. Therefore, this regular expression specifies that a matching target consists of 'Bat', followed by any set of characters neither ending in nor including a newline (which does not match the period). The <em>i</em> at the end is a flag indicating that case is to be ignored in the search. <P>
+</A><A NAME="419798">
+This would return TRUE, indicating that a match had been found. <P>
+</A><A NAME="419799">
+Note that, if multiple overlapping strings can match the regular expression, OWA_PATTERN takes the longest match.<P>
+</A><HR>
+<H3>
+<A NAME="419800">
+Summaries of OWA_PATTERN Functions
+</A>
+</H3>
+<A NAME="419801">
+MATCH, AMATCH, and CHANGE are overloaded. That is to say, there are several versions of each, distinguished by the parameters they take. Specifically, there are six versions of MATCH, and four each of AMATCH and CHANGE. This section provides a summary of all versions; the following section provides a reference on each version.<P>
+</A><A NAME="419802">
+MATCH is a function that returns TRUE or FALSE depending on whether a match was found. Here is a summary of the versions of MATCH: <P>
+</A><ul type=disc><A NAME="419803">
+<LI>The target can be either a simple VARCHAR2 string of less than 32K or a multi_line. A multi-line is described under "OWA_TEXT Datatypes". You can create a multi_line from a long string using the <em>stream2multi</em> function described under OWA_TEXT. If a multi_line is used, there is a parameter called <em>rlist,</em> after the regular expression, but before the flags. This is a list of the chunks where matches were found. Use of a VARCHAR2 implies use of one of the first four versions of this function. Use of a multi_line implies use of version 5 or 6.
+</A>
+<A NAME="419804">
+<LI>The regular expression can be either a VARCHAR2 string or a <em>pattern.</em> You can create a <em>pattern</em> from a string using the <em>getpat</em> function described later in this section. If you use a pattern, you are using one of the even-number versions of the function.
+</A>
+<A NAME="419805">
+<LI>If the line is a string and not a multi_line, then you can add an optional output parameter called <em>backrefs</em>. This goes after the regular expression, but before the flags. You cannot use <em>backrefs</em> if you pass a multi_line to MATCH, because this is the same place in the parameter list that the <em>rlist</em> parameter would go. The <em>backrefs</em> parameter is a row_list that holds each string in the target that was matched by a sequence of tokens in the regular expression. If you use <em>backrefs, </em>you are using the third or fourth version of the function.
+</A>
+<A NAME="419806">
+<LI>Given the above, you can determine which version you are using as follows: if you are using a multi_line, it is version 5 or 6. If you are using backrefs, it is version 3 or 4. Otherwise, it is version 1 or 2. Once you have determined the pair, you determine  the actual version by whether the regular expression is a VARCHAR2 string (odd-numbered) or a pattern (even-numbered).
+</A>
+</ul><A NAME="419807">
+AMATCH is a function giving a number that indicates the number of characters from the beginning of the target to the end of the first match found (AMATCH stops searching after the first match). If no match is found, it returns 0. Here is a summary of the versions of AMATCH:<P>
+</A><ul type=disc><A NAME="419808">
+<LI>Following the target, but preceding the regular expression, is the input parameter <em>from_loc. </em>This indicates how many characters from the beginning of the target the search should commence.
+</A>
+<A NAME="419809">
+<LI>The regular expression can be either a VARCHAR2 string or a pattern. You can create a pattern from a string using the <em>getpat</em> function described later in this section.. If you use a pattern, you are using one of the even-number versions of the function.
+</A>
+<A NAME="419810">
+<LI>After the regular expression, but before the flags, you can add an optional output parameter called "backrefs". This is a PL/SQL table that will hold each string in the target that was matched by a sequence of tokens in the regular expression. If you use <em>backrefs, </em>you are using the third or fourth version of the function.
+</A>
+<A NAME="419814">
+<LI>Given the above, you can determine which version you are using as follows: If you are using backrefs, it is version 3 or 4. Otherwise, it is version 1 or 2. Once you have determined the pair, you determine  the actual version by whether the regular expression is a VARCHAR2 string (odd-numbered) or a pattern (even-numbered).
+</A>
+</ul><A NAME="419815">
+CHANGE can be either a procedure or a function, depending on how it is invoked. If a function, it returns the number of changes made. If the flag 'g' is not used, this number can be only 0 or 1. Here is a summary of the versions of CHANGE<P>
+</A><ul type=disc><A NAME="419816">
+<LI>The target can be either a simple VARCHAR2 string of less than 32K or a multi_line. 
+</A>
+<A NAME="419817">
+<LI>Unlike MATCH and AMATCH, the regular expression can only be a VARCHAR2 string, not a pattern.
+</A>
+<A NAME="419818">
+<LI>Following the regular expression is the string that is to replace it. This string can use the token ampersand (&amp;), which indicates that the portion of the target that matched the regular expression is to be included in the expression that replaces it. For example:
+</A>
+<A NAME="419819">
+<PRE>CHANGE('Cats in pajamas','C.+in', '&amp; red ')</PRE><P>
+</A>
+<A NAME="419820">
+The regular expression matches the substring 'Cats in'. It then replaces this string with '&amp; red'. &amp; indicates 'Cats in', since that's what matched the regular expression. Thus, this procedure replaces the string 'Cats in pajamas' with 'Cats in red pajamas'. Of course, we used a literal here for clarity. In actuality, 'Cats in pajamas' would be the value of a variable, and that value would be changed. Were this a function rather than a procedure, the value it would return would not be Cats in red pajamas' but 1, indicating that a single substitution had been made.<P>
+</A>
+<A NAME="419821">
+<LI>The flag 'g' indicates that all matching portions of the target are to be replaced by the regular expression. Otherwise, only the first match is replaced.
+</A>
+<A NAME="419822">
+<LI>The way to distinguish the versions is by whether the target is a string (version 1 or 2) or a multi_line (version 3 or 4). Within these pairs, odd numbers are functions, and even procedures.
+</A>
+</ul><A NAME="419823">
+Here are the formal descriptions of the OWA_PATTERN procedures and functions.<P>
+</A><HR>
+<H2>
+<A NAME="419824">
+Procedures and Functions 
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="419825">
+owa_pattern.match (version 1)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419826">
+Syntax
+</A></DL><A NAME="419827">
+owa_pattern.match(line, pat, flags)<P>
+</A><DL COMPACT><DT><A NAME="419828">
+Purpose
+</A></DL><A NAME="419829">
+Enables programmers to search a string for a pattern using regular expressions.<P>
+</A><DL COMPACT><DT><A NAME="419830">
+Parameters
+</A></DL><A NAME="419831">
+line 	in	varchar2<br>pat	in	varchar2<br>flags	in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419832">
+Generates
+</A></DL><A NAME="419833">
+Boolean indicating whether match was found.<P>
+</A><HR>
+<H2>
+<A NAME="419834">
+owa_pattern.match (version 2)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419835">
+Syntax
+</A></DL><A NAME="419836">
+owa_pattern.match(line, pat, flags)<P>
+</A><DL COMPACT><DT><A NAME="419837">
+Purpose
+</A></DL><A NAME="419838">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419839">
+Parameters
+</A></DL><A NAME="419840">
+line 	in	varchar2<br>pat	in out	pattern<br>flags	in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419841">
+Generates
+</A></DL><A NAME="419842">
+Boolean indicating whether match was found.<P>
+</A><HR>
+<H2>
+<A NAME="419843">
+owa_pattern.match (version 3)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419844">
+Syntax
+</A></DL><A NAME="419845">
+owa_pattern.match(line, pat, backrefs, flags)<P>
+</A><DL COMPACT><DT><A NAME="419846">
+Purpose
+</A></DL><A NAME="419847">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419848">
+Parameters
+</A></DL><A NAME="419849">
+line 	in	varchar2<br>pat	in	varchar2<br>backrefs out		owa_text.vc_arr<br>flags	in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419850">
+Generates
+</A></DL><A NAME="419851">
+Boolean indicating whether match was found.<P>
+</A><HR>
+<H2>
+<A NAME="419852">
+owa_pattern.match (version 4)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419853">
+Syntax
+</A></DL><A NAME="419854">
+owa_pattern.match(line, pat, backrefs, flags)<P>
+</A><DL COMPACT><DT><A NAME="419855">
+Purpose
+</A></DL><A NAME="419856">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419857">
+Parameters
+</A></DL><A NAME="419858">
+line 	in	varchar2<br>pat	in out	pattern<br>backrefs out		owa_text.vc_arr<br>flags	in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419859">
+Generates
+</A></DL><A NAME="419860">
+Boolean indicating whether match was found.<P>
+</A><HR>
+<H2>
+<A NAME="419861">
+owa_pattern.match (version 5)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419862">
+Syntax
+</A></DL><A NAME="419863">
+owa_pattern.match(mline, pat, rlist, flags)<P>
+</A><DL COMPACT><DT><A NAME="419864">
+Purpose
+</A></DL><A NAME="419865">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419866">
+Parameters
+</A></DL><A NAME="419867">
+mline      in	owa_text.multi_line<br>pat	in	varchar2<br>rlist	out	owa_text.row_list<br>flags	in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419868">
+Generates
+</A></DL><A NAME="419869">
+Boolean indicating whether match was found.<P>
+</A><HR>
+<H2>
+<A NAME="419870">
+owa_pattern.match (version 6)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419871">
+Syntax
+</A></DL><A NAME="419872">
+owa_pattern.match(mline, pat, rlist, flags)<P>
+</A><DL COMPACT><DT><A NAME="419873">
+Purpose
+</A></DL><A NAME="419874">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419875">
+Parameters
+</A></DL><A NAME="419876">
+mline      in		owa_text.multi_line<br>pat	in out	pattern<br>rlist	out	owa_text.row_list<br>flags	in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419877">
+Generates
+</A></DL><A NAME="419878">
+Boolean indicating whether match was found.<P>
+</A><HR>
+<H2>
+<A NAME="419879">
+owa_pattern.amatch (version 1)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419880">
+Syntax
+</A></DL><A NAME="419881">
+owa_pattern.match(line, from_loc, pat, flags)<P>
+</A><DL COMPACT><DT><A NAME="419882">
+Purpose
+</A></DL><A NAME="419883">
+Enables programmers to search a string for a pattern using regular expressions.<P>
+</A><DL COMPACT><DT><A NAME="419884">
+Parameters
+</A></DL><A NAME="419885">
+line 		in	varchar2<br>from_loc		in	integer<br>pat		in	varchar2<br>flags		in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419886">
+Generates
+</A></DL><A NAME="419887">
+Location (in number of characters from the beginning) of the end of the match. 0 if none such.<P>
+</A><HR>
+<H2>
+<A NAME="419888">
+owa_pattern.amatch (version 2)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419889">
+Syntax
+</A></DL><A NAME="419890">
+owa_pattern.match(line, from_loc, pat, flags)<P>
+</A><DL COMPACT><DT><A NAME="419891">
+Purpose
+</A></DL><A NAME="419892">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419893">
+Parameters
+</A></DL><A NAME="419894">
+line 		in	varchar2<br>from_loc		in	integer<br>pat		in out	pattern<br>flags		in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419895">
+Generates
+</A></DL><A NAME="419896">
+Location (in number of characters from the beginning) of the end of the match. 0 if none such.<P>
+</A><HR>
+<H2>
+<A NAME="419897">
+owa_pattern.amatch (version 3)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419898">
+Syntax
+</A></DL><A NAME="419899">
+owa_pattern.match(line, from_loc, pat, backrefs, flags)<P>
+</A><DL COMPACT><DT><A NAME="419900">
+Purpose
+</A></DL><A NAME="419901">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419902">
+Parameters
+</A></DL><A NAME="419903">
+line 		in	varchar2<br>from_loc		in	integer<br>pat		in	varchar2<br>backrefs 		out	owa_text.vc_arr<br>flags		in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419904">
+Generates
+</A></DL><A NAME="419905">
+Location (in number of characters from the beginning) of the end of the match. 0 if none such.<P>
+</A><HR>
+<H2>
+<A NAME="419906">
+owa_pattern.amatch (version 4)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419907">
+Syntax
+</A></DL><A NAME="419908">
+owa_pattern.match(line, from_loc, pat, backrefs, flags)<P>
+</A><DL COMPACT><DT><A NAME="419909">
+Purpose
+</A></DL><A NAME="419910">
+Enables programmers to search a string for a pattern using regular expression<P>
+</A><DL COMPACT><DT><A NAME="419911">
+Parameters
+</A></DL><A NAME="419912">
+line 		in	varchar2<br>from_loc		in	integer<br>pat		in out	pattern<br>backrefs 		out	owa_text.vc_arr<br>flags		in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419913">
+Generates
+</A></DL><A NAME="419914">
+Location (in number of characters from the beginning) of the end of the match. 0 if none such.<P>
+</A><HR>
+<H2>
+<A NAME="419915">
+owa_pattern.change (version 1)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419916">
+Syntax
+</A></DL><A NAME="419917">
+owa_pattern.match(line, from_str, to_str, flags)<P>
+</A><DL COMPACT><DT><A NAME="419918">
+Purpose
+</A></DL><A NAME="419919">
+This version is a function. It enables programmers to search a string for a pattern and replace it.<P>
+</A><DL COMPACT><DT><A NAME="419920">
+Parameters
+</A></DL><A NAME="419921">
+line 		in out	varchar2<br>from_str 		in	varchar2<br>to_str		in	varchar2<br>flags		in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419922">
+Generates
+</A></DL><A NAME="419923">
+Revises line parameter. Function outputs number of substitutions made.<P>
+</A><HR>
+<H2>
+<A NAME="419924">
+owa_pattern.change (version 2)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419925">
+Syntax
+</A></DL><A NAME="419926">
+owa_pattern.match(line, from_str, to_str, flags)<P>
+</A><DL COMPACT><DT><A NAME="419927">
+Purpose
+</A></DL><A NAME="419928">
+This version is a procedure. It enables programmers to search a string for a pattern and replace it.<P>
+</A><DL COMPACT><DT><A NAME="419929">
+Parameters
+</A></DL><A NAME="419930">
+line 		in out	varchar2<br>from_str 		in	varchar2<br>to_srt		in	varchar2<br>flags		in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419931">
+Generates
+</A></DL><A NAME="419932">
+Revises line parameter.<P>
+</A><HR>
+<H2>
+<A NAME="419933">
+owa_pattern.change (version 3)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419934">
+Syntax
+</A></DL><A NAME="419935">
+owa_pattern.match(mline, from_str, to_str, backrefs, flags)<P>
+</A><DL COMPACT><DT><A NAME="419936">
+Purpose
+</A></DL><A NAME="419937">
+This version is a function. It enables programmers to search a multi_line for a pattern and replace it.<P>
+</A><DL COMPACT><DT><A NAME="419938">
+Parameters
+</A></DL><A NAME="419939">
+mline    		in  out	multi_line<br>from_str 		in	varchar2<br>to_srt		in	varchar2<br>flags		in	varchar2		 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419940">
+Generates
+</A></DL><A NAME="419941">
+Revises mline parameter. Function outputs number of substitutions made.<P>
+</A><HR>
+<H2>
+<A NAME="419942">
+owa_pattern.change (version 4)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419943">
+Syntax
+</A></DL><A NAME="419944">
+owa_pattern.match(mline, from_str, to_str, flags)<P>
+</A><DL COMPACT><DT><A NAME="419945">
+Purpose
+</A></DL><A NAME="419946">
+This version is a procedure. It enables programmers to search a multi_line for a pattern and replace it.<P>
+</A><DL COMPACT><DT><A NAME="419947">
+Parameters
+</A></DL><A NAME="419948">
+mline	 	in out	multi_line<br>from_str		 in	varchar2<br>to_srt		in	varchar2<br>flags		in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419949">
+Generates
+</A></DL><A NAME="419950">
+Revises mline parameter.<P>
+</A><HR>
+<H2>
+<A NAME="419951">
+owa_pattern.getpat
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419952">
+Syntax
+</A></DL><A NAME="419953">
+owa_pattern.getpat(arg, pat)<P>
+</A><DL COMPACT><DT><A NAME="419954">
+Purpose
+</A></DL><A NAME="419955">
+This converts a VARCHAR2 string into the special datatype pattern. This datatypes is explained under OWA_PATTERN Datatypes.<P>
+</A><DL COMPACT><DT><A NAME="419956">
+Parameters
+</A></DL><A NAME="419957">
+arg	in		varchar2<br>pat	 in out		pattern<P>
+</A><DL COMPACT><DT><A NAME="419958">
+Generates
+</A></DL><A NAME="419959">
+pattern.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwt14.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwt16.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

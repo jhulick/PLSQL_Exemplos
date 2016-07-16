@@ -1,0 +1,170 @@
+<HTML>
+<HEAD>
+<TITLE>Platinum's Tool Packs in the Power</TITLE>
+</HEAD>
+<BODY bgcolor=#FFFFFF>
+
+<TABLE border=0>
+<TR>
+<TD><IMG SRC="a/pcw.gif" WIDTH="199" HEIGHT="91"></TD>
+<TD align=left valign=bottom><small>Copyright &copy; 1997 Ziff-Davis Publishing Co.  All rights reserved. Reproduction in whole or in part in any form or medium without express written permission of Ziff-Davis Publishing Company is prohibited.</TD>
+</TR>
+</TABLE>
+
+<H1>Platinum's Tool Packs in the Power </H1>
+
+<H2><FONT COLOR="#FF0000"><B>Review:</B></FONT> SQL-Station blends top-notch editor, debugger, profiler in integrated environment for Oracle developers</H2>
+
+<BLOCKQUOTE>
+<I>By Timothy Dyck,</I> <FONT SIZE="-1">PC Week Labs</FONT>
+</BLOCKQUOTE>
+
+<P>Writing Oracle7 Database code feels a lot like going 10 rounds with a
+heavyweight champ: You've proved you're tough, but you're sure there
+must be a better way. Early relief is in sight with Platinum Technology
+Inc.'s powerful new SQL-Station. Integrating three market-leading
+editing, debugging and profiling tools into a seamless environment,
+SQL-Station is the first complete development tool PC Week Labs has seen
+for Oracle Corp.'s Oracle7.</P>
+<P>Its broad range of features, user interface and integration are
+unmatched, besting Oracle's own tools along with competing products from
+DBE Software Inc. and Sylvain Faust Inc. and establishing itself as a PC
+Week Labs Analyst's Choice.</P>
+
+<TABLE align=right width=250 cellpadding=5>
+<TR><TD><A HREF="a/pla1lrg.gif"><IMG SRC="a/c05pla1.gif" WIDTH="300" HEIGHT="225" border=1></A><BR>
+<FONT size=-1><B>With Platinum's SQL-Station Debugger, we could see breakpoints and variables while debugging a stored procedure. The debugger is directly integrated with the editor.</B> <I>(click image to see full size version)</TD></TR></TABLE>
+
+<P>We did find a few minor problems in the product's editing and
+reporting procedures, but SQL-Station's most significant limitation is
+that its debugger and profiler only work with Oracle7, shutting out
+users of other databases. However, other features including
+SQL-Station's code editing environment, reverse engineering tools and
+database object browser also can be used with Sybase Inc.'s SQL Server
+and Microsoft Corp.'s SQL Server; limited editing is also provided for
+any database that complies with the ODBC (Open Database Connectivity)
+standard. SQL-Station itself runs on Windows 95 or Windows NT.</P>
+<P>Along with either a client/server or general-purpose development
+tool, SQL-Station is a product no Oracle7 database developer should do
+without. Though not targeted at database administrators, the product's
+profiler and repository also will serve these users well.</P>
+<P>Released at the beginning of the year, the full suite is priced at
+$2,995 per user, which is competitive with other SQL development
+products. Components also can be purchased separately; the profiler is
+$2,495, the editing environment is $695, and the editor and debugger
+together are $1,395.</P>
+<H3>
+Putting the pieces together
+</H3>
+<P>PC Week Labs tested Platinum's product using both an Oracle7 and a
+Microsoft SQL Server database. SQL-Station's editing environment, called
+SQL-Station Coder, presented us with an Explorer-style tree view listing
+database objects such as tables, tablespaces, indexes, packages and
+procedures.</P>
+<P>We could have several database connections open simultaneously,
+making it easy to flip between development and production servers.
+However, we would have liked to be able to drag and drop objects between
+databases from the same vendor or to compare server objects to later
+versions of the same objects.</P>
+<P>SQL-Station's editing environment, previously available as a separate
+product, takes big steps forward with the inclusion of Premia Corp.'s
+Codewright programming editor, which provides syntax highlighting and
+function help customized for the programming languages of each supported
+database.</P>
+<P>Codewright provided familiar functions such as automatically inserted
+comment blocks, grep search-and-replace capabilities, bracket matching
+and keyboard emulation for popular Unix editors, including EMACS and vi.
+We also could use built-in template wizards to get a quick start
+creating tables or packages. SQL-Station Coder integrates with a variety
+of source code management systems, an essential feature for team
+development.</P>
+<P>Surprisingly, we found some of the Codewright windows (such as the
+search across files window) didn't work at all; Platinum officials later
+confirmed that the company has licensed only a subset of the full
+product. A spelling checker is included but is nearly useless, as it
+doesn't ignore source code in its check.</P>
+<P>In addition to creating new objects, we could reverse-engineer any
+database object to code, modify this code and then run it directly from
+the editor. We also could edit the data within database objects in a
+grid control; many other packages require developers to write insert
+statements to do this.</P>
+<P>SQL-Station Coder generates database reports with a Crystal Reports
+control that comes with the package, but the selection of reports is
+limited compared with other products, such as Sylvain Faust's SQL
+Programmer.</P>
+<P>SQL-Station Debugger is directly integrated into the editor (a change
+from the previous version) and allows in-place debugging of PL/SQL
+scripts (see screen, above left). The debugger runs as a server process,
+which means SQL-Station automatically supports the 2.0 release of PL/SQL
+and supports triggers and other server-side-only objects.</P>
+<P>The fact that the debugger doesn't run on the client also means
+SQL-Station had to generate special debug versions of our server
+procedures before we could step into them, which slowed us down
+initially. We could inspect and modify variables at breakpoints, modify
+code to fix a bug, and recompile procedures with only a few
+keystrokes.</P>
+<H3>
+Having a plan
+</H3>
+
+<TABLE border=0 align=right width=250 cellpadding=5>
+<TR><TD><A HREF="a/pla2lrg.gif"><IMG SRC="a/c05pla2.gif" WIDTH="300" HEIGHT="263" border=1></A><BR>
+<FONT size=-1><B>SQL-Station Plan Analyzer graphically displayed the execution path of a SQL query we submitted. The Visualize Window suggested ways to speed execution.</B> <I>(click image to see full size version)</TD></TR></TABLE>
+
+<P>The third major component of SQL-Station is its Plan Analyzer, which
+analyzes the execution path of a submitted SQL statement and suggests
+optimizations (see screen, below left). Plan Analyzer interactively
+analyzed executing statements on our server and presented the slowest or
+most resource-hungry queries for hand tuning.</P>
+<P>Plan Analyzer works very well as an interactive Oracle monitor; we
+could look at top resource consumers either by statement or by owner and
+track down which queries or which users were bringing down server
+response time.</P>
+<P>Plan Analyzer includes a novice mode, which expands on Oracle's
+cryptic Explain Plan results and suggests improvements from its
+knowledge base.</P>
+<P>Advanced users will find much for them also, as Plan Analyzer
+supports the full set of Oracle 7.x hints (including Parallel Server
+hints and star schema hints). Plan Analyzer even included a hint wizard
+that walked us through the process of hinting our queries
+appropriately.</P>
+<P>Administrators still learning SQL but wanting to do some tuning of
+SQL code should investigate Precise Software Solutions Inc.'s
+Precise/SQL, which can rewrite SQL automatically based on heuristics, a
+capability Plan Analyzer lacks.</P>
+<!--begin sidebar--><HR>
+<FONT COLOR="#FF0000" size=-1><B>EXECUTIVE SUMMARY</B></FONT>
+<H2>
+SQL-Station
+</H2>
+<TABLE border=1 align=right><TR><TD>
+<TABLE border=0>
+<TR><TD><FONT size=-1><B>USABILITY</B></TD><TD><FONT size=-1>A</TD></TR>
+<TR><TD><FONT size=-1><B>CAPABILITY</B></TD><TD><FONT size=-1>A</TD></TR>
+<TR><TD><FONT size=-1><B>PERFORMANCE</B></TD><TD><FONT size=-1>B</TD></TR>
+<TR><TD><FONT size=-1><B>INTEROPERABILITY</B></TD><TD><FONT size=-1>C</TD></TR>
+<TR><TD><FONT size=-1><B>MANAGEABILITY</B></TD><TD><FONT size=-1>B</TD></TR>
+</TABLE>
+</TD></TR></TABLE>
+<P>Platinum Technology's SQL-Station provides the first complete
+editing, debugging and profiling environment for Oracle7 database
+developers. Its unmatched integration and power make it a must-have
+product.</P>
+
+<P><B><FONT COLOR="#008000">Strengths:</FONT></B> Seamless integration; inclusion of some Codewright editor features;
+template wizards; reverse-engineering capabilities; novice and expert
+modes in optimizer; optimizer repository.</P>
+<P><B><FONT COLOR="#FF0000">Weaknesses:</FONT></B> Lack of debugger and optimizer support for Sybase's and Microsoft's
+SQL Server; must maintain debug versions of procedures; only partial
+Codewright implementation; limited reports on database structure; can't
+rewrite SQL code automatically.</P>
+<CENTER>
+<FONT SIZE=-1><B>Platinum Technology Inc., Oakbrook, Ill. (800) 442-6861<BR><A HREF="http://www.platinum.com">www.platinum.com</A></B>
+<P><B>Scoring methodology: <A HREF="http://www.pcweek.com/reviews/meth.html">www.pcweek.com/reviews/meth.html</A></B></P>
+</CENTER>
+
+<HR>
+
+<P>Compliments of <A HREF="http://www.platinum.com">Platinum Technology, Inc.</A>
+</BODY>
+</HTML>

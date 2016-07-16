@@ -1,0 +1,21 @@
+/*****************************************************************************
+  Copyright (c) Oracle Corporation 1996.  All Rights Reserved 
+
+  NAME
+    all.pkg     
+
+  DESCRIPTION
+    Package file for all Windows NT products                   
+
+  OWNER
+    David Tom
+
+  MODIFIED    DD-MMM-YY  Reason
+    dtom      01-AUG-95  Created
+*****************************************************************************/
+
+{
+  selection_title  = nls("selection_title",  "Selective Product Install");
+  selection_prompt = nls("selection_prompt", "Please select the products you wish to install:");
+  selection_help   = nls("selection_help",   "Select the products you wish to install by selecting the desired item.  Multiple products may be selected.%carriage_return%%carriage_return%Items may be selected by clicking on the item with the mouse or by moving the cursor to the item and using the space bar to select the item.");
+}

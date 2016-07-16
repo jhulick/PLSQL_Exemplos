@@ -1,0 +1,68 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using The PL/SQL Agent
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+<A HREF="plaguse1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="996890">
+Using The PL/SQL Agent
+</A>
+</H1>
+<HR><P>This section explains how to use the <a href="gloss.htm#420751">PL/SQL Agent</a> to write applications that generate dynamic HTML. The PL/SQL Agent can be used either under the <a href="gloss.htm#422291">WRB</a> (recommended) or <a href="gloss.htm#421198">CGI</a>. <p>
+<A NAME="998157">
+PL/SQL procedures and functions are stored in the database. The <a href="gloss.htm#420751">PL/SQL Agent</a> invokes them by issuing commands to the Oracle RDBMS, which then performs the actual execution and sends the output and status messages back to the PL/SQL Agent. Since PL/SQL is actually executed in the database, the first thing the PL/SQL Agent has to do when it receives a request is connect to the Oracle RDBMS. It does this using information from a configuration file called a DCD. The DCD is specified in the URL, along with the specific procedure to be executed and its parameters.<P>
+</A><A NAME="998116">
+The rest of this section is divided into the following topics:<P>
+</A><ul type=disc><A NAME="996892">
+<LI><a href="plaguse1.htm#997887">Establishing a Database Connection Using DCDs</a>. This covers the use and content of <a href="gloss.htm#421241">DCD</a>s.
+</A>
+<A NAME="996893">
+<LI><a href="plaguse2.htm#998029">Invoking the PL/SQL Agent from a URL</a>. This covers features of the URL that are specific to the PL/SQL Agent. For information on how URLs invoke applications generally (not PL/SQL specific), see <a href="appover1.htm#418246">Invoking an Application</a>. The topics covered on this page include the following:
+</A>
+<ul type=square>
+<A NAME="998053">
+<LI><a href="plaguse2.htm#996985">Passing Multivalued Parameters (PL/SQL Tables) to the PL/SQL Agent</a>.
+</A>
+<A NAME="998054">
+<LI><a href="plaguse2.htm#996993">Overloading PL/SQL Agent Procedures and Functions</a>.
+</A>
+</ul>
+<A NAME="998072">
+<LI><a href="plaguse3.htm#998027">Example of PL/SQL Agent Parameter Passing Using GET</a>.
+</A>
+<A NAME="998076">
+<LI><a href="plaguse4.htm#997064">Example of PL/SQL Agent Parameter Passing Using POST</a>.
+</A>
+</ul><HR>
+<H2>
+<A NAME="997151">
+Related Information
+</A>
+</H2>
+<A NAME="998333">
+For information on the PL/SQL packages provided with WebServer, see the <a href="psqlwtlk.htm#10346">PL/SQL Web Toolkit Reference</a>. For a general introduction to PL/SQL programming, see "Overview of the Oracle7 Server, SQL, and PL/SQL" in the Introduction to the Oracle WebServer. To find out how to administer the PL/SQL Agent, see <a href="usingwsm.htm#420716">PL/SQL Agent Administration</a>. <a href="appover1.htm#418246">Invoking an Application</a>, <a href="psqlwtlk.htm#10346">PL/SQL Web Toolkit Reference</a>, the <em>Oracle7 Server SQL Reference</em>, the <em>Oracle7 Server Reference</em>, the <em>PL/SQL User's Guide and Reference</em>, and <em>Understanding SQL*Net.</em><P>
+</A>
+
+<HR>
+<A HREF="plaguse1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+ 
+

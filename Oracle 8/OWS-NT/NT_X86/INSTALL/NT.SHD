@@ -1,0 +1,35 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    windows.shd - V3 Shutdown script for Windows products.
+
+  DESCRIPTION
+    This script performs shutdown functionality.  In particular, it scans
+    the remind list and displays a message reminding users to perform post-
+    installation actions.
+
+  OWNER
+    Zakia Zerhouni
+
+  MODIFIED    DD-MMM-YY  Reason
+    zzerhoun  28-DEC-94  Added remind_list and remind_helps
+    zzerhoun  14-Jul-94  Created from windows.shd
+*****************************************************************************/
+
+{
+  {
+    if (not(empty(remind_list)))
+    {
+      remind_text = implode(remind_list,"%carriage_return%%carriage_return%");
+      remind_help_text = implode(remind_helps,
+                                 "%carriage_return%%carriage_return%");
+      if (empty(remind_helps))
+        information_dialog(remind_text,'NO_CANCEL);
+      else
+        information_dialog(remind_text,remind_content,remind_help_text,
+			   'NO_CANCEL);
+    }
+  }[ 'UNBOUND_VARIABLE: continue(); ] /* 'remind' may not be bound */      
+}
+
+

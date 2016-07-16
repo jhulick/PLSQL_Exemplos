@@ -1,0 +1,19 @@
+install.txt
+Versão 1.0, última actualização 14/7/97
+
+Este ficheiro contém as instruções de instalação da versão de demonstração 2.1 do Oracle Web Server 2.1 para Solaris. Este directório contém dois ficheiros:
+
+install.txt   Este ficheiro readme
+40bit.tar     Ficheiro tar de Unix que contém a versão
+
+Instruções de instalação:
+
+1) Copie o ficheiro tar para o directório $ORACLE_HOME.
+
+2) A partir do $ORACLE_HOME, extraia o ficheiro utilizando o seguinte comando:
+   tar xvf 40bit.tar
+Será criado um directório $ORACLE_HOME/ows21, bem como 4 novos ficheiros executáveis em $ORACLE_HOME/bin.
+
+3) Vá para $ORACLE_HOME/ows21/admin e execute install.sh. Esta operação irá configurar e iniciar o listener de administração por omissão. Siga as instruções dadas pelo install.sh para efectuar esta operação.
+
+3) Depois de executar o install.sh, o ficheiro de comandos indicar-lhe-á que deve iniciar o navegador da Web e ligar ao listener de administração. Ser-lhe-á pedido o nome de utilizador e a senha. O nome de utilizador é 'admin' (sem plicas) e a senha é 'manager' (sem plicas).

@@ -1,0 +1,10 @@
+#Name   Subgroup Source      Destination          Size  Instantiate? Append? Compress? StartDisk TotalDisks Icon Group Item Command
+
+nocopy  ""       "DNT23.VRF" "%INSTALLER_HOME%\"   4052 false        false   false            00         00   00 ""    ""   ""     
+        ""       "DNT23.INS" "%INSTALLER_HOME%\"   1488 false        false   false            00         00   00 ""    ""   ""     
+
+deinstl ""       "DNT23.MAP" "%INSTALLER_HOME%\"    806 false        false   false            00         00   00 ""    ""   ""     
+        ""       "DNT23.DEI" "%INSTALLER_HOME%\"   2738 false        false   false            00         00   00 ""    ""   ""     
+
+dll     ""       "NTDNT.DLL" "%ORACLE_HOME%\BIN\" 19968 false        false   false            00         00   00 ""    ""   ""     
+

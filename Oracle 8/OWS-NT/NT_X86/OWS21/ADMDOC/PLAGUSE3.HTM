@@ -1,0 +1,115 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using The PL/SQL Agent
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaguse.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaguse2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaguse4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="998027">
+Example of PL/SQL Agent Parameter Passing Using GET
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="998580">
+This section provides an example of a <a href="gloss.htm#420977">Uniform Resource Locator (URL)</a> that passes parameters to a PL/SQL Agent application through the <a href="gloss.htm#422291">WRB</a> using the GET method. Note: the interpretation of URLs is explained more generally under <a href="appover1.htm#418246">Invoking an Application</a>. Here is the URL in question:<P>
+</A><A NAME="998587">
+<PRE>http://www.blare.com:8080/member/owa/music_lookup?artist=Ellington</PRE><P>
+</A>
+<A NAME="998588">
+This URL is processed by WebServer as follows:<P>
+</A><A NAME="997012">
+The WRB uses the substring following the <a href="gloss.htm#422250">port</a> number to determine whether the request is for a WRB application. If it is not, the request is forwarded to the Listener, which determines based on its own configuration whether the request is for a static HTML page or a <a href="gloss.htm#421198">CGI</a> script. In this case, we assume the WRB configuration specifies that the <a href="gloss.htm#422264">virtual path</a> /owa indicates a PL/SQL WRB application (the name "owa" is conventionally used for PL/SQL Agent WRB applications, but the path can be any one you choose). Therefore, the request is handled by the <a href="gloss.htm#420814">WRB Dispatcher</a>. The WRB Dispatcher also sets various CGI environment variables, which can be used by the WRB application. Some of these variables use values taken directly from the URL as described below; others are based on the <a href="gloss.htm#422259">HTTP header</a>.<P>
+</A><A NAME="998359">
+To find out how to configure the WRB to recognize the desired virtual path, see <a href="usingwsm.htm#420193">Web Request Broker Administration</a>.<P>
+</A><A NAME="997013">
+Since the URL specifies "owa", the Dispatcher passes execution to a <a href="gloss.htm#420713">WRB Execution Instance (WRBX)</a> that is associated with the PL/SQL Agent and that is connected to the database specified in the <a href="gloss.htm#421241">DCD</a><em> member</em>. If there is no such WRBX free, the Dispatcher spawns a new one or refuses the request. See <a href="plaguse1.htm#997887">Establishing a Database Connection Using DCDs</a> for details on the content of DCDs.<P>
+</A><A NAME="997047">
+The partitioning of the URL information in the environment variables is as shown below. The leftmost column is the name of the CGI environment variable, the middle column is the content that would be stored in that variable in our example, and the rightmost column is an explanation of the variable.<p>
+<table border=3>
+<tr><th><A NAME="997016">
+<H5><b> Environment Var.          
+</b></H5>
+</A>
+<th><A NAME="997018">
+<H5> URL Segment         
+</H5>
+</A>
+<th><A NAME="997020">
+<H5> Explanation         
+</H5>
+</A>
+
+<tr><td><A NAME="997022">
+SCRIPT_NAME <BR>
+</A><td><A NAME="997024">
+member/owa<BR>
+</A><td><A NAME="997026">
+This variable includes both of the following:<BR>
+</A><ul type=disc><A NAME="997428">
+<LI>the <a href="gloss.htm#421241">DCD</a> that will be used to connect to the Oracle RDBMS (<em>member</em>) 
+</A>
+<A NAME="998595">
+<LI>the <a href="gloss.htm#422264">virtual path</a>v associated with the PL/SQL Agent WRB Cartridge (<em>owa</em>)
+</A>
+</ul>
+<tr><td><A NAME="997030">
+PATH_INFO <BR>
+</A><td><A NAME="997032">
+music_lookup                           <BR>
+</A><td><A NAME="997034">
+This is the PL/SQL procedure that will be the entry point into the application. This implies that there is a PL/SQL procedure called <em>music_lookup</em>, which is accessible from the schema specified in the DCD for this request. <BR>
+</A>
+<tr><td><A NAME="997036">
+QUERY_STRING <BR>
+</A><td><A NAME="997038">
+artist=Ellington<BR>
+</A><td><A NAME="998417">
+This specifies that the input parameter<em> artist</em> of the procedure <em>music_lookup</em> is set to the string 'Ellington'. You can specify any number of input parameters in a single query string, provided that you separate them with question marks (no spaces) and do not exceed the maximum URL length or the maximum length of the QUERY_STRING environment variable. If you need to exceed the length of QUERY_STRING, see if you can use the POST method. See <a href="plaguse4.htm#997064">Example of PL/SQL Agent Parameter Passing Using POST</a>. <BR>
+</A>
+<tr><td><A NAME="997042">
+REQUEST_METHOD <BR>
+</A><td><A NAME="997044">
+GET <BR>
+</A><td><A NAME="997046">
+This is implied from the fact that parameter values were provided as part of the URL. The alternative method is POST. See <a href="appover1.htm#418279">Request Methods for Passing Parameters</a>.<BR>
+</A>
+
+</table>
+<P>
+</A><HR>
+<H2>
+<A NAME="997207">
+Related Information
+</A>
+</H2>
+<A NAME="997214">
+<a href="appover1.htm#418246">Invoking an Application</a>, <a href="appover1.htm#418250">How the URL is Interpreted</a>, <a href="appover1.htm#418279">Request Methods for Passing Parameters</a>, <a href="psqlwtlk.htm#10346">PL/SQL Web Toolkit Reference</a>, the <em>Oracle7 Server SQL Reference</em>, the <em>PL/SQL User's Guide and Reference.</em><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaguse.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaguse2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaguse4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

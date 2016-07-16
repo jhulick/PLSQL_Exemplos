@@ -1,0 +1,13 @@
+%found_alias% = 
+  (DESCRIPTION = 
+    (ADDRESS_LIST = 
+        (ADDRESS = 
+          (COMMUNITY = %its_community%)
+          (PROTOCOL = NMP)
+          (Server = %its_server%)
+          (Pipe = %its_pipe%)
+        )
+    )
+    (CONNECT_DATA = (SID = %its_sid%)
+    )
+  )

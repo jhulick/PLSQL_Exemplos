@@ -1,0 +1,139 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi22.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi24.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426279">
+WRBReturnHTTPRedirect()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426280">
+<code>WRBReturnHTTPRedirect()</code> redirects the current HTTP request to a specified URI.<P>
+</A><A NAME="426281">
+If you specify <code>TRUE</code> for the <code>close</code> parameter, the function sends a complete HTTP header to the client. You can specify <code>FALSE</code> for this parameter if you want to write additional HTTP header information, such as <code>Set-Cookie:</code> headers, before completing the HTTP header.<P>
+</A><A NAME="426282">
+If you specify <code>FALSE</code> for <code>close</code>, you must subsequently call <code><a href="wrbapi3.htm#425345">WRBCloseHTTPHeader()</a></code> to finish writing the HTTP header to the client.<P>
+</A><A NAME="426286">
+<B><EM>Note</EM></B> 
+</A>
+<A NAME="426287">
+Currently, you must make any <code>WRBReturnHTTPRedirect() </code>call for a given HTTP request before your first call to <code>WRBClientWrite()</code>.<P>
+</A><HR>
+<H2>
+<A NAME="426288">
+Syntax
+</A>
+</H2>
+<A NAME="426289">
+<PRE>ssize_t WRBReturnHTTPRedirect( void *WRBCtx,<br>                               char *szURI,<br>                               boolean close );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426318">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="426292">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="426294">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="426296">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="426298">
+WRBCtx<BR>
+</A><td><A NAME="426300">
+void *<BR>
+</A><td><A NAME="426302">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="426304">
+szURI<BR>
+</A><td><A NAME="426306">
+char *<BR>
+</A><td><A NAME="426308">
+The URI to which to redirect the request.<BR>
+</A>
+<tr><td><A NAME="426310">
+close<BR>
+</A><td><A NAME="426312">
+boolean<BR>
+</A><td><A NAME="426314">
+When this parameter is set to TRUE, WRBReturnHTTPRedirect() outputs a marker that indicates the end of the HTTP header data. If you specify FALSE, you must call <a href="wrbapi3.htm#425345">WRBCloseHTTPHeader()</a> explicitly.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="426319">
+Return Values
+</A>
+</H2>
+<A NAME="426320">
+<code>WRBReturnHTTPRedirect()</code> returns the number bytes successfully written to the client.<P>
+</A><HR>
+<H2>
+<A NAME="426321">
+Usage
+</A>
+</H2>
+<A NAME="426322">
+You can call <code>WRBReturnHTTPRedirect()</code> from your Authorize or Exec function to send a standard HTTP redirection response to a client when the current request uses an outdated URI. This capability allows you to revise or reorganize your cartridge while still supporting URIs used by previous versions.<P>
+</A><HR>
+<H2>
+<A NAME="426323">
+Examples
+</A>
+</H2>
+<A NAME="426324">
+This example shows how to redirect an HTTP request from an old URI to a new URI:<P>
+</A><A NAME="426325">
+<PRE>/*<br> * These static character arrays are just a convenience for this example.<br> */<br>static char oldURI[] = "/test/bin/confirm";<br>static char newURI[] = "/test/bin/accept";<br> <br>char buf[4096];<br>char *bp = buf;<br>char *URI;<br> <br>URI = WRBGetURI(WRBCtx);<br>if (!strncmp(URI, oldURI, strlen(oldURI))) {<br>    /* outdated URI--redirect */<br>    strcpy(buf, newURI);<br> <br>    /*<br>     * append query string or POST data to URI<br>     * because WRBReturnHTTPRedirect() uses GET<br>     */<br>    bp = buf + strlen(newURI);<br>    *bp = `?';<br>    bp++;<br>    strcpy(bp, WRBGetContent(WRBCtx));<br> <br>    WRBReturnHTTPRedirect(WRBCtx, buf, TRUE);<br>}<br> <br>return (WRB_DONE);<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426326">
+Related Information
+</A>
+</H2>
+<A NAME="426333">
+See also <code><a href="wrbapi3.htm#425345">WRBCloseHTTPHeader()</a></code> and <code><a href="wrbapi22.htm#426211">WRBReturnHTTPError()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi22.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi24.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

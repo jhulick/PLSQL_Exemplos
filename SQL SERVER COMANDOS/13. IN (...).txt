@@ -1,0 +1,11 @@
+SELECT endereco
+FROM expedi
+WHERE endereco IN ('0.000.00.00');
+
+*A clausula IN retorna os valores do conjunto informado.
+
+SELECT endereco
+FROM expedi
+WHERE cliente IN (24);
+
+*Retorna os endereços dos clientes 24.

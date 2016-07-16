@@ -1,0 +1,127 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi20.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi22.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426168">
+WRBLogMessage()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426169">
+<code>WRBLogMessage()</code> appends a specified character string to the log file for calling WRBX, which resides in the directory $ORACLE_HOME/ows21/log and is named wrb_<em>cartridge</em>_<em>proc-id</em>, where <em>cartridge</em> is the cartridge name (defined using the <a href="/ows-abin/wrbadmin.exe">Web Request Broker administration</a> pages), and <em>proc-id</em> is the process ID of the WRBX.<P>
+</A><HR>
+<H2>
+<A NAME="426170">
+Syntax
+</A>
+</H2>
+<A NAME="426171">
+<PRE>void WRBLogMessage( void *WRBCtx, char *message, int nSeverity );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426197">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="426174">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="426176">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="426178">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="426180">
+WRBCtx<BR>
+</A><td><A NAME="426182">
+void *<BR>
+</A><td><A NAME="426184">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+<tr><td><A NAME="426186">
+message<BR>
+</A><td><A NAME="426188">
+char *<BR>
+</A><td><A NAME="426190">
+A pointer to the buffer containing the message to be written to the log file.<BR>
+</A>
+<tr><td><A NAME="426192">
+nSeverity<BR>
+</A><td><A NAME="426194">
+int<BR>
+</A><td><A NAME="426196">
+If this parameter is greater than zero, the function logs the specified message. If the parameter is zero, the function returns immediately without logging the message.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="426198">
+Return Values
+</A>
+</H2>
+<A NAME="426199">
+None.<P>
+</A><HR>
+<H2>
+<A NAME="426200">
+Usage
+</A>
+</H2>
+<A NAME="426201">
+You can call <code>WRBLogMessage()</code> from any cartridge function to debug your WRB cartridge, and to keep a log of cartridge transactions.<P>
+</A><HR>
+<H2>
+<A NAME="426202">
+Examples
+</A>
+</H2>
+<A NAME="426203">
+See the MyWRBApp sample function <a href="mywrbap3.htm#422343">MyWRBApp_Init()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="426204">
+Related Information
+</A>
+</H2>
+<A NAME="426205">
+See <a href="wrbprog2.htm#426184">Debugging your WRB cartridge</a>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi20.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi22.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

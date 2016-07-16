@@ -1,0 +1,129 @@
+<HTML>
+<HEAD>
+<TITLE>
+Writing Applications Using the Web Request Broker API
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbprog1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbprog3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426172">
+Compiling, Linking, Configuring, and Running a WRB cartridge
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426173">
+When you want to begin testing your cartridge, you'll need to compile and link it as a shared library and configure a Web Listener on your WebServer machine so it can access your shared library.<P>
+</A><HR>
+<H2>
+<A NAME="426174">
+Compiling and linking your cartridge
+</A>
+</H2>
+<A NAME="426175">
+To compile and link your cartridge, you should start by copying and customizing one of the sample WRB cartridge makefiles:<P>
+</A><OL TYPE=1>
+<A NAME="426447">
+<LI><b>cd</b> to one of the subdirectories of $ORACLE_HOME/ows21/sample.<P>
+</A>
+<A NAME="426451">
+<LI>Copy the file Makefile to your source code directory.<P>
+</A>
+<A NAME="426459">
+<LI>Customize your copy of the makefile to suit your cartridge. Be sure to set the <code>DESTDIR</code> variable to the directory where you want your shared library installed.<P>
+</A>
+<A NAME="426462">
+<LI>Type <b>make install</b> to compile and link your cartridge shared library and install it in your destination directory.<P>
+</A>
+</OL>
+<A NAME="426437">
+The following sample makefile is taken from the MyWRBApp cartridge:<P>
+</A><A NAME="426176">
+<PRE>#Makefile for building WRB Cartridges<br>#====================================<br><br>TOP     =   $(ORACLE_HOME)/ows21<br>LIBHOME =   $(TOP)/wrbsdk/lib<br>INCHOME =   $(TOP)/wrbsdk/inc<br>LDCOM   =   -g -xs -L$(LIBHOME)<br>DESTDIR =   $(TOP)/sample/wrbsdk/mywrbapp<br>SLIBS   =   -lnsl -lm -lsocket -ldl -laio<br># DFLAGS must be -DDEBUG to compile a version that logs debug output<br>DFLAGS  =   -DDEBUG<br><br>all: mywrbapp.so<br><br>mywrbapp.o: mywrbapp.h mywrbapp.c<br>    $(CC) -c $(DFLAGS) -o $@ -g -I$(INCHOME) mywrbapp.c<br><br>#The link line for the final .so dynamic library is given below<br>mywrbapp.so: mywrbapp.o<br>    $(CC) $(LDCOM) -o $@ -G mywrbapp.o $(SLIBS)<br><br>clean:<br>    rm -f mywrbapp.so mywrbapp.o<br><br>install: all<br>    cp mywrbapp.so $(DESTDIR)<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426178">
+Configuring a Web Listener to use your cartridge
+</A>
+</H2>
+<A NAME="426179">
+Once you've linked your shared library and installed it in the destination directory of your choice, you must choose at least one Web Listener on your WebServer machine and make your cartridge accessible to that Listener:<P>
+</A><OL TYPE=1>
+<A NAME="426181">
+<LI>Go to the Web Request Broker Administration page and click the Modify link for the listener of your choice.<P>
+</A>
+<A NAME="426553">
+<LI>Go to the Applications and Objects section and create an entry specifying the location of your cartridge shared library and the name of your <a href="wrbprog3.htm#421368">Entry</a> function.<P>
+</A>
+<A NAME="426561">
+<LI>Go to the Applications and Directories section and create an entry defining any virtual directory mappings that your cartridge needs.<P>
+</A>
+<A NAME="426549">
+<LI>Go to the top of the form and follow the link to the Web Listener configuration page for the listener.<P>
+</A>
+<A NAME="426567">
+<LI>Go to the Directory Mappings section to set up the necessary virtual mappings that request URLs will use to access any static files related to your cartridge such as splash or registration pages.<P>
+</A>
+<A NAME="426182">
+<LI>Go to the Web Listener home page and stop and restart the Listener you have just configured.<P>
+</A>
+<A NAME="426183">
+<LI>Use your web browser to issue a request to your cartridge--your URL must specify the port number of the configured Listener and a virtual pathname assigned to your cartridge.<P>
+</A>
+</OL>
+<HR>
+<H2>
+<A NAME="426184">
+Debugging your WRB cartridge
+</A>
+</H2>
+<A NAME="426185">
+To debug your cartridge, you can use the <code>WRBLogMessage()</code> WRB API function in your cartridge functions to log debugging messages to log files.<P>
+</A><A NAME="426186">
+As you test your cartridge, you can monitor its log file to see what it's doing:<P>
+</A><OL TYPE=1>
+<A NAME="426187">
+<LI><b>cd</b> $ORACLE_HOME/ows21/log<P>
+</A>
+<A NAME="426188">
+<LI><b>ls -lt | more</b><P>
+</A>
+<A NAME="426189">
+This lists the files in the directory in order of modification time, with the most recently modified files at the top. Near the top of the listing you should see a filename of the form wrb_<em>cartridge</em>_<em>proc-id</em>, where <em>cartridge</em> is the name of your cartridge and <em>proc-id</em> is the process ID of the WRBX in which the cartridge is running. There may be many files in the directory with names like this--if so, choose the most recently modified file.<P>
+</A>
+<A NAME="426190">
+<LI><b>more</b> wrb_<em>cartridge</em>_<em>proc-id</em><P>
+</A>
+<A NAME="426191">
+If you repeat this step after every HTTP request, you can see the new logging output your cartridge generates in handling each request. You might want to repeat step 2 occasionally to make sure you're still looking at the right log file.<P>
+</A>
+</OL>
+<A NAME="426192">
+Each time you edit and recompile your cartridge, you must stop and restart the Listener you're using for testing and repeat these steps.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbprog1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbprog3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

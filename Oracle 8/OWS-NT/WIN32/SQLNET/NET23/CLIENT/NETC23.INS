@@ -1,0 +1,101 @@
+/* Copyright (c) Oracle Corporation 1992, 1996.  All Rights Reserved */
+/***************************************************************************
+  NAME
+    netc23.ins
+
+  DESCRIPTION
+    This script performs the installation tasks for the Win32 SQL*Net
+    product.
+
+  OWNER
+    Etna Flores
+
+  MODIFIED   DD-MMM-YY  Reason
+   dstiefel  22-Feb-96  Merge NT/95
+   ljiang	 9/95	    Modified for Easy Configuration
+   dlau      07-AUG-95  Modified for SQLNET 2.2
+ **************************************************************************/
+{
+  if (doit)
+  {
+    ins_ratchet = "2.3.2.1.4";
+
+    execute("%installer_home%\%operating_system%.ins");
+
+    install(w32rsf73);
+
+    if (not(registered("%prefix%install")))
+      install(install_prod);
+    else if (earlier_version(registration("%prefix%install"),product_version(instver_prod))) 
+      install(install_prod);
+
+    ui_product(product_label);
+
+    ui_action(instantiate(net2_install_tns));
+    {
+      copy(tns);
+
+    if( platform() == "nt") {
+    if (doSmartStart)
+      ss_decrypt_file(product_key,
+		      "%s_location%v7/NET23/CLIENT/SQLTNSNT.DLL",
+		      "%oracle_home%\bin\SQLTNSNT.DLL");
+    } /* NT */
+    }
+    ['WRITE_ERROR:{ 
+	    information_dialog(instantiate(app_prompt), 
+			       app_content,
+			       instantiate(app_help) );
+	    signal('FAILURE, instantiate("Installation terminated.  Please stop all Oracle applications that are using %%product_label%%."));
+	    }
+    ]
+
+    ui_action(instantiate(net2_install_script));
+    copy(deinstl);
+
+    ui_action(instantiate(net2_install_message));
+    copy(msb, nls_abbreviation);
+
+    ui_action(instantiate(net2_install_sample));
+    copy(sample);
+
+    ui_action(instantiate(net2_install_easycfg));
+    copy(cfg23);
+    
+    if (platform() == "win95")
+    {
+      move_file("%ORACLE_HOME%\NETWORK\CFG\NT.PRD","%ORACLE_HOME%\NETWORK\CFG\WIN95.PRD"); 
+    }
+    ['DEFAULT: continue(); ]
+
+    if (platform() == "nt")
+    {
+      /* Install at least one Protocol adapter */
+      if (install_adp == TRUE) {
+        install(adp_pkg);
+      }
+    } /* NT */
+   else /* Win 95 */
+   {
+     if (member(chosen_stack_list, tcp_stack))
+       install(tcp_prod);
+	 if (member(chosen_stack_list, spx_stack))
+       install(spx_prod);
+	 if (member(chosen_stack_list, nmp_stack))
+       install(nmp_prod);
+
+     /* set NET20 here in the registry */
+
+     modify("NET20","%oracle_home%\NETWORK", ora_config, (product_filename(current_product)));
+   } /* Win 95 */
+   
+    /* Register Product and Dependencies */
+
+    ui_action(instantiate(net2_register));
+    register(current_product);
+    if (member(selected_products,current_product))
+      reference(current_product);
+      
+    reference(w32rsf73, current_product);
+  }
+}

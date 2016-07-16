@@ -1,0 +1,85 @@
+<html><title>Sample Diagnostic Reports for DIAGNOSE.EXE</title>
+<body>
+
+<a name="Top"><head><align=center><strong>Sample Diagnostic Reports for DIAGNOSE.EXE</strong></a></head>
+
+<p>This document contains sample output from running the diagnostics tool against an existing Oracle WebServer 2.0 installation with two listeners.
+
+<UL>
+<LI><A HREF="#SVCFG.REP">SVCFG.REP</A></LI>
+<LI><A HREF="#SVAPP.REP">SVAPP.REP</A></LI>
+
+
+<A NAME="SVCFG.REP"><h1>SVCFG.REP</h1></A>
+
+<P>The first report examines the listener configuration files found in the WebServer's ADMIN directory.
+
+<blockquote>
+<p>
+<code>
+The following virtual paths have not been protected in your configuration files. Make sure that 
+only the paths that should be visible to everybody remain unprotected.
+
+<p>______________________________________
+
+<p>REPORT FOR SVADMIN.CFG
+______________________________________
+<p>
+
+______________________________________
+<p>
+<p>REPORT FOR SVWEBSVR.CFG
+<p>______________________________________
+
+<p>/
+<p>/ows-bin/
+<p>/ows-doc/
+<p>/ows-img/
+
+</blockquote></code>
+
+<p><a href="#Top">TOP</a>
+
+<A NAME="SVAPP.REP"><h1>SVAPP.REP</h1></A>
+
+<p>The second report examines the Web Request Broker configuration files for both listeners:
+
+<blockquote><p>
+<code>
+The following virtual paths have not been protected in your configuration files. Make sure 
+that only the paths that should be visible to everybody remain unprotected.
+
+<p>______________________________________
+<p>REPORT FOR SVADMIN.APP
+<p>______________________________________
+
+<p>/hr/owa/owa_util.*
+<p>/hr/owa/owa_sql.*
+<p>/tr/owa/owa_util.*
+<p>/tr/owa/owa_sql.*
+<p>/owa_dba/owa/owa_util.*
+<p>/owa_dba/owa/owa_sql.*
+
+<p>______________________________________
+<p>REPORT FOR SVWEBSVR.APP
+<p>______________________________________
+
+<p>/ssi
+<p>/hr/owa
+<p>/hr/owa/owa_util.*
+<p>/hr/owa/owa_sql.*
+<p>/tr/owa
+<p>/tr/owa/owa_util.*
+<p>/tr/owa/owa_sql.*
+<p>/owa_dba/owa
+<p>/owa_dba/owa/owa_util.*
+<p>/owa_dba/owa/owa_sql.*
+<p>/java
+<p>/sample/wrbsdk/hello
+<p>/sample/ssi
+<p>/sample/java/run
+</CODE></BLOCKQUOTE>
+
+<p><a href="#Top">TOP</a>
+</body>
+</html>

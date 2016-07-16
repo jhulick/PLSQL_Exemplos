@@ -1,0 +1,183 @@
+/* Copyright (c) Oracle Corporation 1994. All Rights Reserved */
+
+/******************************************************************
+  NAME
+    user.avf - user defined .avf script
+
+  DESCRIPTION
+    This script allows users access to their own customizable .avf script.
+
+  MODIFIED  MM/DD/YY  Reason
+    PTajiki   05/09/96  Modified for Oracle7 Workgroup Server 7.3
+    ljiang    08/17/95  Adjusted for Oracle 7.2 Enterprise Server, with Installer 3.1.1
+    syau      02/10/95  Adjusted for Oracle7 Server release.
+    zzerhoun  01/04/95  Added user_release_grp & user_release_ext intialization
+    umurthy 01/04/94  Created header.
+*********************************************************************/
+
+{
+  { bundle_name = bundle_name; }
+  ['UNBOUND_VARIABLE:
+    {
+
+      P_O7 = "Personal Oracle7 for Windows";
+      P_O7_E = "Personal Oracle7 for Windows";
+      P_O7_W_NT = "Personal Oracle7 for Windows NT";
+      W_O7_W_NT = "Oracle7 Workgroup Server for Windows NT";
+      W_O7_NW = "Oracle7 Workgroup Server for Netware";
+      E_O7_W_NT = "Oracle WebServer for Windows NT";
+      E_O7_NW = "Oracle7 Server for Netware";
+
+      bundle_name = E_O7_W_NT;
+    }
+  ]
+
+  { install_type = install_type; }
+  ['UNBOUND_VARIABLE:
+    {
+      install_type_server = nls("install_type_server", "Server");
+      install_type_admin = nls("install_type_admin", "Administrator");
+      install_type_app_user = nls("install_type_app_user","Application User");
+      install_type_custom = nls("install_type_custom","Custom");
+
+      install_type = install_type_custom;
+    }
+  ]
+
+
+  /* The database option list is updated in rdbms71.vrf. Define it here
+   * just to get around the name space problem since the value of it is
+   * used in user.pin.
+   */
+
+
+   option_chosen = list();
+
+   user_release_exists_info = instantiate(nls("user_release_exists_info","Please review the %%bundle_name%% Release Notes.  The Release Notes contain information which may be vital in successfully using %%bundle_name%%.  To read the Release Notes, double-click on the icon entitled '%%bundle_name%% Rel. Notes' in the 'Oracle for Windows %%PREFIX%%' program group."));
+
+   user_release_not_exists_info = instantiate(nls("user_release_not_exists_info","Please review the %%bundle_name%% Release Notes.  The Release Notes contain information which may be vital in successfully using %%bundle_name%%."));
+
+   start_win_install_prompt = nls("start_win_install_prompt","The installation of Windows NT products has been completed.%carriage_return%%carriage_return%Do you wish to start the Oracle Installer for Windows to continue with the installation of Oracle products for Windows?");
+   start_win_install_content = nls("start_win_install_content","Start Windows Installation");
+   start_win_install_help = nls("start_win_install_help","Oracle products for Windows may be installed under Windows NT using the Oracle Installer for Windows.  The Oracle Installer for Windows may be started now to continue the with the installation of Oracle products for Windows, or Oracle products for Windows may be installed at a later time using the Oracle Installer for Windows");
+
+if(user_action == 'install)
+  {
+   isSmartStartCD = FALSE;   /* set this to true for a smartstart CD */
+
+   if(isSmartStartCD && not(doSmartStart))
+     signal('not_supported, instantiate(ss_need_smartstart));
+  }
+
+required_total_space = 120000000;
+
+/**********************************************************************************
+   Begin modification of user.avf for user.pin of Enterprise Manager release 1.2
+**********************************************************************************/
+   WIN_SYSTEM_ROOT = win32_system_root();
+
+     OPSYS=platform();
+
+     if (contains("%OPSYS%","nt"))
+       OPSYS = "WindowsNT";
+
+     if (contains("%OPSYS%","95"))
+       OPSYS = "Windows95";
+
+  /* topology.ora dialogs; in user.* files so ins is not interrupted */
+
+    OEMPWR10_no_top_msg = nls("OEMPWR10_no_top_msg", "%%oracle_home%%\NETWORK\ADMIN\TOPOLOGY.ora was not found. Oracle Enterprise Manager uses this file to discover and map network services.%carriage_return%
+  If TNSNAMES.ORA is found, this install can create a TOPOLOGY.ORA file using the existing TNSNAMES entries.");
+
+  OEMPWR10_no_top_content = nls("OEMPWR10_no_top_content", "TOPOLOGY.ORA");
+  OEMPWR10_no_top_help = nls("OEMPWR10_no_top_help", "Oracle Enterprise Manager uses %%oracle_home%%\network\admin\TOPOLOGY.ORA to discover and map network services associated with network nodes.%carriage_return%
+If SQL*Net for NT is configured on this workstation and the TNSNAMES.ORA configuration file is found, this install can create a TOPOLOGY.ORA file using the existing TNSNAMES entries.%CARRIAGE_RETURN%
+You can also launch the Network Topology Generator later as a stand-alone application from the Enterprise Manager program group.");
+
+  OEMPWR10_use_voot_msg = nls("OEMPWR10_use_voot_msg", "Do you wish to start Oracle Network Topology Generator to create a TOPOLOGY.ORA file?  For more information, see the Oracle Enterprise Manager Installation Guide");
+  OEMPWR10_use_voot_content = nls("OEMPWR10_use_voot_content", "Network Topology Generator");
+  OEMPWR10_use_voot_help = nls("OEMPWR10_use_voot_help", "Oracle Enterprise Manager uses %%oracle_home%%\network\admin\TOPOLOGY.ORA to discover and map network services associated with network nodes.%carriage_return%
+ It appears that SQL*Net for NT is configured on this workstation as %%oracle_home%%\NETWORK\ADMIN\TNSNAMES.ORA has been found. %carriage_return%This install can create a TOPOLOGY.ORA file using the existing TNSNAMES entries, or you can skip this step now and
+ launch the Network Topology Generator later as a stand-alone application from the Enterprise Manager program group.%carriage_return%
+ If Network Manager was used to configure SQL*Net and there is an existing network definition file (<filename>.NET), then complete the Enterprise Manager installation,
+ install Network Manager 3.1 from the Enterprise Manager CD-ROM, and use it to read an existing network definition file and generate
+ all required SQL*Net configuration files and the topology.ora required by Enterprise Manager.");
+
+
+  OEMPWR10_use_netman_msg = nls("OEMPWR10_use_netman_msg", "%oracle_home%\NETWORK\ADMIN\TNSNAMES.ORA was not found. Please use Oracle Network Manager 3.1 to configure SQL*Net, if required, and create a TOPOLOGY.ORA file.");
+  OEMPWR10_use_netman_content = nls("OEMPWR10_use_netman_content", "TOPOLOGY.ORA");
+  OEMPWR10_use_netman_help = nls("OEMPWR10_use_netman_help", "SQL*Net does not appear to be configured on this workstation as %%ORACLE_HOME%%\NETWORK\ADMIN\TNSNAMES.ORA was not found.%carriage_return%
+To configure a new SQL*Net installation, execute %%oracle_home%%\WINDOWS\INSTALL\ORAINST.EXE
+from the Enterprise Manager CD-ROM to install Oracle Network Manager 3.1 for Windows. Launch Network Manager from the Oracle for Windows program group to define your SQL*Net network
+and create all required SQL*Net configuration files and the topology.ora required by Enterprise Manager.
+Don't forget to copy the topology.ora file to %%oracle_home%%\NETWORK\ADMIN before launching Enterprise Manager.%carriage_return%");
+
+
+
+  /* Setup Enterprise Manager global Variables */
+  /* EM, Performance Pack, and doc add elements to exit_messages,
+  list is displayed by user.pin */
+
+  exit_messages = list();
+
+  exit_message_content = nls("exit_message_content", "Installation Completed");
+  oem_exit_msg = nls("oem_exit_msg","Oracle Enterprise Manager was successfully installed. Please read the Enterprise Manager Readme and Enterprise Manager Administrator's Guide in the Oracle Enterprise Manager program group.%carriage_return%%carriage_return%");
+  perfpak_exit_msg = nls("perfpak_exit_msg","Oracle Enterprise Manager Performance Pack was successfully installed. Please read the Enterprise Manager Readme, and the online Performance Monitoring, Expert, and Trace guides found in the Oracle Enterprise Manager program group.%carriage_return%%carriage_return%");
+  doc_exit_msg = nls("doc_exit_msg","Oracle Enterprise Manager Documentation was successfully installed.%carriage_return%%carriage_return%");
+  oem_repository_msg = nls("oem_repository_req","If you have not created a repository, this step will need to be completed before running Enterprise Manager.  Refer to the Enterprise Manager Readme and Enterprise Manager Installation Guide in the Oracle Enterprise Manager program group.%carriage_return%%carriage_return%");
+
+
+
+/**********************************************************************************
+   End modification of user.avf for user.pin of Enterprise Manager release 1.2
+**********************************************************************************/
+
+
+/******************************************************************************
+ Begin Modifying PATH for WebServer 2.1
+ *************************************************************************/
+
+  path_modified = true;
+  {
+    /* test if this variable is unbound, exception handler kicks in if it is;
+       defined in NT.STP if and only if ORACLE_HOME\bin has been added */
+    path_changed_prompt = path_changed_prompt;
+  }
+  [
+    'UNBOUND_VARIABLE:
+        path_modified = false;
+  ]
+
+  {
+    the_path = translate("PATH","$");
+  }
+  [ 'FILE_NOT_FOUND, 'UNBOUND_ENVIRONMENT_VARIABLE:
+     {
+       the_path = "";
+       continue();
+     }
+    'PERMISSION_DENIED:
+     {
+       signal('PERMISSION_DENIED, lack_adminpriv_msg);
+     }
+  ] #;
+
+  exploded_path = explode(the_path,";");
+
+  if(not(member(exploded_path,"%ORACLE_HOME%\OWS21\BIN")))
+  {
+    if (not(the_path == ""))
+      the_path = "%the_path%;";
+    the_path = "%the_path%%ORACLE_HOME%\OWS21\BIN";
+    modify("PATH",the_path,"$");
+    the_path = explode(the_path,";");
+    the_path = implode(the_path,"; ");
+    the_path = instantiate(the_path);
+  }
+/******************************************************************************
+ End Modifying PATH for WebServer 2.1
+ *************************************************************************/
+
+
+  return(execute("%installer_home%\%operating_system%.avf"));
+}

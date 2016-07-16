@@ -1,0 +1,33 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    nt.ins - V3 common installation script for Windows NT products
+
+  DESCRIPTION
+    This script performs common installation functionality across product
+    INS scripts.  It makes sure that any and all variables in the list
+    'check_vars' are bound, and prints a failure message if they are not.
+
+  OWNER
+     Kush Jain
+
+  MODIFIED    DD-MMM-YY  Reason
+   kjain      18-FEB-93  Created from windows.ins
+*****************************************************************************/
+
+
+{
+  ui_product(product_label);
+
+  {
+    if (not(same_version(vrf_ratchet,ins_ratchet)))
+      signal('UNBOUND_VARIABLE);
+  }
+    [ 'UNBOUND_VARIABLE: 
+      {
+	information_dialog(instantiate(unbound_message),unbound_content,
+			   instantiate(unbound_help));
+        signal('failure,cancel_prompt01);
+      }
+    ]
+}

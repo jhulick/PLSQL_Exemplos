@@ -1,0 +1,248 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwt11.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwt13.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="421675">
+OWA_UTIL Dynamic SQL Utilities
+</A>
+</H1>
+<HR SIZE=5>
+<HR>
+<H2>
+<A NAME="422268">
+owa_util.bind_variables 
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="422269">
+Syntax
+</A></DL><A NAME="422270">
+owa_util.bind_variables(theQuery, bv1Name, bv1Value, bv2Name, bv2Value, bv3Name, bv3Value, bv4Name, bv4Value, bv5Name, bv5Value, bv6Name, bv6Value, bv7Name, bv7Value, bv8Name, bv8Value, bv9Name, bv9Value, bv10Name, bv10Value, bv11Name, bv11Value, bv12Name, bv12Value, bv13Name, bv13Value, bv14Name, bv14Value, bv15Name, bv15Value, bv16Name, bv16Value, bv17Name, bv17Value, bv18Name, bv18Value, bv19Name, bv19Value, bv bv20Name, bv20Value, bv21Name, bv21Value, bv22Name, bv22Value, bv23Name, bv23Value, bv24Name, bv24Value, bv25Name, bv25Value)<P>
+</A><DL COMPACT><DT><A NAME="422271">
+Purpose
+</A></DL><A NAME="422272">
+This utility is available only as a function. It prepares a SQL query, binding variables to it, and stores the output in an opened cursor. The integer returned by the function is a unique identifier for that cursor. You normally will use this function as a parameter to a procedure to which you desire to send a dynamically generated query. You can use up to 25 bind variables.<P>
+</A><DL COMPACT><DT><A NAME="422273">
+Parameters
+</A></DL><A NAME="422274">
+theQuery		in	varchar2 DEFAULT NULL<br>bv1Name		in	varchar2 DEFAULT NULL<br>bv1Value		in	varchar2 DEFAULT NULL<br>bv2Name		in	varchar2 DEFAULT NULL<br>bv2Value		in	varchar2 DEFAULT NULL<br>bv3Name		in	varchar2 DEFAULT NULL<br>bv3Value		in	varchar2 DEFAULT NULL<br>bv4Name		in	varchar2 DEFAULT NULL<br>bv4Value		in	varchar2 DEFAULT NULL<br>bv5Name		in	varchar2 DEFAULT NULL<br>bv5Value		in	varchar2 DEFAULT NULL<br>bv6Name		in	varchar2 DEFAULT NULL<br>bv6Value		in	varchar2 DEFAULT NULL<br>bv7Name		in	varchar2 DEFAULT NULL<br>bv7Value		in	varchar2 DEFAULT NULL<br>bv8Name		in	varchar2 DEFAULT NULL<br>bv8Value		in	varchar2 DEFAULT NULL<br>bv9Name		in	varchar2 DEFAULT NULL<br>bv9Value		in	varchar2 DEFAULT NULL<br>bv10Name		in	varchar2 DEFAULT NULL<br>bv10Value		in	varchar2 DEFAULT NULL<br>bv11Name		in	varchar2 DEFAULT NULL<br>bv11Value		in	varchar2 DEFAULT NULL<br>bv12Name		in	varchar2 DEFAULT NULL<br>bv12Value		in	varchar2 DEFAULT NULL<br>bv13Name		in	varchar2 DEFAULT NULL<br>bv13Value		in	varchar2 DEFAULT NULL<br>bv14Name		in	varchar2 DEFAULT NULL<br>bv14Value		in	varchar2 DEFAULT NULL<br>bv15Name		in	varchar2 DEFAULT NULL<br>bv15Value		in	varchar2 DEFAULT NULL<br>bv16Name		in	varchar2 DEFAULT NULL<br>bv16Value		in	varchar2 DEFAULT NULL<br>bv17Name		in	varchar2 DEFAULT NULL<br>bv17Value)		in	varchar2 DEFAULT NULL<br>bv18Name		in	varchar2 DEFAULT NULL<br>bv18Value		in	varchar2 DEFAULT NULL<br>bv19Name		in	varchar2 DEFAULT NULL<br>bv19Value		in	varchar2 DEFAULT NULL<br>bv20Name		in	varchar2 DEFAULT NULL<br>bv20Value		in	varchar2 DEFAULT NULL<br>bv21Name		in	varchar2 DEFAULT NULL<br>bv21Value		in	varchar2 DEFAULT NULL<br>bv22Name		in	varchar2 DEFAULT NULL<br>bv22Value		in	varchar2 DEFAULT NULL<br>bv23Name		in	varchar2 DEFAULT NULL<br>bv23Value		in	varchar2 DEFAULT NULL<br>bv24Name		in	varchar2 DEFAULT NULL<br>bv24Value		in	varchar2 DEFAULT NULL<br>bv25Name		in	varchar2 DEFAULT NULL<br>bv25Value		in	varchar2 DEFAULT NULL<br><P>
+</A><DL COMPACT><DT><A NAME="422275">
+Generates
+</A></DL><A NAME="422276">
+Integer that identifies  the created cursor.<P>
+</A><A NAME="422266">
+<P>
+</A><HR>
+<H2>
+<A NAME="421680">
+owa_util.cellsprint (version 1) 
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421681">
+Syntax
+</A></DL><A NAME="421682">
+owa_util.cellsprint(p_theQuery, p_max_rows, p_format_numbers)<P>
+</A><DL COMPACT><DT><A NAME="421683">
+Purpose
+</A></DL><A NAME="421684">
+This procedure generates an HTML table from the output of  a SQL query. SQL atomic data items are mapped to HTML cells and SQL rows to HTML rows. You must write the code to begin and end the table.<P>
+</A><A NAME="421685">
+There are 4 versions of this procedure.  Versions 1 and 3 each use a varchar2 parameter (p_theQuery)  that contains a  query prepared with the owa_util.bind_variables function. Versions 2 and 4 use a open cursor.  Versions 3 and 4 enable you to scroll through result sets.<P>
+</A><DL COMPACT><DT><A NAME="421686">
+Parameters
+</A></DL><A NAME="421687">
+p_theQuery	   		in	varchar2<br>p_max_rows	   		in	number DEFAULT 100<br>p_format_numbers			in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="421688">
+Generates
+</A><A NAME="421689">
+<PRE>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;</PRE><P>
+</A>
+<A NAME="421690">
+<PRE></PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="421691">
+owa_util.cellsprint (version 2) 
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421692">
+Syntax
+</A></DL><A NAME="421693">
+owa_util.cellsprint(p_theCursor, p_max_rows, p_format_numbers)<P>
+</A><DL COMPACT><DT><A NAME="421694">
+Purpose
+</A></DL><A NAME="421695">
+This procedure generates an HTML table from the output of  a SQL query. SQL atomic data items are mapped to HTML cells and SQL rows to HTML rows. You must write the code to begin and end the table.<P>
+</A><A NAME="421696">
+There are 4 versions of this procedure.  Versions 1 and 3 each use a varchar2 parameter (p_theQuery)  that contains a  query prepared with the owa_util.bind_variables utility. Versions 2 and 4 use a open cursor.  Versions 3 and 4 enable you to scroll through result sets.<P>
+</A><DL COMPACT><DT><A NAME="421697">
+Parameters
+</A></DL><A NAME="421698">
+p_theCursor	   		in	integer<br>p_max_rows	   		in	number DEFAULT 100<br>p_format_numbers			in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="421699">
+Generates
+</A><A NAME="421700">
+<PRE>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="421701">
+owa_util.cellsprint (version 3) 
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421702">
+Syntax
+</A></DL><A NAME="421703">
+owa_util.cellsprint(p_theQuery, p_more_data, p_max_rows, p_skip_rec,  p_format_numbers)<P>
+</A><DL COMPACT><DT><A NAME="421704">
+Purpose
+</A></DL><A NAME="421705">
+This procedure generates an HTML table from the output of  a SQL query. SQL atomic data items are mapped to HTML cells and SQL rows to HTML rows. You must write the code to begin and end the table.<P>
+</A><A NAME="421706">
+There are 4 versions of this procedure.  Versions 1 and 3 each use a varchar2 parameter (p_theQuery)  that contains a  query prepared with the owa_util.bind_variables utility. Versions 2 and 4 use a open cursor.  Versions 3 and 4 enable you to scroll through result sets.<P>
+</A><DL COMPACT><DT><A NAME="421707">
+Parameters
+</A></DL><A NAME="421708">
+p_theQuery	   		in	varchar2<br>p_more_data			out	boolean<br>p_max_rows	   		in	number DEFAULT 100<br>p_skip_rec			in	number DEFAULT 0<br>p_format_numbers			in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="421709">
+Generates
+</A><A NAME="421710">
+<PRE>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="421711">
+owa_util.cellsprint (version 4) 
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421712">
+Syntax
+</A></DL><A NAME="421713">
+owa_util.cellsprint(p_theQuery, p_more_data, p_max_rows, p_skip_rec,  p_format_numbers)<P>
+</A><DL COMPACT><DT><A NAME="421714">
+Purpose
+</A></DL><A NAME="421715">
+This procedure generates an HTML table from the output of  a SQL query. SQL atomic data items are mapped to HTML cells and SQL rows to HTML rows. You must write the code to begin and end the table.<P>
+</A><A NAME="421716">
+There are 4 versions of this procedure.  Versions 1 and 3 each use a parameter (p_theQuery)  that contains a  hardcoded SQL query . Versions 2 and 4 use a dynamic query prepared with the owa_util.bind_variables function.  Versions 3 and 4 enable you to scroll  through result sets.<P>
+</A><DL COMPACT><DT><A NAME="421717">
+Parameters
+</A></DL><A NAME="421718">
+p_theCursor	   		in	integer<br>p_more_data			out	boolean<br>p_max_rows	   		in	number DEFAULT 100<br>p_skip_rec			in	number DEFAULT 0<br>p_format_numbers			in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="421719">
+Generates
+</A><A NAME="421720">
+<PRE>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;<br>&lt;tr&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;td&gt;<em>QueryResultItem</em>&lt;/td&gt;&lt;/tr&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="421730">
+owa_util.listprint (version 1) 
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421731">
+Syntax
+</A></DL><A NAME="421732">
+owa_util.listprint(p_theQuery, p_cname, p_nsize, p_multiple)<P>
+</A><DL COMPACT><DT><A NAME="421733">
+Purpose
+</A></DL><A NAME="422350">
+This procedure generates an HTML pop-up selection list  from the output of  a SQL query. The parameter p_cname is the name of the list.  The parameter p_nsize is the number of items in the list. Lastly, p_multiple is a boolean indicating whether multiple selection is permitted.<P>
+</A><A NAME="421735">
+There are 2  versions of this procedure.  Version 1 uses a parameter (p_theQuery)  that contains a  hardcoded SQL query . Version 2 uses a dynamic query prepared with the owa_util.bind_variables function. <P>
+</A><DL COMPACT><DT><A NAME="421736">
+Parameters
+</A></DL><A NAME="421737">
+p_theQuery	   		in	varchar2<br>p_cname			in	varchar2<br>p_nsize	   		in	number<br>p_multiple			in	boolean  DEFAULT FALSE<P>
+</A><DL COMPACT><DT><A NAME="421738">
+Generates
+</A><A NAME="421739">
+<PRE>&lt;SELECT NAME="p_cname" SIZE="p_nsize"&gt;<br>&lt;OPTION value=<em>QueryResultRow&gt;...<br></em>&lt;/SELECT&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="421740">
+owa_util.listprint (version 2)
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421741">
+Syntax
+</A></DL><A NAME="421742">
+owa_util.listprint(p_theCursor, p_cname, p_nsize, p_multiple)<P>
+</A><DL COMPACT><DT><A NAME="421743">
+Purpose
+</A></DL><A NAME="421744">
+This procedure generates an HTML pop-up selection list  from the output of  a SQL query. The parameter p_cname is the name of the list.  The parameter p_nsize is the number of items in the list. Lastly, p_multiple is a boolean indicating whether multiple selection is permitted.<P>
+</A><A NAME="421745">
+There are 2  versions of this procedure.  Version 1 uses a parameter (p_theQuery)  that contains a  hardcoded SQL query . Version 2 uses a dynamic query prepared with the owa_util.bind_variables function. <P>
+</A><DL COMPACT><DT><A NAME="421746">
+Parameters
+</A></DL><A NAME="421747">
+p_theCursor	   		in	integer<br>p_cname			in	varchar2<br>p_nsize	   		in	number<br>p_multiple			in	boolean  DEFAULT FALSE<P>
+</A><DL COMPACT><DT><A NAME="421748">
+Generates
+</A><A NAME="421749">
+<PRE>&lt;SELECT NAME="p_cname" SIZE="p_nsize"&gt;<br>&lt;OPTION value=<em>QueryResultRow&gt;...<br></em>&lt;/SELECT&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="421767">
+owa_util.who_called_me
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="421768">
+Syntax
+</A></DL><A NAME="421769">
+owa_util.who_called_me(owner, name, lineno, caller_t)<P>
+</A><DL COMPACT><DT><A NAME="421770">
+Purpose
+</A></DL><A NAME="421771">
+This procedure returns information about the PL/SQL code unit that invoked it. This includes the following:<P>
+</A><ul type=disc><A NAME="422359">
+<LI>The name of the program unit. This will be the name of the package, if the calling program unit is wrapped in a package, and the name of the procedure or function if the calling program unit is a standalone procedure or function. If the calling program unit is part of an anonymous block, this will be NULL.
+</A>
+<A NAME="422362">
+<LI>The owner of the program unit.
+</A>
+<A NAME="422363">
+<LI>The lineno within the program unit where the call was made.
+</A>
+<A NAME="422361">
+<LI>The type of program unit that made the call. The possibilities are: package body, anonymous block. procedure, and function. Procedure and function are used only for standalone procedures and functions.
+</A>
+</ul><DL COMPACT><DT><A NAME="421772">
+Parameters
+</A></DL><A NAME="421773">
+owner	   	out	varchar2<br>name	   	out	varchar2<br>lineno		out	number<br>caller_t		out	varchar2<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwt11.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwt13.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

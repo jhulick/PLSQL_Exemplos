@@ -1,0 +1,87 @@
+Directórios Oracle Home
+ 
+O Oracle Installer coloca a maioria dos produtos Oracle numa localização comum, conhecido por Oracle Home. O Installer pede ao utilizador para indicar qual é esta localização no momento da configuração.
+
+
+Tipos de Oracle Home
+
+O Oracle Installer suporta três tipos de Oracle Home:
+
+Independente
+Este home contém produtos que vão ser usados por um único utilizador. É criado quando o utilizador executa o Installer em modo independente (isto é, quando o utilizador executa o ficheiro executável (ORAINST.EXE).
+
+Host OCSM
+Este home contém produtos que vão ser usados por vários utilizadores, como especificado pelo Oracle Client Software Management (OCSM). É criado na máquina host do OCSM quando o administrador executa o Installer em modo partilhado (isto é, quando o utilizador executa o Installer como "ORAINST.EXE  /shared".)
+
+Cliente OCSM
+Este home contém ficheiros de produtos que vão ser usados por um cliente OCSM. É criado num cliente OCSM através da execução do Oracle Client Software Agent (SHARAGT.EXE) que executa o Installer no modo de configuração. 
+
+Nota: 
+- Os Oracle Homes do tipo Host OCSM e Cliente OCSM só se encontram disponíveis para os produtos do Windows 3.1. Consulte o manual de instalação para obter mais informações sobre a configuração do OCSM. 
+- Os Oracle Homes não podem ser apagados. O utilizador só pode alterar o tipo de um Oracle Home já existente.
+
+ 
+Suporte a vários Oracle Homes
+
+O Installer permite que o utilizador mantenha mais do que um Oracle Home por máquina e permite mudar de home. Esta funcionalidade permite ao utilizador fazer o seguinte:
+- Testar a instalação de produtos sem afectar o trabalho nos Oracle Homes.
+- Manter diferentes versões do mesmo produto em homes diferentes.
+- Avaliar uma nova versão de um produto sem afectar a instalação de uma versão do produto que já esteja a ser utilizada.
+- Permitir que os clientes OCSM tenham acesso e partilhem os produtos de mais do que um host OCSM.
+- Permitir que os clientes OCSM mantenham instalações independentes de produtos que não estão disponíveis através de hosts OCSM.
+
+Nota: 
+- Num dado momento, só podem ser utilizados os produtos que estiverem instalados no Oracle Home que se encontrar presentemente activo.
+
+Alternar entre Oracle Homes
+
+Para alternar entre homes, efectue um dos seguintes procedimentos:
+- Seleccione duas vezes com o rato o ícone "Switch Homes" no grupo de programas principal do Oracle.
+O Installer apresenta uma caixa de diálogo com os Oracle Homes disponíveis e os respectivos tipos.
+Seleccione o Oracle Home para o qual deseja mudar e seleccione OK. Seleccione Exit para sair do Installer.
+- Execute o Oracle Installer a partir do suporte magnético de distribuição. A caixa de diálogo "Oracle Installation Settings" apresenta uma lista pendente com os Oracle Homes disponíveis. 
+Escolha o Home para o qual quer mudar e seleccione OK. Seleccione Exit para sair do Installer.
+
+Nota: Para o Windows 3.1, a variável do percurso (PATH) no autoexec.bat é modificada quando o utilizador muda de Oracle Home. O sistema tem de ser reiniciado para que estas alterações tenham efeito.
+
+
+Tipos de Oracle Home em conflito
+
+Um Oracle Home pode ser independente, host OCSM ou cliente OCSM, dependendo do modo do Installer que o criou, nomeadamente os modos independente, partilhado ou configuração.
+Sempre que mudar para um home já existente e houver um conflito entre o respectivo tipo e o modo actual do Installer, este apresenta uma caixa de diálogo que lhe permite mudar o modo do Installer, de forma a que corresponda ao tipo de Home escolhido, ou alterar o tipo de Oracle Home, de forma a que corresponda ao modo actual do Installer.
+Mude o tipo de Oracle Home apenas quando desejar apagar o Home existente para criar um novo, uma vez que os produtos instalados no Home ficarão inutilizáveis.
+
+
+Compatibilidade com versões anteriores 
+
+Se executar o Installer com capacidade para vários Oracle Homes (versão 3.1.4 ou posterior) numa instalação mais antiga, o novo Installer actualiza a instalação anterior sem perder qualquer informação de configuração ou quaisquer produtos instalados. O ambiente modificado continua a funcionar com as versões mais antigas do Installer; isto é, pode executar um Installer mais antigo para instalar produtos novos sobre a nova configuração sem afectar as definições dos vários Oracle Homes.
+
+
+Implementação de vários Oracle Homes
+
+Oracle Homes no Windows de 16 bits:
+Cada Oracle Home mantém o seu próprio ficheiro ORACLE.INI. A secção Oracle do ficheiro WIN.INI mantém um registo de todos os Oracle Homes conhecidos, utilizando a seguinte associação de variável para cada Home: ORA_CONFIG<número_ordinal>=<percurso para ORACLE.INI> 
+O número ordinal é incrementado por cada Oracle Home novo. A variável ora_config (sem o sufixo) na secção Oracle do WIN.INI aponta para a localização do ORACLE.INI do Oracle Home actualmente activo.
+
+Nota:
+- Nas versões do Installer anteriores à versão 3.1.4, o ORACLE.INI era mantido no directório SYSTEM. Quando faz a actualização de uma instalação antiga para passar a suportar vários Oracle Homes, o Installer muda o ficheiro ORACLE.INI para o devido directório Oracle Home.
+
+Quando se muda de Oracle Home, o Installer faz o seguinte:
+1.  Actualiza a variável ora_config na secção Oracle do WIN.INI para que aponte para o ORACLE.INI do Home escolhido.
+2.  Apaga todos os ícones do ambiente de trabalho que correspondam ao Oracle Home anterior e repõe o ambiente de trabalho de forma a corresponder ao Oracle Home actual.
+3.  Altera o percurso do Oracle Home no ambiente do sistema para o novo percurso.
+
+Oracle Homes no Windows NT e no Windows 95:
+No registo, a subchave \HKEY_LOCAL_MACHINE\SOFTWARE\ORACLE\ contém informações referentes ao Oracle Home que se encontra actualmente activo. O Installer cria entradas separadas da ficha "ORACLE<número ordinal>" para cada Oracle Home conhecido na subchave ..\ORACLE\ORACLE_HOMES. O número ordinal é incrementado por cada Oracle home novo.
+
+Quando se muda de Oracle Homes, o Installer faz o seguinte:
+1.  Actualiza a entrada ORACLE no registo para que corresponda ao Oracle Home escolhido.
+2.  Apaga todos os ícones do ambiente de trabalho que correspondam ao Oracle Home anterior e repõe o ambiente de trabalho de forma a corresponder ao Oracle Home actual.
+3.  Altera o percurso do Oracle Home no ambiente do sistema para o novo percurso.
+4.  No Windows NT, retira os serviços do Home antigo.
+5.  No Windows NT, executa o ficheiro de comandos personalizado %PRODUCT%.CUS para cada produto que se encontra no novo Home. O Installer procura estes ficheiros de comandos personalizados no directório \ORAINST. Pode utilizar este ficheiro de comandos para repor quaisquer serviços no Oracle Home novo.
+
+Reposição de chaves diversas 
+
+Algumas aplicações podem armazenar informações fora da subchave SOFTWARE\ORACLE. Essas aplicações utilizam win32_register_key() para registar estas chaves com o Installer. Isto permite que o Installer reponha ou retire estas chaves quando muda de/para um Oracle Home.
+

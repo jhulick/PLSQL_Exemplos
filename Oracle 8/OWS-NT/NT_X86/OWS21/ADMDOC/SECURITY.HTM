@@ -1,0 +1,285 @@
+<HTML>
+<HEAD>
+<TITLE>
+Configuring Web Listener Security
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Configuring_Web_Listener_Security">
+Configuring Web Listener Security
+</A>
+</H1>
+<HR><P><A NAME="420077">
+The <em>Oracle Web Listener Configure Security Form</em> allows you to configure security modules and assign them to protect specific files and directories. You can also use the form to make secure the TCP/IP ports on which the Web Listener accepts connections.<P>
+</A><A NAME="420147">
+At any time you can click one of the Modify Listener buttons on the form to apply any changes you have made to the security configuration parameters. Clicking any Modify Listener button submits the entire form for processing.<P>
+</A><HR>
+<A NAME="Authentication">
+<H2>Authentication</H2>
+</A>
+<A NAME="420094">
+The Oracle Web Listener provides two ways in which you can require requestors to authenticate themselves before accessing certain files and directories:<P>
+</A><HR>
+<A NAME="Basic_Authentication">
+<H3>Basic Authentication</H3>
+</A>
+<A NAME="420097">
+Basic authentication allows you to assign passwords to users, assign users to groups, and define groups of users and groups, called "realms." You can then assign the users, groups, and realms to specific files and directories, requiring requestors to provide a username and password to gain access. Basic authentication sends unencrypted passwords across the network, making this method subject to subversion. Basic authentication is not recommended when security is critical.<P>
+</A><HR>
+<A NAME="Digest_Authentication">
+<H3>Digest Authentication</H3>
+</A>
+<A NAME="420098">
+Digest authentication is the same as basic authentication except that it sends passwords encrypted across the network in the form of a cryptographic checksum, also called a "digest." You should use this scheme whenever authentication is required, although some older web browsers do not support it. If you need to support these browsers, however, you have to use basic authentication.<P>
+</A><HR>
+<A NAME="Restriction">
+<H2>Restriction</H2>
+</A>
+<A NAME="420102">
+The Oracle Web Listener provides two ways to restrict access to certain files and directories:<P>
+</A><HR>
+<A NAME="IP-based_Restriction">
+<H3>IP-based Restriction</H3>
+</A>
+<A NAME="420104">
+Under this scheme, requestors must issues requests for the protected files and directories from specified IP addresses or groups of IP addresses. IP-based restriction is a somewhat more convenient security scheme than basic or digest authentication in that it doesn't require password files to be maintained, but is consequently somewhat less secure, as clever intruders can falsify their IP addresses.<P>
+</A><A NAME="420107">
+Also, to use this scheme to grant access to users who go through a proxy server to get outside a firewall, you must grant access to the firewall machine itself, which non-selectively grants access to all users who use that proxy server.<P>
+</A><HR>
+<A NAME="Domain-based_Restriction">
+<H3>Domain-based Restriction</H3>
+</A>
+<A NAME="420109">
+Domain-based restriction works the same as IP-based restriction except that it specifies symbolic Domain Name Service (DNS) hostnames and domain names rather than numeric IP addresses. This scheme has an advantage over IP-based restriction in that symbolic names are insulated from underlying changes in IP addresses.<P>
+</A><HR>
+<A NAME="Authentication_Parameters">
+<H2>Authentication Parameters</H2>
+</A>
+<A NAME="420121">
+The <em>Oracle Web Listener Configure Security Form</em> allows you to configure the following authentication parameters:<P>
+</A><HR>
+<A NAME="Basic_Users">
+<H3>Basic Users</H3>
+</A>
+<A NAME="420123">
+Each entry in this section has the following fields:<P>
+</A><A NAME="User_Name">
+<H4>User Name</H4>
+</A>
+<A NAME="420125">
+A symbolic user name in the style of a UNIX user name.<P>
+</A><A NAME="Password">
+<H4>Password</H4>
+</A>
+<A NAME="420127">
+The password for the specified user name.<P>
+</A><HR>
+<A NAME="Basic_Groups">
+<H3>Basic Groups</H3>
+</A>
+<A NAME="Group_Name">
+<H4>Group Name</H4>
+</A>
+<A NAME="420130">
+A symbolic group name in the style of a UNIX group name.<P>
+</A><A NAME="Users">
+<H4>User(s)</H4>
+</A>
+<A NAME="420136">
+A space-separated list of users belonging to the specified group.<P>
+</A><HR>
+<A NAME="Basic_Realms">
+<H3>Basic Realms</H3>
+</A>
+<A NAME="Realm">
+<H4>Realm</H4>
+</A>
+<A NAME="420139">
+A symbolic name representing a group of users and groups.<P>
+</A><A NAME="Groups">
+<H4>Group(s)</H4>
+</A>
+<A NAME="420141">
+A space-separated list of groups and users belonging to the specified realm.<P>
+</A><HR>
+<A NAME="Digest_Users_Digest_Groups_and_Digest_Realms">
+<H3>Digest Users, Digest Groups, and Digest Realms</H3>
+</A>
+<A NAME="420148">
+These parameters are identical in format to the corresponding basic parameters.<P>
+</A><HR>
+<A NAME="Restriction_Parameters">
+<H2>Restriction Parameters</H2>
+</A>
+<A NAME="420162">
+The Oracle Web Listener Configure Security Form allows you to configure the following restriction parameters:<P>
+</A><HR>
+<A NAME="IP-based_Restriction1">
+<H3>IP-based Restriction</H3>
+</A>
+<A NAME="420154">
+Each entry in this section has the following fields:<P>
+</A><A NAME="IP_Group">
+<H4>IP Group</H4>
+</A>
+<A NAME="420164">
+A symbolic name of your choice that identifies a group of IP addresses.<P>
+</A><A NAME="IP_Addresses">
+<H4>IP Address(es)</H4>
+</A>
+<A NAME="420166">
+A space-separated list of IP addresses, which might look like this:<P>
+</A><A NAME="420167">
+<PRE>+144.25.19.* +144.25.18.*</PRE><P>
+</A>
+<A NAME="420168">
+The asterisk `*' is a wildcard character that matches any number, and the plus sign `<code>+</code>' grants access to the IP address that follows. The IP group defined by the list above would grant access to all machines on subnets 18 and 19 of 144.25.<P>
+</A><A NAME="420169">
+A minus sign `-' explicitly denies access to the IP address that follows. Any IP address not included in an IP group is implicitly denied access to files and directories protected by that group.<P>
+</A><HR>
+<A NAME="Domain-based_Restriction1">
+<H3>Domain-based Restriction</H3>
+</A>
+<A NAME="420173">
+Each entry in this section has the following fields:<P>
+</A><A NAME="Domain_Group">
+<H4>Domain Group</H4>
+</A>
+<A NAME="420175">
+A symbolic name of your choice that identifies a group of DNS domains.<P>
+</A><A NAME="Domain_Names">
+<H4>Domain Name(s)</H4>
+</A>
+<A NAME="420179">
+A space-separated list of DNS domain names, which might look like this:<P>
+</A><A NAME="420180">
+<PRE>+*.us.mycomp.com +*.sp.mycomp.com</PRE><P>
+</A>
+<A NAME="420181">
+The asterisk `<code>*</code>' is a wildcard that matches any character string, and the plus sign `<code>+</code>' grants access to the DNS domain that follows. The domain group defined by the list above would grant access to all machines in the <code>us.mycomp.com</code> and <code>sp.mycomp.com</code> domains.<P>
+</A><A NAME="420182">
+A minus sign `<code>-</code>' explicitly denies access to the domain name that follows. Any domain not included in a domain group is implicitly denied access to files and directories protected by that group.<P>
+</A><HR>
+<A NAME="Specifying_Protection_for_Files_and_Directories">
+<H2>Specifying Protection for Files and Directories</H2>
+</A>
+<A NAME="420184">
+This section allows you to assign authentication and/or restriction schemes to protect individual files and directories. Each entry in this section has the following fields:<P>
+</A><A NAME="Virtual_Path">
+<H4>Virtual Path</H4>
+</A>
+<A NAME="420186">
+A virtual filename, directory name, or file pathname incorporating a wildcard. (Each Web Listener's virtual file system is defined on the Oracle Web Listener Advanced Configuration Form.) Some examples are:<P>
+</A><ul type=disc><A NAME="420187">
+<LI><code>/support/news</code>--Specifies a single virtual filename.
+</A>
+<A NAME="420191">
+<LI><code>/support/partners/</code>--Specifies an entire virtual directory
+</A>
+<A NAME="420192">
+<LI><code>/support/crypt*</code>--Specifies all files in the virtual directory <code>/support/</code> starting with the characters "<code>crypt</code>."
+</A>
+</ul><A NAME="BasicDigest">
+<H4>Basic/Digest</H4>
+</A>
+<A NAME="420198">
+A pull-down menu that specifies whether to apply basic authentication, digest authentication, or neither to the specified files or directories. If you use this field to specify an authentication scheme, you must specify a realm in the Realm field.<P>
+</A><A NAME="Realm1">
+<H4>Realm</H4>
+</A>
+<A NAME="420205">
+For authentication schemes, specifies one of the realms defined in the Basic or Digest Authentication section.<P>
+</A><A NAME="amp">
+<H4>&amp;/|</H4>
+</A>
+<A NAME="420210">
+This pull-down menu allows you to assign both an authentication and a restriction scheme to the specified files or directories.<P>
+</A><A NAME="420233">
+If you choose `&amp;,' requestors are required to access the Web Listener from the specified address group <em>and</em> provide a username and password. If you choose `|,' requestors may access the specified files or directories if they satisfy one of the two schemes.<P>
+</A><A NAME="IPDomain">
+<H4>IP/Domain</H4>
+</A>
+<A NAME="420239">
+A pull-down menu that specifies whether to apply IP-based restriction, domain-based restriction, or neither to the specified files or directories. If you use this field to specify a restriction scheme, you must specify an address group in the Group field.<P>
+</A><A NAME="Group">
+<H4>Group</H4>
+</A>
+<A NAME="420240">
+For restriction schemes, specifies one of the address groups defined in the IP-based or Domain-based Restriction sections.<P>
+</A><HR>
+<A NAME="Securing_TCPIP_Ports_Using_SSL">
+<H2>Securing TCP/IP Ports Using SSL</H2>
+</A>
+<A NAME="420243">
+In addition to providing protection for individual files and directories, The <em>Oracle Web Listener Configure Security Form</em> allows you to apply the Secure Sockets Layer (SSL) security mechanism to one or more of the TCP/IP ports on which the Web Listener accepts connections.<P>
+</A><A NAME="420242">
+If you configure the Secure Sockets Layer for a Web Listener using the <em>Oracle Web Listener Configure Security Form</em>, you must go back to the <em>Oracle Web Listener Advanced Configuration Form</em> to apply SSL security to at least on port that the Web Listener uses.<P>
+</A><A NAME="420291">
+For more information about the concepts involved in SSL, see the <em>Oracle WebServer User's Guide</em>.<P>
+</A><A NAME="420246">
+The Secure Sockets Layer section of the <em>Configure Security</em> form has the following fields:<P>
+</A><HR>
+<A NAME="Certificate_File">
+<H3>Certificate File</H3>
+</A>
+<A NAME="420248">
+The file-system path to the certificate file that you received from you Certifying Authority. The file must be in one of the following formats:<P>
+</A><ul type=disc><A NAME="420249">
+<LI>ASCII-64-encoded DER format, having a <code>.der</code> filename extension.
+</A>
+<A NAME="420250">
+<LI>PEM certificate approval message format, having a <code>.pem</code> filename extension.
+</A>
+<A NAME="420251">
+<LI>PKCS certificate approval message format, having a <code>.pkc</code> filename extension.
+</A>
+</ul><HR>
+<A NAME="Distinguished_Name_File">
+<H3>Distinguished Name File</H3>
+</A>
+<A NAME="420254">
+The file-system path to a file generated by the <code>genreq</code> program that contains distinguished name information. The must be in one of the following formats:<P>
+</A><ul type=disc><A NAME="420259">
+<LI>DER format, having a <code>.der</code> filename extension.
+</A>
+<A NAME="420267">
+<LI>PEM format, having a <code>.pem</code> filename extension.
+</A>
+</ul><HR>
+<A NAME="Key_File">
+<H3>Key File</H3>
+</A>
+<A NAME="420274">
+The file-system path to a file generated by the <code>genreq</code> program that contains an encrypted version of your RSA private key. The key file must be in one of the following formats:<P>
+</A><ul type=disc><A NAME="420275">
+<LI>DER format, having a <code>.der</code> filename extension.
+</A>
+<A NAME="420276">
+<LI>PEM format, having a <code>.pem</code> filename extension.
+</A>
+</ul><HR>
+<A NAME="Certifying_Authority_Directory">
+<H3>Certifying Authority Directory</H3>
+</A>
+<A NAME="420285">
+The file-system directory where additional certificate files from your Certifying Authority can be added in the future.<P>
+</A><HR>
+<A NAME="Certificate_Revocation_List_Directory">
+<H3>Certificate Revocation List Directory</H3>
+</A>
+<A NAME="420287">
+The file-system directory where additional Certificate Revocation List (CRL) files can be added in the future.<P>
+</A>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<TITLE> Oracle Web Listener Administration </TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 21-Feb-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+<!-- Changed by: Mala Anand, 21-Mar-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#000088" vlink="#000088">
+
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/icnwblist.gif" width=64 height=64 border=0 align=right></A>
+<IMG SRC="/ows-img/wladmin.gif" width=560 height=55 ALT="Oracle Web Listener Administration">
+
+<BR clear=right>
+ <STATUS>
+ 
+<H2>
+<font color="#BB0000">
+<EM>Oracle Web Listener Administration</EM>
+</font>
+</H2>
+
+You should currently be using the 
+<EM>Oracle Web Listener Administration Server</EM>
+to access this page.  You should now configure your own 
+<EM>Oracle Web Listener</EM>.
+
+<P>
+
+<FORM ACTION="/ows-abin/wladmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="INTRO">
+
+The <EM>Oracle Web Listener</EM> can listen on multiple ports. You can
+create a Listener configured to run on a single port or multiple
+ports. This choice is merely to make the listener creation process
+very simple for the single-port case. After you have created a
+listener, the distinction no longer exists.
+
+<BR>
+
+<STRONG>Create</STRONG> a new Oracle Web Listener for:
+
+<PRE>
+<INPUT TYPE="radio" NAME="MULTIPORT" VALUE="NO" CHECKED> a single port             <INPUT TYPE="radio" NAME="MULTIPORT" VALUE="YES"> multiple ports
+</PRE>
+
+<INPUT TYPE="submit" name="SUBMIT_BUTTON" value="Create Listener...">
+</FORM>
+
+<HR>
+
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" ALT="Listener Home" border=0></A>
+<A HREF="/ows-adoc/listadm.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+
+<P>
+
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>

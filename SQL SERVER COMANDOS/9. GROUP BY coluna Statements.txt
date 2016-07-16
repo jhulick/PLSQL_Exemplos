@@ -1,0 +1,8 @@
+SELECT codcli, AVG(quant)
+FROM expedi
+GROUP BY codcli
+
+*retorna a média da quantidade por grupo de cliente.
+*quando se usa a clausula GROUP BY(se agrupe por) o select todo analisará por grupo o pedido, no caso acima
+foi pedido que se analise por grupo de cliente.
+*Caso precisse impor uma restrição neste caso não use a cláusula WHERE e sim a HAVING.

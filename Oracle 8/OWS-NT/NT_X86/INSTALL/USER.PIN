@@ -1,0 +1,145 @@
+/* Copyright (c) Oracle Corporation 1994. All Rights Reserved */
+
+/***************************************************************************
+  NAME
+    user.pin - custom post-install script
+  DESCRIPTION
+    This script is a post-install script for scripters' use
+  MODIFIED   MM/DD/YY     Reason
+  dtom       10/11/95     Set client_install flag or server or client install
+  syau       02/09/95     Save db option for chain install (Oracle7 Server).
+  zzerhoun   01/11/95     Modified Client_Install
+  umurthy    01/04/95     Modified for Workgroup Server
+******************************************************************************/
+
+{
+  {execute("%installer_home%\%operating_system%.pin");}
+   ['default:continue();]
+
+  { install_type = install_type; }
+   [
+    'UNBOUND_VARIABLE:
+     install_type_custom = nls("install_type_custom","Custom");
+     install_type = install_type_custom;
+   ]
+
+
+  /*** Added for WGS for NT  to start services ***/
+if(bundle_name == W_O7_W_NT)
+  {
+   {
+    winnt_start_service("oracletnslistener");
+   }
+   [
+    'DEFAULT: continue();
+   ]
+
+   {
+    winnt_start_service("oraclenmplistenerorcl");
+   }
+   [
+    'DEFAULT: continue();
+   ]
+
+   {
+    winnt_start_service("oracletcplistener");
+   }
+   [
+    'DEFAULT: continue();
+   ]
+
+   {
+    winnt_start_service("oraclestartorcl");
+   }
+   [
+    'DEFAULT: continue();
+   ]
+
+   {
+    winnt_start_service("oracleserviceorcl");
+   }
+   [
+    'DEFAULT: continue();
+   ]
+
+   {
+    winnt_start_service("oracleservice");   /* for v7.0 */
+   }
+   [
+    'DEFAULT: continue();
+   ]
+
+   {
+    winnt_start_service("oraclenmplistener");  /* for v7.0 */
+   }
+   [
+    'DEFAULT: continue();
+   ]
+
+   {
+    winnt_start_service("oracleintelligentagent");
+   }
+    [
+     'DEFAULT: continue();
+    ]
+  }
+
+if(install_type != install_type_custom)
+  { execute("%installer_home%\%operating_system%.shd");}
+   [ 'default: continue();]
+
+
+if(doSmartStart)
+  {
+   copy_file("%product_home%\ssreadme.txt", "%installer_home%\");
+     {
+      display_file_dialog("%installer_home%\ssreadme.txt");
+     }['cancel: continue();]
+  }
+else
+  {
+      /* -- check location of release notes -- */
+      permit_retry_operations = FALSE;
+      mshelp = "%oracle_home%\MSHELP";
+     /* -- intimate info. about release note -- */
+       {
+        if(not(exists(mshelp)))
+          user_release_note = "" ;
+        else
+          user_release_note = "%oracle_home%\mshelp\release.wri";
+          {
+           if(exists(user_release_note))
+             information_dialog(user_release_exists_info,'NO_CANCEL);
+           else if (member(list(E_O7_W_NT,E_O7_NW),bundle_name))
+             information_dialog(user_release_not_exists_info,'NO_CANCEL);
+          }
+       }[ 'default: continue(); ] /* 'user_release_*' may not be bound */
+
+      permit_retry_operations = FALSE;
+  }
+
+
+  /***Added to prototype scripts for WGS ***/
+
+if(install_type != install_type_custom)
+  if((bundle_name == W_O7_W_NT) || (bundle_name == W_O7_95))
+    {
+     installation_success = nls("installation_success", "Oracle7 Workgroup Server installation completed successfully.  Please log off and log in again for the installation changes to take effect.");
+     information_dialog(instantiate(installation_success),'NO_CANCEL);
+    }
+  else if((bundle_name == P_O7_W_NT) || (bundle_name == P_O7_95))
+    {
+     installation_success = nls("installation_success", "Personal Oracle7 installation completed successfully.");
+     information_dialog(instantiate(installation_success),'NO_CANCEL);
+    }
+
+if(doSmartStart)
+  {
+    add(smartstartSuccessful,TRUE);
+    extract(smartstartSuccessful,FALSE);
+  }
+
+
+  { remove_file("%installer_home%\user.pin");}
+  [ 'default: continue();]
+}

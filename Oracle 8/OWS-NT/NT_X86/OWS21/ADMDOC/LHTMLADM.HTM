@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<TITLE>
+Configuring the LiveHTML WRB Cartridge
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+<H1>
+<A_NAME="Configuring_the_LiveHTML_WRB_Cartridge">
+Configuring the LiveHTML WRB Cartridge
+</A>
+</H1>
+<HR><P><A NAME="420077">
+The <em>Oracle Web Listener LiveHTML Administration Form</em> allows you to control the behavior of the LiveHTML WRB Cartridge for the selected Web Listener. To use this form, you must have used the <em>Oracle Web Listener Administration Form</em> to create or select a Web Listener process, and have followed the links to the <em>Oracle Web Listener Advanced Configuration Form</em>. From there, you must have followed the link to the <em>Oracle Web Listener LiveHTML Administration Form</em>.<P>
+</A><A NAME="420099">
+The LiveHTML WRB Cartridge parses extensions to the HTML file format that can include variable values and execute operating system commands. Files that contain these extensions use a <code>.shtml</code> extension.<P>
+</A><A NAME="420108">
+The three sections of the <em>LiveHTML Administration Form</em> allow you to configure three aspects of the LiveHTML Cartridge.<P>
+</A><HR>
+<A NAME="Enable_LiveHTML">
+<H3>Enable LiveHTML</H3>
+</A>
+<A NAME="420104">
+Click the Enable LiveHTML Processing radio button to allow the selected Web Listener to use the LiveHTML Cartridge. If you click the Disable LiveHTML Processing radio button, the LiveHTML extensions in requested <code>.shtml</code> files are ignored.<P>
+</A><HR>
+<A NAME="Enable_html_Extensions">
+<H3>Enable .html Extensions</H3>
+</A>
+<A NAME="420118">
+Click the Enable .html extensions radio button to allow the selected Web Listener to use the LiveHTML Cartridge to parse all files, not just those having extensions listed in the Extension List field. By default, or if you click the Disable <code>.html</code> extensions radio button, the LiveHTML Cartridge parses only files having extensions listed in the Extension List field.<P>
+</A><HR>
+<A NAME="Extension_List">
+<H3>Extension List</H3>
+</A>
+<A NAME="420167">
+A space-separated list of filename extensions identifying files to parsed by the selected Web Listener using the LiveHTML Cartridge. By default, or if you click the Disable .html Extensions radio button, only files having these extensions are parsed.<P>
+</A><HR>
+<A NAME="Enable_exec_Tag">
+<H3>Enable exec Tag</H3>
+</A>
+<A NAME="420116">
+An exec tag embedded in a <code>.shtml</code> document specifies an operating system command to be executed.<P>
+</A><A NAME="420122">
+Click the Enable processing exec tag radio button to allow the selected Web Listener to use the LiveHTML Cartridge to execute operating system commands. This is a powerful feature for customizing requested hypermedia documents dynamically, but it can also threaten the security of your WebServer machine. If you enable exec tag processing for a Web Listener process, you might also want to assign a file protection scheme to the <code>.shtml</code> files the Web Listener process can access. (To do this, go back to the <em>Oracle Web Listener Advanced Configuration Form</em> and follow the link to the <em>Oracle Web Listener Configure Security Form</em>.)<P>
+</A>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

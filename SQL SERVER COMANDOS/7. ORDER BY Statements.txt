@@ -1,0 +1,15 @@
+SELECT *
+FROM ENDER
+ORDER BY ENDERECO //Ordenará os registros da tabela ENDER pelo campo ENDERECO,por padrão Ascendente. 
+
+SELECT *
+FROM ENDER
+ORDER BY ENDERECO,SALDO //Ordenará os registros da tabela ENDER pelos campos ENDERECO,SALDO,por padrão Ascendente. 
+
+SELECT *
+FROM ENDER
+ORDER BY ENDERECO ASC //Ordenará os registros da tabela ENDER pelo campo ENDERECO,de forma Ascendente. 
+
+SELECT *
+FROM ENDER
+ORDER BY ENDERECO DESC //Ordenará os registros da tabela ENDER pelo campo ENDERECO,de forma Descendente. 

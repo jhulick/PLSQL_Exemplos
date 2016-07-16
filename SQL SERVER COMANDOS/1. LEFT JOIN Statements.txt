@@ -1,0 +1,14 @@
+SELECT cli.codigo AS CLI_CODIGO, pro.cliente AS PRO_CLIENTE, pro.codigo AS PRO_CODIGO
+FROM
+clientes cli LEFT JOIN produtos pro ON cli.codigo = pro.cliente
+
+*Mostrará todos os registros da tabela da esquerda (clientes), mesmo aqueles que não possuam relacionamento
+com os da tabela da direita(produtos).
+
+*No momento da comparação de chaves (depois do ON) tanto faz a ordem, pois dará no mesmo
+resultado, porém se mudar a ordem das tabelas o resultado obviamente será diferente.
+ ex:.  clientes LEFT JOIN produtos
+     Terá um resultado diferente de
+       produtos LEFT JOIN clientes
+   Pois o LEFT lista todos os registros da tabela da esquerda nesta clausula, com ou sem
+    relacionamento com os registros da tabela da direita.

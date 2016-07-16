@@ -1,0 +1,103 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtlk.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418273">
+Installing the Oracle WebServer PL/SQL Web Toolkit
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418275">
+To install the PL/SQL Web Toolkit, use the Oracle PL/SQL Agent DCD Administration forms. For details on these forms, see <a href="usingwsm.htm#420076">Using the Oracle WebServer Manager</a>. Both the DCD Creation and DCD Modification pages provide a checkbox for installing the PL/SQL Web Toolkit. Selecting this button and submitting the form will do the following: <P>
+</A><ul type=disc><A NAME="418276">
+<LI>grant the CONNECT and RESOURCE <a href="gloss.htm#420739">role</a>s to the OWA database user For more information on these roles or on granting roles, see "GRANT (roles)" in Chapter 4 of the <em>Oracle7 Server SQL Reference</em>.
+</A>
+<A NAME="418278">
+<LI>execute the OWAINS.SQL sql script, which can be found in the ows Administration directory. If run manually, the script should be run from SQL*DBA or from Enterprise Manager. If you want to run it from SQL*Plus, see the header of the script for instructions.
+</A>
+<A NAME="418279">
+The OWAINS.SQL script installs all of the PL/SQL Web Toolkit packages.<P>
+</A>
+</ul><HR>
+<H2>
+<A NAME="418280">
+Optimizing Multiple-DCD Installations
+</A>
+</H2>
+<A NAME="418283">
+If your site has multiple PL/SQL Agent <a href="gloss.htm#421241">DCD</a>s, you can minimize the amount of storage space used and enhance PL/SQL performance by doing the following:<P>
+</A><OL TYPE=1>
+<A NAME="418284">
+<LI>Install the PL/SQL Web Toolkit in one database user's <a href="gloss.htm#422304">schema</a>. This user becomes the toolkit owner.<P>
+</A>
+<A NAME="418285">
+<LI>If you previously installed the PL/SQL Web Toolkit PL/SQL in the schemas of the PL/SQL Agent database users for other PL/SQL Agent DCDs, dropthem. <P>
+</A>
+<A NAME="418286">
+<PRE>connect &lt;user&gt; / &lt;password&gt;<br>drop package HTF; <br>drop package HTP; <br>drop package OWA_UTIL; <br>drop package OWA; <br>drop package OWA_PATTERN; <br>drop package OWA_TEXT; <br>drop package OWA_IMAGE; <br>drop package OWA_COOKIE; <br>drop package OWA_INIT; </PRE><P>
+</A>
+<A NAME="418287">
+<LI>Grant the system <a href="gloss.htm#422307">privilege</a> EXECUTE on the PL/SQL packages to OWA database users for other PL/SQL Agent DCDs. For more information on this command, see "GRANT (system privileges)" in Chapter 4 of the <em>Oracle7 Server SQL Reference</em>.<P>
+</A>
+<A NAME="418288">
+<PRE>connect &lt;toolkit owner&gt; / &lt;password&gt;<br>grant execute on HTF to &lt;user&gt;; <br>grant execute on HTP to &lt;user&gt;; <br>grant execute on OWA_UTIL to &lt;user&gt;; <br>grant execute on OWA to &lt;user&gt;;<br>grant execute on OWA_PATTERN to &lt;user&gt;; <br>grant execute on OWA_TEXT to &lt;user&gt;; <br>grant execute on OWA_IMAGE to &lt;user&gt;;<br>grant execute on OWA_COOKIE to &lt;user&gt;;<br>grant execute on OWA_INIT to &lt;user&gt;;</PRE><P>
+</A>
+<A NAME="418289">
+<LI> Create synonyms for the PL/SQL Web Toolkit PL/SQL packages in the schemas of all OWA database users who are specified in PL/SQL Agent DCDs. Synonyms are alternate names that make it possible for the packages to be referred to without being qualified by schema names. For more information, see "Ownership and Naming Conventions" in the Introduction to Oracle WebServerl and see "CREATE SYNONYM" in Chapter 4 of the <em>Oracle7 Server SQL Reference</em>.<P>
+</A>
+<A NAME="418290">
+<PRE>connect &lt;user&gt;/&lt;password&gt;<br>create synonym HTF for &lt;Toolkit owner&gt;.HTF; <br>create synonym HTP for &lt;Toolkit owner&gt;.HTP; <br>create synonym OWA_UTIL for &lt;Toolkit owner&gt;.OWA_UTIL; <br>create synonym OWA for &lt;Toolkit owner&gt;.OWA; <br>create synonym OWA_PATTERN for &lt;Toolkit owner&gt;.OWA_PATTERN;<br>create synonym OWA_TEXT for &lt;Toolkit owner&gt;.OWA_TEXT; <br>create synonym OWA_IMAGE for &lt;Toolkit owner&gt;.OWA_IMAGE;<br>create synonym OWA_COOKIE for &lt;Toolkit owner&gt;.OWA_COOKIE; <br>create synonym OWA_INIT for &lt;Toolkit owner&gt;.OWA_INIT; </PRE><P>
+</A>
+</OL>
+<HR>
+<H2>
+<A NAME="418291">
+Security Note
+</A>
+</H2>
+<A NAME="418292">
+PL/SQL procedures run with the privileges of the creator of the PL/SQL code. For the Web Toolkit, this is only an issue for the owa_util package. Two of the subprograms, showsource and tableprint, access user data. Granting execute privileges on this package to users allows those users to view the tables, views, and stored PL/SQL code of the owner of owa_util.<P>
+</A><A NAME="418294">
+If this is a security issue for your installation, install the owa_util package separately for each OWA database user.<P>
+</A><A NAME="418295">
+The scripts to do this are:<P>
+</A><ul type=disc><A NAME="418297">
+<LI>PUBUTIL.SQL
+</A>
+<A NAME="418299">
+<LI>PRIVUTIL.SQL
+</A>
+</ul><A NAME="418300">
+Both scripts reside in the OWS Administration directory, and should be run in the order listed.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtlk.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

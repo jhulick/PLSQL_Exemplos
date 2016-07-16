@@ -1,0 +1,6 @@
+SELECT AVG(codigo)
+FROM clientes
+
+*Dará o valor médio da coluna informada, ou seja: somará todos os valores da coluna informada
+e dividirá pelo número de registros, desconsiderando para o calculo da média os registros com
+valores nulos (null) na coluna informada.0 não é um valor nulo (null) assim como valores negativos.

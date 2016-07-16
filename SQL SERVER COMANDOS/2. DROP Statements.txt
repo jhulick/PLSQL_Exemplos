@@ -1,0 +1,7 @@
+DROP TABLE ender;
+
+*Deleta a tabela, registros e estrutura, tudo.
+
+DROP DATABASE dados;
+
+*Deleta a base de dados inteira, deletará tudo.

@@ -1,0 +1,129 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi12.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi14.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425784">
+WRBGetNamedEntry()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425785">
+<code>WRBGetNamedEntry()</code> returns a pointer to the value of an entry in the parsed content array passed back by <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code>. You specify the entry by name.<P>
+</A><A NAME="425789">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425790">
+Syntax
+</A>
+</H2>
+<A NAME="425791">
+<PRE>char *WRBGetNamedEntry( char     *entryName,<br>                        WRBEntry *WRBEntries,<br>                        int       numEntries );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425817">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425794">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425796">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425798">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425800">
+entryName<BR>
+</A><td><A NAME="425802">
+char *<BR>
+</A><td><A NAME="425804">
+The name of the POST data entry of which you want the value.<BR>
+</A>
+<tr><td><A NAME="425806">
+WRBEntries<BR>
+</A><td><A NAME="425808">
+WRBEntry *<BR>
+</A><td><A NAME="425810">
+The pointer to the parsed content array passed back by WRBGetParsedContent().<BR>
+</A>
+<tr><td><A NAME="425812">
+numEntries<BR>
+</A><td><A NAME="425814">
+int<BR>
+</A><td><A NAME="425816">
+The total number of POST data entries passed back by WRBGetParsedContent().<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425818">
+Return Values
+</A>
+</H2>
+<A NAME="425819">
+<code>WRBGetNamedEntry()</code> returns the value of the parsed content entry specified by <code>entryName</code>. It returns NULL if the specified entry is not found.<P>
+</A><HR>
+<H2>
+<A NAME="425820">
+Usage
+</A>
+</H2>
+<A NAME="425821">
+You can call <code>WRBGetNamedEntry()</code> from your Exec function to get the value of a specific query string or POST data entry after first calling <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code>. This is useful for parsing HTML forms when you know in advance the names of specific fields.<P>
+</A><HR>
+<H2>
+<A NAME="425825">
+Examples
+</A>
+</H2>
+<A NAME="425826">
+See the MyWRBApp sample function<a href="mywrbap3.htm#422477"> storeInfo()</a>.<P>
+</A><HR>
+<H2>
+<A NAME="425827">
+Related Information
+</A>
+</H2>
+<A NAME="425834">
+See also <code><a href="wrbapi15.htm#425880">WRBGetParsedContent()</a></code> and <a href="wrbapi28.htm#426929">The WRBEntry Structure</a>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi12.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi14.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,490 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl8.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwt10.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="419202">
+Form Tags
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="419205">
+The form tags are used to create and manipulate an HTML form. Forms are used to allow interactive data exchange between a Web Browser and a CGI program.<P>
+</A><A NAME="419206">
+Forms can have the following types of elements:<P>
+</A><ul type=disc><A NAME="419207">
+<LI>Input: used for a large variety of types of input fields, for example:
+</A>
+<ul type=square>
+<A NAME="419208">
+<LI>single line text
+</A>
+<A NAME="419209">
+<LI>single line password fields
+</A>
+<A NAME="419210">
+<LI>checkboxes
+</A>
+<A NAME="419211">
+<LI>radio buttons
+</A>
+<A NAME="419212">
+<LI>submit buttons
+</A>
+</ul>
+<A NAME="419213">
+<LI>Text area: used to create a multi-line input field.
+</A>
+<A NAME="419214">
+<LI>Select: used to allow the user to chose one or more of a set of alternatives described by textual labels. Usually rendered as a pulldown, pop up, or a fixed size list. 
+</A>
+</ul><A NAME="419215">
+Note: All the hypertext procedures (HTP) shown in this section are also available as hypertext functions (HTF).<P>
+</A><HR>
+<H2>
+<A NAME="419216">
+htp.formOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419217">
+Syntax
+</A></DL><A NAME="419218">
+htp.formOpen (curl, cmethod, ctarget, cenctype, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419219">
+Purpose
+</A></DL><A NAME="419220">
+Prints an HTML tag that starts the form. The <em>curl</em> value is required and is the URL of the CGI script, normally owa, to which the contents of the Form will be sent. The method is either "GET" or "POST."<P>
+</A><DL COMPACT><DT><A NAME="419221">
+Parameters
+</A></DL><A NAME="419222">
+curl   		in varchar2<br>cmethod	   	in varchar2		DEFAULT 'POST'<br>ctarget		in varchar2<br>cenctype		in varchar2		DEFAULT NULL<br>cattributes		in varchar2		DEFAULT NULL<br><P>
+</A><DL COMPACT><DT><A NAME="419223">
+Generates
+</A></DL><A NAME="419224">
+&lt;FORM ACTION="<em>curl</em>" METHOD="<em>cmethod</em>" TARGET="<em>ctarget</em>" ENCTYPE="<em>cenctype</em>" <em>cattributes&gt;</em><P>
+</A><HR>
+<H2>
+<A NAME="419225">
+htp.formClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419226">
+Syntax
+</A></DL><A NAME="419227">
+htp.formClose;<P>
+</A><DL COMPACT><DT><A NAME="419228">
+Purpose
+</A></DL><A NAME="419229">
+Prints an HTML tag that closes the &lt;FORM&gt; tag<P>
+</A><DL COMPACT><DT><A NAME="419230">
+Parameters
+</A></DL><A NAME="419231">
+none<P>
+</A><DL COMPACT><DT><A NAME="419232">
+Generates
+</A></DL><A NAME="419233">
+&lt;/FORM&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419234">
+htp.formCheckbox
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419235">
+Syntax
+</A></DL><A NAME="419236">
+htp.formCheckbox (cname, cvalue, cchecked, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419237">
+Purpose
+</A></DL><A NAME="419238">
+Prints an HTML tag that inserts a checkbox which the user can toggle off or on.<P>
+</A><DL COMPACT><DT><A NAME="419239">
+Parameters
+</A></DL><A NAME="419240">
+cname  	 	in varchar2 <br>cvalue 	  	in varchar2   DEFAULT 'on'<br>cchecked   		in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419241">
+Generates
+</A></DL><A NAME="419242">
+&lt;INPUT TYPE="checkbox" NAME="<em>cname</em>" VALUE="<em>cvalue</em>" CHECKED <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419243">
+htp.formHidden
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419244">
+Syntax
+</A></DL><A NAME="419245">
+htp.formHidden (cname, cvalue, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419246">
+Purpose
+</A></DL><A NAME="419247">
+Prints an HTML tag that sends the content of a field along with a submitted form. The field is not visible to the end user.<P>
+</A><DL COMPACT><DT><A NAME="419248">
+Parameters
+</A></DL><A NAME="419249">
+cname 		in varchar2<br>cvalue  	 	in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419250">
+Generates
+</A></DL><A NAME="419251">
+&lt;INPUT TYPE="hidden" NAME="<em>cname</em>" VALUE="<em>cvalue</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419252">
+htp.formImage
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419253">
+Syntax
+</A></DL><A NAME="419254">
+htp.formImage (cname, csrc, calign, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419255">
+Purpose
+</A></DL><A NAME="419256">
+Prints an HTML tag that creates an image field that can be clicked on causing the Form to be immediately submitted. The coordinates of the selected point are measured in pixels, and returned (along with other contents of the form) in two name/value pairs. The x-coordinate is submitted under the name of the field with ".x" appended, and the y-coordinate with the ".y" appended. Any value attribute is ignored. The image itself is specified by the CSRC attribute.<P>
+</A><DL COMPACT><DT><A NAME="419257">
+Parameters
+</A></DL><A NAME="419258">
+cname 		in varchar2<br>csrc   		in varchar2<br>calign   		in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL;<P>
+</A><DL COMPACT><DT><A NAME="419259">
+Generates
+</A></DL><A NAME="419260">
+&lt;INPUT TYPE="image" NAME="<em>cname</em>" SRC="<em>csrc</em>" ALIGN="<em>calign</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419261">
+htp.formPassword
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419262">
+Syntax
+</A></DL><A NAME="419263">
+htp.formPassword (cname, csize, cmaxlength, cvalue, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419264">
+Purpose
+</A></DL><A NAME="419265">
+Prints an HTML tag that creates a single line text entry field. Text will not be displayed as it is entered. When the user enters a password, characters are represented by asterisks on single line text entry field.<P>
+</A><DL COMPACT><DT><A NAME="419266">
+Parameters
+</A></DL><A NAME="419267">
+cname	   	in varchar2<br>csize   		in varchar2<br>cmaxlength	   	in varchar2   DEFAULT NULL<br>cvalue   		in varchar2   DEFAULT NULL<br>cattributes   		in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419268">
+Generates
+</A></DL><A NAME="419269">
+&lt;INPUT TYPE="password" NAME="<em>cname</em>" SIZE="<em>csize</em>" MAXLENGTH="<em>cmaxlength</em>" VALUE="<em>cvalue</em>"<em> cattribute</em>s&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419270">
+htp.formRadio
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419271">
+Syntax
+</A></DL><A NAME="419272">
+htp.formRadio (cname, cvalue, cchecked, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419273">
+Purpose
+</A></DL><A NAME="419274">
+Prints an HTML tag that inserts a radio button on the HTML Form. Used to create a set of radio buttons, each representing a different value, only one of which will be toggled on by the user. Each radio button field should have the same name. Only the selected radio button will generate a name/value pair in submitted data area. This will require an explicit VALUE attribute.<P>
+</A><DL COMPACT><DT><A NAME="419275">
+Parameters
+</A></DL><A NAME="419276">
+cname 	  	in varchar2<br>cvalue 	  	in varchar2<br>cchecked 	  	in varchar2   DEFAULT NULL<br>cattributes   		in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419277">
+Generates
+</A></DL><A NAME="419278">
+&lt;INPUT TYPE="radio" NAME="<em>cname</em>" VALUE="<em>cvalue</em>" CHECKED <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419279">
+htp.formReset
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419280">
+Syntax
+</A></DL><A NAME="419281">
+htp.formReset (cvalue, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419282">
+Purpose
+</A></DL><A NAME="419283">
+Prints an HTML tag that creates a RESET button that, when selected, resets all the form fields to their initial values.<P>
+</A><DL COMPACT><DT><A NAME="419284">
+Parameters
+</A></DL><A NAME="419285">
+cvalue  	 	in varchar2   DEFAULT 'Reset'<br>cattributes	   	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419286">
+Generates
+</A></DL><A NAME="419287">
+&lt;INPUT TYPE="<em>reset</em>" VALUE="<em>cvalue</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419288">
+htp.formSubmit
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419289">
+Syntax
+</A></DL><A NAME="419290">
+htp.formSubmit (cname, cvalue, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419291">
+Purpose
+</A></DL><A NAME="419292">
+Prints an HTML tag that creates a button that, when selected, submits the form. If a SUBMIT button is selected to submit the Form, and that button has a name attribute specified, the submit button then contributes a name/value pair to the submitted data.<P>
+</A><DL COMPACT><DT><A NAME="419293">
+Parameters
+</A></DL><A NAME="419294">
+cname   	in varchar2	DEFAULT NULL<br>cvalue   	in varchar2	DEFAULT 'Submit'<br>cattributes   	in varchar2	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419295">
+Generates
+</A><A NAME="419296">
+<PRE>&lt;INPUT TYPE="submit" NAME="<em>cname</em>" VALUE="<em>cvalue</em>" <em>cattributes</em>&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="419297">
+htp.formText
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419298">
+Syntax
+</A></DL><A NAME="419299">
+htp.formText (cname, csize, cmaxlength, cvalue, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419300">
+Purpose
+</A></DL><A NAME="419301">
+Prints an HTML tag that creates a field for a single line of text. <P>
+</A><DL COMPACT><DT><A NAME="419302">
+Parameters
+</A></DL><A NAME="419303">
+cname   		in varchar2<br>csize   		in varchar2   DEFAULT NULL<br>cmaxlength	   	in varchar2   DEFAULT NULL<br>cvalue  	 	in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419304">
+Generates
+</A></DL><A NAME="419305">
+&lt;INPUT TYPE="text" NAME="<em>cname</em>" SIZE="<em>csize</em>" MAXLENGTH="<em>cmaxlength</em>" VALUE="<em>cvalue</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419306">
+htp.formSelectOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419307">
+Syntax
+</A></DL><A NAME="419308">
+htp.formSelectOpen (cname, cprompt, nsize, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419309">
+Purpose
+</A></DL><A NAME="419310">
+Prints an HTML tag that begins a Select list of alternatives. Contains the attribute NAME which specifies the name that will be submitted as a name/value pair.<P>
+</A><DL COMPACT><DT><A NAME="419311">
+Parameters
+</A></DL><A NAME="419312">
+cname  	 	in varchar2<br>cprompt  	 	in varchar2   DEFAULT NULL<br>nsize   		in integer     DEFAULT NULL<br>cattributes   		in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419313">
+
+</A><DT><A NAME="419314">
+Generates
+</A></DL><A NAME="419315">
+<em>c</em>prompt &lt;SELECT NAME="cname<em>"</em> PROMPT="cprompt" SIZE=<em>"</em>nsize" cattributes&gt;<P>
+</A><DL COMPACT><DT><A NAME="419316">
+Example
+</A><A NAME="419317">
+<PRE>htp.formSelectOpen('greatest_player';<br>	'Pick the greatest player:');<br>htp.formSelectOption('Messier');<br>htp.formSelectOption('Howe');<br>htp.formSelectOption('Hull');.<br>htp.formSelectOption('Gretzky');.<br>htp.formSelectClose;<br><br>generates:<br><br>Pick the greatest player:<br> &lt;SELECT NAME="greatest_player"&gt;<br> &lt;OPTION&gt;Messier<br> &lt;OPTION&gt;Howe<br> &lt;OPTION&gt;Hull<br> &lt;OPTION&gt;Gretzky<br>&lt;/SELECT&gt;</PRE><P>
+</A>
+</DL><A NAME="419318">
+Note: See htp.formSelectOption and htp.formSelectClose.<P>
+</A><HR>
+<H2>
+<A NAME="419319">
+htp.formSelectOption
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419320">
+Syntax
+</A></DL><A NAME="419321">
+htp.formSelectOption (cvalue, cselected, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419322">
+Purpose
+</A></DL><A NAME="419323">
+Prints an HTML tag that represents one choice in the Select element.<P>
+</A><DL COMPACT><DT><A NAME="419324">
+Parameters
+</A></DL><A NAME="419325">
+cvalue 	  	in varchar2<br>cselected		in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419326">
+Generates
+</A></DL><A NAME="419327">
+&lt;OPTION SELECTED <em>cattributes&gt;cvalue</em><P>
+</A><A NAME="419328">
+See example for htp.formSelectOpen.<P>
+</A><DL COMPACT><DT><A NAME="419329">
+Example
+</A></DL><A NAME="419330">
+See htp.formSelectOpen.<P>
+</A><HR>
+<H2>
+<A NAME="419331">
+htp.formSelectClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419332">
+Syntax
+</A></DL><A NAME="419333">
+htp.formSelectClose;<P>
+</A><DL COMPACT><DT><A NAME="419334">
+Purpose
+</A></DL><A NAME="419335">
+Prints an HTML tag that ends a Select list of alternatives.<P>
+</A><DL COMPACT><DT><A NAME="419336">
+Parameters
+</A></DL><A NAME="419337">
+none<P>
+</A><DL COMPACT><DT><A NAME="419338">
+Generates
+</A><A NAME="419339">
+<PRE>&lt;/SELECT&gt;</PRE><P>
+</A>
+<DT><A NAME="419340">
+Example
+</A></DL><A NAME="419341">
+See htp.formSelectOpen.<P>
+</A><HR>
+<H2>
+<A NAME="419342">
+htp.formTextarea
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419343">
+Syntax
+</A></DL><A NAME="419344">
+htp.formTextarea (cname, nrows, ncolumns, calign, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419345">
+Purpose
+</A></DL><A NAME="419346">
+Prints an HTML tag that creates a text field that has no predefined text in the text area. Used to enable the user to enter several lines of text.<P>
+</A><DL COMPACT><DT><A NAME="419347">
+Parameters
+</A></DL><A NAME="419348">
+cname	   	in varchar2<br>nrows   		in integer<br>ncolumns   		in integer<br>calign   		in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419349">
+Generates
+</A></DL><A NAME="419350">
+&lt;TEXTAREA NAME="<em>cname</em>" ROWS="<em>nrows"</em> COLS="<em>ncolumns"</em> ALIGN="<em>calign</em>" <em>cattributes</em>&gt;&lt;/TEXTAREA&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419351">
+htp.formTextarea2
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419352">
+Syntax
+</A></DL><A NAME="419353">
+htp.formTextarea (cname, nrows, ncolumns, calign, cwrap, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419354">
+Purpose
+</A></DL><A NAME="419355">
+Prints an HTML tag that creates a text field that has no predefined text in the text area. Used to enable the user to enter several lines of text. The difference between this and formTextarea is the cwrap parameter, which specifies a wrap style.<P>
+</A><DL COMPACT><DT><A NAME="419356">
+Parameters
+</A></DL><A NAME="419357">
+cname	   	in varchar2<br>nrows   		in integer<br>ncolumns   		in integer<br>calign   		in varchar2   DEFAULT NULL<br>cwrap 		in varchar2 DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419358">
+Generates
+</A></DL><A NAME="419359">
+&lt;TEXTAREA NAME="<em>cname</em>" ROWS="<em>nrows"</em> COLS="<em>ncolumns"</em> ALIGN="<em>calign</em>" WRAP="cwrap" <em>cattributes</em>&gt;&lt;/TEXTAREA&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419360">
+htp.formTextareaOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419361">
+Syntax
+</A></DL><A NAME="419362">
+htp.formTextareaOpen (cname, nrows, ncolumns, calign, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419363">
+Purpose
+</A></DL><A NAME="419364">
+Prints an HTML tag that opens a text area where you can insert predefined text that will always appear in the text field.<P>
+</A><DL COMPACT><DT><A NAME="419365">
+Parameters
+</A></DL><A NAME="419366">
+cname  	 	in varchar2<br>nrows   		in integer<br>ncolumns	   	in integer<br>calign   		in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419367">
+Generates
+</A></DL><A NAME="419368">
+&lt;TEXTAREA NAME="<em>cname</em>" ROWS="<em>nrows</em>" COLS="<em>ncolumns"</em> ALIGN="<em>calign</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419369">
+htp.formTextareaOpen2
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419370">
+Syntax
+</A></DL><A NAME="419371">
+htp.formTextareaOpen (cname, nrows, ncolumns, calign, cwrap, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="419372">
+Purpose
+</A></DL><A NAME="419373">
+Prints an HTML tag that opens a text area where you can insert predefined text that will always appear in the text field. The difference between this and formTextareaOpen is the cwrap parameter, which specifies a wrap style.<P>
+</A><DL COMPACT><DT><A NAME="419374">
+Parameters
+</A></DL><A NAME="419375">
+cname  	 	in varchar2<br>nrows   		in integer<br>ncolumns	   	in integer<br>calign   		in varchar2   DEFAULT NULL<br>cwrap   		in varchar2   DEFAULT NULL<br>cattributes 	  	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="419376">
+Generates
+</A></DL><A NAME="419377">
+&lt;TEXTAREA NAME="<em>cname</em>" ROWS="<em>nrows</em>" COLS="<em>ncolumns"</em> ALIGN="<em>calign</em>" WRAP = "<em>cwrap"</em> <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="419378">
+htp.formTextareaClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="419379">
+Syntax
+</A></DL><A NAME="419380">
+htp.formTextareaClose;<P>
+</A><DL COMPACT><DT><A NAME="419381">
+Purpose
+</A></DL><A NAME="419382">
+Prints an HTML tag that ends TextArea field<P>
+</A><DL COMPACT><DT><A NAME="419383">
+Parameters
+</A></DL><A NAME="419384">
+none<P>
+</A><DL COMPACT><DT><A NAME="419385">
+Generates
+</A></DL><A NAME="419386">
+&lt;/TEXTAREA&gt;<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl8.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwt10.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

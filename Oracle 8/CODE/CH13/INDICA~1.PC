@@ -1,0 +1,32 @@
+/* indicator.pc
+ * Version 1.0, last updated 6/11/97
+ * This Pro*C fragment illustrates the use of indicator variables, as
+ * described in Chapter 13 of _Oracle8 PL/SQL Programming_ by Scott Urman.
+ */
+
+EXEC SQL BEGIN DECLARE SECTION;
+  char v_Grade;   /* v_Grade is a single character. */
+  short i_Grade;  /* Note that the indicator is declared as a
+                     short, which is a 2 byte integer. */
+EXEC SQL END DECLARE SECTION;
+
+EXEC SQL EXECUTE
+  BEGIN
+    SELECT grade
+      INTO :v_Grade INDICATOR :i_Grade
+      FROM registered_students
+      WHERE student_id = 10006
+      AND department = 'ECN'
+      AND course = 101;
+  END;
+END-EXEC;
+
+EXEC SQL EXECUTE
+  BEGIN
+    SELECT grade
+      INTO :v_Grade:i_Grade
+      FROM registered_students
+      WHERE student_id = 10006
+      AND department = 'ECN'
+      AND course = 101;
+  END;

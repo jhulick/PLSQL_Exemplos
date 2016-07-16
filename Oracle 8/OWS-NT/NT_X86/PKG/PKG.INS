@@ -1,0 +1,51 @@
+/*****************************************************************************
+  Copyright (c) Oracle Corporation 1996.  All Rights Reserved 
+
+  NAME
+    pkg.ins - Package installation script - multiple selection
+
+  DESCRIPTION
+    This script installs the products chosen in the package verification
+    script.
+
+  OWNER
+    David Tom
+
+  MODIFIED    DD-MMM-YY  Reason
+    dtom      21-AUG-95  Install all selected children products not just chosen
+                         products (may have been chosen in another package)
+                         Children installs must complete before parent.
+                         See installer bug 293928.
+    dtom      01-AUG-95  Created
+*****************************************************************************/
+
+{
+  if (doit)
+  {
+    /*----Setup-------------------------------------------------------------*/
+
+    ins_ratchet = "1.0.0.0.0";
+
+    execute("%installer_home%\%operating_system%.ins");
+
+    /*----Install selected products-----------------------------------------*/
+
+    tmp_products = products;
+
+    while (not(empty(tmp_products)))
+    {
+      prod = first(tmp_products);
+
+      if (member(selected_products,prod))
+      {
+        install(prod);
+
+        { reference(prod); }
+        [ 'UNREGISTERED_PRODUCT: continue();]
+      }
+
+      tmp_products = rest(tmp_products);
+    }
+  }
+}
+

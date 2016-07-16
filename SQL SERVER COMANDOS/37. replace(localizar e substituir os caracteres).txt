@@ -1,0 +1,4 @@
+select replace(cep, '.', '') from fcfo
+
+onde tiver cep com ponto será trocado o ponto por nada exe:.
+69.000-00 por 69000-00

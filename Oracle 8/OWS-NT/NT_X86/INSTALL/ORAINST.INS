@@ -1,0 +1,111 @@
+/* Copyright (c) Oracle Corporation 1992.  All Rights Reserved */
+
+/*****************************************************************************
+  NAME
+    orainst.ins - NT V3 Installation Install Script
+
+  DESCRIPTION
+    This script installs the NT installer.
+
+  MODIFIED   MM/DD/YY REASON
+    vrajkuma 04/12/96 Put switch homes icon.
+    njagathe 03/12/96 Used nls variables defined in the vrf phase for ui_action
+    eevans   10/25/95 Remove file winst.exe since this is winst.dll now
+    eevans   09/29/95 Removed PATH.VRF
+    zzerhoun 09/17/95 Added PATH.VRF
+    kjain    09/24/93 Nlsified
+    kjain    03/29/93 Created.
+*****************************************************************************/
+
+{
+  if (doit)
+    {
+      overwrite_mode = 'ALWAYS;
+      permit_retry_operations = TRUE;
+
+      ui_product(product_label);
+
+      inst_dir = "%oracle_home%\ORAINST";
+      backup_dir = "%inst_dir%\backup";
+      backup_marker = "%inst_dir%\backup.mk";
+      if (exists(backup_marker))
+	{
+	  /* at this point, backup files are not valid */
+	  remove_file(backup_marker);
+	  a_list = list("NT.AVF", "NT.VRF", "NT.PVF",
+			"NT.INS", "NT.DEI", "NT.PIN", 
+			"NT.SHD", "MAKEDIR.VRF","SERVICES.VRF");
+	  {
+	    while (not(empty(a_list))) 
+	      {
+		the_file = first(a_list);
+		a_list = rest(a_list);
+		remove_file("%backup_dir%\%the_file%");
+	      }
+	    remove_directory(backup_dir);
+	  } [ 'default: continue(); ]
+	}
+
+      /* Remove any resource files from %oracle_home%\DBS */
+
+      old_resources = files("%oracle_home%\DBS\OI*.RES");
+
+      while (not(empty(old_resources)))
+        {
+          the_file = first(old_resources);
+          remove_file(the_file);
+          old_resources = rest(old_resources);
+        }
+
+
+      ui_action(instantiate(installing_executables));
+      copy(exec);
+
+      /* EEVANS */
+      { ui_graphics("%product_home%\pic2.bmp"); }
+	 [ 'default:continue();]
+
+      ui_action(instantiate(installing_resources));
+      copy(res, nls_abbreviation);
+
+      ui_action(instantiate(installing_scripts));
+      copy(script, nls_abbreviation);
+      copy(deinstl, nls_abbreviation);
+
+      /* to put switch icon */
+      windows_create_icons(nocopy);
+
+      ui_action(recording_name);
+
+
+      {
+        {
+	  if (exists("%oracle_home%\dbs\oi%nls_abbreviation%.res"))
+            save_customer_name(the_customer_name,
+			       "%oracle_home%\dbs\oi%nls_abbreviation%.res");
+        }
+	  [ 'WRITE_PROTECTED: signal('WRITE_ERROR); ]
+      }
+	[ 'WRITE_ERROR: signal('FAILURE,instantiate(recording_name_error1)); ]
+
+      {
+	{
+	  if (nls_abbreviation != "us")
+	    save_customer_name(the_customer_name,
+			       "%oracle_home%\dbs\oius.res");
+	}
+	  [ 'WRITE_PROTECTED: signal('WRITE_ERROR); ]
+      }
+	[ 'WRITE_ERROR: signal('FAILURE,instantiate(recording_name_error2)); ]
+
+
+      register(current_product);
+      reference(current_product);
+      
+      if (exists("%oracle_home%\bin\winst.exe"))
+        remove_file("%oracle_home%\bin\winst.exe");
+
+      permit_retry_operations = FALSE;
+
+    }
+}

@@ -1,0 +1,17 @@
+ CREATE OR REPLACE FUNCTION Concat_Group (Campo in VARCHAR2) RETURN VARCHAR2 IS
+ entrada    varchar2(4000);
+ hold_result varchar2(4000);
+ c sys_refcursor;
+Begin
+ open c for Campo;
+ loop
+ fetch c into entrada;
+ exit when c%notfound;
+ hold_result := hold_result||','||entrada;
+ end loop;
+ return ltrim(hold_result,',');
+END;
+
+select Concat_Group('select codcfo from fcfo where rownum<20 order by codcfo') as AgeList from dual  
+
+

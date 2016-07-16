@@ -1,0 +1,103 @@
+<HTML>
+<HEAD>
+<TITLE>
+The MyWRBApp Sample Cartridge
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+<A HREF="mywrbap1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="422812">
+The MyWRBApp Sample Cartridge
+</A>
+</H1>
+<HR><P><A NAME="422100">
+MyWRBApp is a simple electronic commerce cartridge that illustrates how to use the WRB API to do these programming tasks:<P>
+</A><ul type=disc><A NAME="420860">
+<LI><a href="mywrbap1.htm#422140">Setting up and initializing a WRB cartridge</a>
+</A>
+<A NAME="420864">
+<LI><a href="mywrbap1.htm#422153">Cleaning up after a WRB cartridge before terminating</a>
+</A>
+<A NAME="420868">
+<LI><a href="mywrbap1.htm#422163">Sharing data among multiple execution instances (WRBXs) of a cartridge</a>
+</A>
+<A NAME="420872">
+<LI><a href="mywrbap1.htm#422175">Collecting registration data from users</a>
+</A>
+<A NAME="420876">
+<LI><a href="mywrbap1.htm#422195">Authenticating registered users</a>
+</A>
+<A NAME="420880">
+<LI><a href="mywrbap1.htm#422201">Parsing URLs and other HTTP data</a>
+</A>
+<A NAME="420884">
+<LI><a href="mywrbap1.htm#422210">Parsing CGI data</a>
+</A>
+<A NAME="420888">
+<LI><a href="mywrbap1.htm#422225">Maintaining persistent client state data (using cookies)</a>
+</A>
+<A NAME="420892">
+<LI><a href="mywrbap1.htm#422240">Creating HTML documents dynamically and sending them to clients</a>
+</A>
+</ul><A NAME="420896">
+You can find the source code for MyWRBApp in the files <code><a href="mywrbap2.htm#422272">mywrbapp.h</a></code> and <code><a href="mywrbap3.htm#422331">mywrbapp.c</a></code> on your WebServer machine in the directory $ORACLE_HOME/ows21/sample/wrbsdk/mywrbapp.<P>
+</A><HR>
+<H2>
+<A NAME="420443">
+Trying out MyWRBApp
+</A>
+</H2>
+<A NAME="420444">
+Before diving into the code, you might want to play with the MyWRBApp cartridge to see what it does. By default, any new Listener you create using the WebServer Manager is automatically configured to allow you to run the WebServer sample cartridges, including MyWRBApp, so you should be able to point your browser at this URL to use the cartridge:<P>
+</A><A NAME="420445">
+http://<em>your-server-machine</em>:<em>port</em>/sample/wrbsdk/mywrbapp<P>
+</A>
+<A NAME="420446">
+where <em>your-server-machine:port</em> is the hostname/port combination that identifies a running Listener on your WebServer machine. If this doesn't work, see <a href="wrbprog2.htm#426178">Configuring a Web Listener to use your cartridge</a> to learn how to configure your Listener to run MyWRBApp.<P>
+</A><HR>
+<H2>
+<A NAME="421306">
+Monitoring debugging output
+</A>
+</H2>
+<A NAME="421296">
+While running the MyWRBApp cartridge, you can monitor its log files to see what the cartridge is doing. Here's an easy way to do this:<P>
+</A><OL TYPE=1>
+<A NAME="421297">
+<LI><b>cd</b> $ORACLE_HOME/ows21/log<P>
+</A>
+<A NAME="421298">
+<LI><b>ls -lt | more</b><P>
+</A>
+<A NAME="421299">
+This lists the files in the directory in order of modification time, with the most recently modified files at the top. Near the top of the listing you should see a filename of the form wrb_MYAPP_<em>proc-id</em>, where proc-id is the process ID of the WRBX in which the cartridge is running. There may be many files in the directory with names like this--if so, choose the most recently modified file.<P>
+</A>
+<A NAME="421300">
+<LI><b>more</b> wrb_MYAPP_<em>proc-id</em><P>
+</A>
+<A NAME="421301">
+If you repeat this step after every HTTP transaction, you can see the new logging output the cartridge has generated for each transaction. You might want to repeat step 2 occasionally to make sure you're still looking at the right log file.<P>
+</A>
+</OL>
+
+
+<HR>
+<A HREF="mywrbap1.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+ 

@@ -1,0 +1,19 @@
+# tnsnames.ora
+# Version 1.0, last updated 8/12/97
+# This is a sample tnsnames.ora that specifies the extproc connect string, as
+# described in Chapter 20 of _Oracle8 PL/SQL Programming_ by Scott Urman.
+
+#Replace <<LISTENER_KEY>> with an IPC key, and
+#replace <<EXTPROC_SID>> with an identifier for extproc.
+
+extproc_connection_data =
+  (DESCRIPTION =
+    (ADDRESS =
+      (PROTOCOL = ipc)
+      (KEY = <<LISTENER_KEY>>)
+    )
+    (CONNECT_DATA =
+      (SID = <<EXTPROC_SID>>)
+    )
+  )
+

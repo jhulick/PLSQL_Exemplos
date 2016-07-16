@@ -1,0 +1,5 @@
+SELECT SUM(codigo) //retorna a soma dos valores da coluna informada, ignorando Nulls.
+FROM clientes
+
+* A Função SUM "Soma", retorna a soma dos valores da coluna informada, obviamente
+desconsiderando os valores Nulls.

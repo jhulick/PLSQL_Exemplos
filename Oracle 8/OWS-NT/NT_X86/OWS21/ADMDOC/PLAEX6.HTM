@@ -1,0 +1,182 @@
+<HTML>
+<HEAD>
+<TITLE>
+Example PL/SQL Agent Web Pages
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaex5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418477">
+Cookie PL/SQL Example
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418279">
+The following example uses an HTTP cookie to keep track of how many times a particular browser has visited the Web page and displays that information.<P>
+</A><A NAME="418282">
+<PRE>CREATE OR REPLACE PROCEDURE cookiejar</PRE><P>
+</A>
+<A NAME="418283">
+<PRE>  IS</PRE><P>
+</A>
+<A NAME="418284">
+<PRE>     v_names owa_cookie.vc_arr;</PRE><P>
+</A>
+<A NAME="418285">
+<PRE>     v_vals owa_cookie.vc_arr;</PRE><P>
+</A>
+<A NAME="418286">
+<PRE>     v_num_vals INTEGER;</PRE><P>
+</A>
+<A NAME="418287">
+<PRE>     v_cookie owa_cookie.cookie;</PRE><P>
+</A>
+<A NAME="418288">
+<PRE>BEGIN</PRE><P>
+</A>
+<A NAME="418337">
+<PRE>   v_cookie := owa_cookie.get('COUNT');</PRE><P>
+</A>
+<A NAME="418339">
+<PRE>   owa_util.mime_header('text/html', FALSE);</PRE><P>
+</A>
+<A NAME="418340">
+<PRE>   IF (v_cookie.num_vals &gt; 0) THEN</PRE><P>
+</A>
+<A NAME="418294">
+<PRE>      owa_cookie.send('COUNT', v_cookie.vals(1) + 1, Sysdate + 1);</PRE><P>
+</A>
+<A NAME="418295">
+<PRE>    ELSE</PRE><P>
+</A>
+<A NAME="418296">
+<PRE>      owa_cookie.send('COUNT', 1, Sysdate + 1);</PRE><P>
+</A>
+<A NAME="418297">
+<PRE>   END IF;</PRE><P>
+</A>
+<A NAME="418298">
+<PRE>   owa_util.http_header_close;</PRE><P>
+</A>
+<A NAME="418300">
+<PRE>   htp.htmlopen;</PRE><P>
+</A>
+<A NAME="418301">
+<PRE>   htp.headopen;</PRE><P>
+</A>
+<A NAME="418302">
+<PRE>   htp.title('C is for Cookie');</PRE><P>
+</A>
+<A NAME="418303">
+<PRE>   htp.headclose;</PRE><P>
+</A>
+<A NAME="418304">
+<PRE>   htp.bodyopen;</PRE><P>
+</A>
+<A NAME="418306">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418307">
+<PRE>   htp.img('/ows-img/ows.gif');</PRE><P>
+</A>
+<A NAME="418308">
+<PRE>   htp.header(1,'C is for Cookie');</PRE><P>
+</A>
+<A NAME="418309">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418310">
+<PRE></PRE><P>
+</A>
+<A NAME="418311">
+<PRE>   IF (v_cookie.num_vals &gt; 0) THEN</PRE><P>
+</A>
+<A NAME="418312">
+<PRE>      htp.print('You have visited this page ' || htf.strong(v_cookie.vals(1) + 1) || ' times in the last 24 hours.');</PRE><P>
+</A>
+<A NAME="418313">
+<PRE>    ELSE</PRE><P>
+</A>
+<A NAME="418314">
+<PRE>      htp.print('This is the first time you have visited this page in the last 24 hours.');</PRE><P>
+</A>
+<A NAME="418315">
+<PRE>   END IF;</PRE><P>
+</A>
+<A NAME="418316">
+<PRE></PRE><P>
+</A>
+<A NAME="418317">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418318">
+<PRE>   htp.em('Each time you visit the page, the count will be incremented by one, as long as you are using a cookie enabled browser. This state is kept in the browser in the form of a cookie, rather than having the server keep track of it.');</PRE><P>
+</A>
+<A NAME="418319">
+<PRE>   htp.paragraph;</PRE><P>
+</A>
+<A NAME="418320">
+<PRE>   htp.anchor('/sample/bin/show-sample-source.sh?FILENAME=/owa/cookies.sql','Show Source');</PRE><P>
+</A>
+<A NAME="418321">
+<PRE>   htp.line;</PRE><P>
+</A>
+<A NAME="418322">
+<PRE>   htp.address('(c)1996 Oracle Corporation');</PRE><P>
+</A>
+<A NAME="418323">
+<PRE>   htp.bodyclose;</PRE><P>
+</A>
+<A NAME="418324">
+<PRE>   htp.htmlclose;</PRE><P>
+</A>
+<A NAME="418325">
+<PRE>END;</PRE><P>
+</A>
+<A NAME="418326">
+<PRE>/</PRE><P>
+</A>
+<A NAME="418327">
+<PRE>show errors</PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="418575">
+Related Information
+</A>
+</H2>
+<A NAME="418576">
+<a href="plaguse.htm#996890">Using The PL/SQL Agent</a>, <a href="psqlwtlk.htm#10346">PL/SQL Web Toolkit Reference</a>, <a href="appover1.htm#418246">Invoking an Application</a>, <a href="psqlwt18.htm#420125">OWA_COOKIE</a><P>
+</A><A NAME="418328">
+<PRE></PRE><P>
+</A>
+<A NAME="418280">
+<PRE></PRE><P>
+</A>
+<A NAME="418184">
+<PRE></PRE><P>
+</A>
+ <P>
+ 
+<HR>
+<A HREF="plaex.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to"> Go to the top of the section</A><P>
+<A HREF="plaex5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

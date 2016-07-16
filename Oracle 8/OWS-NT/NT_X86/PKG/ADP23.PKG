@@ -1,0 +1,31 @@
+/*****************************************************************************
+  Copyright (c) Oracle Corporation 1996.  All Rights Reserved 
+
+  NAME
+    adp23.pkg 
+
+  DESCRIPTION
+    Package file for NT protocol adapters                   
+
+  OWNER
+    David Tom
+
+  MODIFIED    DD-MMM-YY  Reason
+    dtom      01-AUG-95  Created
+    dlau      28-FEB-96  Modified for SQL*NET 2.3
+*****************************************************************************/
+
+{
+  products      = list();
+  dflt_products = list();
+
+  { add(products     , w32tcp23  ); } ['UNBOUND_VARIABLE: continue();]
+  { add(dflt_products, w32tcp23  ); } ['UNBOUND_VARIABLE: continue();]
+
+  { add(products     , w32nmp23  ); } ['UNBOUND_VARIABLE: continue();]
+
+  { add(products     , w32spx23  ); } ['UNBOUND_VARIABLE: continue();]
+ 
+  { add(products     , w32dnt23  ); } ['UNBOUND_VARIABLE: continue();]
+
+}

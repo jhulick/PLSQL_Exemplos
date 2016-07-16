@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using the Java&#153; Cartridge 
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="javause.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="javause2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="javause4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418506">
+Database Access from Java
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418507">
+Using Java to call <a href="gloss.htm#420774">PL/SQL</a> circumvents the <a href="gloss.htm#420751">PL/SQL Agent</a>. This has the following disadvantages:<P>
+</A><ul type=disc><A NAME="418508">
+<LI>PL/SQL Agent processes invoked through the <a href="gloss.htm#422291">WRB</a>, but not <a href="gloss.htm#421198">CGI</a>, connect to the database automatically at startup. Java processes connect to the database when necessary. This gives a significant performance advantage to the PL/SQL Agent.
+</A>
+<A NAME="418509">
+<LI>The PL/SQL Agent uses Database Connection Descriptors (<a href="gloss.htm#421241">DCD</a>s) to control the privileges an application runs under and the database schema to which it connects in a generalized and application-independent way. In Java, database connections are coded into the application.
+</A>
+</ul><A NAME="418510">
+Nonetheless, Java can do many things that PL/SQL cannot, like access local files and manipulate multimedia objects. If you need this functionality executed on the server, the Java Interpreter is the way to go.<P>
+</A><HR>
+<H2>
+<A NAME="418512">
+Overall Structure of a Java Database Application
+</A>
+</H2>
+<A NAME="418513">
+The steps your application must go through are as follows:<P>
+</A><ul type=disc><A NAME="418514">
+<LI>It must create an object of type Session to handle the database connection. All of the operations performed during this session must be called from within this object. When the object exits, the database connection is marked for termination by the Java garbage collector. Since connecting to the database takes time, try to minimize the number of connections by grouping into one Session object all of the operations that involve a given schema.
+</A>
+<A NAME="418515">
+<LI>For each PL/SQL package used in the application, it must create one instance of the packagewrapper subtype created for that PL/SQL package by the pl2java utility.
+</A>
+<A NAME="418516">
+<LI>For each parameter of a PL/SQL package, it must create an instance of the Java variable that matches that parameter. All classes that encapsulate PL/SQL values have toString() methods. Therefore, you can concatenate the PL/SQL values directly in Java strings using Java's "+" concatenation operation.
+</A>
+<A NAME="418517">
+<LI>Unlike Java and most languages, but like SQL, PL/SQL uses Nulls and Three-Valued Logic to deal with missing information. NULLs should be dealt with differently than known values. When you access a NULL from Java, it throws the NullValueException runtime exception. Therefore, you should account for this whenever a PL/SQL value may be NULL. You can do this in either of the following two ways: 
+</A>
+<ul type=square>
+<A NAME="418518">
+<LI>Using the isNull method to check directly whether the value is NULL.
+</A>
+<A NAME="418519">
+<LI>Enclosing the operation in a "try {...} catch (...) {...}" block that traps the NullValueException.
+</A>
+</ul>
+</ul><A NAME="418520">
+You must invoke the Session setProperty method to set parameters such as ORACLE_HOME that the database session requires. For more information on this method, refer to the standard Java hypertext reference included with this document.<P>
+</A><HR>
+<H2>
+<A NAME="418522">
+Disconnecting from the Database
+</A>
+</H2>
+<A NAME="419156">
+You should try to logoff from the database explicitly when the session is no longer needed. Although Java garbage collection disconnects the session when the Session object is exited, this does not necessarily happen right away. Java does not perform garbage collection until resources are low or the program idles. Therefore, it is better to disconnect the session to free up the database connection resource immediately.<P>
+</A><HR>
+<H2>
+<A NAME="419170">
+Related Information
+</A>
+</H2>
+<A NAME="419165">
+<a href="javax1.htm#997304">Example of Package Wrapper Generation</a>, <a href="javax2.htm#997325">Example of Java Database Access</a>, <a href="plaguse.htm#996890">Using The PL/SQL Agent</a>, <a href="psqlwtlk.htm#10346">The PL/SQL Web Toolkit Reference</a><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="javause.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="javause2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="javause4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

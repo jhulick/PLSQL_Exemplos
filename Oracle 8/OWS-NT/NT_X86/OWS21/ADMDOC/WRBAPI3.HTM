@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425345">
+WRBCloseHTTPHeader()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425346">
+<code>WRBCloseHTTPHeader()</code> finishes writing an HTTP header to a client after previous calls to <code><a href="wrbapi22.htm#426211">WRBReturnHTTPError()</a></code> or <code><a href="wrbapi23.htm#426279">WRBReturnHTTPRedirect()</a></code> for which the <code>close</code> parameter was set to <code>FALSE</code>.<P>
+</A><HR>
+<H2>
+<A NAME="425353">
+Syntax
+</A>
+</H2>
+<A NAME="425354">
+<PRE>ssize_t WRBCloseHTTPHeader( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425368">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425357">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425359">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425361">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425363">
+WRBCtx<BR>
+</A><td><A NAME="425365">
+void *<BR>
+</A><td><A NAME="425367">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425369">
+Return Values
+</A>
+</H2>
+<A NAME="425370">
+<code>WRBCloseHTTPHeader()</code> returns the number bytes successfully written to the client.<P>
+</A><HR>
+<H2>
+<A NAME="425371">
+Usage
+</A>
+</H2>
+<A NAME="425372">
+You can call <code>WRBCloseHTTPHeader()</code> from your Authorize or Exec function if you have previously called <code><a href="wrbapi22.htm#426211">WRBReturnHTTPError()</a></code> or <code><a href="wrbapi23.htm#426279">WRBReturnHTTPRedirect()</a></code> with the close parameter set to FALSE.<P>
+</A><HR>
+<H2>
+<A NAME="426519">
+Examples
+</A>
+</H2>
+<A NAME="426582">
+This example shows how to send an HTTP status code of 204 (No Content) to the client, write additional HTTP header data, and call <code>WRBCloseHTTPHeader()</code> to complete the header.<P>
+</A><A NAME="426520">
+<PRE>WRBReturnHTTPError(WRBCtx, (WRBErrorCode)204, NULL, TRUE);<br>/* use WRBClientWrite() to output additional HTTP headers */<br>WRBCloseHTTPHeader(WRBCtx);<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425381">
+Related Information
+</A>
+</H2>
+<A NAME="425388">
+See also <code><a href="wrbapi22.htm#426211">WRBReturnHTTPError()</a></code> and <code><a href="wrbapi23.htm#426279">WRBReturnHTTPRedirect()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi2.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi4.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,155 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwt17.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwt19.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="420125">
+OWA_COOKIE
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="420127">
+OWA_COOKIE is a package that provides wrappers so that you can send cookies to and get them from the client's browser. Cookies are strings that are opaque to the client, but that maintain state throughout the client's session, or longer if an expiration date is included. Your system date will be calculated with reference to the information specified in the OWA_INIT package.<P>
+</A><A NAME="422129">
+You can find out more about cookies and see an example of how they are used by referring to <a href="mywrbap1.htm#422225">Maintaining persistent client state data (using cookies)</a>. This example is in the context of a custom-wriiten WRB cartridge, and is therefore in C rather than PL/SQL.<P>
+</A><HR>
+<H2>
+<A NAME="420128">
+Datatypes
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="420129">
+cookie
+</A></DL><A NAME="420130">
+Since the HTTP standard is that cookie names can be overloaded, that is, multiple values can be associated with the same cookie name, this is a PL/SQL RECORD holding all values associated with a given cookie name. The fields are as follows:<P>
+</A><A NAME="420131">
+<PRE>name      varchar2(4K)<br>vals       vc_arr<br>numvals    integer</PRE><P>
+</A>
+<A NAME="420132">
+Note: vc_arr is defined in the OWA_TEXT package.<P>
+</A><HR>
+<H2>
+<A NAME="420133">
+Procedures and Functions
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="420134">
+owa_cookie.send
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="420135">
+Syntax
+</A></DL><A NAME="420136">
+owa_cookie.send(name, value, expires, path, domain, secure)<P>
+</A><DL COMPACT><DT><A NAME="420137">
+Purpose
+</A></DL><A NAME="420138">
+This is a procedure that transmits a cookie to the client. This procedure must occur in the context of an OWA procedure's HTTP header output.<P>
+</A><DL COMPACT><DT><A NAME="420139">
+Parameters
+</A></DL><A NAME="420140">
+name   	in	varchar2<br>value	  in	varchar2<br>expires	in	date DEFAULT NULL<br>path	in	varchar2 DEFAULT NULL<br>domain	in	varchar2 DEFAULT NULL<br>secure	in	varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="420141">
+Generates
+</A></DL><A NAME="420142">
+Set-Cookie: &lt;name&gt;=&lt;value&gt; expires=&lt;expires&gt; path=&lt;path&gt; domain=&lt;domain&gt; secure<br><P>
+</A><HR>
+<H2>
+<A NAME="420143">
+owa_cookie.get
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="420144">
+Syntax
+</A></DL><A NAME="420145">
+owa_cookie.get(name)<P>
+</A><DL COMPACT><DT><A NAME="420146">
+Purpose
+</A></DL><A NAME="420147">
+This is a function that converts the string to a cookie and transmits that cookie to the client's browser. The function version has a return type of cookie.<P>
+</A><DL COMPACT><DT><A NAME="420148">
+Parameters
+</A></DL><A NAME="420149">
+name   	in	varchar2<P>
+</A><DL COMPACT><DT><A NAME="420150">
+Generates
+</A></DL><A NAME="420151">
+A cookie<P>
+</A><HR>
+<H2>
+<A NAME="420152">
+owa_cookie.get_all
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="420153">
+Syntax
+</A></DL><A NAME="420154">
+owa_cookie.get_all(names, vals, num_vals)<P>
+</A><DL COMPACT><DT><A NAME="420155">
+Purpose
+</A></DL><A NAME="420156">
+This is a procedure that returns all cookie name/value pairs from the client's browser that are associated with your domain.<P>
+</A><DL COMPACT><DT><A NAME="420157">
+Parameters
+</A></DL><A NAME="420158">
+names	   	out	vc_arr<br>vals		out	vc_arr<br>num_vals		out	integer<P>
+</A><DL COMPACT><DT><A NAME="420159">
+Generates
+</A></DL><A NAME="420160">
+Arrays of the names and of the values in the order received, and the count of the combinations.<P>
+</A><HR>
+<H2>
+<A NAME="420161">
+owa_cookie.remove
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="420162">
+Syntax
+</A></DL><A NAME="420163">
+owa_cookie.remove(name, value, path)<P>
+</A><DL COMPACT><DT><A NAME="420164">
+Purpose
+</A></DL><A NAME="420165">
+This is a procedure that forces a cookie to expire immediately. This output of this procedure must be embedded in an HTML header.<P>
+</A><DL COMPACT><DT><A NAME="420166">
+Parameters
+</A></DL><A NAME="420167">
+name 	  	in	varchar2<br>value	 	in	varchar2<br>path		in	varchar2 DEFAULT NULL<br><P>
+</A><DL COMPACT><DT><A NAME="420168">
+Generates
+</A><A NAME="420169">
+<PRE>Set-Cookie: &lt;name&gt;=&lt;value&gt; expires=01-JAN-1990 path=&lt;path&gt;</PRE><P>
+</A>
+</DL> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwt17.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwt19.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

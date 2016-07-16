@@ -1,0 +1,11 @@
+REGEDIT
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\print\ddeexec = [FilePrint("%1")]
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\print\ddeexec\topic = control
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\print\ddeexec\application = acroview
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\print\command = C:\ACROREAD\ACROREAD.EXE /p %1
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\open\ddeexec = [FileOpen("%1")]
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\open\ddeexec\topic = control
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\open\ddeexec\application = acroview
+HKEY_CLASSES_ROOT\AcroExch.Document\shell\open\command = C:\ACROREAD\ACROREAD.EXE %1
+HKEY_CLASSES_ROOT\.pdf = AcroExch.Document
+

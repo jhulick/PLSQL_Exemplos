@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<TITLE>
+The MyWRBApp Sample Cartridge
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="mywrbapp.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="mywrbap1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="mywrbap3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="422272">
+mywrbapp.h
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="422273">
+The mywrbapp.h header file includes system header files that MyWRBApp needs, and defines several data structures and macros. The only features of this header that your cartridge should specifically emulate are the first two <code>#include</code> directives, which provide access to the WRB API. The rest of the declarations and definitions in this header are specific to MyWRBApp.<P>
+</A><A NAME="422274">
+<PRE>#ifndef ORATYPES_ORACLE<br>#include &lt;oratypes.h&gt;<br>#endif<br><br>#ifndef WRB_ORACLE<br>#include &lt;wrb.h&gt;<br>#endif<br><br>#include &lt;string.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;sys/stat.h&gt;<br>#include &lt;fcntl.h&gt;<br>#include &lt;sys/mman.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;ctype.h&gt;<br>#include &lt;stdlib.h&gt;<br><br>/* maximum string lengths */<br>#define MAXNAMELEN 12<br>#define MAXPASSLEN 32<br>#define PARTNUMLEN 9<br><br>#define MAXITEMS 170        /* max items allowed in orderitems array */<br>#define TSIZE 128           /* number of bins in hash table--tune to taste */<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422276">
+The datablock structure
+</A>
+</H2>
+<A NAME="422277">
+MyWRBApp uses a <code>datablock</code> structure to store authentication data for each registered user. The cartridge stores these data files in a large array in a shared, memory-mapped data file, and uses a hash table also stored in the data file to access the data blocks quickly. The <code>datablock</code> structure contains strings of hard-coded length because the cartridge stores data blocks in the data file, which different WRBXs can in principle map into memory at different addresses. The data file, therefore, can contain no pointers, as pointers are process-specific.<P>
+</A><A NAME="422278">
+Also for this reason, the hash table contains indeces, rather than pointers, into the <code>datablocks</code> array. The <code>nextidx</code> field of the data block, therefore, contains the index into the <code>datablocks</code> array of the next data block in the data block's hash bin.<P>
+</A><A NAME="422279">
+<PRE>/*<br> * datablock stores authentication data for a user--<br> * allocate arrays rather than pointers because the datafile must<br> * contain no pointers, as each process can map the file at a<br> * different address<br> */<br>typedef struct datablock {<br>    int nextidx;        /* index into datablocks array of next datablock */<br>    char username[MAXNAMELEN];<br>    char password[MAXPASSLEN];  /* encrypted */<br>    /* more to come? */<br>} datablock;<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422280">
+The orderitem structure
+</A>
+</H2>
+<A NAME="422281">
+MyWRBApp uses an orderitem structure to store the part number of an item that a user has ordered and the quantity ordered. The cartridge constructs an array of these structures, which it uses to set the cookie data it sends to the client.<P>
+</A><A NAME="422282">
+<PRE>/* orderitem stores information about an item that a user has ordered */<br>typedef struct orderitem {<br>    char partnum[PARTNUMLEN + 1];<br>    char qty[5];<br>} orderitem;<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422284">
+The myappctx structure
+</A>
+</H2>
+<A NAME="422285">
+MyWRBApp uses the <code>myappctx</code> structure primarily to access sections of the memory-mapped data file. <code><a href="mywrbap3.htm#422338">MyWRBApp_Init()</a></code> calls <code><a href="mywrbap3.htm#422506">mapdata()</a></code> to allocate and set up this structure.<P>
+</A><A NAME="422292">
+<PRE>/*<br> * application context--set up by Init function and subsequently passed<br> * to each cartridge function by the WRB application engine<br> */<br>typedef struct myappctx {<br>    int *table;         /* hash table of indeces into datablocks array */<br>    int *firstfree;     /* index of first free datablock--currently unused */<br>    int *datacount;     /* current number of datablocks, including free */<br>    datablock *datablocks;      /* first datablock struct in large array */<br>    int datafd;         /* data file descriptor */<br>    off_t end;          /* offset of current EOF */<br>    orderitem *items;   /* pointer to ordered items array */<br>    int numitems;       /* number of orders currently in array */<br>    struct flock lock;  /* lock structure used in locking the datafile */<br>    char *state;        /* our home state, read from configuration data */<br>    double taxpct;      /* tax in our area, read from configuration data */<br>} myappctx;<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422293">
+Data file section offsets and sizes
+</A>
+</H2>
+<A NAME="422294">
+MyWRBApp uses these constants to specify data file sections in calls to the locking macros. For example, to lock the entire data file for reading, the cartridge uses this syntax:<P>
+</A><A NAME="422295">
+<PRE>RDLOCK(FILE_START, FILE_SIZE, ctx)</PRE><P>
+</A>
+<A NAME="422296">
+where ctx is a pointer to the application context structure.<P>
+</A><A NAME="422297">
+<PRE>/*<br> * datafile section offsets<br> */<br>#define FILE_START 0<br>#define TABLE_OFF FILE_START<br>#define FIRSTFREE_OFF (TABLE_OFF + (TSIZE * sizeof(int)))<br>#define DATACOUNT_OFF (FIRSTFREE_OFF + sizeof(int))<br>#define DATABLOCKS_OFF (DATACOUNT_OFF + sizeof(int))<br><br>/*<br> * datafile section sizes<br> */<br>#define FILE_SIZE 0 /* FILE_SIZE of zero means "to EOF" in locking calls */<br>#define TABLE_SIZE (TSIZE * sizeof(int))<br>#define FIRSTFREE_SIZE sizeof(int)<br>#define DATACOUNT_SIZE sizeof(int)<br><br>/* DATABLOCKS_SIZE of zero means "to EOF" in locking calls */<br>#define DATABLOCKS_SIZE 0<br><br>/* minimum datafile size--tune to taste */<br>#define MINFILESIZE (DATABLOCKS_OFF + (TSIZE * sizeof(datablock)))<br><br>/* DBLOCK_OFF calculates the offset of a datablock from beginning of file */<br>#define DBLOCK_OFF(data, ctx)   (DATABLOCKS_OFF + \<br>        (data - ctx-&gt;datablocks)*sizeof(datablock))<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422298">
+The THASH macro
+</A>
+</H2>
+<A NAME="422299">
+MyWRBApp uses THASH to assign data blocks to and retrieve them from the hash table in the shared data file. The algorithm is a simple string hash cribbed from Kernighan and Ritchie (<em>The C Programming Language, Second Edition</em>; Prentice Hall Software Series, 1988; p. 144).<P>
+</A><A NAME="422300">
+<PRE>/*<br> * hash macro<br> */<br>#define PRIME 157<br>#define THASH(count, cp)    for (count = 0; *cp; cp++) \<br>                                count = *cp + PRIME * count; \<br>                            count %= TSIZE;<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="422302">
+Locking macros
+</A>
+</H2>
+<A NAME="422303">
+MyWRBApp uses the locking macros to apply advisory read locks and write locks on sections of the shared data file. The macros are wrappers that provide MyWRBApp with a simplified interface to the operating system advisory file and record locking mechanism.<P>
+</A><A NAME="422304">
+<PRE>/*<br> * locking macros--used to maintain the integrity of the shared datafile<br> */<br>#define LOCK(type, off, len, ctx)   ctx-&gt;lock.l_type = type; \<br>        ctx-&gt;lock.l_whence = SEEK_SET; \<br>        ctx-&gt;lock.l_start = off; \<br>        ctx-&gt;lock.l_len = len; \<br>        fcntl(ctx-&gt;datafd, F_SETLKW, &amp;(ctx-&gt;lock));<br><br>#define RDLOCK(off, len, ctx)   LOCK(F_RDLCK, off, len, ctx)<br>#define WRLOCK(off, len, ctx)   LOCK(F_WRLCK, off, len, ctx)<br>#define UNLOCK(ctx) ctx-&gt;lock.l_type = F_UNLCK; \<br>        fcntl(ctx-&gt;datafd, F_SETLKW, &amp;(ctx-&gt;lock));<br><br>#define UPGRADE(ctx)    UNLOCK(ctx) \<br>        ctx-&gt;lock.l_type = F_WRLCK; \<br>        fcntl(ctx-&gt;datafd, F_SETLKW, &amp;(ctx-&gt;lock));<br><br>#define DOWNGRADE(ctx)  UNLOCK(ctx) \<br>        ctx-&gt;lock.l_type = F_RDLCK; \<br>        fcntl(ctx-&gt;datafd, F_SETLKW, &amp;(ctx-&gt;lock));<br><br>/*<br> * MyWRBApp cartridge functions<br> */<br>WRBReturnCode<br>MyWRBApp_Entry(WRBCallbacks *WRBCalls);<br><br>WRBReturnCode<br>MyWRBApp_Init(void *WRBCtx, void **appCtx);<br><br>WRBReturnCode<br>MyWRBApp_Shutdown(void *WRBCtx, void *appCtx);<br><br>WRBReturnCode<br>MyWRBApp_Authorize(void *WRBCtx, void *appCtx, boolean *bAuthorized);<br><br>WRBReturnCode<br>MyWRBApp_Exec(void *WRBCtx, void *appCtx);<br><br>WRBReturnCode<br>MyWRBApp_Reload(void *WRBCtx, void *appCtx);<br></PRE><P>
+</A>
+ <P>
+ 
+<HR>
+ 
+<A HREF="mywrbapp.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="mywrbap1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="mywrbap3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

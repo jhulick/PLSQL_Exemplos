@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE>
+Writing Applications Using the Web Request Broker API
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbprog.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbprog2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="421218">
+Writing a WRB Cartridge
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="421219">
+To write a WRB cartridge, you implement these cartridge functions:<P>
+</A><ul type=disc><A NAME="421226">
+<LI><a href="wrbprog4.htm#421900">Init</a>--performs one-time setup operations for the cartridge, such as allocating data structures or other resources that the cartridge needs to handle requests.
+</A>
+<A NAME="421227">
+<LI><a href="wrbprog6.htm#421976">Exec</a>--handles client requests. You must implement this cartridge function.
+</A>
+<A NAME="421228">
+<LI><a href="wrbprog7.htm#422054">Shutdown</a>--frees any resources the cartridge has allocated and prepares the cartridge to terminate.
+</A>
+<A NAME="421232">
+<LI><a href="wrbprog5.htm#424441">Authorize</a>--determines whether the client issuing a request is authorized to issue the request.
+</A>
+<A NAME="421233">
+<LI><a href="wrbprog8.htm#422073">Reload</a>--reloads the cartridge configuration data; this function is called whenever the Web Listener is signalled to reload its configuration data so your cartridge can reload its configuration data at the same time.
+</A>
+<A NAME="421234">
+<LI><a href="wrbprog9.htm#422260">Version</a>--returns a version string; this is useful for debugging.
+</A>
+<A NAME="421235">
+<LI><a href="wrbpro10.htm#422285">Version_Free</a>--frees any resources allocated by the Version function; the WRB application engine calls this function after successfully calling the Version function.
+</A>
+</ul><A NAME="421236">
+Though you must define an Exec function, implementing the other functions is optional. Implementing the Reload function, however, is highly recommended for cartridges that use cartridge configuration data.<P>
+</A><A NAME="422326">
+You may name your cartridge functions anything you want, but it's a good idea to incorporate the above strings in the names you choose--for example, you might name your Init function something like <code>MyApp_Init()</code>. For this reason, this document uses cartridge function names such as <em>prefix</em><code>_Init()</code>, where <em>prefix</em> indicates the name you choose for your cartridge.<P>
+</A><HR>
+<H2>
+<A NAME="425563">
+Data flow of a typical request
+</A>
+</H2>
+<A NAME="425650">
+The following figure illustrates how a typical cartridge might handle an incoming request. The figure assumes that the cartridge handles its own authentication by defining an Authorize function (see <a href="wrbprog5.htm#424441">The Authorize cartridge function</a>.)<P>
+</A><A NAME="425567">
+<p>
+<img src="wrbproga.gif"><P>
+</A><A NAME="425569">
+<H5>A request successfully handled by a WRB cartridge</H5>
+</A>
+ <P>
+ 
+<HR>
+ 
+<A HREF="wrbprog.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbprog.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbprog2.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

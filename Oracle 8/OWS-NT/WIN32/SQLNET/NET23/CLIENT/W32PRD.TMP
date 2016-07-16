@@ -1,0 +1,3 @@
+#### Product     Parent Filename   Version     Interface Label                  Location          Size     Visible? Selected? Open? Description                                                                Volume
+   0 ntinstver   root   ""         "3.1.2.1.3" "Installer Version"              ""                   0     false    false     true  "This product is written automatically to a Product Enumeration Script for the Installer to use for forward compatibility checking."      ""
+ 141 ntcfgc23    root   "cfgc23"   "2.3.0.0.2" "SQL*Net Easy Configuration"     "."                  0     false     true    false  "SQL*Net Easy Configuration facilitates management of tnsnames.ora."             "CFGC23"

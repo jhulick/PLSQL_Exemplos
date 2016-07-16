@@ -1,0 +1,155 @@
+/*****************************************************************************
+  Copyright (c) Oracle Corporation 1996.  All Rights Reserved 
+
+  NAME
+    pkg1.vrf - Package verification script - single selection
+
+  DESCRIPTION
+    This script displays a selection list of products for a package and 
+    allows the user to select a single product to be installed.
+
+    The list of products in the package is determined by executing
+    a 'product_name.PKG' script.  (Note: product_name must be at most 8
+    characters.)  This PKG script should set the following variables:
+
+      products           - The list of products
+      dflt_product       - The product to be selected by default
+      selection_title    - The title (content string) for the selection dialog
+      selection_prompt   - The prompt for the selection dialog
+      selection_help     - The help message for the selection dialog
+
+    If a 'product_name.PKG' script does not exist, the list of products
+    will be determined by the child products in the PRD file.
+
+  OWNER
+    David Tom
+
+  MODIFIED    DD-MMM-YY  Reason
+    dtom      21-AUG-95  Add product to selected_products list only once
+    dtom      01-AUG-95  Created
+*****************************************************************************/
+
+{
+  vrf_ratchet = "1.0.0.0.0";
+
+  { doit = execute("%installer_home%\%operating_system%.vrf"); }
+  [
+    'UNBOUND_VARIABLE:
+      {
+        required_version = product_version(ntinstver);
+        temp = explode(required_version,".");
+        required_version = implode(list(first(temp),first(rest(temp)),
+                                        first(rest(rest(temp))),
+                                        first(rest(rest(rest(temp))))),".");
+        signal('failure,instantiate(nls("instver_too_early1","The version of the Installer currently running is %%installer_version%%. The installation you have chosen requires version %%required_version%% or later. Please run version %%required_version%% or later in order to perform this installation.")));
+      }
+  ]
+
+  /*------------------------------------------------------------------------*/
+
+  if (doit)
+  {
+    prod_label = product_interface_label(current_product);
+    prod_name  = product_name(current_product);
+
+    no_products_msg   = nls("no_products_msg",   "There are no items available to install under this selection.  Choose OK to continue.");
+    no_products_help  = nls("no_products_help",  "No items are available for installation under your selection.  Choose OK to continue.");
+
+    /*----Default list of products------------------------------------------*/
+
+    products = all_child_products(current_product);
+    sort(products);
+
+    dflt_product = "";
+
+    selection_title  = nls("selection_title",  "%%prod_label%%");
+    selection_prompt = nls("selection_prompt", "Please select one of the %%prod_label%% to install:");
+    selection_help   = nls("selection_help",   "Select one of the %%prod_label%% to install by selecting the desired item.%carriage_return%%carriage_return%An item may be selected by clicking on the item with the mouse or by moving the cursor to the item and using the space bar to select the item.");
+
+    /*----Override if PKG file found----------------------------------------*/
+
+    { execute("%prod_name%.pkg"); }
+    [ 'FILE_NOT_FOUND: continue(); ]
+
+    /*----Check if product list is empty------------------------------------*/
+
+    if (empty(products))
+    {
+      information_dialog(
+            instantiate(no_products_msg),
+            prod_label,
+            instantiate(no_products_help),
+            'NO_CANCEL );
+      return(0);
+    }
+
+    /*----Build list of product labels--------------------------------------*/
+
+    labels       = list();
+    dflt_label   = "";
+    tmp_products = products;
+
+    while (not(empty(tmp_products)))
+    {
+      prod = first(tmp_products);
+
+      label = product_interface_label(prod);
+      ver   = product_version(prod);
+      entry = "%label% %ver%";
+      add(labels,entry);
+      if (prod == dflt_product)
+        dflt_label = entry;
+
+      tmp_products = rest(tmp_products);
+    }
+
+    if (dflt_label == "")
+      dflt_label = first(labels);
+
+    /*----Display single selection dialog-----------------------------------*/
+
+      /*--If single item in list, default to that item----------------------*/
+      if (empty(rest(labels)))
+        product_chosen = first(labels);
+
+      /*--else display selection dialog-------------------------------------*/
+      else
+        product_chosen = single_selection_dialog(
+                             instantiate(selection_prompt),
+                             labels,
+                             dflt_label,
+                             instantiate(selection_title),
+                             instantiate(selection_help) );
+
+    /*----Determine which product was selected------------------------------*/
+
+    tmp_labels   = labels;
+    tmp_products = products;
+
+    while (not(empty(tmp_labels))) 
+    {
+      label = first(tmp_labels);
+      prod  = first(tmp_products);
+
+      if (label == product_chosen)
+      { if (not(member(selected_products,prod)))
+          add(selected_products,prod);
+        return( verify(prod) );
+      }
+
+      tmp_labels   = rest(tmp_labels);
+      tmp_products = rest(tmp_products);
+    }
+
+    return(0);
+  }
+
+  /*----Do not install------------------------------------------------------*/
+
+  else
+  {
+    refresh_map_file = FALSE;
+    return(0);
+  }
+}
+

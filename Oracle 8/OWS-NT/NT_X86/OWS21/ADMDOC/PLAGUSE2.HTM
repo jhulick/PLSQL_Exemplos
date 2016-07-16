@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using The PL/SQL Agent
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="plaguse.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="plaguse1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="plaguse3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="998029">
+Invoking the PL/SQL Agent from a URL
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="998032">
+In general, PL/SQL Agent applications are invoked just as other applications are. See <a href="appover1.htm#418246">Invoking an Application</a>. The following features are specific to the PL/SQL Agent:<P>
+</A><ul type=disc><A NAME="998036">
+<LI><a href="plaguse2.htm#996985">Passing Multivalued Parameters (PL/SQL Tables) to the PL/SQL Agent</a>.
+</A>
+<A NAME="998037">
+<LI><a href="plaguse2.htm#996993">Overloading PL/SQL Agent Procedures and Functions</a>.
+</A>
+</ul><HR>
+<H2>
+<A NAME="996985">
+Passing Multivalued Parameters (PL/SQL Tables) to the PL/SQL Agent
+</A>
+</H2>
+<A NAME="996986">
+Some HTML variables can have multiple values, such as form fields that allow multiple selection. The HTML tag "SELECT" allows users to select values from a given set. In this case, you can pass the multiple values to a single <a href="gloss.htm#420867">PL/SQL table</a>. Among other things, this makes it easy for you to be flexible about how many values the user can pick, and it makes it easy for you to process her answers as a unit.<P>
+</A><A NAME="996987">
+When you pass a group of values to a PL/SQL table, they are each stored in subsequent rows of the table. For this reason, you must pass all of the values together. Since the rows of a PL/SQL table are identified only by sequential numbers, you must also preserve the order of the values, if that order is significant. This is an exception to the general rule that you need not be concerned with the order in which PL/SQL parameters are given in the URL or the <a href="gloss.htm#422259">HTTP header</a>.<P>
+</A><A NAME="996988">
+Here are some links to PL/SQL Web page samples that use PL/SQL tables to pass multivalued parameters.<P>
+</A><ul type=disc><A NAME="996989">
+<LI>The <a href="plaex2.htm#417939">QUERY_FORM PL/SQL Web Page Example</a> prints an HTML page using all the columns of a specified table. It is also a good example of how to use PL/SQL code to create Web pages.
+</A>
+<A NAME="996990">
+<LI>The <a href="plaex3.htm#418544">DO_QUERY PL/SQL Web Page Example</a> is a variation on QUERY_FORM that let's the user choose which columns to include in the query.
+</A>
+</ul><A NAME="996991">
+As these examples show, if you cannot guarantee that at least one value will be submitted for the PL/SQL table, it is a good idea to use a hidden place-holder variable as the first value. This is because you cannot provide a default <a href="gloss.htm#421220">NULL</a> value for a PL/SQL table and therefore have no easy way to deal with the empty set. If it is legitimate for a user to select zero options, you have to handle that case specially. Not providing a value for the PL/SQL table will produce an error.<P>
+</A><A NAME="996992">
+Note that PL/SQL tables used as parameters to the PL/SQL Agent must have a base type of <a href="gloss.htm#421696">VARCHAR2</a>. However, Oracle can convert VARCHAR2 to many other datatypes, such as NUMBER, DATE, or LONG. The maximum length of a VARCHAR2 value is 32K (32767 bytes). <P>
+</A><HR>
+<H2>
+<A NAME="996993">
+Overloading PL/SQL Agent Procedures and Functions
+</A>
+</H2>
+<A NAME="996994">
+PL/SQL allows you to overload procedures and functions that are in PL/SQL packages (standalone procedures and functions cannot be overloaded). In overloading, multiple procedures or functions have the same name, but are distinguished by the fact that they take different parameters. Normally, in PL/SQL, the matching parameters of overloaded procedures can be distinguished by having different datatypes. Since HTML data is not associated with datatypes, however, WebServer requires that matching parameters have different names. <P>
+</A><HR>
+<H2>
+<A NAME="998249">
+Related Information
+</A>
+</H2>
+<A NAME="998320">
+For general information on overloading in PL/SQL, see <em>Overloading Subprograms</em> under "Overview of the Oracle7 Server, SQL, and PL/SQL" in the Introduction to the Oracle WebServer. For an example of PL/SQL Agent overloading, see the <a href="plaex4.htm#418233">OVERLOAD PL/SQL Web Page Example</a>.<P>
+</A><A NAME="998318">
+<a href="appover1.htm#418246">Invoking an Application</a>, <a href="psqlwtlk.htm#10346">PL/SQL Web Toolkit Reference</a>, the <em>Oracle7 Server SQL Reference</em>, the <em>PL/SQL User's Guide and Reference.</em><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="plaguse.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="plaguse1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="plaguse3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

@@ -1,0 +1,81 @@
+                             [Oracle WebServer]
+
+                      Oracle WebServer Demonstrations
+
+The Oracle WebServer demo directory contains source-code for one demo
+using the PL/SQL Agent.
+
+Oracle Travel demonstrates a complex train ticket purchasing
+application.
+
+----------------------------------------------------------------------------
+
+How to install
+--------------
+
+The Travel Demo is automatically installed into the OWA_DBA DCD, which
+runs on the Administration Listener. If you would like to install it
+using a different DCD, you must follow the following steps.
+
+  1. Create a new DCD
+
+  2. Reconfigure Oracle Web Listener
+
+     If your listener does not have a virtual directory named /tr-img, you
+     must create it using the Oracle Web Listener administration screen. The
+     directory should be mapped to the physical directory
+     ${ORACLE_HOME}/ows21/demo/img/
+
+  3. Install Database Objects
+
+     Using server manager line mode (svrmgrl), connect to the Oracle account
+     corresponding to the DCD created in step 1. Run the script
+     "demoins.sql":
+
+             SVRMGR> @?/ows21/demo/demoins
+
+     NOTE: If you wish to rerun demoins, please run demodrop.sql first.
+
+     NOTE: If you fail to create the TR and TRU packages due to insufficient
+     free space in the shared pool (SGA), either increase the init.ora
+     parameter shared_pool_size and restart Oracle7, or issue the following
+     command while connected as INTERNAL to defragment the shared pool:
+
+             alter system flush shared_pool;
+
+     Then reconnect to the demo user, and run trui.sql. You do not have to
+     run trdrop.sql or demodrop.sql first.
+
+  4. Reload Web Listener
+
+     Stop and then restart the Oracle Web Listener from the Oracle Web
+     Listener Administration page. This will cause it to reload its
+     configuration file, which is necessary in order for the above directory
+     mapping changes to take effect.
+
+  5. Run the Demo!
+
+     Connect to the demo from the WebServer Home Page or with the following
+     URL:
+
+             http://your.host:port/demo/owa/tr.splash
+
+        o your.host is your official hostname
+        o port is the TCP port for the Oracle Web Listener
+        o demo is the service name(s) created in step 1
+
+     Note: If you are unable to connect to the demo at this point, check the
+     logfiles in $ORACLE_HOME/ows/log for possible diagnostics. Also, make
+     sure you are specifying the right port in the URL. If you do not get
+     the demo images loaded correctly, manually check the Oracle Web
+     Listener configuration and repeat step 4. Use "View source" in your
+     browser to see where the images are expected to be.
+
+     Warning: The TR demo implements a detailed audit trail in the TX_DATA
+     table, which grows rapidly under heavy use. It is safe to truncate the
+     table periodically, or disable the audit trail by manually editing the
+     procedure "tx.put" in the file trbuild.sql, commenting out the insert
+     statement.
+
+
+

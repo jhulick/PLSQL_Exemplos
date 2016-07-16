@@ -1,0 +1,539 @@
+/* Copyright (c) Oracle Corporation 1995.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    ows21.ins - V3.1 version installation script for Oracle WebServer 2.1
+                for Windows NT
+
+  DESCRIPTION
+    This script installs Oracle WebServer 2.1 for Windows NT
+
+  OWNER
+    Eric Esselink
+
+  MODIFIED    DD-MMM-YY  Reason
+    mrlai      11/DEC/96 Modified for the upgrade process
+    eesselin   22/NOV/96 Changed for OWS 2.1
+    eesselin   06/OCT/96 Changed for OWS 2.0.3.2.0
+    eesselin   05/16/95  Adapted for OWS 2.0
+    Ljiang     11/16/95  Created
+*****************************************************************************/
+{
+    if (doit)
+        {
+            ins_ratchet = "2.1.0.3.1";
+            execute("%installer_home%\nt.ins");
+            exit_nsapi_config = nls("exit_nsapi_config","Exiting %prod_name%.");
+
+            /************** modify registry ************/
+            /* must do it here, since when starting web listener, the entry is used */
+            if (set_ows21)
+            {
+                ui_action(instantiate(modifying_config));
+                modify("OWS21", ows21, ora_config, product_filename(current_product));
+            }
+
+            install(w32rsf73);
+            install(w32util73);
+
+            /*********** copy files **********/
+            PARM = "%1 %2 %3 %4 %5 %6 %7 %8 %%9";
+
+            ui_product(product_label);
+
+            permit_retry_operations = TRUE;
+
+            { ui_graphics ("%product_home%\mesg3.bmp"); }
+            [ 'default: continue();]
+
+            /* Copy ShellExtension-dependent shortcuts over for NT 4.0 or later */
+            ms_ver = operating_system_version();
+            if (ms_ver > "3.51")
+            {
+                copy(icons);
+            }
+
+            ui_action(instantiate(installing_scripts));
+            copy(deinstl);
+
+            ui_action(instantiate(installing_bin));
+            copy(bin);
+
+            old_retry = permit_retry_operations;
+            permit_retry_operations = FALSE;
+            done = FALSE;
+            while(not(done))
+            {
+                copy(cpl);
+                done = TRUE;
+            }
+            [
+                'DEFAULT:
+                    information_dialog(instantiate(cpl_inst), 'NO_HELP);
+            ]
+            permit_retry_operations = old_retry;
+
+            ui_action(instantiate(installing_msbs));
+            copy(mesg);
+
+            if (reinst_ows == reinst_complete)
+            {
+                old_retry = permit_retry_operations;
+                permit_retry_operations = FALSE;
+                    ui_action(instantiate(installing_cfg));
+                /* Back up the original cfg file */
+                { copy_file("%OWS21%\ADMIN\sv%dft_lsnr_name%.cfg","%OWS21%\ADMIN\sv%dft_lsnr_name%.cfg.sav"); }
+                [ 'DEFAULT: continue();]
+                { copy_file("%OWS21%\ADMIN\sv%dft_lsnr_name%.app","%OWS21%\ADMIN\sv%dft_lsnr_name%.app.sav"); }
+                [ 'DEFAULT: continue();]
+                permit_retry_operations = old_retry;
+                copy(cfg);
+            }
+
+            ui_action(instantiate(installing_admin));
+            copy(admin);
+
+            ui_action(instantiate(installing_admbin));
+            copy(admbin);
+
+            ui_action(instantiate(installing_admdoc));
+            copy(admdoc);
+
+            ui_action(instantiate(installing_doc));
+            copy(doc);
+
+            ui_action(instantiate(installing_img));
+            copy(img);
+
+            ui_action(instantiate(installing_demo));
+            copy(demo);
+
+            if (reinst_ows == reinst_complete)
+            {
+                old_retry = permit_retry_operations;
+                permit_retry_operations = FALSE;
+                ui_action(instantiate(installing_new));
+                /* Back up the original default web page file */
+                { copy_file("%ows21%\new\index.html","%ows21%\new\index.html.sav"); }
+                [ 'DEFAULT: continue();]
+                permit_retry_operations = old_retry;
+                copy(new);
+            }
+
+            ui_action(instantiate(installing_sample));
+            copy(sample);
+
+            ui_action(instantiate(installing_wrbsdk));
+            copy(wrbsdk);
+
+            ui_action(instantiate(installing_log));
+            copy(log);
+
+            ui_action(instantiate(installing_java));
+            copy(java);
+
+            /* copy over temporary wlctl */
+            copy(tmpbin);
+
+            /************** httpd dependent stuff ********/
+
+            /* Set registry keys */
+            win32_set_value ("HKEY_LOCAL_MACHINE","Software\Oracle","OWS_ADPCFG","%OWS21%\admin\adpspy.cfg");
+            win32_set_value ("HKEY_LOCAL_MACHINE","Software\Oracle","OWS_ADPSO","%OWS21%\bin\ndwfs.dll");
+
+            if ((ows_action == "Spyglass") && (reinst_ows == reinst_complete))
+            {
+                old_retry = permit_retry_operations;
+                permit_retry_operations = FALSE;
+                /* back up old files */
+                { copy_file("%OWS21%\ADMIN\sv%sec_lsnr_name%.cfg","%OWS21%\ADMIN\sv%sec_lsnr_name%.cfg.sav"); }
+                [ 'DEFAULT: continue();]
+                { copy_file("%OWS21%\ADMIN\sv%sec_lsnr_name%.app","%OWS21%\ADMIN\sv%sec_lsnr_name%.app.sav"); }
+                [ 'DEFAULT: continue();]
+                { copy_file("%OWS21%\ADMIN\owl.cfg","%OWS21%\ADMIN\owl.cfg.sav"); }
+                [ 'DEFAULT: continue();]
+                permit_retry_operations = old_retry;
+
+                /* Install new install config files*/
+                copy (spy);
+
+                /* Create Spyglass admin and prod web listeners */
+                wait = TRUE;
+                ui_action(instantiate(web_creating_lsnr));
+                {
+                   spawn("%ows21%\bin\wlctl21 create %dft_lsnr_name%");
+                }
+                [ 'DEFAULT: information_dialog(instantiate(web_failure_of_crtlsnr), 'NO_CANCEL); ]
+                if (wait) { wait_time = 2000;  while (wait_time > 0) wait_time = wait_time - 1; }
+
+                {
+                   spawn("%ows21%\bin\wlctl21 create %sec_lsnr_name%");
+                }
+                [ 'DEFAULT: information_dialog(instantiate(web_failure_of_crtlsnr), 'NO_CANCEL); ]
+                if (wait) { wait_time = 2000;  while (wait_time > 0) wait_time = wait_time - 1; }
+
+                if (path_modified == false)
+                {
+                    /* Start admin and prod web listeners */
+                    ui_action(instantiate(web_starting_lsnr));
+
+                    service_name = dft_lsnr_name;
+                    {
+                       winnt_start_service("OracleWWWListener%dft_lsnr_name%");
+                    }
+                    [ 'DEFAULT : information_dialog(instantiate(web_failure_of_strtlsnr), 'NO_CANCEL); ]
+
+
+                    service_name = sec_lsnr_name;
+                    {
+                        winnt_start_service("OracleWWWListener%sec_lsnr_name%");
+                    }
+                    [ 'DEFAULT : information_dialog(instantiate(web_failure_of_strtlsnr), 'NO_CANCEL); ]
+                }
+            }
+
+            if (ows_action == "Upgrade")
+            {
+                /* Get ows20 value */
+                { ows20 = win32_get_value ("HKEY_LOCAL_MACHINE","Software\Oracle","OWS20"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("subkey_not_present","OWS20 registry subkey is NOT present"))); ]
+
+                /* Get all listener names */
+                temp = service_list;
+                lsnr_list = list();
+                while (not(empty(temp)))
+                {
+                    service_name = first(temp);
+
+                    lsnr_name = replace(service_name,"OracleWWWListener","");
+                    add(lsnr_list,lsnr_name);
+                    temp = rest(temp);
+                }
+
+                /* Save the old listeners config files into 21 dir. structure */
+                temp = lsnr_list;
+                temp_cur_dir = directory_name(current_script);
+                while (not(empty(temp)))
+                {
+                    lsnr_name = first(temp);
+
+                    if (exists("%OWS20%\admin\sv%lsnr_name%.cfg") && exists("%OWS20%\admin\sv%lsnr_name%.app"))
+                    {
+                        /* Copy APP/Config files */
+                        old_retry = permit_retry_operations;
+                        permit_retry_operations = FALSE;
+                        { copy_file("%OWS20%\admin\sv%lsnr_name%.cfg","%OWS21%\admin\sv%lsnr_name%.cfg"); }
+                        [ 'DEFAULT : continue(); ]
+                        { copy_file("%OWS20%\admin\sv%lsnr_name%.app","%OWS21%\admin\sv%lsnr_name%.app"); }
+                        [ 'DEFAULT : continue(); ]
+                        permit_retry_operations = old_retry;
+
+                        /* Upgrade from 201 to 21 */
+                        dll_exec_string = "%temp_cur_dir%\install\repl.exe %OWS21%\admin\sv%lsnr_name%.cfg %quotation_mark%owlwrb.dll%quotation_mark% %quotation_mark%ndwfss.dll%quotation_mark%";
+                        spawn("%dll_exec_string%");
+
+                        /* Upgrade from 203 to 21 */
+                        dll_exec_string = "%temp_cur_dir%\install\repl.exe %OWS21%\admin\sv%lsnr_name%.cfg %quotation_mark%dispatcher.dll%quotation_mark% %quotation_mark%ndwfss.dll%quotation_mark%";
+                        spawn("%dll_exec_string%");
+
+                        /* Generic APP upgrade to 21 */
+                        entry_exec_string = "%temp_cur_dir%\install\repl.exe %OWS21%\admin\sv%lsnr_name%.cfg %quotation_mark%ndwlld_DynamicInit%quotation_mark% %quotation_mark%oracle_adp_init%quotation_mark%";
+                        spawn("%entry_exec_string%");
+                        entry_exec_string = "%temp_cur_dir%\install\repl.exe %OWS21%\admin\sv%lsnr_name%.cfg %quotation_mark%ows20%quotation_mark% %quotation_mark%OWS21%quotation_mark%";
+                        spawn("%entry_exec_string%");
+                        entry_exec_string = "%temp_cur_dir%\install\repl.exe %OWS21%\admin\sv%lsnr_name%.app %quotation_mark%ows20%quotation_mark% %quotation_mark%OWS21%quotation_mark%";
+                        spawn("%entry_exec_string%");
+                    }
+
+                    temp = rest(temp);
+                }
+
+                /* Copy OWA/OWL config files */
+                entry_exec_string = "cmd.exe /c %quotation_mark%copy %OWS20%\admin\owa.cfg %OWS21%\admin\owa.cfg %quotation_mark%";
+                spawn("%entry_exec_string%");
+                entry_exec_string = "cmd.exe /c %quotation_mark%copy %OWS20%\admin\owl.cfg %OWS21%\admin\owl.cfg %quotation_mark%";
+                spawn("%entry_exec_string%");
+
+                /* Upgrade the config files */
+                entry_exec_string = "%temp_cur_dir%\install\repl.exe %OWS21%\admin\owa.cfg %quotation_mark%ows20%quotation_mark% %quotation_mark%ows21%quotation_mark%";
+                spawn("%entry_exec_string%");
+                entry_exec_string = "%temp_cur_dir%\install\repl.exe %OWS21%\admin\owl.cfg %quotation_mark%ows20%quotation_mark% %quotation_mark%ows21%quotation_mark%";
+                spawn("%entry_exec_string%");
+
+                /* Deinstall ows 2.0 */
+                if (deinst_ows20)
+                {
+                    ui_action(instantiate(deinstalling_ows20));
+
+                    remove(oldfiles);
+                    { unregister(registration("ntows20")); }
+                    [ 'DEFAULT : continue(); ]
+
+                    { win32_set_value ("HKEY_LOCAL_MACHINE","Software\Oracle","OWS20",""); }
+                    [ 'DEFAULT : continue(); ]
+                }
+
+                /* Delete all 20 weblisteners */
+                ui_action(instantiate(web_deleting_lsnr));
+
+                temp = service_list;
+                while (not(empty(temp)))
+                {
+                    wait = true;
+                    service_name = first(temp);
+                    {
+                        winnt_delete_service(service_name);
+                    }
+                    [ 'DEFAULT :
+                        {
+                            wait = false;
+                            continue();
+                        }
+                    ]
+                    temp = rest(temp);
+                    if (wait) { wait_time = 1000;  while (wait_time > 0) wait_time = wait_time - 1; }
+                }
+
+                /* Create all 2.1 weblisteners */
+                ui_action(instantiate(web_creating_lsnr));
+
+                temp = lsnr_list;
+                while (not(empty(temp)))
+                {
+                    wait = true;
+                    lsnr_name = first(temp);
+
+                    {
+                        spawn("%ows21%\bin\wlctl21 create %lsnr_name%");
+                    }
+                    [
+                        'DEFAULT:
+                            {
+                                information_dialog(instantiate(web_failure_of_crtlsnr), 'NO_CANCEL);
+                                wait = false;
+                            }
+                    ]
+                    if (wait) { wait_time = 2000;  while (wait_time > 0) wait_time = wait_time - 1; }
+
+                    temp = rest(temp);
+                }
+
+                if (path_modified == false)
+                {
+                    /* Start all 2.1 weblisteners */
+                    ui_action(instantiate(web_starting_lsnr));
+
+                    temp = lsnr_list;
+                    while (not(empty(temp)))
+                    {
+                        wait = true;
+                        lsnr_name = first(temp);
+                        service_name = lsnr_name;
+
+                        {
+                            winnt_start_service("OracleWWWListener%lsnr_name%");
+                        }
+                        [
+                            'DEFAULT :
+                           {
+                             information_dialog(instantiate(web_failure_of_strtlsnr), 'NO_CANCEL);
+                             wait = false;
+                           }
+                        ]
+                        if (wait) { wait_time = 2000;  while (wait_time > 0) wait_time = wait_time - 1; }
+
+                        temp = rest(temp);
+                    }
+                }
+
+                /* remind user to restart Netscape Server */
+                add(remind_list, instantiate(ows20_upgrade_info));
+            }
+
+            if ((ows_action == "Microsoft") && (reinst_ows == reinst_complete))
+            {
+                /* Set registry keys */
+                win32_set_value ("HKEY_LOCAL_MACHINE","Software\Oracle","IIS_ADPCFG","%OWS21%\admin\adpiis.cfg");
+
+                /* Get filters */
+                { iis_adpcfg = win32_get_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters","Filter DLLs"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Microsoft Filter DLLs registry value is NOT present"))); ]
+
+                /* Concat filters together */
+                filters = list(iis_adpcfg,"%ows21%\bin\ndwfis.dll");
+                new_filter = implode(filters,",");
+
+                /* Writing new filter path */
+                { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters","Filter DLLs", new_filter); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not upgrade Microsoft registry value Filter DLLs"))); ]
+
+                /* Writing new virtual path's */
+                { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-bin/,", "%ows21%\bin,,5"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not insert new Microsoft virtual path values"))); ]
+                { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-doc/,", "%ows21%\doc,,5"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not insert new Microsoft virtual path values"))); ]
+                { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows-img/,", "%ows21%\img,,1"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not insert new Microsoft virtual path values"))); ]
+                { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/ows21/,", "%ows21%\bin,,5"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not insert new Microsoft virtual path values"))); ]
+                { win32_set_value ("HKEY_LOCAL_MACHINE","SYSTEM\CurrentControlSet\Services\W3SVC\Parameters\Virtual Roots","/sample/wrbsdk/mywrbapp/", "%OWS21%\sample\wrbsdk\mywrbapp\,,1"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not insert new Microsoft virtual path values"))); ]
+
+
+                /* added to work with CGI */
+                { win32_set_value ("HKEY_LOCAL_MACHINE", "SYSTEM\CurrentControlSet\Services\W3SVC\Parameters", "CreateProcessWithNewConsole", 1); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not set Microsoft registry entry"))); ]
+
+                /* Set Oracle registry keys */
+                { win32_set_value ("HKEY_LOCAL_MACHINE","Software\Oracle","USERDBDIR","%ows21%\admin"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_subkey_not_present","Could not insert new Microsoft virtual path values"))); ]
+
+                /* Copy ms config files*/
+                copy (msapi);
+                old_retry = permit_retry_operations;
+                permit_retry_operations = FALSE;
+                { append_file("%ows21%\admin\ows.iis","%ows21%\admin\owl.cfg"); }
+                [ 'DEFAULT: continue();]
+                permit_retry_operations = old_retry;
+                { copy_file("%ows21%\admin\servapp.dfl","%ows21%\admin\svw3svc.app"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_appfile_not_present","Can not copy .app file to destination."))); ]
+
+                /* Create Spyglass admin web listener */
+                wait = TRUE;
+                ui_action(instantiate(web_creating_lsnr));
+                {
+                   spawn("%ows21%\bin\wlctl21 create %dft_lsnr_name%");
+                }
+                [ 'DEFAULT: information_dialog(instantiate(web_failure_of_crtlsnr), 'NO_CANCEL); ]
+                if (wait) { wait_time = 2000;  while (wait_time > 0) wait_time = wait_time - 1; }
+
+
+                if (path_modified == false)
+                {
+                    /* Start admin web listener */
+                    ui_action(instantiate(web_starting_lsnr));
+
+                    service_name = dft_lsnr_name;
+                    {
+                       winnt_start_service("OracleWWWListener%dft_lsnr_name%");
+                    }
+                    [ 'DEFAULT : information_dialog(instantiate(web_failure_of_strtlsnr), 'NO_CANCEL); ]
+                }
+
+                /* remind user to restart iis */
+                add(remind_list, iis_restart_info);
+            }
+
+            if (((ows_action == "FastTrack") || (ows_action == "Enterprise")) && (reinst_ows == reinst_complete))
+            {
+                /* Stop the ns httpd service */
+                {
+                    winnt_stop_service("httpd-%comp_name%");
+                }
+                [ 'DEFAULT : continue(); ]
+                ns_httpd_keyname = "Software\Netscape\%httpd_name%-%comp_name%";
+                old_retry = permit_retry_operations;
+                permit_retry_operations = FALSE;
+
+                /* Save the original ns obj.conf file */
+                { copy_file("%ns_home%/config/obj.conf","%ns_home%/config/obj.conf.sav"); }
+                [ 'DEFAULT: continue();]
+                permit_retry_operations = old_retry;
+
+                /* Replace back slash with forward slash, since netscape can't handle back slashes */
+                old_oracle_home = oracle_home;
+                old_ows21 = ows21;
+                oracle_home = replace (oracle_home,"\","/");
+                ows21 = replace (ows21,"\","/");
+
+                if (ows_action == "FastTrack")
+                    server_soft_string = "FastTrack/2.0";
+                else
+                    server_soft_string = "Enterprise";
+
+                /* Copy ns config files*/
+                copy (nsapi);
+
+                old_retry = permit_retry_operations;
+                permit_retry_operations = FALSE;
+                { append_file("%ows21%\admin\ows.nsc","%ows21%\admin\owl.cfg"); }
+                [ 'DEFAULT: continue();]
+                permit_retry_operations = old_retry;
+
+
+                { copy_file("%ows21%\admin\servapp.dfl","%ows21%\admin\sv%comp_name%.app"); }
+                [ 'DEFAULT : signal('failure,instantiate(nls("ns_appfile_not_present","Can not copy .app file to destination."))); ]
+
+                /* Restore old system var's */
+                oracle_home = old_oracle_home;
+                ows21 = old_ows21;
+
+                /* Create Spyglass admin web listener */
+                wait = TRUE;
+                ui_action(instantiate(web_creating_lsnr));
+                {
+                   spawn("%ows21%\bin\wlctl21 create %dft_lsnr_name%");
+                }
+                [ 'DEFAULT: information_dialog(instantiate(web_failure_of_crtlsnr), 'NO_CANCEL); ]
+                if (wait) { wait_time = 2000;  while (wait_time > 0) wait_time = wait_time - 1; }
+
+                if (path_modified == false)
+                {
+                    /* Start admin web listener */
+                    ui_action(instantiate(web_starting_lsnr));
+
+                    service_name = dft_lsnr_name;
+                    {
+                       winnt_start_service("OracleWWWListener%dft_lsnr_name%");
+                    }
+                    [ 'DEFAULT : information_dialog(instantiate(web_failure_of_strtlsnr), 'NO_CANCEL); ]
+                }
+
+                /* remind user to look at migration doc */
+                add(remind_list, instantiate(migrate_info));
+
+                /* remind user to restart Netscape Server */
+                add(remind_list, instantiate(ns_restart_info));
+            }
+
+            if ((path_modified == false) && (reinst_ows == reinst_partial))
+            {
+                /* Start all 2.1 weblisteners */
+                wait = TRUE;
+                ui_action(instantiate(web_starting_lsnr));
+
+                temp = service_list;
+                while (not(empty(temp)))
+                {
+                    service_name = first(temp);
+
+                    {
+                        winnt_start_service("%service_name%");
+                    }
+                    [
+                        'DEFAULT :
+                       {
+                         information_dialog(instantiate(web_failure_of_strtlsnr), 'NO_CANCEL);
+                         wait = false;
+                       }
+                    ]
+                    if (wait) { wait_time = 2000;  while (wait_time > 0) wait_time = wait_time - 1; }
+
+                    temp = rest(temp);
+                }
+            }
+
+
+            /* now remove temporary wlctl */
+            remove(tmpbin);
+
+            /************* register the product ***********/
+            ui_action(instantiate(registering));
+            register(current_product);
+            if (member(selected_products, current_product))
+                reference(current_product);
+            reference(w32rsf73, current_product);
+            reference(w32util73, current_product);
+            permit_retry_operations = FALSE;
+    }
+}
+

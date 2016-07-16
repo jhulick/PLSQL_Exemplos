@@ -1,0 +1,80 @@
+<HTML>
+<HEAD>
+<TITLE>WRB Cartridge Administration</TITLE>
+<!-- Changed by: Shehzaad Nakhoda, 14-Mar-1996 -->
+<!-- Changed by: Magnus M. Lonnroth, 18-Mar-1996 -->
+<!-- Changed by: Shehzaad Nakhoda, 20-Mar-1996 -->
+</HEAD>
+
+<BODY background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<A HREF="/ows-abin/wrbadmin.exe">
+<IMG SRC="/ows-img/icnwrb.gif" width=64 height=64 border=0 align=right></A>
+<IMG SRC="/ows-img/webreqbr.gif" width=560 height=55>
+<br clear=right>
+
+<H2>
+<font color="#BB0000">
+<EM>WRB Cartridge Configuration for Listener %s</EM>
+</font>
+</H2>
+
+<STATUS>
+
+<FORM ACTION="/ows-abin/wrbadmin.exe" METHOD="POST">
+<INPUT TYPE="hidden" NAME="ListenerName" VALUE="%s">
+<INPUT TYPE="hidden" NAME="ServerRoot" VALUE="%s">
+<INPUT TYPE="hidden" NAME="FORM_CODE" VALUE="MOD_WRB_CARTRIDGE">
+<INPUT TYPE="hidden" NAME="CartridgeName" VALUE=%s>
+
+<STRONG>Cartridge</STRONG>: %s
+
+<P>
+
+<A HREF="/ows-abin/wrbadmin.exe?FORM_CODE=INTRO&%s">Go back to WRB 
+configuration for this listener.</A>
+
+<HR>
+
+<H2>
+<font color="#BB0000">
+<EM>Cartridge Parameters</EM>
+</font>
+</H2>
+
+<PRE>
+<Cartridge_READ>
+<INPUT TYPE="text" SIZE=25 NAME="[Cartridge].1.1">   =   <INPUT TYPE="text" SIZE=25 NAME="[Cartridge].1.2"> 
+<INPUT TYPE="text" SIZE=25 NAME="[Cartridge].2.1">   =   <INPUT TYPE="text" SIZE=25 NAME="[Cartridge].2.2"> 
+<INPUT TYPE="text" SIZE=25 NAME="[Cartridge].3.1">   =   <INPUT TYPE="text" SIZE=25 NAME="[Cartridge].3.2"> 
+<INPUT TYPE="text" SIZE=25 NAME="[Cartridge].4.1">   =   <INPUT TYPE="text" SIZE=25 NAME="[Cartridge].4.2"> 
+<INPUT TYPE="text" SIZE=25 NAME="[Cartridge].5.1">   =   <INPUT TYPE="text" SIZE=25 NAME="[Cartridge].5.2"> 
+</PRE>
+
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Modify Cartridge Configuration">
+<INPUT TYPE="SUBMIT" NAME="SUBMIT_BUTTON" VALUE="Delete Cartridge Configuration">
+
+<HR>
+
+<center>
+<A HREF="/ows-adoc/Intro.html">
+<IMG SRC="/ows-img/navadm.gif" ALT="Administration" border=0></A>
+<A HREF="/owa_dba/owa/browse.intro">
+<IMG SRC="/ows-img/navbrws.gif" ALT="Browse Database" border=0></A>
+<A HREF="/ows-doc/index.html">
+<IMG SRC="/ows-img/navhome.gif" ALT="OWS Home" border=0></A>
+<A HREF="/ows-abin/wrbadmin.exe">
+<IMG SRC="/ows-img/wrbhome.gif" slt="WRB Admin Home" border=0></A>
+<A HREF="/ows-abin/wladmin.exe">
+<IMG SRC="/ows-img/wlhome.gif" ALT="Listener Home" border=0></A>
+<A HREF="/ows-adoc/wrbcrmod.htm">
+<IMG SRC="/ows-img/navhelp.gif" ALT="Help" border=0></A>
+
+<P>
+
+<IMG SRC="/ows-img/tag3.gif" width=240 height=38>
+</center>
+
+</BODY>
+</HTML>
+
+

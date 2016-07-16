@@ -1,0 +1,27 @@
+{
+    ntinstver_product_description = nls("ntinstver_product_description","This product is written automatically to a Product Enumeration Script for the Installer to use for forward compatibility checking.");
+    ntinstall_product_description = nls("ntinstall_product_description","The Oracle Installer allows one to install, update, and remove products from a PC running Windows NT.");
+    ntrsf72_product_description = nls("ntrsf72_product_description","The Required Support Files product is a collection of files and libraries needed for Oracle applications in the Windows NT environment.");
+    ntobject20_product_description = nls("ntobject20_product_description","Oracle Objects(TM) for OLE is a collection of programmable objects that simplify communication between Oracle7 databases and applications that support Visual Basic custom controls (VBXs and OCXs) or OLE automation.");
+
+    w95instver_product_description = nls("w95instver_product_description","This product is written automatically to a Product Enumeration Script for the Installer to use for forward compatibility checking.");
+    w95install_product_description = nls("w95install_product_description","The Oracle Installer allows you to install, update, and remove products from a PC running Windows 95.");
+    w95rdbms73_product_description = nls("w95rdbms73_product_description", "The Oracle7 DBMS is a powerful, portable and scalable database management system (DBMS) that can be used for on-line transaction processing and for creating decision support applications.");
+    w32tcp23_product_description = nls("w32tcp23_product_description","TCP/IP Protocol Adapter is Oracle's network interface software.  It facilitates the communication between applications and databases on different computers.");
+    w32spx23_product_description = nls("w32spx23_product_description","SPX Protocol Adapter is Oracle's network interface software.  It facilitates the communication between applications and databases on different computers.");
+    w32nmp23_product_description = nls("w32nmp23_product_description","Named Pipes Protocol Adapter is Oracle's network interface software.  It facilitates the communication between applications and databases on different computers.");
+    w32util73_product_description = nls("w32util73_product_description","The Oracle7 Utilities provide a command line interface for complete database administration and migration of data stored in Oracle databases.");
+    w32rsf73_product_description = nls("w32rsf73_product_description","The Required Support Files are a collection of files and libraries needed for Oracle applications in the Windows 95 environment.");
+    w32netclt23_product_description = nls("w32netclt23_product_description","SQL*Net is Oracle's network interface software.  It facilitates the communication between applications and databases on different computers.");
+    w32plus33_product_description = nls("w32plus33_product_description","SQL*Plus is an ANSI-standard SQL query and administration tool with powerful extensions.");
+    w32oci73_product_description = nls("w32oci73_product_description","The Oracle Call Interface is a collection of header files and demo files used in developing applications that can communicate with Oracle databases.");
+    w95po7_product_description = nls("w95po7_product_description","Personal Oracle7 installs the Oracle7 DBMS and Oracle7 Utilities.");
+    w95dbint72_product_description = nls("w95dbint72_product_description","The Oracle Navigator is an interface that allows you to access the Oracle7 DBMS.");
+    w95hlpdoc73_product_description = nls("w95hlpdoc73_product_description","Online Help is a collection of help files for Personal Oracle7.");
+    w32pdfdoc73_product_description = nls("w95pdfdoc73_product_description","Online Oracle7 Documentation is the standard Oracle7 documentation in Adobe Acrobat format.");
+
+    if((bundle_name == P_O7_W_NT) || (bundle_name == P_O7_95))
+      w95netsrv23_product_description = nls("w95netsrv23_product_description","Oracle SQL*Net Server is the networking software product that allows the server machine to communicate with the client machine.");
+    else
+      w95netsrv22_product_description = nls("w95netsrv22_product_description","SQL*Net Add-On allows for Personal Oracle7 to participate in a two-phase commit transaction.");
+}

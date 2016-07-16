@@ -1,0 +1,5 @@
+SELECT MIN(codigo) //retorna o menor valor da coluna avaliada.
+FROM clientes
+
+* A Função MIN "Minimo", retorna o menor valor da expressão ou coluna informada, obviamente
+desconsiderando os valores Nulls.

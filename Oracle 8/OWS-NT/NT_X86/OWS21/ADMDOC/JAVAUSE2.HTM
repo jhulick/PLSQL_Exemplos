@@ -1,0 +1,158 @@
+<HTML>
+<HEAD>
+<TITLE>
+Using the Java&#153; Cartridge 
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="javause.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="javause1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="javause3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418913">
+Creating Java Wrappers for PL/SQL Packages (the pl2java Utility)
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418914">
+The Java Interpreter interfaces to the Oracle RDBMS by running <a href="gloss.htm#420774">PL/SQL</a> <a href="gloss.htm#420871">package</a>s or standalone PL/SQL procedures and functions. Each package an application is to run must have a package wrapper, which is a Java class containing methods to call that package's procedures and functions. Standalone procedures and functions are all wrapped in a single wrapper. Once you have identified or created the PL/SQL packages your applications needs, you can create the package wrappers for them by running the<em> pl2java </em>utility as follows:<P>
+</A><A NAME="418915">
+<PRE>pl2java [flags] username/password[@connect-string] packagename...</PRE><P>
+</A>
+<A NAME="418916">
+This utility creates a wrapper class for each package given as an argument to the command. When your application is run, it creates an instance of this class to interface to the package. If you have standalone procedures or functions in your applications, run the<em> pl2java</em> utility without any package names, but using the class flag as explained below. This will create a single class wrapper for all the standalone procedures and functions you use.<P>
+</A><HR>
+<H2>
+<A NAME="418917">
+Package Wrapper Components
+</A>
+</H2>
+<A NAME="419038">
+Here are the component definitions:<P>
+</A><DL COMPACT><A NAME="419042">
+<DT><a href="javause2.htm#418934"><em>flags</em></a>
+</A><DD>Options that control how the wrappers will be created. The specific flags are listed later in this page.<P>
+<A NAME="418925">
+<DT>username
+</A><DD>The name of the Oracle database user that owns the packages.<P>
+<A NAME="418927">
+<DT>password
+</A><DD>The password for the Oracle user identified by <em>username</em>.<P>
+<A NAME="418929">
+<DT>connect-string 
+</A><DD>The string that identifies the database where the packages are located. For <a href="gloss.htm#420877">local database</a>s, this is the Oracle SID, as described in the <em>Oracle7 Server Administrator's Guide.</em> For <a href="gloss.htm#421194">remote database</a>s, this is the SQL*Net Connect String, as described in <em>Understanding SQL*Net.</em><P>
+<A NAME="418931">
+<DT>package name...
+</A><DD>A list of all the PL/SQL <a href="gloss.htm#420871">package</a>s that your application references in the schema identified by username. To wrap standalone procedures and functions you must omit this component and must use the class flag to name the class wrapper that will be created. You should not include the containing schemas in the package names. It is good practice to keep all the packages, procedures, and functions you want to use in one schema. <P>
+</DL><A NAME="418934">
+<H4>flags</H4>
+</A>
+<A NAME="418935">
+All of the flags that <em>pl2java</em> uses are optional, except, under certain conditions, class. Here are the descriptions of the flags:<P>
+</A><DL COMPACT><A NAME="418936">
+<DT>-help
+</A><DD>Provides help information.<P>
+<A NAME="418938">
+<DT>-d &lt;dir&gt;
+</A><DD>Sets the directory where the wrapper classes will be stored. The default is the current directory.<P>
+<A NAME="418940">
+<DT>-package &lt;packagename&gt;
+</A><DD>Sets the Java package to which the wrappers belong.<P>
+<A NAME="418942">
+<DT>-class &lt;class&gt;
+</A><DD>Sets the Java class to which the wrappers will belong. If the <em>pl2java</em> utility is run against packages, this flag is optional. Java classes based on packages inherit by default the names of the packages they encapsulate. This flag can override that default, but it only applies to the first package named in the command. If the wrappers are being created for standalone procedures and functions, then this flag is mandatory, and all procedures and functions named in the command are grouped into the single class named by this flag. <P>
+</DL><A NAME="418944">
+The names of the classes follow the capitalization given in the command. Since PL/SQL is not case-sensitive, this capitalization need not follow that actually given in the PL/SQL code itself.<P>
+</A><HR>
+<H2>
+<A NAME="419028">
+PL/SQL Datatypes Not Accepted in Java
+</A>
+</H2>
+<A NAME="418946">
+There are certain PL/SQL datatypes that the <em>pl2java</em> utility cannot encapsulate. These are shown below, along with the recommended substitutes, if any:<p>
+<table border=3>
+<tr><th><A NAME="418949">
+<H5>Disallowed PL/SQL Datatype
+</H5>
+</A>
+<th><A NAME="418951">
+<H5>Substitute PL/SQL Datatype
+</H5>
+</A>
+
+<tr><td><A NAME="418953">
+POSITIVE <BR>
+</A><td><A NAME="418955">
+BINARY INTEGER<BR>
+</A>
+<tr><td><A NAME="418957">
+PL/SQL table of BINARY INTEGER, NATURAL or POSITIVE<BR>
+</A><td><A NAME="418959">
+PL/SQL table of NUMBER<BR>
+</A>
+<tr><td><A NAME="418961">
+PL/SQL table of LONG<BR>
+</A><td><A NAME="418963">
+PL/SQL table of CHAR or VARCHAR2<BR>
+</A>
+<tr><td><A NAME="418965">
+PL/SQL table of BOOLEAN<BR>
+</A><td><A NAME="418967">
+PL/SQL table of NUMBER, <em>treat 0 as false, 1 as true</em><BR>
+</A>
+<tr><td><A NAME="418969">
+ROWID <BR>
+</A><td><A NAME="418971">
+<em>none</em><BR>
+</A>
+<tr><td><A NAME="418973">
+MSLABEL<BR>
+</A><td><A NAME="418975">
+<em>none</em><BR>
+</A>
+<tr><td><A NAME="418977">
+PL/SQL table of ROWID<BR>
+</A><td><A NAME="418979">
+<em>none</em><BR>
+</A>
+<tr><td><A NAME="418981">
+PL/SQL table of MSLABEL <BR>
+</A><td><A NAME="418983">
+<em>none</em><BR>
+</A>
+
+</table>
+<P>
+</A><HR>
+<H2>
+<A NAME="419119">
+Related Information
+</A>
+</H2>
+<A NAME="419126">
+<a href="plaguse.htm#996890">Using The PL/SQL Agent</a>, <a href="psqlwtlk.htm#10346">The PL/SQL Web Toolkit Reference</a><P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="javause.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="javause1.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="javause3.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

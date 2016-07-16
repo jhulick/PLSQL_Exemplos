@@ -1,0 +1,5 @@
+SELECT *
+FROM exepedi
+WHERE endereco IS NULL
+
+*Selecione todos os enderecos quando Nulo.

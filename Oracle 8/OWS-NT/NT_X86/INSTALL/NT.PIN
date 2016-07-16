@@ -1,0 +1,22 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    nt.pin - V3 post install script for Windows products.
+
+  DESCRIPTION
+    This script performs post install functionality.  For smartstart, indicate
+    success.
+
+  OWNER
+    Mason Ng
+
+  MODIFIED    DD-MMM-YY  Reason
+    kjain     04-JUL-94  Removed spawn calls.
+    ming      21-JUN-94  Created.
+*****************************************************************************/
+
+{
+  ui_action("");
+  ui_product("");
+#EEVANS  { ui_graphics(); }['default: continue();]
+}

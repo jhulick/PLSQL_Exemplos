@@ -1,0 +1,121 @@
+/* Copyright (c) Oracle Corporation 1993.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    nt.avf - V3 ante version analysis script for nt products.
+
+  DESCRIPTION
+    This script performs ante version analysis functionality.  In particular,
+    it initializes the 'products_for_installation' list so that the Installer
+    can report which products need to be implicitly installed as a consequence
+    of the user's current configuration and product selection.  Also, 'reboot'
+    is initialized to allow scriptwriters to specify reasons for a reboot mes-
+    sage to be displayed in nt.pin.
+
+  OWNER
+    Kush Jain
+
+  MODIFIED    MM/DD/YY  Reason
+    eevans    09/27/95  Moved remind_list from nt95.avf to nt95.stp
+    zzerhoun  07/03/95  Remove children products/registries if parent selected
+    zzerhoun  07/20/95  Check SELECTED_PRODUCTS & SELECTED_REGISTRIES
+    zzerhoun  12/28/94  Initialize remind_list and remind_helps
+    kjain     02/18/94  Created.
+*****************************************************************************/
+{
+  if (bootstrap)
+  {
+    desired_installation = nls("desired_installation",
+			       "installation");
+    desired_deinstallation = nls("desired_deinstallation",
+	   			 "deinstallation");
+    {
+      if (user_action == 'install)
+      {
+        desired_action = desired_installation;
+        if (empty(selected_products))
+          signal('no_selection);
+        all_product_list = all_products();
+        desired_products = selected_products;
+        invalid_products = list();
+        while(not(empty(desired_products)))
+        {
+          current = first(desired_products);
+          if(not(member(all_product_list,current)))
+            add(invalid_products,current);
+          desired_products = rest(desired_products);
+        }
+        if(not(empty(invalid_products)))
+          signal('invalid_selection);
+
+     }
+      else if (user_action == 'deinstall)
+      {
+        desired_action = desired_deinstallation;
+        if (empty(selected_registries))
+          signal('no_selection);
+        desired_products = selected_registries;
+        invalid_products = list();
+        while(not(empty(desired_products)))
+        {
+          current = first(desired_products);
+          {
+            reg = registration(current);
+          }
+          [
+            'UNREGISTERED_PRODUCT:
+            add(invalid_products,current);
+          ]
+          desired_products = rest(desired_products);
+        }
+        if(not(empty(invalid_products)))
+          signal('invalid_selection);
+      }
+    }
+    ['no_selection:
+      {
+        no_selection_signal = nls("no_selection_signal","No products were selected for %%desired_action%%. User action is aborted.");
+        signal('FAILURE, instantiate(no_selection_signal));
+      }
+     'invalid_selection:
+      {
+        invalid_selection_string = implode(invalid_products,",");
+        invalid_selection_signal = nls("invalid_selection_signal","The following products are not available for %%desired_action%%. User action is aborted.%carriage_return%%carriage_return%%invalid_selection_string%");
+        signal('FAILURE, instantiate(invalid_selection_signal));
+      }
+    ]
+  }
+
+  if (user_action == 'install)
+    {
+      { 
+        ui_graphics("%product_home%\pic1.bmp"); 
+      }
+      [ 'FILE_NOT_FOUND:
+        { 
+          ui_graphics("%installer_home%\pic1.bmp"); 
+        }
+        [ 'FILE_NOT_FOUND:
+          { 
+            ui_graphics("%installer_home%\ocsmus.bmp"); 
+          }
+          [ 'default:continue();]
+        ]
+      ]
+
+
+      products_for_installation = list();
+      remove_file("%installer_home%\user.pin");
+      if (doSmartStart)                                  /* cd rom location */
+	{
+	  s_location = first(explode(product_home,"\"));	
+	  directorify(s_location);
+	}
+      failed_dos_client_install = nls("failed_dos_client_install",
+				      "DOS client installation failed");
+      failed_windows_client_install = nls("failed_windows_client_install",
+				      "Windows client installation failed");
+      installation_successful = nls("installation_successful","Installation Successful.");
+    }
+
+  return(0);
+}

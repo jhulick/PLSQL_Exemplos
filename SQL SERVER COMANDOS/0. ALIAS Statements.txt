@@ -1,0 +1,5 @@
+SELECT COD AS CODIGO, ENDER AS ENDEREÇO //Alias para Como a descrição do campo aparecerá para o usuario.
+FROM CLIENTES AS CLI //Como a tabela deverá ser referenciada, nao será mas conhecida como CLIENTES somente como CLI.
+WHERE CLI.COD > 100;
+
+*Alias são apelidos ou mascara que se dá a um campo ou tabela.

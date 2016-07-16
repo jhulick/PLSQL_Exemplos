@@ -1,0 +1,5 @@
+INSERT INTO PESSOA (IDPESSOA, NOME) VALUES (1, 'teste1');
+
+COMMIT WORK;
+
+Insere um novo registro na tabela.

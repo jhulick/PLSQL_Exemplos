@@ -1,0 +1,20 @@
+SELECT SUM(A1)
+FROM 
+(SELECT  SUM(FLAN.VALORORIGINAL) AS A1
+FROM FLAN, FCFO
+WHERE FCFO.CODCFO=FLAN.CODCFO AND 
+      FLAN.CODTDO<>005 AND -- Todos os tipos de documentos, exceto adiantamento. 
+      FLAN.STATUSLAN=0 AND --  Lancamentos em Aberto
+      FLAN.PAGREC=2 AND 
+      FCFO.NOMEFANTASIA LIKE 'FCC%'
+
+UNION
+
+SELECT  SUM(FLAN.VALORBAIXADO) AS A1
+FROM FLAN, FCFO
+WHERE FCFO.CODCFO=FLAN.CODCFO AND 
+      FLAN.CODTDO<>005 AND -- Todos os tipos de documentos, exceto adiantamento. 
+      FLAN.STATUSLAN=1 AND --  Lancamentos em Aberto
+      FLAN.PAGREC=2 AND 
+      FCFO.NOMEFANTASIA LIKE 'FCC%') AS SOMA
+

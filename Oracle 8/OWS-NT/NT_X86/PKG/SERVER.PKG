@@ -1,0 +1,38 @@
+/*****************************************************************************
+  Copyright (c) Oracle Corporation 1996.  All Rights Reserved
+
+  NAME
+    server.pkg
+
+  DESCRIPTION
+    Package file for NT WebServer - Server
+
+  OWNER
+    Eric Esselink
+
+  MODIFIED    DD-MMM-YY  Reason
+  eesselin    22-NOV-96  Changed for WebServer 2.1
+  eesselin    05-OCT-96  Changed for WebServer
+    dtom      01-AUG-95  Created
+*****************************************************************************/
+
+{
+  products      = list();
+  dflt_products = list();
+
+  { add(products     , ntows21     ); } ['UNBOUND_VARIABLE: continue();]
+  { add(dflt_products, ntows21     ); } ['UNBOUND_VARIABLE: continue();]
+
+  /*---installer can only be installed from distribution media---------*/
+  { if (distribution)
+    {
+      { add(products     , ntinstall ); } ['UNBOUND_VARIABLE: continue();]
+      { add(dflt_products, ntinstall ); } ['UNBOUND_VARIABLE: continue();]
+    }
+  }
+  [ 'UNBOUND_VARIABLE: continue(); ]
+
+  selection_title  = nls("selection_title",  "%%prod_label%%");
+  selection_prompt = nls("selection_prompt", "The following %%prod_label%% components will be installed.  Items that you do not wish to install may be de-selected.");
+  selection_help   = nls("selection_help",   "The default components of the %%prod_label%% will be installed.  Items that you do not wish to install may be de-selected.%carriage_return%%carriage_return%Items may be selected or de-selected by holding the CTRL key and clicking on the item with the mouse or by moving the cursor to the item and using the space bar to select or de-select the item.");
+}

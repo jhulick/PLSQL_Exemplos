@@ -1,0 +1,920 @@
+<HTML>
+<HEAD>
+<TITLE>
+Oracle WebServer Messages
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="TOC"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="421499">
+Oracle WebServer Messages
+</A>
+</H1>
+<HR><P><A NAME="422093">
+This appendix contains messages you may receive if you encounter errors while using Oracle WebServer. If you get an error message, look in this appendix to find the probable cause and suggestions of what to do.<P>
+</A><HR>
+<H2>
+<A NAME="422097">
+00001 - 00600 Generic Oracle WebServer Configuration Messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="421841">
+OWS--00000, "utility : normal, successful completion"
+</A>
+</H3>
+<A NAME="421905">
+Cause: Normal exit<P>
+</A><A NAME="421906">
+Action: None<P>
+</A><HR>
+<H3>
+<A NAME="421907">
+OWS--00001, "utility : unable to open file filename"
+</A>
+</H3>
+<A NAME="421908">
+Cause:   The file may not exist or may not be readable to the signalling program.<P>
+</A><A NAME="421909">
+Action: Verify the file's existence in the file-system. Check file and directory permissions and ownership, as well as the ownership of the signalling process.<P>
+</A><HR>
+<H3>
+<A NAME="421911">
+OWS--00002, "utility : error reading file filename"
+</A>
+</H3>
+<A NAME="421912">
+Cause:   Usually an operating system error. If the problem had been file permissions or non-existence, error 1 would have been signalled.<P>
+</A><A NAME="421913">
+Action: Check your operating system log for errors.<P>
+</A><HR>
+<H3>
+<A NAME="421914">
+OWS--00003, "utility : error writing file filename"
+</A>
+</H3>
+<A NAME="421915">
+Cause:   Usually an operating system error. If the problem had been file permissions or non-existence, error 1 would have been signalled.<P>
+</A><A NAME="421916">
+Action: Check your operating system log for errors.<P>
+</A><HR>
+<H3>
+<A NAME="423598">
+OWS--00004, "utility : unable to open directory directory-name"
+</A>
+</H3>
+<A NAME="423599">
+Cause:   The directory may not be readable to the signalling program.<P>
+</A><A NAME="423600">
+Action:  Check existence of directory and file system permissions.<P>
+</A><HR>
+<H3>
+<A NAME="421917">
+OWS--00010, "utility : file format error when reading filename"
+</A>
+</H3>
+<A NAME="421918">
+Cause:   The signalling program expected a specific file format, which it did not find.<P>
+</A><A NAME="421919">
+Action: Analyze the file for incorrect formatting.<P>
+</A><HR>
+<H3>
+<A NAME="421920">
+OWS--00011, "Installation not completed.  Root.sh must be run"
+</A>
+</H3>
+<A NAME="421921">
+Cause:   The signalling program checked if root.sh completed successfully.<P>
+</A><A NAME="421922">
+Action: Run root.sh as indicated by your installation guide.<P>
+</A><HR>
+<H3>
+<A NAME="421923">
+OWS--00020, "utility : out of memory when requesting number bytes"
+</A>
+</H3>
+<A NAME="421924">
+Cause:   The operating system was not able to supply the requested amount of memory.<P>
+</A><A NAME="421925">
+Action: Reduce the number of running programs on the machine and retry the operation.<P>
+</A><HR>
+<H3>
+<A NAME="421926">
+OWS--00600, "utility : internal error, arguments [arg1][arg2][arg3][arg4][arg5]"
+</A>
+</H3>
+<A NAME="421927">
+Cause: This is the generic internal error number for NDW program exceptions. This indicates that a process has encountered an exceptional condition.<P>
+</A><A NAME="421928">
+Action: Report as a bug - the first argument is the internal error number<P>
+</A><HR>
+<H2>
+<A NAME="421930">
+5000 - 5499 : Oracle Web Agent errors.
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="421932">
+OWS--05100, "Agent : unable to connect due to Oracle error number"
+</A>
+</H3>
+<A NAME="421933">
+Cause: The Oracle Web Agent was unable to connect to the specified Database due to an Oracle error.<P>
+</A><A NAME="421934">
+Action: See the corresponding Oracle error. Common errors are: invalid username/password - check the Web Agent configuration file; Oracle not available - start up the database.<P>
+</A><HR>
+<H3>
+<A NAME="421935">
+OWS--05101, "Agent : execution failed due to Oracle error number"
+</A>
+</H3>
+<A NAME="421937">
+Action: See the Oracle error on the error stack.<P>
+</A><HR>
+<H3>
+<A NAME="421938">
+OWS--05102, "Agent : initialization failed due to error number"
+</A>
+</H3>
+<A NAME="421940">
+Action: See the Oracle error on the error stack.<P>
+</A><HR>
+<H3>
+<A NAME="421941">
+OWS--05103, "Agent : error number during initialization"
+</A>
+</H3>
+<A NAME="421943">
+Action: See the Oracle error on the error stack.<P>
+</A><HR>
+<H3>
+<A NAME="421944">
+OWS--05104, "Agent : unable to attach to host database: [ORACLE_HOME], [ORACLE_SID], [SQL*Net V2 Service]"
+</A>
+</H3>
+<A NAME="421946">
+Action: See the Oracle error on the error stack.<P>
+</A><HR>
+<H3>
+<A NAME="423477">
+OWS--05105, "Agent : authorization failed due to Oracle error number"
+</A>
+</H3>
+<A NAME="423478">
+Cause:  The Oracle Web Agent was unable to perform authorization for the specified DCD due to an Oracle error.<P>
+</A><A NAME="423479">
+Action: See the Oracle error on the error stack.<P>
+</A><HR>
+<H3>
+<A NAME="421947">
+OWS--05110, "Agent : no stored procedure specified to call"
+</A>
+</H3>
+<A NAME="421948">
+Cause: OWA requires the PATH_INFO environment variable to be set. PATH_INFO is set based on information passed through the URL after the OWA executable name and before the "?" or end of the URL<P>
+</A><A NAME="421949">
+Action: specify a stored procedure name after the OWA executable name in the URL.<P>
+</A><HR>
+<H3>
+<A NAME="421950">
+OWS--05111, "Agent : no stored procedure matches this call with the arguments passed"
+</A>
+</H3>
+<A NAME="421951">
+Cause: The procedure and parameters passed to OWA don't match any existing stored procedures.<P>
+</A><A NAME="421952">
+Action: verify that there is a stored procedure (not function) with no RECORD parameters which matches the parameters passed. If no value was passed for a parameter, be sure that the stored procedure was declared to have a default value for that parameter. Check for typographical errors.<P>
+</A><HR>
+<H3>
+<A NAME="421953">
+OWS--05112, "Agent : too many procedures matches this call"
+</A>
+</H3>
+<A NAME="421954">
+Cause: The procedure and parameters passed to OWA match too many existing stored procedures.<P>
+</A><A NAME="421955">
+Action: This should only happen if there are overloaded stored procedures, and that in two different versions of the procedure, a given parameter is declared in one as a scalar and the other as a PL/SQL table.<P>
+</A><HR>
+<H3>
+<A NAME="421956">
+OWS--05150, "Agent : http server Error - environment variable variable is NULL or non-existent"
+</A>
+</H3>
+<A NAME="421957">
+Cause: The http server or other invoking application did not set the listed environment variable.<P>
+</A><A NAME="421958">
+Action: Contact your http server or other invoking application vendor.<P>
+</A><HR>
+<H3>
+<A NAME="422235">
+OWS--05151, "Agent : Port number not in list of valid ports : number-list"
+</A>
+</H3>
+<A NAME="422236">
+Cause: The network port that the invoking http server is listening on is not a valid port for this OWA Service.<P>
+</A><A NAME="421961">
+Action: Add this port to the list of valid ports for this Service, or access this service through a http server listening on a valid port.<P>
+</A><HR>
+<H3>
+<A NAME="421963">
+OWS--05200, "Agent : service service-name not found in configuration file"
+</A>
+</H3>
+<A NAME="421964">
+Cause: The piece of the URL just before the Web Agent executable name did not correspond to a Web Agent Service in the OWA configuration file.<P>
+</A><A NAME="421965">
+Action: Correct the URL, or create the desired service.<P>
+</A><HR>
+<H3>
+<A NAME="421966">
+OWS--05201, "Agent : service parameter parameter not found for service service-name"
+</A>
+</H3>
+<A NAME="421967">
+Cause: A parameter required by the Oracle Web Agent was not found in the configuration file along with the specified service.<P>
+</A><A NAME="421968">
+Action: Modify the Web Agent service configuration using the Web Agent administration form.<P>
+</A><HR>
+<H2>
+<A NAME="423485">
+5400--5499: Oracle WebServer External Listener Registration errors and messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="423486">
+OWS--05401, "No registered listeners found"
+</A>
+</H3>
+<A NAME="423612">
+Cause:  No external listeners are currently registered.<P>
+</A><A NAME="423613">
+Action: Use the External Registration utility to first register external listeners.<P>
+</A><HR>
+<H3>
+<A NAME="423489">
+OWS--05402, "Home directory for external listener installation not specified"
+</A>
+</H3>
+<A NAME="423623">
+Cause: The External Home field in the wlextreg utility front page was not specified<P>
+</A><A NAME="423624">
+Action: Fill the External Home field in the wlextreg utility with the home directory of the external installation.<P>
+</A><HR>
+<H3>
+<A NAME="423492">
+OWS--05403, "Listeners successfully registered: listener-name [ listener-name ... ]"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423495">
+OWS--05404, "Listeners successfully unregistered: listener-name [ listener-name ... ]"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423498">
+OWS--05405, "Unrecognized listener software: software"
+</A>
+</H3>
+<A NAME="423628">
+Cause: The specified listener software was not recognized.<P>
+</A><A NAME="423629">
+Action: Specify the listener software that the Oracle WebServer is known to support<P>
+</A><HR>
+<H3>
+<A NAME="423501">
+OWS--05406, "No listeners registered. Check listener names and port numbers for uniqueness"
+</A>
+</H3>
+<A NAME="423640">
+Cause: The listener names or the port numbers of the listeners to be registered are in conflict with existing listeners.<P>
+</A><A NAME="423641">
+Action: Check existing listener names and port numbers in the owl.cfg file for uniqueness<P>
+</A><HR>
+<H3>
+<A NAME="423504">
+OWS--05407, "No listeners unregistered."
+</A>
+</H3>
+<A NAME="423645">
+Cause:  The specified listeners are not currently registered.<P>
+</A><A NAME="423646">
+Action: Check the owl.cfg file.<P>
+</A><HR>
+<H2>
+<A NAME="421970">
+5500 - 5599 : Oracle Web Agent Administration errors and messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="423512">
+OWS--05500, "Service service-name successfully written"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423515">
+OWS--05501, "Service service-name successfully modified"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423518">
+OWS--05502, "Service service-name successfully deleted"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423521">
+OWS--05503, "Password for service service-name successfully modified"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="421972">
+OWS--05504, "Service service-name successfully written. Verify the PL/SQL output in filename"
+</A>
+</H3>
+<A NAME="421973">
+Cause: The Web Agent Administration program successfully wrote the specified service and performed all actions requested. The program, however, cannot detect errors which may have occurred while installing the PL/SQL.<P>
+</A><A NAME="421974">
+Action: Check the output in the file specified and verify that there are not unexpected error messages. <P>
+</A><HR>
+<H3>
+<A NAME="423525">
+OWS--05520, "Service service-name not deleted because it does not exist"
+</A>
+</H3>
+<A NAME="423526">
+Cause: To be supplied...<P>
+</A><A NAME="423527">
+Action: To be supplied...<P>
+</A><HR>
+<H3>
+<A NAME="421975">
+OWS--05521, "Service service-name submission failed because the passwords submitted do not match"
+</A>
+</H3>
+<A NAME="421976">
+Cause: The password and the "confirm password" field do not match.<P>
+</A><A NAME="421977">
+Action: Retype both passwords and re-submit the form.<P>
+</A><HR>
+<H3>
+<A NAME="421978">
+OWS--05522, "Service service-name submission failed because password identification was selected and the submitted password was NULL"
+</A>
+</H3>
+<A NAME="421979">
+Cause: The form submitted indicated that the Web Agent service should use a password to connect to the database, however no password was provided.<P>
+</A><A NAME="421980">
+Action: Select operating system authentication for this service, or provide a password for the give OWA Database User.<P>
+</A><HR>
+<H3>
+<A NAME="421981">
+OWS--05523, "Service service-name submission failed because value for mandatory parameter parameter is NULL"
+</A>
+</H3>
+<A NAME="421983">
+Action: Fill in the specified field and re-submit the form.<P>
+</A><HR>
+<H3>
+<A NAME="421984">
+OWS--05524, "Service service-name submission failed because both parameter1 and parameter2 are NULL"
+</A>
+</H3>
+<A NAME="421985">
+Cause: One of the two parameters listed must not be null.<P>
+</A><A NAME="421986">
+Action: Fill in one of the listed fields and re-submit the form.<P>
+</A><HR>
+<H3>
+<A NAME="421987">
+OWS--05525, "Service service-name submission failed because a service with the same name already exists"
+</A>
+</H3>
+<A NAME="421989">
+Action: Choose another name for the service you are attempting to create, or delete the existing service.<P>
+</A><HR>
+<H3>
+<A NAME="421990">
+OWS--05526, "Service service-name submission failed due to error number"
+</A>
+</H3>
+<A NAME="421992">
+Action: See the associated error and take the appropriate action.<P>
+</A><HR>
+<H3>
+<A NAME="421993">
+OWS--05527, "Service service-name submission failed because the PL/SQLAgent-or-DBA Username and Password are invalid"
+</A>
+</H3>
+<A NAME="421994">
+Cause: Either the OWA Database User name and password, or the DBA username and password, is not a valid username/password combination for the specified database.<P>
+</A><A NAME="421995">
+Action: Correct the username and password and re-submit the form.<P>
+</A><HR>
+<H3>
+<A NAME="421996">
+OWS--05528, "Service service-name submission failed because the DBA User submitted does not have privilege privileges"
+</A>
+</H3>
+<A NAME="421998">
+Action: Choose a different Oracle username and password for the DBA user submitted, or have the specified privilege granted to this user by another DBA.<P>
+</A><HR>
+<H3>
+<A NAME="421999">
+OWS--05529, "Service service-name to modify does not exist"
+</A>
+</H3>
+<A NAME="422000">
+Cause: The user chose to modify an existing Web Agent service, however that service does not exist. This error should not occur unless the service to modify was deleted from a different form after this service modification form was generated.<P>
+</A><A NAME="422001">
+Action: Create a new service.<P>
+</A><HR>
+<H3>
+<A NAME="422002">
+OWS--05530, "Service service-name submission failed because the NLS Language could not be determined"
+</A>
+</H3>
+<A NAME="422003">
+Cause: The Web Agent Administration package was unable to lookup the NLS Language for the specified database.<P>
+</A><A NAME="422004">
+Action: Specify the value explicitly or submit a valid dba username and password.<P>
+</A><HR>
+<H3>
+<A NAME="422005">
+OWS--05531, "Service service-name submission failed because neither Server Manager, nor SQL*DBA could be run"
+</A>
+</H3>
+<A NAME="422006">
+Cause: The Web Agent Administration package was unable to install the Oracle WebServer PS/SQL Web Toolkit which must be done from Server Manager (line mode) or SQL*DBA.<P>
+</A><A NAME="422007">
+Action: Install either Server Manager or SQL*DBA in the ORACLE_HOME where the Web Agent administration is installed.<P>
+</A><HR>
+<H2>
+<A NAME="422009">
+5600 - 5699 : Oracle Web Database Administration errors
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="423533">
+OWS--05600, "Startup of database database-name successful"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423536">
+OWS--05601, "Shutdown of database database-name successful"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="422263">
+OWS--05610, "Startup of database database failed due to error number"
+</A>
+</H3>
+<A NAME="422265">
+Action: See the associated error and take the appropriate action.<P>
+</A><HR>
+<H3>
+<A NAME="422266">
+OWS--05611, "Shutdown of database database failed due to error number"
+</A>
+</H3>
+<A NAME="422015">
+Action: See the associated error and take the appropriate action.<P>
+</A><HR>
+<H3>
+<A NAME="422016">
+OWS--05620, "DB Admin : no database selected"
+</A>
+</H3>
+<A NAME="422017">
+Cause: A button was pressed to startup or shutdown the database, but no database had been selected.<P>
+</A><A NAME="422018">
+Action: Return to the administration screen and select a database.<P>
+</A><HR>
+<H3>
+<A NAME="422019">
+OWS--05621, "DB Admin : database is already running."
+</A>
+</H3>
+<A NAME="422020">
+Cause: A request was made to start up a database, but that database is already running.<P>
+</A><A NAME="422021">
+Action: If you would like to restart the database, shut it down first or choose "Startup Force".<P>
+</A><HR>
+<H3>
+<A NAME="422022">
+OWS--05622, "DB Admin : database is already shut down."
+</A>
+</H3>
+<A NAME="422023">
+Cause: A request was made to shut down a database, but that database is already shut down.<P>
+</A><HR>
+<H3>
+<A NAME="422025">
+OWS--05623, "DB Admin : parameter file filename is larger than maximum size number bytes"
+</A>
+</H3>
+<A NAME="422026">
+Cause: The initialization file listed was larger than the maximum allowable size.<P>
+</A><A NAME="422027">
+Action: Reduce the size of the initialization file.<P>
+</A><HR>
+<H2>
+<A NAME="422029">
+5700 - 5799 : Oracle Web Listener Configuration errors and messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="423540">
+OWS--05700, "Configuration for Web Listener listener-name successfully written"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423543">
+OWS--05701, "Configuration for Web Listener listener-name successfully deleted"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="422031">
+OWS--05710, "Value submitted for parameter must not be NULL"
+</A>
+</H3>
+<A NAME="422033">
+Action: Type a value for the specified parameter and re-submit the form.<P>
+</A><HR>
+<H3>
+<A NAME="422034">
+OWS--05711, "Port number is already in use by the Oracle Web Administration Server"
+</A>
+</H3>
+<A NAME="422035">
+Cause: The port specified for service creation or modification is already in use by the Oracle WebServer Administration Server.<P>
+</A><A NAME="422036">
+Action: Choose another port to run one of the Web Listeners on.<P>
+</A><HR>
+<H3>
+<A NAME="422037">
+OWS--05712, "The Oracle Web Listener listener-name is already configured to run on port number"
+</A>
+</H3>
+<A NAME="422038">
+Cause: The port specified for service creation or modification is already in use by another Oracle Web Listener.<P>
+</A><A NAME="422039">
+Action: Choose another port to run one of the Web Listeners on.<P>
+</A><HR>
+<H3>
+<A NAME="422040">
+OWS--05713, "Value for parameter must be between minimum and maximum"
+</A>
+</H3>
+<A NAME="422042">
+Action: Specify a value between the two limits and resubmit the form.<P>
+</A><HR>
+<H3>
+<A NAME="422043">
+OWS--05714, "For ports less than number, the effective userid must be root"
+</A>
+</H3>
+<A NAME="422044">
+Cause: Ports below that specified require superuser privileges to run a Web Listener on it.<P>
+</A><A NAME="422045">
+Action: Configure the Web Listener to run on a unrestricted port, or set the effective userid for this Web Listener the superuser.<P>
+</A><HR>
+<H3>
+<A NAME="422046">
+OWS--05715, "An Oracle Web Listener named listener-name already exists"
+</A>
+</H3>
+<A NAME="422047">
+Cause:   Listener names must be unique<P>
+</A><A NAME="422048">
+Action: Name the submitted listener something else.<P>
+</A><HR>
+<H3>
+<A NAME="422049">
+OWS--05716, "Port Number number is duplicated in the Addresses and Ports list"
+</A>
+</H3>
+<A NAME="422050">
+Cause:   Port numbers must be unique<P>
+</A><A NAME="422051">
+Action: Remove duplication and resubmit the form.<P>
+</A><HR>
+<H3>
+<A NAME="422052">
+OWS--05717, "Fill out form has unknown input field format"
+</A>
+</H3>
+<A NAME="422053">
+Cause:   Oracle admbin/*.html files have probably been tampered with.<P>
+</A><A NAME="422054">
+Action: Restore original files. <P>
+</A><HR>
+<H3>
+<A NAME="423547">
+OWS--05718, "The Web Listener listener-name was successfully started."
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423550">
+OWS--05719, "The Web Listener listener-name was successfully reloaded."
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423553">
+OWS--05720, "The Web Listener listener-name was successfully signalled to stop"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="422061">
+OWS--05721, "The Web Listener listener-name failed to start:"
+</A>
+</H3>
+<A NAME="422063">
+Action: See the associated error message.<P>
+</A><HR>
+<H3>
+<A NAME="422064">
+OWS--05722, "The Web Listener listener-name failed to reload:"
+</A>
+</H3>
+<A NAME="422066">
+Action: See the associated error message.<P>
+</A><HR>
+<H3>
+<A NAME="422067">
+OWS--05723, "The Web Listener listener-name was not stopped:"
+</A>
+</H3>
+<A NAME="422069">
+Action: See the associated error message.<P>
+</A><HR>
+<H3>
+<A NAME="423557">
+OWS--05724, "Error in listener configuration format in file or input form"
+</A>
+</H3>
+<A NAME="423558">
+Cause: To be supplied...<P>
+</A><A NAME="423559">
+Action: To be supplied...<P>
+</A><HR>
+<H3>
+<A NAME="423291">
+OWS-05725, "WRB Configuration file not copied from pathname1 to pathname2"
+</A>
+</H3>
+<A NAME="423292">
+Cause: Copying of file failed due to system error  <P>
+</A><A NAME="423293">
+Action: Make sure wladmin utility has permission to read/write.<P>
+</A><HR>
+<H3>
+<A NAME="423294">
+OWS-05726, "Listener Name listener-name must be an alpha-numeric string"
+</A>
+</H3>
+<A NAME="423295">
+Action: Only alphanumneric strings are accepted for listener name<P>
+</A><HR>
+<H3>
+<A NAME="423561">
+OWS--05727, "Listener Name listener-name too long."
+</A>
+</H3>
+<A NAME="423562">
+Cause:  The specified listener name is greater than six characters. Because configuration file names are of the form svlistener-name.ext, the length of the listener name is limited to six characters.<P>
+</A><A NAME="423563">
+Action:  Use shorter name.<P>
+</A><HR>
+<H2>
+<A NAME="423333">
+5800 - 5899 : Oracle Web Request Broker Administration messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="423334">
+OWS-05801, "The input from the form in the HTML file filename has incorrect format"
+</A>
+</H3>
+<A NAME="423335">
+Cause: Form has unexpected input field/value.<P>
+</A><A NAME="423336">
+Action: Make sure only the OWS HTML templates are used to make submissions to the Web Server Manager utilities<P>
+</A><HR>
+<H3>
+<A NAME="423337">
+OWS-05802, "The input parameter parameter must not be empty"
+</A>
+</H3>
+<A NAME="423338">
+Cause: Required field not filled in submitted form.<P>
+</A><A NAME="423339">
+Action: Fill in all required fields.<P>
+</A><HR>
+<H3>
+<A NAME="423569">
+OWS--05803, "WRB Configuration for listener listener-name successfully written"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423340">
+OWS-05804, "The WebServer Manager found no record of the listener listener-name"
+</A>
+</H3>
+<A NAME="423341">
+Cause: Non-existent listener attempted to be accessed. owl.cfg might have been corrupted<P>
+</A><A NAME="423342">
+Action: Make sure a non-existent listener is not referred to.<P>
+</A><HR>
+<H3>
+<A NAME="423343">
+OWS-05805, "Could not copy WRB configuration from listener listener-name1 to listener listener-name2"
+</A>
+</H3>
+<A NAME="423344">
+Cause: WRB configuration file of "from" listener may not exist. System file copying error. <P>
+</A><A NAME="423345">
+Action: Make sure wrbadmin utility has permissions to read and write, and the source file exists.<P>
+</A><HR>
+<H3>
+<A NAME="423573">
+OWS--05806, "Successfully copied WRB configuration from listener listener-name1 to listener listener-name2"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423576">
+OWS--05807, "Successfully deleted WRB configuration for listener listener-name"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423579">
+OWS--05808, "Successfully deleted configuration of cartridge cartridge-name for listener listener-name"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423582">
+OWS--05809, "Modification of cartridge cartridge-name for listener listener-name successfully completed"
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="423346">
+OWS-05810, "Configuration of cartridge cartridge-name for listener listener-name not found"
+</A>
+</H3>
+<A NAME="423347">
+Cause: Attempt to modify or delete a cartridge configuration that doesn't exist<P>
+</A><A NAME="423348">
+Action: Reload the WRB Configuration form to get current list of cartridges for this listener.<P>
+</A><HR>
+<H2>
+<A NAME="422071">
+5900 - 5999 : Oracle WebServer Registration errors and messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="423586">
+OWS--05900, "Registration successful.  Thank-you for your time."
+</A>
+</H3>
+<HR>
+<H3>
+<A NAME="422073">
+OWS--05901, "Please enter a value for field field."
+</A>
+</H3>
+<A NAME="422074">
+Cause: The specified field is a required field for registration.<P>
+</A><A NAME="422075">
+Action: Type a value into the specified field and re-submit the form.<P>
+</A><HR>
+<H2>
+<A NAME="423327">
+7500 - 7599 : Oracle Web Server Proxy errors and messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="423328">
+OWS--07500, "Proxy switch could not be accessed." 
+</A>
+</H3>
+<A NAME="423329">
+Cause: Error while reading or writing proxy switch value<P>
+</A><A NAME="422081">
+Action: Check configuration file location/format.<P>
+</A><HR>
+<H3>
+<A NAME="422082">
+OWS--07501, "Proxy Administration Form has invalid input values"
+</A>
+</H3>
+<A NAME="422083">
+Cause: Form is being submitted with invalid field values<P>
+</A><A NAME="422084">
+Action: Check and correct field values<P>
+</A><HR>
+<H3>
+<A NAME="423590">
+OWS--07502, "Proxy switch successfully turned on/off."
+</A>
+</H3>
+<HR>
+<H2>
+<A NAME="422085">
+Oracle Java Web Toolkit Messages
+</A>
+</H2>
+<HR>
+<H3>
+<A NAME="422385">
+Message: [Method]: Invalid [Argument] Value(s)
+</A>
+</H3>
+<A NAME="422402">
+Exception: <code>oracle.lang.HtmlRuntimeException</code> <P>
+</A><A NAME="422403">
+Cause: The client programmer has supplied incorrect argument value(s) for the named [Method]. <P>
+</A><A NAME="422404">
+Action: Change the argument values. <P>
+</A><HR>
+<H3>
+<A NAME="422406">
+Message: [Method]: Circular Reference
+</A>
+</H3>
+<A NAME="422407">
+Exception: <code>oracle.lang.HtmlRuntimeException</code> <P>
+</A><A NAME="422408">
+Cause: The client programmer has attempted to add a Container/CompoundItem to itself. <P>
+</A><A NAME="422409">
+Action: Remove that statement from the client application program. <P>
+</A><HR>
+<H3>
+<A NAME="422411">
+Message: [Method]: File ([filename]) Not Found 
+</A>
+</H3>
+<A NAME="422412">
+Exception: <code>oracle.lang.HtmlRuntimeException</code> <P>
+</A><A NAME="422413">
+Cause: This package/method cannot find the named file in the system's path. <P>
+</A><A NAME="422414">
+Action: Provide the correct file/path name and/or change the system path. <P>
+</A><HR>
+<H3>
+<A NAME="422416">
+Message: [Method]: IO Exception caught
+</A>
+</H3>
+<A NAME="422417">
+Exception: <code>oracle.lang.HtmlRuntimeException</code> <P>
+</A><A NAME="422418">
+Cause: An IO Exception has occurred. <P>
+</A><A NAME="423277">
+Action: Check if the disk storage device is full or if there is a sharing violation.<P>
+</A><A NAME="422420">
+<P>
+</A>
+
+<HR>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Go to the roadmap"> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Go to the index"> Go to the Index</A><P>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

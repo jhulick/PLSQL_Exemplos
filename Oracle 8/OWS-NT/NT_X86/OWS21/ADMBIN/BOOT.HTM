@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+
+<html>
+
+<head>
+<title>Oracle WebServer Installation</title>
+</head>
+
+<body background="/ows-img/orhmbkgn.jpg" text="#000088" link="#BB0000" vlink="#BB0000">
+<!-- Changed by: Eric Esselink, 01-Jun-1996 --><p align=center><img src="/ows-img/ows.gif" alt="Oracle WebServer Installation" align=bottom> <br>
+<STATUS> </p>
+<h2><font color="#BB0000"><em>Welcome to the Oracle WebServer Installation Page</em> </font></h2>
+<p>To finish your installation, you must perform the following tasks <strong>in the order listed</strong>: </p>
+<ol>
+<li><a href="#Web Listener">Configure</a> your first Oracle Web Listener. The HTTP process you are currently using is special, and should only be 
+used for administrative purposes. <br>
+<DONE_IMG> </li>
+<li><a href="#Web Agent Admin">Configure</a> a privileged <strong>DCD</strong> (<em>Database Connection Descriptor</em>), <strong>OWA_DBA</strong>, for the Administration Server which 
+you are currently using. <br>
+<DONE_IMG> </li>
+<li><a href="#Web Agent Admin">Configure</a> a default <strong>DCD</strong>, <strong>OWA_DEFAULT_SERVICE</strong>, for your first Oracle Web Listener which you configured in 
+step (1).<br>
+<DONE_IMG> </li>
+</ol>
+<p>Once you are done with these operations, you will be fully up and running, and you can proceed to the <a href="/ows-doc/index.html">Administration 
+Server's Home page</a>. </p>
+<form action="/ows-abin/boot.exe" method="POST">
+<h2><img src="/ows-img/icnwblist.gif" align=bottom> <a name="Web Listener"><font color="#BB0000"><em>Creating an Oracle Web Listener</em></font></a><font color="#BB0000"> </font></h2>
+<p>To configure your first Oracle Web Listener (other than the Administration Server), fill in and submit the following 3 fields: </p>
+<ul>
+<li>The name for your <em>Oracle Web Listener</em>. This can be any string of your choosing, <strong>no longer than 6 alphanumeric 
+characters</strong> which would <strong>uniquely</strong> identify a particular Listener. <pre>
+Listener Name: <input type=text size=6 maxlength=6 name="ListenerName" value="%s">
+</pre>
+</li>
+<li>The Host Name is the name your <em>Oracle Web Listener</em> uses to refer to itself when it answers incoming requests. This 
+is typically either the actual machine name, or something like &quot;www.hostname&quot;. <pre>
+   Host Name: <input type=text size=28 maxlength=48 name="HostName" value="%s">
+</pre>
+</li>
+<li>Your <em>Oracle Web Listener</em> must listen to a network port for service requests. The range of available ports is from 1 to 
+65535. <pre>
+   Port Number: <input type=text size=8 maxlength=5 name="PortNumber" value="%s">
+</pre>
+</li>
+</ul>
+<p><input type=submit name="SUBMIT_BUTTON" value="Create Listener"> </p>
+<hr>
+<h2><img src="/ows-img/icnagent.gif" align=bottom> <a name="Web Agent Admin"><font color="#BB0000"><em>Creating a DCD</em></font></a><font color="#BB0000"><em> (Database Connection Descriptor)</em> </font></h2>
+<p>A DCD provides the following information to the PL/SQL Agent: </p>
+<ul>
+<li>Which Oracle Database to connect to. </li>
+<li>Which Oracle Database account to use. </li>
+</ul>
+<p>The two DCDs that will be configured here are called <strong>OWA DBA</strong>, which will allow administrators connected to the 
+Administration Server to easily browse the Oracle database, and <strong>OWA DEFAULT SERVICE</strong>, a DCD that will enable 
+your developers to immediately begin creating applications for your WebServer using the PL/SQL Agent. </p>
+<p>A DCD can be shared between multiple Web Listener instances on the same node, and the database schema connected to a 
+DCD can be shared between multiple WebServers on different nodes. </p>
+<p><strong>Note:</strong> At this stage you will create default services. Later, using WebServer Manager, you can create multiple named DCDs 
+for your listener(s). </p>
+<p>Indicate the DCD you would like to configure: <br>
+</p>
+<pre>
+     <input type=radio name="SERVICE" value="OWA_DBA" %s> OWA_DBA
+     <input type=radio name="SERVICE" value="OWA_DEFAULT_SERVICE" %s> OWA_DEFAULT_SERVICE
+</pre>
+<p>To configure either DCD, fill in the following information: </p>
+<ul>
+<li>The username and password of an Oracle7 database account that the DCD will use. <br>
+If the account does not already exist, it will be created. <br>
+If you submit a password different from the existing password, then the database account's password will be changed. <p><strong>Note:</strong> For security, the password fields will be cleared once this form is submitted. </p>
+<pre>
+  Username: <input type=text size=20 maxlength=30 name="dba_user" value="%s">
+  Password: <input type=password size=20 maxlength=30 name="dba_password">
+   Confirm: <input type=password size=20 maxlength=30 name="confirm_pwd">
+</pre>
+</li>
+<li>The ORACLE_HOME of the database to which this service should connect.<br>
+If this service will connect to a <strong>remote database</strong>, then this value should be the ORACLE_HOME where the Oracle 
+WebServer is installed. <pre>
+  ORACLE_HOME: <input type=text size=40 maxlength=256 name="oracle_home" value="%s">
+</pre>
+</li>
+<li>The TCP port number from which a PL/SQL Agent will be authorized to service a request using this DCD. <em>For the 
+OWA_DBA DCD, this value will be detected automatically.</em> <pre>
+  Port Number: <input type=text size=20 maxlength=256 name="auth_port" value="%s">
+</pre>
+</li>
+</ul>
+<p>For <strong>local databases</strong>, you must specify: </p>
+<ul>
+<li>The ORACLE_SID of the database: <br>
+<pre>
+  ORACLE_SID:  <input type=text size=20 maxlength=256 name="oracle_sid" value="%s">
+</pre>
+</li>
+</ul>
+<p>For <strong>remote databases</strong>, you must specify: </p>
+<ul>
+<li>An existing SQL*Net V2 descriptor instead of the ORACLE_SID. <em><strong>Note:</strong></em><em> If SQL*Net V2 is not properly configured 
+this step will fail.</em> <pre>
+  SQL*Net V2 Service:  <input type=text size=20 maxlength=256 name="connect_string" value="%s">
+</pre>
+</li>
+</ul>
+<p>Also for <strong>remote databases</strong>, you must specify: </p>
+<pre>
+  Existing DBA Username: <input type=text size=20 maxlength=30 name="rdba_user" value="%s">
+  Existing DBA Password: <input type=password size=20 maxlength=30 name="rdba_password">
+</pre>
+<p><input type=submit name="SUBMIT_BUTTON" value="Create Service"> </p>
+</form>
+<hr>
+<p align=center><a href="/ows-adoc/install.htm"><img src="/ows-img/navhelp.gif" alt="Help" align=bottom border=0></a> <a href="/ows-doc/index.html"><img src="/ows-img/navhome.gif" alt="OWS Home" align=bottom border=0></a> </p>
+<p align=center><img src="/ows-img/tag3.gif" align=bottom> </p>
+</body>
+
+</html>

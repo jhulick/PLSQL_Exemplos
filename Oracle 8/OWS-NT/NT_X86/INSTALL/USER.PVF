@@ -1,0 +1,62 @@
+/* Copyright (c) Oracle Corporation 1994. All Rights Reserved */
+/***************************************************************************
+  NAME
+    user.pvf - user defined .pvf script
+
+  DESCRIPTION
+    This script allows users access to their own customizable .pvf script
+
+  MODIFIED   MM/DD/YY     Reason
+  syau       02/09/95     Adjusted for Oracle7 Server release.
+  umurthy    01/04/95     Created for Workgroup Server
+******************************************************************************/
+
+{
+  client_prompt = nls("client_prompt", "At this point, the server part installation of the %bundle_name% is complete. Would you like to proceed with the client installation of the %bundle_name%?");
+  client_content = nls("client_content", "Client Part Installation");
+  client_help = nls("client_help", "The server part installation of the %bundle_name% is complete. You can choose to either continue to install the client part of the %bundle_name% on the server machine or proceed to end the server installation");
+  client_error = nls("client_error","The Client Installation has failed.  To install the client %bundle_name%, please run the Windows Installer from the windows\install directory.");
+
+  dirname = directory_name(current_script);
+  if (directory_name(dirname) == dirname)
+    pinname = "%dirname%user.pin";
+  else
+    pinname = "%dirname%\user.pin";
+
+  if (exists(pinname))
+    copy_file(pinname,"%installer_home%\");
+
+/**********************************************************************************
+   Begin modification of user.pin for Enterprise Manager release 1.2
+**********************************************************************************/
+
+
+  /* create list of product numbers for products to be installed;
+  EM-specific user.pin processing will proceed only if an EM component
+  is in the list     */
+
+  prod_numbers = list();
+  while (not(empty(products_for_installation)))
+    {
+      add(prod_numbers,product_number(first(products_for_installation)));
+      products_for_installation = rest(products_for_installation);
+    }
+
+    do_pin_processing = FALSE;
+
+  dirname = directory_name(current_script);
+  if (directory_name(dirname) == dirname)
+    pinname = "%dirname%user.pin";
+  else
+    pinname = "%dirname%\user.pin";
+
+  if (exists(pinname))
+    copy_file(pinname,"%installer_home%\");
+
+/**********************************************************************************
+   End modification of user.pin for Enterprise Manager release 1.2
+**********************************************************************************/
+
+
+  return(execute("%installer_home%\%operating_system%.pvf"));
+}

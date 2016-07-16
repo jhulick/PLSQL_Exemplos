@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi7.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="425473">
+WRBGetClientIP()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="425474">
+<code>WRBGetClientIP()</code> returns a the IP address of the client who issued the current HTTP request in the form of an unsigned 32-bit integer, each byte of which encodes a quad of the IP address.<P>
+</A><A NAME="425475">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="425476">
+Syntax
+</A>
+</H2>
+<A NAME="425477">
+<PRE>ub4 WRBGetClientIP( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425491">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="425480">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="425482">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="425484">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="425486">
+WRBCtx<BR>
+</A><td><A NAME="425488">
+void *<BR>
+</A><td><A NAME="425490">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="425492">
+Return Values
+</A>
+</H2>
+<A NAME="425493">
+<code>WRBGetClientIP()</code> returns the IP address of the client who issued the current HTTP request.<P>
+</A><HR>
+<H2>
+<A NAME="425494">
+Usage
+</A>
+</H2>
+<A NAME="425495">
+You can call <code>WRBGetClientIP()</code> to from your Authorize or Exec function. Usually, Authorize calls <code>WRBGetClientIP()</code> to make sure that a client issued the current request from a trusted host.<P>
+</A><HR>
+<H2>
+<A NAME="425496">
+Examples
+</A>
+</H2>
+<A NAME="425497">
+This example shows how to get the IP address of the client who issued the current request and convert it to dotted quad notation:<P>
+</A><A NAME="425498">
+<PRE>#include &lt;stdio.h&gt;<br> <br>ub4 clientIP;<br>char clientIPquads[18];<br> <br>clientIP = WRBGetClientIP(WRBCtx);<br> <br>sprintf(clientIPquads, "%u.%u.%u.%u",<br>    (clientIP &amp; 0xFF000000) &gt;&gt; 24,<br>    (clientIP &amp; 0x00FF0000) &gt;&gt; 16,<br>    (clientIP &amp; 0x0000FF00) &gt;&gt; 8,<br>    (clientIP &amp; 0x000000FF));<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="425499">
+Related Information
+</A>
+</H2>
+<A NAME="425509">
+See also <code><a href="wrbapi24.htm#420842">WRBSetAuthorization()</a></code>, <code><a href="wrbapi20.htm#426119">WRBGetUserID()</a></code>, and <code><a href="wrbapi16.htm#425943">WRBGetPassword()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi5.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi7.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>

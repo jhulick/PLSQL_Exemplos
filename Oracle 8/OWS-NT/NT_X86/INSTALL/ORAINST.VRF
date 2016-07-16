@@ -1,0 +1,124 @@
+/* Copyright (c) Oracle Corporation 1992.  All Rights Reserved */
+
+/*****************************************************************************
+  NAME
+    orainst.vrf - Windows NT V3 Installation Verify Script
+
+  DESCRIPTION
+    This script verifies the Windows installer.
+
+  MODIFIED   MM/DD/YY REASON
+    sagarwal 10/11/95 Used nls_abbreviation when doing sum
+    kjain    09/24/93 nlsified
+    kjain    03/29/93 Created.
+*****************************************************************************/
+
+{ 
+  product_label = product_interface_label(current_product);
+
+  ui_product(product_label);
+
+  analyzing_dependencies = instantiate(nls("analyzing_dependencies",
+					   "Analyzing %%product_label%% Dependencies..."));
+
+  ui_action(analyzing_dependencies);
+
+   cancelling_install = nls("cancelling_install","Cancelling Installation of %%product_label%%...");
+
+  {
+    if (not(distribution))
+      signal('UNBOUND_VARIABLE);
+  }
+    [ 'UNBOUND_VARIABLE:
+	{
+	  install_from_distribution = nls("install_from_distribution","In order to install the installer, please run it from a distribution diskette or CD-ROM.");
+	  signal('FAILURE,install_from_distribution);
+	}
+    ]
+
+
+  doit = TRUE;
+
+  if (registered(product_name(current_product)))
+    {
+      registry = registration(product_name(current_product));
+      current_version = product_version(current_product);
+      installed_version = registry_version(registry);
+
+      if (earlier_version(registry,current_version))
+	{
+          version_status = 'upgrade;
+	  if (verbose)
+	    doit = yesno_dialog(instantiate(reinstall_prompt01),TRUE,
+				instantiate(reinstall_content01),
+				instantiate(reinstall_help01));
+	  else
+	    doit = TRUE;
+
+	  if (not(doit))
+	    if ((bootstrap) && (product_location(current_product) == ""))
+	      information_dialog(instantiate(reinstall_prompt02),
+				 instantiate(reinstall_content02),
+				 instantiate(reinstall_help02),);
+	}
+      else if (later_version(registry,current_version))
+        {
+	  version_status = 'downgrade;	  
+	  doit = yesno_dialog(instantiate(reinstall_prompt03),FALSE
+			      instantiate(reinstall_content03),
+			      instantiate(reinstall_help03));
+	  if (not(doit))		      
+	    if ((bootstrap) && (product_location(current_product) == ""))
+              signal('CANCEL,cancel_prompt01);
+        }
+      else /* if (not(bootstrap)) */
+        {
+	  version_status = 'reinstall;
+	  if (verbose)
+	    doit = yesno_dialog(instantiate(reinstall_prompt04),FALSE,
+				instantiate(reinstall_content04),
+				instantiate(reinstall_help04));
+	  else
+	    doit = TRUE;
+        }
+    }
+  else
+    version_status = 'new_install;
+
+      success_message = nls("success_message","Please remove the Oracle Installer disk from your floppy drive. Insert disk 1 of the product you wish to install and choose the OK button. Choose Help for instructions on installing from CD-ROM.");
+      success_content = nls("success_content","Ready to Install");
+      success_help = nls("success_help","Floppy Media
+
+To install products from floppy media, remove the Oracle Installer disk from your floppy drive and insert disk 1 of the product you wish to install. Then, choose the OK button. 
+
+CD-ROM
+
+To install products from CD-ROM, remove all disks from your floppy drives and choose the OK button. Then, make the Available Products window the active window and choose the From button. Select the WINDOWS.PRD file on the CD-ROM in the INSTALL subdirectory on the CD-ROM. Follow the instructions on the screen.
+
+Installing Later
+
+If you do not wish to install Oracle products at this time, choose the Cancel button. You may run the Installer later by choosing its icon in the Program Manager.");
+
+  if (doit)
+    {
+      installing_executables = nls("installing_executables","Installing %%product_label%% Executables...");
+      installing_resources = nls("installing_resources",
+				 "Installing %%product_label%% Resources...");
+      installing_scripts = nls("installing_scripts",
+			       "Installing %%product_label%% Scripts...");
+      recording_name = nls("recording_name","Recording Company Name...");
+
+      recording_name_error1 = nls("recording_name_error1","There was a write error recording your name in '%%oracle_home%%\DBS\OI%%nls_abbreviation%%.RES'. Please correct the problem with this file and reinstall the Installer.");
+
+      recording_name_error2 = nls("recording_name_error2","There was a write error recording your name in '%%oracle_home%%\DBS\OIUS.RES'. Please correct the problem with this file and reinstall the Installer.");
+
+      group_sum = sum(exec, res, nls_abbreviation,
+                      script, nls_abbreviation, deinstl, nls_abbreviation);
+      return(group_sum);
+    }
+  else
+    {
+      ui_action(instantiate(cancelling_install));
+      return(0);
+    }
+}

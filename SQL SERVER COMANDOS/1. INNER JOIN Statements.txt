@@ -1,0 +1,11 @@
+SELECT cli.codigo as CLI_CODIGO, pro.codcliente AS PRO_CODCLIENTE, pro.codigo AS PRO_CODIGO
+FROM
+clientes cli INNER JOIN produtos pro ON cli.codigo=pro.codcliente;
+
+*Mostra somente os registros da tabela clientes que tiverem relacionamento com registros da 
+tabela produtos e vice-versa.
+*Tanto faz se primeiro se declara a tabela pai ou filha na clausula INNER JOIN,
+ ex:. 1. clientes cli INNER JOIN produtos pro ON cli.codigo=pro.codcliente
+      2. produtos pro INNER JOIN clientes cli ON cli.codigo=pro.codcliente
+  Qualquer uma das duas opções acima dá no mesmo resultado, no momento da comparação de chaves
+   (depois do ON) também tanto faz a ordem, pois dará no mesmo resultado.

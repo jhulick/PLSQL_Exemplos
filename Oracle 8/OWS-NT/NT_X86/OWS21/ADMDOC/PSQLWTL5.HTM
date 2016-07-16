@@ -1,0 +1,981 @@
+<HTML>
+<HEAD>
+<TITLE>
+PL/SQL Web Toolkit Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="psqlwtl4.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="psqlwtl6.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="418480">
+Body Tags
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="418481">
+Body tags are used in the main text of your HTML page. They can format a paragraph, allow you to add hidden comments to your text, and add images within the body of your HTML text.<P>
+</A><A NAME="418483">
+Note: Although this section shows hypertext procedures (HTP), all of them are also available as hypertext functions (HTF)<P>
+</A><HR>
+<H2>
+<A NAME="418484">
+htp.line
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418485">
+Syntax
+</A></DL><A NAME="418486">
+htp.line (cclear, csrc, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418487">
+Purpose
+</A></DL><A NAME="418488">
+Prints the HTML tag that generates a line in the HTML document. <em>csrc</em> enables you to specify a custom image as the source of the line.<P>
+</A><DL COMPACT><DT><A NAME="418489">
+Parameters
+</A></DL><A NAME="418490">
+cclear		in varchar2		DEFAULT NULL<br>csrc 		in varchar2		DEFAULT NULL<br>cattributes		in varchar2		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418491">
+Generates
+</A></DL><A NAME="418492">
+&lt;HR CLEAR="<em>cclear</em>" SRC="<em>csrc</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418493">
+htp.hr
+</A>
+</H2>
+<A NAME="418494">
+Alias for <b>htp.line</b><P>
+</A><HR>
+<H2>
+<A NAME="418495">
+htp.nl
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418496">
+Syntax
+</A></DL><A NAME="418497">
+htp.nl (cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418498">
+Purpose
+</A></DL><A NAME="418499">
+Prints the HTML tag that inserts a new line<P>
+</A><DL COMPACT><DT><A NAME="418500">
+Parameters
+</A></DL><A NAME="418501">
+cclear		in varchar2		DEFAULT NULL,<br>cattributes		in varchar2		DEFAULT NULL,<P>
+</A><DL COMPACT><DT><A NAME="418502">
+Generates
+</A></DL><A NAME="418503">
+&lt;BR CLEAR="<em>cclear</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418504">
+htp.br
+</A>
+</H2>
+<A NAME="418505">
+Alias for<b> htp.nl</b><P>
+</A><HR>
+<H2>
+<A NAME="418506">
+htp.header
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418507">
+Syntax
+</A></DL><A NAME="418508">
+htp.header (nsize, cheader, calign, cnowrap, cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418509">
+Purpose
+</A></DL><A NAME="418510">
+Prints the HTML tag for a heading level, with the value of the heading level assigned in the nsize parameter. Valid levels are 1 through 6.<P>
+</A><DL COMPACT><DT><A NAME="418511">
+Parameters
+</A></DL><A NAME="418512">
+nsize		in integer<br>cheader		in varchar2<br>calign		in varchar2		DEFAULT NULL<br>cnowrap		in varchar2		DEFAULT NULL<br>cclear		in varchar2		DEFAULT NULL<br>cattributes		in varchar2		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418513">
+Generates
+</A></DL><A NAME="418514">
+&lt;H<em>nsize</em> ALIGN="<em>calign</em>" NOWRAP CLEAR="<em>cclear</em>"<br>   <em>cattributes</em>&gt;<em>cheader</em>&lt;/H<em>nsize</em>&gt;<P>
+</A><DL COMPACT><DT><A NAME="418515">
+Example
+</A></DL><A NAME="418516">
+htp.header (1,'Overview');<P>
+</A><A NAME="418517">
+produces<P>
+</A><A NAME="418518">
+&lt;H1&gt;Overview&lt;/H1&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418519">
+htp.anchor
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418520">
+Syntax
+</A></DL><A NAME="418521">
+htp.anchor (curl, ctext, cname, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418522">
+Purpose
+</A></DL><A NAME="418523">
+Prints the HTML tag for an anchor to be the start or end destination of a hypertext link. This anchor can accept several attributes, but either HREF or NAME is required. HREF specifies where to link to. NAME allows this tag to be a target of a hypertext link.<P>
+</A><DL COMPACT><DT><A NAME="418524">
+Parameters
+</A></DL><A NAME="418525">
+curl   		in varchar2<br>ctext   		in varchar2<br>cname  		in varchar2  		DEFAULT NULL<br>cattributes 	  	in varchar2   		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418526">
+Generates
+</A></DL><A NAME="418527">
+&lt;A HREF="curl" NAME="cname" cattributes&gt;ctext&lt;/A&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418528">
+htp.anchor2
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418529">
+Syntax
+</A></DL><A NAME="418530">
+htp.anchor2 (curl, ctext, cname, ctarget, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418531">
+Purpose
+</A></DL><A NAME="418532">
+Prints the HTML tag for an anchor to be the start or end destination of a hypertext link. This anchor can accept several attributes, but either HREF or NAME is required. HREF specifies where to link to. NAME allows this tag to be a target of a hypertext link. This procedure differs from htp.anchor in that it provides a target and therefore can be used for a frame.<P>
+</A><DL COMPACT><DT><A NAME="418533">
+Parameters
+</A></DL><A NAME="418534">
+curl   		in varchar2<br>ctext   		in varchar2<br>cname  		in varchar2  		DEFAULT NULL<br>ctarget  		in varchar2   		DEFAULT NULL<br>cattributes 	  	in varchar2   		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418535">
+Generates
+</A></DL><A NAME="418536">
+&lt;A HREF="curl" NAME="cname" TARGET = "ctarget" cattributes&gt;ctext&lt;/A&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418537">
+htp.mailto
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418538">
+Syntax
+</A></DL><A NAME="418539">
+htp.mailto (caddress, ctext, cname, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418540">
+Purpose
+</A></DL><A NAME="418541">
+Prints the HTML tag for an anchor with `mailto' concatenated ahead of the mail address argument.<P>
+</A><DL COMPACT><DT><A NAME="418542">
+Parameters
+</A></DL><A NAME="418543">
+caddress		in varchar2<br>ctext		in varchar2<br>cname		in varchar2<br> cattributes		in varchar2		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418544">
+Generates
+</A></DL><A NAME="418545">
+&lt;A HREF="mailto:<em>caddress</em>" <em>cattributes</em>&gt;<em>ctext</em>&lt;/A&gt;<P>
+</A><DL COMPACT><DT><A NAME="418546">
+Example
+</A></DL><A NAME="418547">
+htp.mailto('pres@white_house.gov','Send Email to the President');<P>
+</A><A NAME="418548">
+prints<P>
+</A><A NAME="418549">
+&lt;A HREF="mailto:pres@white_house.gov"&gt;Send Email to the President&lt;/A&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418550">
+htp.img
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418551">
+Syntax
+</A></DL><A NAME="418552">
+htp.img (curl, calign, calt, cismap, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418553">
+Purpose
+</A></DL><A NAME="418554">
+Prints an HTML tag that signals the browser to load an image to be placed into the HTML page. ALT allows you to specify alternate text to be shown while the image is being loaded, or instead of the image if the browser does not support images. The ISMAP attribute indicates that the image is an image map.<P>
+</A><DL COMPACT><DT><A NAME="418555">
+Parameters
+</A></DL><A NAME="418556">
+curl   		in varchar2   	DEFAULT NULL<br>calign  	 	in varchar2   	DEFAULT NULL<br>calt   		in varchar2   	DEFAULT NULL<br>cismap	   	in varchar2   	DEFAULT NULL<br>cattributes	 	in varchar2   	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418557">
+Generates
+</A></DL><A NAME="418558">
+&lt;IMG SRC="<em>curl</em>" ALIGN="<em>calign</em>" ALT="<em>calt</em>" ISMAP<em> cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418559">
+htp.img2
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418560">
+Syntax
+</A></DL><A NAME="418561">
+htp.img (curl, calign, calt, cismap, cusemap, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418562">
+Purpose
+</A></DL><A NAME="418563">
+Prints an HTML tag that signals the browser to load an image to be placed into the HTML page. ALT allows you to specify alternate text to be shown while the image is being loaded, or instead of the image if the browser does not support images. The ISMAP attribute indicates that the image is an image map. The CUSEMAP parameter specifies a client-side image map.<P>
+</A><DL COMPACT><DT><A NAME="418564">
+Parameters
+</A></DL><A NAME="418565">
+curl   		in varchar2   	DEFAULT NULL<br>calign  	 	in varchar2   	DEFAULT NULL<br>calt   		in varchar2   	DEFAULT NULL<br>cismap	   	in varchar2   	DEFAULT NULL<br>cusemap  	 	in varchar2   	DEFAULT NULL<br>cattributes 	 	in varchar2   	DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418566">
+Generates
+</A></DL><A NAME="418567">
+&lt;IMG SRC="<em>curl</em>" ALIGN="<em>calign</em>" ALT="<em>calt</em>" ISMAP<em>  </em>USEMAP="cusemap" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418568">
+htp.para
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418569">
+Syntax
+</A></DL><A NAME="418570">
+htp.para;<P>
+</A><DL COMPACT><DT><A NAME="418571">
+Purpose
+</A></DL><A NAME="418572">
+Prints an HTML tag that indicates that the text previous to it should be formatted as a paragraph.<P>
+</A><DL COMPACT><DT><A NAME="418573">
+Parameters
+</A></DL><A NAME="418574">
+none<P>
+</A><DL COMPACT><DT><A NAME="418575">
+Generates
+</A></DL><A NAME="418576">
+&lt;P&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418577">
+htp.paragraph
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418578">
+Syntax
+</A></DL><A NAME="418579">
+htp.paragraph (calign, cnowrap, cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418580">
+Purpose
+</A></DL><A NAME="418581">
+Prints the same HTML tag as htp.para except that parameters pass in exact alignment, leading, wrapping, and attributes.<P>
+</A><DL COMPACT><DT><A NAME="418582">
+Parameters
+</A></DL><A NAME="418583">
+calign   		in varchar2   DEFAULT NULL<br>cnowrap  	 	in varchar2   DEFAULT NULL<br>cclear   		in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418584">
+Generates
+</A></DL><A NAME="418585">
+&lt;P ALIGN="<em>calign</em>" NOWRAP CLEAR="<em>cclear</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418586">
+htp.address
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418587">
+Syntax
+</A></DL><A NAME="418588">
+htp.address (cvalue, cnowrap, cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418589">
+Purpose
+</A></DL><A NAME="418590">
+Prints an HTML tag that enables you to specify address, author and signature of document<P>
+</A><DL COMPACT><DT><A NAME="418591">
+Parameters
+</A></DL><A NAME="418592">
+cvalue  	 	in varchar2<br>cnowrap	   	in varchar2   DEFAULT NULL<br>cclear   		in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418593">
+Generates
+</A></DL><A NAME="418594">
+&lt;ADDRESS CLEAR="<em>cclear</em>" NOWRAP <em>cattributes</em>&gt;<em>cvalue</em>&lt;/ADDRESS&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418595">
+htp.Comment
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418596">
+Syntax
+</A></DL><A NAME="418597">
+htp.Comment (ctext);<P>
+</A><DL COMPACT><DT><A NAME="418598">
+Purpose
+</A></DL><A NAME="418599">
+Prints an HTML tag that allows you to store Comments or lines in HTML pages. These Comments are not visible to the end user.<P>
+</A><DL COMPACT><DT><A NAME="418600">
+Parameters
+</A></DL><A NAME="418601">
+ctext   in varchar2<P>
+</A><DL COMPACT><DT><A NAME="418602">
+Generates
+</A></DL><A NAME="418603">
+&lt;!--<em> ctext</em> --&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418604">
+htp.preOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418605">
+Syntax
+</A></DL><A NAME="418606">
+htp.preOpen (cclear, cwidth, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418607">
+Purpose
+</A></DL><A NAME="418608">
+Prints an HTML tag that indicates the beginning of preformatted text in the body of the HTML page.<P>
+</A><DL COMPACT><DT><A NAME="418609">
+Parameters
+</A></DL><A NAME="418610">
+cclear   		in varchar2   DEFAULT NULL<br>cwidth   		in varchar2   DEFAULT NULL<br>cattributes  	 	in varchar2   DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418611">
+Generates
+</A></DL><A NAME="418612">
+&lt;PRE CLEAR="<em>cclear</em>" WIDTH="<em>cwidth</em>" <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418613">
+htp.preClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418614">
+Syntax
+</A></DL><A NAME="418615">
+htp.preClose;<P>
+</A><DL COMPACT><DT><A NAME="418616">
+Purpose
+</A></DL><A NAME="418617">
+Prints an HTML tag that ends the preformatted section of text.<P>
+</A><DL COMPACT><DT><A NAME="418618">
+Parameters
+</A></DL><A NAME="418619">
+none<P>
+</A><DL COMPACT><DT><A NAME="418620">
+Generates
+</A></DL><A NAME="418621">
+&lt;/PRE&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418622">
+htp.blockquoteOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418623">
+Syntax
+</A></DL><A NAME="418624">
+htp.blockquoteOpen (cnowrap, cclear, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418625">
+Purpose
+</A></DL><A NAME="418626">
+Prints an HTML tag that precedes a paragraph of quoted text.<P>
+</A><DL COMPACT><DT><A NAME="418627">
+Parameters
+</A></DL><A NAME="418628">
+cnowrap 	  	in varchar2   DEFAULT NULL<br>cclear   		in varchar2   DEFAULT NULL<br>cattributes	   	in varchar2   DEFAULT NULL;<P>
+</A><DL COMPACT><DT><A NAME="418629">
+Generates
+</A></DL><A NAME="418630">
+&lt;BLOCKQUOTE CLEAR="<em>cclear</em>" NOWRAP <em>cattributes</em>&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418631">
+htp.blockquoteClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418632">
+Syntax
+</A></DL><A NAME="418633">
+htp.blockquoteClose;<P>
+</A><DL COMPACT><DT><A NAME="418634">
+Purpose
+</A></DL><A NAME="418635">
+Ends the &lt;BLOCKQUOTE&gt; section of quoted text.<P>
+</A><DL COMPACT><DT><A NAME="418636">
+Parameters
+</A></DL><A NAME="418637">
+none<P>
+</A><DL COMPACT><DT><A NAME="418638">
+Generates
+</A></DL><A NAME="418639">
+&lt;/BLOCKQUOTE&gt;<P>
+</A><HR>
+<H2>
+<A NAME="418640">
+htp.base
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418641">
+Syntax
+</A></DL><A NAME="418642">
+htp.base(ctarget, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418643">
+Purpose
+</A></DL><A NAME="418644">
+Prints an HTML tag that records the URL of the document. The ctarget attribute establishes a default window name to which all links in this document will be targeted.<P>
+</A><DL COMPACT><DT><A NAME="418645">
+Parameters
+</A></DL><A NAME="418646">
+ctarget		in varchar2 DEFAULT NULL<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418647">
+Generates
+</A><A NAME="418648">
+<PRE>BASE HREF="&lt;current URL&gt;" TARGET="target" cattributes&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418649">
+htp.area
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418650">
+Syntax
+</A></DL><A NAME="418651">
+htp.area(ccoords, cshape, chref, cnohref, ctarget, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418652">
+Purpose
+</A></DL><A NAME="418653">
+Prints an HTML tag to specify the shape of a client-side image map region.<P>
+</A><DL COMPACT><DT><A NAME="418654">
+Parameters
+</A></DL><A NAME="418655">
+ccoords		in varchar2<br>cshape		in varchar2 		DEFAULT NULL<br>chref		in varchar2		DEFAULT NULL<br>cnohref		in varchar2 		DEFAULT NULL<br>ctarget		in varchar2		DEFAULT NULL<br>cattributes		in varchar2 		DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418656">
+Generates
+</A><A NAME="418657">
+<PRE>&lt;AREA COORDS="ccoords" SHAPE="cshape" HREF="chref" NOHREF TARGET="ctarget" cattributes&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418658">
+htp.mapOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418659">
+Syntax
+</A></DL><A NAME="418660">
+htp.mapOpen(cname, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418661">
+Purpose
+</A></DL><A NAME="418662">
+Prints an HTML tag to specify a set of regions in a client-side image map.<P>
+</A><DL COMPACT><DT><A NAME="418663">
+Parameters
+</A></DL><A NAME="418664">
+cname		in varchar2<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418665">
+Generates
+</A><A NAME="418666">
+<PRE>&lt;MAP NAME="cname" cattributes&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418667">
+htp.mapClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418668">
+Syntax
+</A></DL><A NAME="418669">
+htp.mapClose;<P>
+</A><DL COMPACT><DT><A NAME="418670">
+Purpose
+</A></DL><A NAME="418671">
+Prints an HTML tag that ends the definition of a client-side image map.<P>
+</A><DL COMPACT><DT><A NAME="418672">
+Parameters
+</A></DL><A NAME="418673">
+none<P>
+</A><DL COMPACT><DT><A NAME="418674">
+Generates
+</A><A NAME="418675">
+<PRE>&lt;/MAP&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418676">
+htp.bgsound
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418677">
+Syntax
+</A></DL><A NAME="418678">
+htp.bgsound(csrc, cloop, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418679">
+Purpose
+</A></DL><A NAME="418680">
+Prints an HTML tag to include background sound for a web page.<P>
+</A><DL COMPACT><DT><A NAME="418681">
+Parameters
+</A></DL><A NAME="418682">
+csrc		in varchar2<br>cloop		in varchar2 DEFAULT NULL<br>cattributes	in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418683">
+Generates
+</A><A NAME="418684">
+<PRE>&lt;BGSOUND SRC="csrc" LOOP="cloop" cattributes&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418685">
+htp.div
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418686">
+Syntax
+</A></DL><A NAME="418687">
+htp.div(calign, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418688">
+Purpose
+</A></DL><A NAME="418689">
+Prints an HTML tag to create document divisions.<P>
+</A><DL COMPACT><DT><A NAME="418690">
+Parameters
+</A></DL><A NAME="418691">
+calign		in varchar2 DEFAULT NULL<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418692">
+Generates
+</A><A NAME="418693">
+<PRE>&lt;DIV ALIGN="calign" cattributes&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418694">
+htp.listingOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418695">
+Syntax
+</A></DL><A NAME="418696">
+htp.listingOpen;<P>
+</A><DL COMPACT><DT><A NAME="418697">
+Purpose
+</A></DL><A NAME="418698">
+Prints an HTML tag to indicate the beginning of fixed-width text in the body of an HTML page.<P>
+</A><DL COMPACT><DT><A NAME="418699">
+Parameters
+</A></DL><A NAME="418700">
+none<P>
+</A><DL COMPACT><DT><A NAME="418701">
+Generates
+</A><A NAME="418702">
+<PRE>&lt;LISTING&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418703">
+htp.listingClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418704">
+Syntax
+</A></DL><A NAME="418705">
+htp.listingClose;<P>
+</A><DL COMPACT><DT><A NAME="418706">
+Purpose
+</A></DL><A NAME="418707">
+Prints an HTML tag to end the fixed-width section of text.<P>
+</A><DL COMPACT><DT><A NAME="418708">
+Parameters
+</A></DL><A NAME="418709">
+none<P>
+</A><DL COMPACT><DT><A NAME="418710">
+Generates
+</A><A NAME="418711">
+<PRE>&lt;/LISTING&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418712">
+htp.nobr
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418713">
+Syntax
+</A></DL><A NAME="418714">
+htp.nobr(ctext);<P>
+</A><DL COMPACT><DT><A NAME="418715">
+Purpose
+</A></DL><A NAME="418716">
+Prints an HTML tag to turn off line-breaking with a section of text.<P>
+</A><DL COMPACT><DT><A NAME="418717">
+Parameters
+</A></DL><A NAME="418718">
+ctext	in varchar2<P>
+</A><DL COMPACT><DT><A NAME="418719">
+Generates
+</A><A NAME="418720">
+<PRE>&lt;NOBR&gt;ctext&lt;/NOBR&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418721">
+htp.wbr
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418722">
+Syntax
+</A></DL><A NAME="418723">
+htp.wbr;<P>
+</A><DL COMPACT><DT><A NAME="418724">
+Purpose
+</A></DL><A NAME="418725">
+Prints an HTML tag to insert a soft linebreak within a section of NOBR text.<P>
+</A><DL COMPACT><DT><A NAME="418726">
+Parameters
+</A></DL><A NAME="418727">
+none<P>
+</A><DL COMPACT><DT><A NAME="418728">
+Generates
+</A><A NAME="418729">
+<PRE>&lt;WBR&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418730">
+htp.center
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418731">
+Syntax
+</A></DL><A NAME="418732">
+htp.center(ctext);<P>
+</A><DL COMPACT><DT><A NAME="418733">
+Purpose
+</A></DL><A NAME="418734">
+Prints a pair of HTML tags to center a section of text within a web page.<P>
+</A><DL COMPACT><DT><A NAME="418735">
+Parameters
+</A></DL><A NAME="418736">
+ctexy	in varchar2<P>
+</A><DL COMPACT><DT><A NAME="418737">
+Generates
+</A><A NAME="418738">
+<PRE>&lt;CENTER&gt;ctext&lt;/CENTER&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418739">
+htp.centerOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418740">
+Syntax
+</A></DL><A NAME="418741">
+htp.centerOpen;<P>
+</A><DL COMPACT><DT><A NAME="418742">
+Purpose
+</A></DL><A NAME="418743">
+Prints an HTML tag to open a centered section of text within a web page.<P>
+</A><DL COMPACT><DT><A NAME="418744">
+Parameters
+</A></DL><A NAME="418745">
+none<P>
+</A><DL COMPACT><DT><A NAME="418746">
+Generates
+</A><A NAME="418747">
+<PRE>&lt;CENTER&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418748">
+htp.centerClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418749">
+Syntax
+</A></DL><A NAME="418750">
+htp.centerClose;<P>
+</A><DL COMPACT><DT><A NAME="418751">
+Purpose
+</A></DL><A NAME="418752">
+Prints an HTML tag to close a centered section of text within a web page.<P>
+</A><DL COMPACT><DT><A NAME="418753">
+Parameters
+</A></DL><A NAME="418754">
+none<P>
+</A><DL COMPACT><DT><A NAME="418755">
+Generates
+</A><A NAME="418756">
+<PRE>&lt;/CENTER&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418757">
+htp.dfn
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418758">
+Syntax
+</A></DL><A NAME="418759">
+htp.dfn(ctext);<P>
+</A><DL COMPACT><DT><A NAME="418760">
+Purpose
+</A></DL><A NAME="418761">
+Prints a pair of HTML tags that specify the text they surround is rendered as italics.<P>
+</A><DL COMPACT><DT><A NAME="418762">
+Parameters
+</A></DL><A NAME="418763">
+ctext		in varchar2<P>
+</A><DL COMPACT><DT><A NAME="418764">
+Generates
+</A><A NAME="418765">
+<PRE>&lt;DFN&gt;ctext&lt;/DFN&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418766">
+htp.big
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418767">
+Syntax
+</A></DL><A NAME="418768">
+htp.big(ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418769">
+Purpose
+</A></DL><A NAME="418770">
+Prints a pair of HTML tags that specify the text they surround is rendered using a big font.<P>
+</A><DL COMPACT><DT><A NAME="418771">
+Parameters
+</A></DL><A NAME="418772">
+ctext		in varchar2<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418773">
+Generates
+</A><A NAME="418774">
+<PRE>&lt;BIG cattributes&gt;ctext&lt;/BIG&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418775">
+htp.small
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418776">
+Syntax
+</A></DL><A NAME="418777">
+htp.small(ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418778">
+Purpose
+</A></DL><A NAME="418779">
+Prints a pair of HTML tags that specify the text they surround is rendered using a small font.<P>
+</A><DL COMPACT><DT><A NAME="418780">
+Parameters
+</A></DL><A NAME="418781">
+ctext		in varchar2<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418782">
+Generates
+</A><A NAME="418783">
+<PRE>&lt;SMALL cattributes&gt;ctext&lt;/SMALL&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418784">
+htp.sub
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418785">
+Syntax
+</A></DL><A NAME="418786">
+htp.sub(ctext, calign, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418787">
+Purpose
+</A></DL><A NAME="418788">
+Prints a pair of HTML tags that specify the text they surround is rendered as a subscript.<P>
+</A><DL COMPACT><DT><A NAME="418789">
+Parameters
+</A></DL><A NAME="418790">
+ctext		in varchar2<br>calign		in varchar2 DEFAULT NULL<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418791">
+Generates
+</A><A NAME="418792">
+<PRE>&lt;SUB ALIGN="calign" cattributes&gt;ctext&lt;/SUB&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418793">
+htp.sup
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418794">
+Syntax
+</A></DL><A NAME="418795">
+htp.sup(ctext, calign, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418796">
+Purpose
+</A></DL><A NAME="418797">
+Prints a pair of HTML tags that specify the text they surround is rendered using as a superscript.<P>
+</A><DL COMPACT><DT><A NAME="418798">
+Parameters
+</A></DL><A NAME="418799">
+ctext		in varchar2<br>calign		in varchar2<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418800">
+Generates
+</A><A NAME="418801">
+<PRE>&lt;SUP ALIGN="calign" cattributes&gt;ctext&lt;/SUP&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418802">
+htp.basefont
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418803">
+Syntax
+</A></DL><A NAME="418804">
+htp.basefont(nsize);<P>
+</A><DL COMPACT><DT><A NAME="418805">
+Purpose
+</A></DL><A NAME="418806">
+Prints an HTML tag that specifies the base font size for a web page.<P>
+</A><DL COMPACT><DT><A NAME="418807">
+Parameters
+</A></DL><A NAME="418808">
+nsize		in integer<P>
+</A><DL COMPACT><DT><A NAME="418809">
+Generates
+</A><A NAME="418810">
+<PRE>&lt;BASEFONT SIZE="nsize"&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418811">
+htp.fontOpen
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418812">
+Syntax
+</A></DL><A NAME="418813">
+htp.fontOpen(ccolor, cface, csize, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418814">
+Purpose
+</A></DL><A NAME="418815">
+Prints an HTML tag that indicates the beginning of a section of text with the specified font characteristics.<P>
+</A><DL COMPACT><DT><A NAME="418816">
+Parameters
+</A></DL><A NAME="418817">
+ccolor		in varchar2 DEFAULT NULL<br>cface		in varchar2 DEFAULT NULL<br>csize		in varchar2 DEFAULT NULL<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418818">
+Generates
+</A><A NAME="418819">
+<PRE>&lt;FONT COLOR="ccolor" FACE="cface" SIZE="csize" cattributes&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418820">
+htp.fontClose
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418821">
+Syntax
+</A></DL><A NAME="418822">
+htp.fontClose;<P>
+</A><DL COMPACT><DT><A NAME="418823">
+Purpose
+</A></DL><A NAME="418824">
+Prints an HTML tag that indicates the end of a section of text with the specified font characteristics.<P>
+</A><DL COMPACT><DT><A NAME="418825">
+Parameters
+</A></DL><A NAME="418826">
+none<P>
+</A><DL COMPACT><DT><A NAME="418827">
+Generates
+</A><A NAME="418828">
+<PRE>&lt;/FONT&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418829">
+htp.plaintext
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418830">
+Syntax
+</A></DL><A NAME="418831">
+htp.plaintext(ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418832">
+Purpose
+</A></DL><A NAME="418833">
+Prints a pair of HTML tags that specify the text they surround be rendered with fixed-width type.<P>
+</A><DL COMPACT><DT><A NAME="418834">
+Parameters
+</A></DL><A NAME="418835">
+ctext		in varchar2<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418836">
+Generates
+</A><A NAME="418837">
+<PRE>&lt;PLAINTEXT cattributes&gt;ctext&lt;/PLAINTEXT&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418838">
+htp.s
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418839">
+Syntax
+</A></DL><A NAME="418840">
+htp.s(ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418841">
+Purpose
+</A></DL><A NAME="418842">
+Prints a pair of HTML tags that specify the text they surround be rendered in strikethrough type.<P>
+</A><DL COMPACT><DT><A NAME="418843">
+Parameters
+</A></DL><A NAME="418844">
+ctext		in varchar2<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418845">
+Generates
+</A><A NAME="418846">
+<PRE>&lt;S cattributes&gt;ctext&lt;/S&gt;</PRE><P>
+</A>
+</DL><HR>
+<H2>
+<A NAME="418847">
+htp.strike
+</A>
+</H2>
+<DL COMPACT><DT><A NAME="418848">
+Syntax
+</A></DL><A NAME="418849">
+htp.strike(ctext, cattributes);<P>
+</A><DL COMPACT><DT><A NAME="418850">
+Purpose
+</A></DL><A NAME="418851">
+Prints a pair of HTML tags that specify the text they surround be rendered in strikethrough type.<P>
+</A><DL COMPACT><DT><A NAME="418852">
+Parameters
+</A></DL><A NAME="418853">
+ctext		in varchar2<br>cattributes		in varchar2 DEFAULT NULL<P>
+</A><DL COMPACT><DT><A NAME="418854">
+Generates
+</A><A NAME="418855">
+<PRE>&lt;STRIKE cattributes&gt;ctext&lt;/STRIKE&gt;</PRE><P>
+</A>
+</DL> <P>
+ 
+<HR>
+ 
+<A HREF="psqlwtlk.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="psqlwtl4.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="psqlwtl6.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
+

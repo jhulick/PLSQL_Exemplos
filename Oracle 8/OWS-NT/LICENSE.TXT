@@ -1,0 +1,35 @@
+              Licença Provisória para o Oracle WebServer para Windows NT, 
+              Versão Revista 2.1 
+
+
+
+Licença provisória para 60 dias sem encargos
+
+ORACLE PORTUGAL
+
+AVISO: O carregamento deste software num computador indica a sua aceitação dos termos e condições que se seguem. Leia-os atentamente. 
+
+LICENÇA PROVISÓRIA: A Oracle Portugal ("Oracle") concede-lhe ("Cliente") uma licença de utilização provisória, sem encargos, para utilizar o software seleccionado ("Software") apenas para efeitos de avaliação por um período de 60 dias. O Cliente poderá utilizar o Software para quaisquer fins de desenvolvimento, comerciais ou de produção. O Cliente poderá fazer cópias provisórias do Software para terceiros permitindo-lhes utilizar o Software sob as mesmas restrições que são indicadas nesta Licença, desde que o Cliente não cobre quaisquer encargos por isso. O Cliente terá de comprar uma licença de utilização total, se pretender ter direito a um dos benefícios que se seguem: (a) utilizar o Software depois do fim do período de utilização provisória de 60 dias ou (b) utilizar o Software para quaisquer fins de desenvolvimento, comerciais ou de produção, ou (c) distribuir o Software para qualquer utilização desse tipo. 
+
+DIREITOS DE AUTOR: O Software é propriedade da Oracle e está protegido por leis de direitos de autor. O Cliente adquire apenas o direito de utilizar o Software não adquirindo quaisquer direitos de propriedade. O Cliente não retirará qualquer identificação do produto, avisos de direitos de autor ou outros avisos ou restrições de propriedade do Software. O Cliente não efectuará ou autorizará reverse engineering, desassemblagem ou descompilação do Software. O Cliente não revelará a terceiros os resultados de quaisquer testes de benchmark do Software, salvo mediante prévio acordo escrito da Oracle. 
+
+GARANTIAS EXCLUSIVAS: A Oracle fornece esta licença "tal como está", sem garantias de qualquer tipo; a Oracle rejeita todas as garantias expressas e implícitas, incluindo as garantias implícitas de comercialização ou adequação a fins específicos. 
+
+LIMITAÇÃO DE RESPONSABILIDADE: A ORACLE NÃO SERÁ RESPONSÁVEL POR QUAISQUER DANOS DIRECTOS, INDIRECTOS, ACIDENTAIS, ESPECIAIS OU EMERGENTES, OU POR DANOS POR PERDAS DE LUCROS, RECEITAS, DADOS OU UTILIZAÇÃO DE DADOS, SOFRIDOS PELO CLIENTE OU POR TERCEIROS, CONTRATUAL OU EXTRACONTRATUALMENTE, MESMO QUE O CLIENTE OU QUALQUER OUTRA PESSOA TENHA SIDO AVISADA DA POSSIBILIDADE 
+DA OCORRÊNCIA DE TAIS DANOS.
+
+EXPORTAÇÃO: O Cliente acorda no cumprimento integral de todas as leis e regulamentos para garantir que o Software, ou qualquer produto dele resultante, não será exportado, directa ou indirectamente, em violação da lei. 
+
+DIREITOS RESTRITOS: Se o Software for usado pelo Departamento de Defesa dos E.U.A, sê-lo-á com Direitos Restritos aplicando-se a seguinte menção: "utilização da Legenda de Direitos Restritos", a reprodução ou divulgação pelo Governo está sujeita às restrições à altura mencionadas no subparágrafo (c)(1)(ii) do DFARS 252-227-7013, Direitos sobre Dados Técnicos e Software para Computador (Outubro de 1988). Oracle Corporation, 500 Oracle Parkway, Redwood City, CA, 94065. Se o Software for usado por um Departamento do Governo dos E.U.A que não o da Defesa, sê-lo-á com "Direitos Restritos" conforme definido no FAR 52.227-14, Direitos sobre Dados Geral, incluindo Alternate III (Junho de 1987).
+
+Oracle Corporation World Headquarters
+500 Oracle Parkway
+Redwood Shores, CA 94065
+E.U.A.
+
+Consultas a partir de todo o mundo: 415.506.7000
+Fax: 415.506.7200
+
+Para oferecer aos nossos clientes as soluções de gestão de informações mais completas e eficazes, a Oracle oferece os seus produtos, juntamente com suporte técnico, formação e consultoria, em mais de 90 países. 
+
+Copyright (c) Oracle Corporation 1996. Todos os direitos reservados. 

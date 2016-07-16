@@ -1,0 +1,267 @@
+<html>
+<head>
+<title>Oracle WebServer for Windows NT Security Patch for Releases 1.X and 2.X</title>
+</head>
+
+
+<body>
+<body bgcolor=#ffffff>
+
+
+<A NAME = "">
+
+
+<title><strong><align=center>Oracle WebServer for Windows NT Security Patch</title></strong></a>
+
+
+<a name="Top"><h1><align=center><b>Oracle WebServer for Windows NT Security Patch</h1></b></a>
+
+<h2><align=center>Enhanced Security Utilities</h2>
+
+<hr>
+
+<p>This document contains installation and usage information for the Oracle WebServer for Windows NT Security Patch. Topics covered are:
+
+<ul>
+<a href="#Distr"><li>Distribution</li>
+
+<a href="#install"><li>Installing the Security Patch</li></a>
+
+<a href="#apply"><li>Applying the Patch</li></a>
+
+        <a href="#patch"><ul><li>PATCH.EXE</li></a></ul>
+
+        <a href="/patch.con"><ul><li>Sample Configuration Files for PATCH.EXE</ul></li></a>
+
+        <ul><a href="#diagnose"><li>DIAGNOSE.EXE</li></a></ul>
+
+        <ul><a href="/diagnose.rep"><li>Sample Diagnostic Report for DIAGNOSE.EXE</li></a></ul>
+
+<li><a href="#ows2adjust">WebServer 2.x Adjustments</li></a>
+
+<li><a href="#ows1">WebServer 1.x Adjustments</li></a>
+
+<li></li>
+</ul>
+
+<a href="#Top">TOP</a>
+
+
+<p><strong><i>Please read the entire document before applying any patches.</i></strong></p>
+
+<p>It has come to Oracle's attention that many Internet sites using Oracle WebServer are using the simple example
+applications distributed with the product as skeletons for real applications. The danger in this is that the samples were
+not designed for maximum security but to demonstrate the basic functionality of the product. To address this issue, Oracle is releasing the following:
+<p>
+
+<ul>
+
+<li>A white paper documenting how to develop secure PL/SQL applications for Oracle WebServer versions 1.0 and 2.0. </li>
+
+<li>A small utility and diagnostic tool to automate the task of increasing security for your existing WebServer installation. These utilities are designed to support versions of WebServer for Windows NT (Intel) prior to release 2.1.</li>
+
+</ul>
+
+<bq><p><strong>Note that although Oracle is distributing the enhanced security utility as a patch, this is technically not a case of faulty software, but it is an attempt to address a common problem involving inadequate security.</strong></bq>
+
+<p>Use  these utilities if you are running any version of Oracle WebServer prior to 2.1. If you do not have web access, please contact Oracle Worldwide Customer Support. If you are a U.S. customer, please call (415) 506-1500 and select 2 for New Technical Issues. If you are not a U.S. customer, please contact your local Oracle office.
+
+<p><a href="#Top">TOP</a>
+
+<a name="Distr"><h1>Distribution</h1></a>
+
+<p>The utility is a self-extracting executable (OWSPATCH.EXE)
+for Windows NT. The white paper file is not included in it. Download the document file separately.
+
+<p>Files included in the Oracle WebServer for Windows NT Security Patch file OWSPATCH.EXE:
+<p>
+<ul>
+<li>DIAGNOSE.EXE</li>
+<li>PATCH.EXE </li>
+<li>PATCH.doc (this file)</li>
+<li>MSVCRT.DLL</LI>
+</ul>
+
+<p><a href="#Top">TOP</a>
+
+<a name="install"><h1>Installing the Security Patch</h1></a>
+
+<p><bq><strong>Shut down all instances of Oracle WebServer prior to running the scripts described below.</bq></strong>
+</ul>
+
+<OL>
+
+<LI>Create a new directory called PATCH under you TEMP directory.  </LI>
+
+<LI>Save OWSPATCH.EXE in that directory.
+
+<LI>Launch OWSPATCH.EXE in one of two ways:</li>
+
+<p>
+<BQ><OL>
+<TYPE=a>
+
+<LI>Double-click on the file icon in File Manager, or</LI>
+
+<LI>Type in a DOS shell, </li>
+
+<bq><CODE>cd c:\temp\patch </bq></code>
+
+<bq><p><code>owspatch.exe</CODE></bq>
+
+<P>The files are extracted into the directory.
+
+</ol></ol>
+
+<a href="#Top">TOP</a>
+
+<a name="apply"><H1>Applying the Patch</H1></a>
+
+
+<p>This package contains two utilities, PATCH.EXE and DIAGNOSE.EXE.  Follow the instructions below to use these utilities.
+
+<a name="patch"><H2>PATCH.EXE</H2></a>
+
+<P>This utility examines the administration server configuration files and updates them.  It also creates sample configuration files for listeners other than the administrationserver.
+
+<p>To run PATCH.EXE, open up a DOS shell and type at command prompt</p>
+
+        <bq><code>cd c:\temp\patch</bq>
+
+        <bq>patch.exe</code></bq>
+
+<p><a href="#Top">TOP</a>
+
+<p>A sample session follows:
+
+<code>
+
+<bq>
+
+<p>C:\temp\patch>patch.exe
+<p>Enter the OWS20 Administration Server name (Admin) :
+<p>SVADMIN.CFG Updated.
+<p>Original SVADMIN.CFG is saved in C:\ORANT\OWS20\admin\original\SVADMIN.CFG
+<p>SVADMIN.APP Updated.
+<p>Original SVADMIN.APP is saved in C:\ORANT\OWS20\admin\original\SVADMIN.APP
+<p>Sample config files with extensions .cfS and .apS have been generated in
+<bq>  c:\orant\ows20\admin\sample for all other listeners.</bq>
+<p>Patch installed.
+<p>Restart the ADMIN server
+<p>Press any key when ready ...
+
+</code>
+
+<p><a href="#Top">TOP</a>
+
+<a name="samplepatch"><h3>Sample Configuration Files for PATCH.EXE</h3></a>
+
+<p><a href="/patch.con">Click here</a> to view the configuration files that PATCH.EXE was run against in the previous section. Shown after each file is
+the same file <em>after</em> modifications were made by the security utility. The modified sample files are saved under ORANT\OWS21\ADMIN\SAMPLE.
+
+<p><a href="#Top">TOP</a>
+
+<a name="diagnose"><h2>DIAGNOSE.EXE</h2></a>
+
+<p>This utility examines the configuration files for your other Oracle Web Listeners. DIAGNOSE.EXE, supports any version of Oracle WebServer and generates a security report indicating potential problems in your configuration.
+
+
+<p>To run DIAGNOSE.EXE, open up a DOS shell and type at the command prompt
+
+        <p><bq><CODE>cd c:\temp\patch</BQ>
+        <p><BQ>diagnose.exe</BQ></CODE>
+
+<P>This utility saves the reports in files named SVCFG.REP and SVAPP.REP under the directory
+ORANT\OWSx0\admin, where x is either 1 or 2 based on whether you are running Oracle Web Server 1.X or 2.0.
+
+<p><a href="#Top">TOP</a>
+
+<P>A sample session follows:
+
+<Blockquote><CODE>
+
+<P>C:\temp\patch>diagnose
+<P>Report has been generated, Read
+    <P>C:\ORANT\OWS20\admin\svcfg.rep for sv*.cfg files
+   <P> C:\ORANT\OWS20\admin\svapp.rep for sv*.app files
+<P>Press any key when ready ...
+
+</code></blockquote>
+
+<p><a href="/diagnose.rep">Click here</a> to view sample output files (reports). The complete listing of each file is included along with sample versions created by the security utility.
+
+<p><a href="#Top">TOP</a>
+
+
+<a name="ows2adjust"><H2>WebServer 2.x Adjustments</H2></a>
+
+<P>This section describes what happens when the security utility is run against an existing WebServer 2.x installation. It also provides enough information for you to implement the security enhancements manually, if you prefer. The word <I>DCD</I> is equivalent to the name of a DCD (data connection descriptor).
+
+<p><a href="#Top">TOP</a>
+
+<H3>Adminstration Server</H3>
+
+
+<p>In the file SVADMIN.CFG, all virtual paths in the directory mapping section are protected using basic authentication. The impact of this is that any request to an admin server will require proper authentication. The username and password used is the same as for the admin server. All changes are made directly to the SVADMIN.CFG file with a copy of the original file placed in</p>
+
+<BQ><CODE>ORANT\OWS20\ADMIN\ORIGINAL\SVADMIN.CF?</CODE>
+
+<p>where ? depends on the existing files under "ORIGINAL" directory. Users are advised of the actual name of the saved file when applying the patch.</p>
+
+<p>In the file SVADMIN.APP, all virtual paths are protected using basic authentication. All sensitive PL/SQL web toolkit packages are protected also.
+
+<P>The protected packages are: /DCD/OWA/OWA_UTIL.*  and /DCD/OWA/OWA_SQL.*. This means that any time you try to use DCD/OWA, DCD/OWA/OWA_UTIL, and DCD/OWA/OWA_SQL in a URL, you will be prompted for a username/password.
+The username and password used to protect these virtual paths and procedures is the same as for the admin server. All changes are made directly to the SVADMIN.APP file with a copy of the original file placed in </p>
+
+
+<blockquote><code>ORANT\ows20\admin\original\svadmin.ap?</blockquote></code>
+
+<blockquote><p>where ? depends on the existing files under the "original" directory.  Users will be advised of the
+actual name of the saved file when applying the patch.</blockquote>
+
+<p><a href="#Top">TOP</a>
+
+<h3>User-created Listeners</h3>
+
+<p>For additional user-created listeners, no changes are made to .CFG files. The configuration files are examined by the utility and sample changes are put in ORANT\OWS20\SAMPLE.  The realm in which they are protected will depend on your existing configuration.  If you already have a security section for authentication in your listener configuration file (SV<listener>.CFG), the realm specified in that section will be used in the next step. If none exists, a BASIC realm will be created under a new section in the file ORANT\OWS20\SAMPLE\SV<listener>.CFG as follows:
+
+
+<blockquote><code>
+<p>[Security]
+<p>Basic {
+<p>(Realms)
+<p>Admin Server: dba
+<p>(Users)
+<p>system: manager
+<p>(Groups)
+<p>dba: system
+<p>}
+
+</blockquote></code>
+
+<p>For additional user-created listeners, each DCD for the Oracle Web Agent is protected by protecting the OWA_UTIL and OWA_SQL packages. This protection disables web clients from invoking these packages without proper authentication, and it is achieved by adding two lines in the [protection] section as follows:
+
+<blockquote><code>
+<p>/DCD/owa/owa_util.*  Basic(A Realm Name}
+<p>/DCD/owa/owa_sql.*   Basic(A Realm Name)
+</blockquote></code>
+
+<p><a href="#Top">TOP</a>
+
+<a name="ows1"><h1> WebServer 1.x Adjustments</h1></a>
+
+<p>This section describes what happens when the security utility is run against an existing WebServer 1.x installation.  For this version, the utility deals only with the admin listener running at port 9999.
+
+<p>Under the administration listener's security section, all virtual paths are protected. Basic Authentication will be added to all the existing directory mappings for the administration server. The impact from this modification is that a username and password will be required to use
+any part of the administration server. The username and password will be the same as the one chosen at install time. All changes will be made directly to the SVADMIN.CFG file with a copy of original file placed under
+
+<blockquote><code>ORANT\OWS10\ADMIN\ORIGINALl\SV9999.CF?</blockquote></code>
+
+<p>where ? depends on the existing files under "ORIGINAL" directory.  Users are advised of the actual name when applying the patch.
+
+ <p><a href="#Top">TOP</a>
+
+
+</body>
+</html>
+

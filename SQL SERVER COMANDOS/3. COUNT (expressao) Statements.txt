@@ -1,0 +1,8 @@
+SELECT COUNT(*) //numero total de registros da tabela clientes.
+FROM clientes
+
+SELECT COUNT(codigo) //numero total de codigos na tabela clientes, com exeção dos Nulls.
+FROM clientes
+
+* A Função COUNT "Conta", conta a quantidade de vezes que a expressão ou coluna informada apa_
+rece, com exeção dos Nulos "null".

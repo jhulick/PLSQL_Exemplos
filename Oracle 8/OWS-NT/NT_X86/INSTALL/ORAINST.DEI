@@ -1,0 +1,17 @@
+/* Copyright (c) Oracle Corporation 1992.  All Rights Reserved */
+
+/*****************************************************************************
+  NAME
+    orainst.ins - Windows V3 Installation Deinstall Script
+
+  DESCRIPTION
+    This script deinstalls the Windows installer.
+
+  MODIFIED   MM/DD/YY REASON
+    jicohen 10/23/92 Created.
+*****************************************************************************/
+{
+  update_info = nls("update_info","To update the Oracle Installer, simply install a new version.  There is no need to remove it first.");
+
+  information_dialog(update_info);
+}

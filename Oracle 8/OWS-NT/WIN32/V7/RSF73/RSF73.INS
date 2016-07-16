@@ -1,0 +1,339 @@
+/* Copyright (c) Oracle Corporation 1995.  All Rights Reserved */
+/*****************************************************************************
+  NAME
+    rsf73.ins - WinNT V3 installation script for ORACLE Required Support Files.
+
+  DESCRIPTION
+    This script installs the RSF files.
+
+  OWNER
+    Tony Rodgers
+
+  MODIFIED    DD-MMM-YY Reason
+    mmacdona  06/28/96  7.3.2.2.0
+    mmacdona  06/24/96  install olepro32.dll
+    mmacdona  03/13/96  Make Win32 Common
+    ljiang    07/20/95  7.2
+    syau      07/01/94  7.1.3
+    HA!       04/28/94  7.1.2 and 3.0.10.2
+    trodgers  10-APR-92 Created.
+*****************************************************************************/
+{
+  /**************************************************************************
+      Start main logic...
+   **************************************************************************/
+  if (doit)
+    {
+      ins_ratchet = "7.3.2.2.0C";
+
+      execute("%installer_home%\%operating_system%.ins");
+
+      permit_retry_operations = TRUE;
+
+      ui_product(product_label);
+
+      ui_action(instantiate(installing_scripts));
+      copy(deinstl);
+      if (registered("ntrsf70"))
+        copy(deinstl70);
+      if (registered("ntrsf71"))
+        copy(deinstl71);
+
+      ui_action(instantiate(installing_dlls));
+      copy(dll);
+      copy(commdll);
+      copy(msvcdll);
+      copy(mfcdll);
+      copy(oledll);
+
+      msvcrt40 = "%winsys%\msvcrt40.dll";
+      msvcrt40new = "%winsys%\msvcrt40.new";
+      msvcrt40old = "%winsys%\msvcrt40.old";
+      if (not(exists(msvcrt40)))
+      {
+        { move_file(msvcrt40new, msvcrt40); }
+        [ 'DEFAULT: copy_file(msvcrt40new, msvcrt40); ]
+      }
+
+      else
+      {
+        { version_no = windows_file_version(msvcrt40); }
+        [ 'OS_ERROR: version_no = "0.0.0.0.0.0.0"; ]
+
+        { version_new = windows_file_version(msvcrt40new); }
+        [ 'OS_ERROR: version_new = "0.0.0.0.0.0.0"; ]
+
+        if (earlier_version(version_no, version_new))
+        {
+          {
+          move_file(msvcrt40, msvcrt40old);
+          move_file(msvcrt40new, msvcrt40);
+          }
+          [ 'DEFAULT: copy_file(msvcrt40new, msvcrt40); ]
+        }
+        else
+        {
+          { remove_file(msvcrt40new); }
+          [ 'DEFAULT: continue(); ]
+        }
+      }
+
+      mfc40 = "%winsys%\mfc40.dll";
+      mfc40new = "%winsys%\mfc40.new";
+      mfc40old = "%winsys%\mfc40.old";
+      if (not(exists(mfc40)))
+      {
+        { move_file(mfc40new, mfc40); }
+        [ 'DEFAULT: copy_file(mfc40new, mfc40); ]
+      }
+
+      else
+      {
+        { version_no = windows_file_version(mfc40); }
+        [ 'OS_ERROR: version_no = "0.0.0.0.0.0.0"; ]
+
+        { version_new = windows_file_version(mfc40new); }
+        [ 'OS_ERROR: version_new = "0.0.0.0.0.0.0"; ]
+
+        if (earlier_version(version_no, version_new))
+        {
+          {
+          move_file(mfc40, mfc40old);
+          move_file(mfc40new, mfc40);
+          }
+          [ 'DEFAULT: copy_file(mfc40new, mfc40); ]
+        }
+        else
+        {
+          { remove_file(mfc40new); }
+          [ 'DEFAULT: continue(); ]
+        }
+      }
+
+      olepro32 = "%winsys%\olepro32.dll";
+      olepro32new = "%winsys%\olepro32.new";
+      olepro32old = "%winsys%\olepro32.old";
+      if (not(exists(olepro32)))
+      {
+        { move_file(olepro32new, olepro32); }
+        [ 'DEFAULT: copy_file(olepro32new, olepro32); ]
+      }
+
+      else
+      {
+        { version_no = windows_file_version(olepro32); }
+        [ 'OS_ERROR: version_no = "0.0.0.0.0.0.0"; ]
+
+        { version_new = windows_file_version(olepro32new); }
+        [ 'OS_ERROR: version_new = "0.0.0.0.0.0.0"; ]
+
+        if (earlier_version(version_no, version_new))
+        {
+          {
+          move_file(olepro32, olepro32old);
+          move_file(olepro32new, olepro32);
+          }
+          [ 'DEFAULT: copy_file(olepro32new, olepro32); ]
+        }
+        else
+        {
+          { remove_file(olepro32new); }
+          [ 'DEFAULT: continue(); ]
+        }
+      }
+
+      msvcrt20 = "%winsys%\msvcrt20.dll";
+      msvcrt20new = "%winsys%\msvcrt20.new";
+      msvcrt20old = "%winsys%\msvcrt20.old";
+      if (not(exists(msvcrt20)))
+      {
+        { move_file(msvcrt20new, msvcrt20); }
+        [ 'DEFAULT: copy_file(msvcrt20new, msvcrt20); ]
+      }
+
+      else
+      {
+        { version_no = windows_file_version(msvcrt20); }
+        [ 'OS_ERROR: version_no = "0.0.0.0.0.0.0"; ]
+
+        { version_new = windows_file_version(msvcrt20new); }
+        [ 'OS_ERROR: version_new = "0.0.0.0.0.0.0"; ]
+
+        if (earlier_version(version_no, version_new))
+        {
+          {
+          move_file(msvcrt20, msvcrt20old);
+          move_file(msvcrt20new, msvcrt20);
+          }
+          [ 'DEFAULT: copy_file(msvcrt20new, msvcrt20); ]
+        }
+        else
+        {
+          { remove_file(msvcrt20new); }
+          [ 'DEFAULT: continue(); ]
+        }
+      }
+
+      msvcrt2x = "%winsys%\msvcrt2x.dll";
+      msvcrt2xnew = "%winsys%\msvcrt2x.new";
+      msvcrt2xold = "%winsys%\msvcrt2x.old";
+      if (not(exists(msvcrt2x)))
+      {
+        { move_file(msvcrt2xnew, msvcrt2x); }
+        [ 'DEFAULT: copy_file(msvcrt2xnew, msvcrt2x); ]
+      }
+
+      else
+      {
+        { version_no = windows_file_version(msvcrt2x); }
+        [ 'OS_ERROR: version_no = "0.0.0.0.0.0.0"; ]
+
+        { version_new = windows_file_version(msvcrt2xnew); }
+        [ 'OS_ERROR: version_new = "0.0.0.0.0.0.0"; ]
+
+        if (earlier_version(version_no, version_new))
+        {
+          {
+          move_file(msvcrt2x, msvcrt2xold);
+          move_file(msvcrt2xnew, msvcrt2x);
+          }
+          [ 'DEFAULT: copy_file(msvcrt2xnew, msvcrt2x); ]
+        }
+        else
+        {
+          { remove_file(msvcrt2xnew); }
+          [ 'DEFAULT: continue(); ]
+        }
+      }
+
+      msvcrt = "%winsys%\msvcrt.dll";
+      msvcrtnew = "%winsys%\msvcrt.new";
+      msvcrtold = "%winsys%\msvcrt.old";
+      if (not(exists(msvcrt)))
+      {
+        { move_file(msvcrtnew, msvcrt); }
+        [ 'DEFAULT: copy_file(msvcrtnew, msvcrt); ]
+      }
+
+      else
+      {
+        { version_no = windows_file_version(msvcrt); }
+        [ 'OS_ERROR: version_no = "0.0.0.0.0.0.0"; ]
+
+        { version_new = windows_file_version(msvcrtnew); }
+        [ 'OS_ERROR: version_new = "0.0.0.0.0.0.0"; ]
+
+        if (earlier_version(version_no, version_new))
+        {
+          {
+          move_file(msvcrt, msvcrtold);
+          move_file(msvcrtnew, msvcrt);
+          }
+          [ 'DEFAULT: copy_file(msvcrtnew, msvcrt); ]
+        }
+        else
+        {
+          { remove_file(msvcrtnew); }
+          [ 'DEFAULT: continue(); ]
+        }
+      }
+
+      msvcirt = "%winsys%\msvcirt.dll";
+      msvcirtnew = "%winsys%\msvcirt.new";
+      msvcirtold = "%winsys%\msvcirt.old";
+      if (not(exists(msvcirt)))
+      {
+        { move_file(msvcirtnew, msvcirt); }
+        [ 'DEFAULT: copy_file(msvcirtnew, msvcirt); ]
+      }
+
+      else
+      {
+        { version_no = windows_file_version(msvcirt); }
+        [ 'OS_ERROR: version_no = "0.0.0.0.0.0.0"; ]
+
+        { version_new = windows_file_version(msvcirtnew); }
+        [ 'OS_ERROR: version_new = "0.0.0.0.0.0.0"; ]
+
+        if (earlier_version(version_no, version_new))
+        {
+          {
+          move_file(msvcirt, msvcirtold);
+          move_file(msvcirtnew, msvcirt);
+          }
+          [ 'DEFAULT: copy_file(msvcirtnew, msvcirt); ]
+        }
+        else
+        {
+          { remove_file(msvcirtnew); }
+          [ 'DEFAULT: continue(); ]
+        }
+      }
+
+      ui_action(instantiate(installing_msbs));
+      copy(msg, nls_abbreviation);
+
+      ui_action(instantiate(installing_sql));
+      copy(sql);
+
+      ui_action(instantiate(installing_nlsdata));
+      copy(nlsdata);
+
+      /* copy release notes */
+      permit_retry_operations = false;
+
+      { copy(user, user_release_grp) ;}
+      [ 'DEFAULT : continue() ; ]
+      permit_retry_operations = true;
+
+      if (platform() == "nt")
+        if (doSmartStart)
+          {
+            ss_decrypt_file(product_key,
+                          "%s_location%NT_X86/V7/RSF/CORENT23.DLL",
+                          "%oracle_home%\bin\CORENT23.DLL");
+            ss_decrypt_file(product_key,
+                          "%s_location%NT_X86/V7/RSF/ORASPAWN.DLL",
+                          "%oracle_home%\bin\ORASPAWN.DLL");
+          }
+
+
+      if (set_rdbms73)
+        {
+          ui_action(instantiate(modifying_config));
+          modify("RDBMS73",RDBMS73,ora_config,product_filename(current_product));
+        }
+
+      if (set_plsql23)
+        {
+          ui_action(instantiate(modifying_config));
+          modify("PLSQL23",PLSQL23,ora_config,product_filename(current_product));
+        }
+
+      if (set_pro18)
+        {
+          ui_action(instantiate(modifying_config));
+          modify("PRO18",PRO18,ora_config,product_filename(current_product));
+        }
+
+      if (set_nlsrtl32)
+        {
+          ui_action(instantiate(modifying_config));
+          modify("NLSRTL32",NLSRTL32,ora_config,product_filename(current_product));
+        }
+
+      if (set_ora_nls)
+        {
+          ui_action(instantiate(modifying_config));
+          modify("ORA_NLS32",ORA_NLS32,ora_config,product_filename(current_product));
+        }
+
+      ui_action(instantiate(registering));
+      register(current_product);
+      if (member(selected_products,current_product))
+        reference(current_product);
+
+      permit_retry_operations = FALSE;
+    }
+}
+

@@ -1,0 +1,125 @@
+<HTML>
+<HEAD>
+<TITLE>
+Web Request Broker API Reference
+</TITLE>
+</HEAD>
+ 
+<BODY BGCOLOR="FFFFFF">
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Top"></A>
+<A HREF="wrbapi8.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Previous"></A>
+<A HREF="wrbapi10.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Next"></A>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Roadmap"></A>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Index"></A>
+<BR>
+<IMG SRC="h2omark.gif">
+<BR>
+
+<H1>
+<A NAME="426338">
+WRBGetEnvironment()
+</A>
+</H1>
+<HR SIZE=5>
+<A NAME="426339">
+<code>WRBGetEnvironment()</code> retrieves the environment of the Web Listener process. It returns a pointer to an array of pointers, each of which points to a character string of the form:<P>
+</A><A NAME="426340">
+<PRE><em>variable</em>=<em>value</em></PRE><P>
+</A>
+<A NAME="426341">
+where <em>variable </em>is the name of an environment variable and <em>value</em> is its value. The array is terminated by a NULL pointer.<P>
+</A><A NAME="426342">
+The pointer returned refers to WRB application engine memory that your cartridge should not modify.<P>
+</A><HR>
+<H2>
+<A NAME="426343">
+Syntax
+</A>
+</H2>
+<A NAME="426344">
+<PRE>char **WRBGetEnvironment( void *WRBCtx );<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426358">
+Parameters<p>
+<table border=3>
+<tr><th><A NAME="426347">
+<H5>Parameter
+</H5>
+</A>
+<th><A NAME="426349">
+<H5>Type
+</H5>
+</A>
+<th><A NAME="426351">
+<H5>Description
+</H5>
+</A>
+
+<tr><td><A NAME="426353">
+WRBCtx<BR>
+</A><td><A NAME="426355">
+void *<BR>
+</A><td><A NAME="426357">
+The pointer to the opaque WRB context object that the WRB application engine passed to your cartridge function.<BR>
+</A>
+
+</table>
+
+</A>
+</H2>
+<HR>
+<H2>
+<A NAME="426359">
+Return Values
+</A>
+</H2>
+<A NAME="426360">
+<code>WRBGetEnvironment()</code> returns a pointer to the first element in an array of pointers to name-value pairs that define the Web Listener environment.<P>
+</A><HR>
+<H2>
+<A NAME="426361">
+Usage
+</A>
+</H2>
+<A NAME="426362">
+You can call <code>WRBGetEnvironment()</code> from any cartridge function to retrieve the entire Web Listener environment.<P>
+</A><A NAME="426363">
+To get the value of a specific environment variable, however, it's usually more convenient to call <code><a href="wrbapi10.htm#425649">WRBGetEnvironmentVariable()</a></code> or <code><a href="wrbapi14.htm#425841">WRBGetORACLE_HOME()</a></code>.<P>
+</A><HR>
+<H2>
+<A NAME="426370">
+Examples
+</A>
+</H2>
+<A NAME="426371">
+This example shows how to loop through all environment variables:<P>
+</A><A NAME="426372">
+<PRE>char **envp;<br>char *varp;<br> <br>envp = WRBGetEnvironment(WRBCtx);<br> <br>for (varp = *envp; varp; envp++, varp = *envp) {<br>    /* varp points to a "name=value" string */<br>}<br></PRE><P>
+</A>
+<HR>
+<H2>
+<A NAME="426373">
+Related Information
+</A>
+</H2>
+<A NAME="426380">
+See also <code><a href="wrbapi14.htm#425841">WRBGetORACLE_HOME()</a></code> and <code><a href="wrbapi10.htm#425649">WRBGetEnvironmentVariable()</a></code>.<P>
+</A> <P>
+ 
+<HR>
+ 
+<A HREF="wrbapi.htm"><IMG SRC="up.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the top of the section</A><P>
+<A HREF="wrbapi8.htm"><IMG SRC="previous.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the previous topic</A><P>
+<A HREF="wrbapi10.htm"><IMG SRC="next.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the next topic</A><P>
+<A HREF="contents.htm"><IMG SRC="toc.jpg" ALIGN=MIDDLE ALT="Click Here to "> Go to the Roadmap</A><P>
+<A HREF="owshtmli.htm"><IMG SRC="index.jpg" ALIGN=MIDDLE ALT="Click Here to ">Go to the Index</A><BR>
+<HR>
+<ADDRESS>
+To report any problems or comments, email <A HREF="mailto:owsdoc@us.oracle.com">Oracle WebServer Documentation</A>.<P>
+</ADDRESS>
+ 
+</BODY>
+</HTML>
