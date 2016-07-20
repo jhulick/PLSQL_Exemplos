@@ -1,0 +1,233 @@
+﻿create or replace 
+TRIGGER VALIDACAO_ASCR
+ BEFORE 
+ INSERT
+ ON VREQGERALCOMPL
+ REFERENCING OLD AS OLD NEW AS NEW
+ FOR EACH ROW 
+DECLARE
+TIPOREQGERAL INT;
+DIF_MIN INT;
+RET INT;
+PER_AQUISITIVO INT;
+NAOPODE INT;
+
+CURSOR DATA_FERIADO IS
+  SELECT diaferiado/*Lista os feriados para o colaborador, conforme seu calendário*/
+  FROM gferiado
+  WHERE codcalendario=(select psecao.codcalendario/*Calendário do usuário que criou a requisição*/
+                      from psecao
+                      where psecao.codigo=(select pfunc.codsecao/*Seção do usuário que criou a requisição*/
+                                           from pfunc
+                                           where pfunc.chapa=(select vreqgeral.chaparequisitante/*Chapa do usuario que criou a requisição*/
+                                                              from vreqgeral
+                                                              where vreqgeral.idreq=:NEW.IDREQ)))
+  AND feriado='T'
+  ORDER BY gferiado.diaferiado;
+  
+BEGIN
+
+SELECT FINALIDADE INTO TIPOREQGERAL FROM vreqgeral WHERE IDREQ=:NEW.IDREQ;--INICIALIZAÇÃO
+/*Caso o periodo aquisitivo informado exista retornará 1 senao 0*/
+select MAX(case when ( :NEW.AquisitivoInicio=inicioperaquis and :NEW.AquisitivoFinal=fimperaquis ) then 1 else 0 end) INTO PER_AQUISITIVO
+from PFUFERIAS where chapa=(select vreqgeral.chaparequisitante from vreqgeral Where vreqgeral.idreq=:NEW.IDREQ);/*Chapa do usuario que criou a requisição*/
+
+/************************************************ Saída ************************************************/
+
+IF TIPOREQGERAL=26 THEN--VERIFICACAO TIPO REQUISICAO (Saída)
+   IF NOT (
+           (:NEW.DATA_INICIO<=:NEW.DATA_FIM) AND
+           (((:NEW.DATA_FIM-:NEW.DATA_INICIO)+1)<=30) AND
+           ((:NEW.DATA_FIM<>'' AND :NEW.DATA_INICIO<>'') AND (:NEW.DATA_FIM IS NOT NULL AND :NEW.DATA_INICIO IS NOT NULL))
+          ) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [DATA INICIO] deve ser menor ou igual a [DATA FIM] e o intervalo entre eles não pode ser maior que 30 dias - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT ((LENGTH(:NEW.HORA_INICIO)=5 AND LENGTH(:NEW.HORA_FIM)=5) AND--CASO O CAMPO NAO SEJA COMPLETAMENTE PREENCHIDO
+           (:NEW.HORA_INICIO IS NOT NULL AND :NEW.HORA_FIM IS NOT NULL) AND--CASO DEIXE O CAMPO EM BRANCO
+      ((REGEXP_LIKE (:NEW.HORA_INICIO, '^\d{02}:\d{2}$')=TRUE) AND (REGEXP_LIKE (:NEW.HORA_FIM, '^\d{02}:\d{2}$')=TRUE)) AND--SE TÁ NO FORMATO HORA hh:mm
+      ((TO_NUMBER(SUBSTR(:NEW.HORA_INICIO, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORA_INICIO, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORA_INICIO, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORA_INICIO, 4,5)) <=59)) AND--MINUTO ENTRE 0-59
+      ((TO_NUMBER(SUBSTR(:NEW.HORA_FIM, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORA_FIM, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORA_FIM, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORA_FIM, 4,5)) <=59))) THEN--MINUTO ENTRE 0-59
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: Campo [HORA INICIO] ou [HORA FIM] no formato errado, siga o formato [hh:mm] exemplo:. 08:00 ás 18:00, Obs:. Não esqueça de digitar os dois pontos (HH:mm)  - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF ( ((TO_NUMBER(SUBSTR(:NEW.HORA_INICIO, 1,2)||SUBSTR(:NEW.HORA_INICIO, 4,5))) > (TO_NUMBER(SUBSTR(:NEW.HORA_FIM, 1,2)||SUBSTR(:NEW.HORA_FIM, 4,5))))
+            AND (:NEW.DATA_INICIO = :NEW.DATA_FIM) )  THEN
+         RAISE_APPLICATION_ERROR(-20000, 'ERRO: [HORA INICIO] deve ser menor que a [HORA FIM] - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF :NEW.TIPOSAIDA IS NULL THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [Tipo de Saída] Deve ser preenchido. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF ( (to_date(sysdate,'dd/mm/yyyy') - to_date(:NEW.DATA_INICIO,'dd/mm/yyyy'))>5 ) THEN--PARA CRIAR "SAIDA" COM ATE 5 DIAS RETROATIVOS
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: Só será permitido até 5 dias retroativos para requisição de saída. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+END IF;
+
+/************************************************ Saída ************************************************/
+
+/******************************************** Saída Férias *********************************************/
+IF TIPOREQGERAL=27 THEN--VERIFICACAO TIPO REQUISICAO (Saída Férias)
+   IF ( :NEW.AquisitivoInicio='' OR :NEW.AquisitivoFinal='' OR :NEW.DataInicioFerias='' OR :NEW.DataFimFerias='' OR
+        :NEW.AquisitivoInicio IS NULL OR :NEW.AquisitivoFinal IS NULL OR :NEW.DataInicioFerias IS NULL OR :NEW.DataFimFerias IS NULL ) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: TODOS os campos devem ser preenchidos. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF ( :NEW.DataInicioFerias > :NEW.DataFimFerias ) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [Data Inicio das Ferias] deve ser menor que [Data Fim das Ferias] - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF ( :NEW.AquisitivoInicio > :NEW.AquisitivoFinal ) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [Data Inicio do Periodo Aquisitivo] deve ser menor que [Data Fim do Periodo Aquisitivo] e o intervalo entre eles não pode ser maior que um ano - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF PER_AQUISITIVO<>1 THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: O periodo aquisitivo informado não existe nos registros do RH - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF ( ((:NEW.DataFimFerias-:NEW.DataInicioFerias)+1)>30 ) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: O periodo de ferias deve ser menor ou igual a trinta dias - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+END IF;
+/******************************************** Saída Férias *********************************************/
+
+IF TIPOREQGERAL=23 THEN--VERIFICACAO TIPO REQUISICAO (Requisição Entrada [Colaborador])
+--AREA DE ALTERACAO {
+   IF NOT (
+           (:NEW.DATA_INICIO<=:NEW.DATA_FIM) AND
+           ((:NEW.DATA_FIM<>'' AND :NEW.DATA_INICIO<>'') AND (:NEW.DATA_FIM IS NOT NULL AND :NEW.DATA_INICIO IS NOT NULL))
+          ) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [DATA INICIO] deve ser menor ou igual a [DATA FIM] - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+--AREA DE ALTERACAO }
+   IF NOT ((LENGTH(:NEW.HORASAIDA2)=5 AND LENGTH(:NEW.HORAENTRADA)=5) AND--CASO O CAMPO NAO SEJA COMPLETAMENTE PREENCHIDO
+           (:NEW.HORASAIDA2 IS NOT NULL AND :NEW.HORAENTRADA IS NOT NULL) AND--CASO DEIXE O CAMPO EM BRANCO
+      ((REGEXP_LIKE (:NEW.HORASAIDA2, '^\d{02}:\d{2}$')=TRUE) AND (REGEXP_LIKE (:NEW.HORAENTRADA, '^\d{02}:\d{2}$')=TRUE)) AND--SE TÁ NO FORMATO HORA hh:mm
+      ((TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 4,5)) <=59)) AND--MINUTO ENTRE 0-59
+      ((TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 4,5)) <=59))) THEN--MINUTO ENTRE 0-59
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: Campo [Hora Saída] ou [Hora Retorno] no formato errado, siga o formato [hh:mm] exemplo:. 08:00 ás 18:00, Obs:. Não esqueça de digitar os dois pontos (HH:mm)  - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT ((TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)||SUBSTR(:NEW.HORASAIDA2, 4,5))) > (TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)||SUBSTR(:NEW.HORAENTRADA, 4,5)))) THEN
+         RAISE_APPLICATION_ERROR(-20000, 'ERRO: [Hora Entrada] deve ser menor que a [Hora Saída] - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF :NEW.CLASSIFICACAO IS NULL THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [Classificação] Deve ser preenchido. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+END IF;
+
+IF TIPOREQGERAL=24 THEN--VERIFICACAO TIPO REQUISICAO (Requisição Entrada [Prestador de Serviço - F])
+   IF NOT (:NEW.PESSOAFISICA<>'' AND :NEW.PESSOAFISICA IS NOT NULL) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: O campo [Nome - Pessoa Física] deve ser preenchido. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT (:NEW.DATA<>'' AND :NEW.DATA IS NOT NULL) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [DATA] deve ser preenchida. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT ((LENGTH(:NEW.HORASAIDA2)=5 AND LENGTH(:NEW.HORAENTRADA)=5) AND--CASO O CAMPO NAO SEJA COMPLETAMENTE PREENCHIDO
+           (:NEW.HORASAIDA2 IS NOT NULL AND :NEW.HORAENTRADA IS NOT NULL) AND--CASO DEIXE O CAMPO EM BRANCO
+      ((REGEXP_LIKE (:NEW.HORASAIDA2, '^\d{02}:\d{2}$')=TRUE) AND (REGEXP_LIKE (:NEW.HORAENTRADA, '^\d{02}:\d{2}$')=TRUE)) AND--SE TÁ NO FORMATO HORA hh:mm
+      ((TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 4,5)) <=59)) AND--MINUTO ENTRE 0-59
+      ((TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 4,5)) <=59))) THEN--MINUTO ENTRE 0-59
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: Campo [Hora Saída] ou [Hora Retorno] no formato errado, siga o formato [hh:mm] exemplo:. 08:00 ás 18:00, Obs:. Não esqueça de digitar os dois pontos (HH:mm)  - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT ((TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)||SUBSTR(:NEW.HORASAIDA2, 4,5))) > (TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)||SUBSTR(:NEW.HORAENTRADA, 4,5)))) THEN
+         RAISE_APPLICATION_ERROR(-20000, 'ERRO: [Hora Entrada] deve ser menor que a [Hora Saída] - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+END IF;
+IF TIPOREQGERAL=25 THEN--VERIFICACAO TIPO REQUISICAO (Requisição Entrada [Prestador de Serviço - J])
+   IF NOT (:NEW.NOMEREPRESENTANTEEMP<>'' AND :NEW.NOMEREPRESENTANTEEMP IS NOT NULL) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: O campo [Nome - Representante da Empresa] deve ser preenchido. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT (:NEW.RG<>'' AND :NEW.RG IS NOT NULL AND :NEW.RG<>'11111111'
+                                               AND :NEW.RG<>'22222222'
+                                               AND :NEW.RG<>'33333333'
+                                               AND :NEW.RG<>'44444444'
+                                               AND :NEW.RG<>'55555555'
+                                               AND :NEW.RG<>'66666666'
+                                               AND :NEW.RG<>'77777777'
+                                               AND :NEW.RG<>'88888888'
+                                               AND :NEW.RG<>'99999999'
+                                               AND :NEW.RG<>'00000000' AND REGEXP_LIKE (:NEW.RG, '^\d{8}$')) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: O campo [RG] deve ser preenchido e deve conter somente números inteiros e o valor deve ser válido. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT (:NEW.CRACHA<>'' AND :NEW.CRACHA IS NOT NULL AND REGEXP_LIKE (:NEW.CRACHA, '^\d')) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: O campo [Crachá - Representante da Empresa] deve ser preenchido e deve conter somente números inteiros - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT (:NEW.EMPRESA<>'' AND :NEW.EMPRESA IS NOT NULL) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: O campo [Empresa] deve ser preenchido - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT (:NEW.DATA2<>'' AND :NEW.DATA2 IS NOT NULL) THEN
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: [DATA] deve ser preenchida. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT ((LENGTH(:NEW.HORASAIDA2)=5 AND LENGTH(:NEW.HORAENTRADA)=5) AND--CASO O CAMPO NAO SEJA COMPLETAMENTE PREENCHIDO
+           (:NEW.HORASAIDA2 IS NOT NULL AND :NEW.HORAENTRADA IS NOT NULL) AND--CASO DEIXE O CAMPO EM BRANCO
+      ((REGEXP_LIKE (:NEW.HORASAIDA2, '^\d{02}:\d{2}$')=TRUE) AND (REGEXP_LIKE (:NEW.HORAENTRADA, '^\d{02}:\d{2}$')=TRUE)) AND--SE TÁ NO FORMATO HORA hh:mm
+      ((TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 4,5)) <=59)) AND--MINUTO ENTRE 0-59
+      ((TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)) <=23) AND--HORA ENTRE 0-24
+      (TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 4,5)) >=0 AND TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 4,5)) <=59))) THEN--MINUTO ENTRE 0-59
+      RAISE_APPLICATION_ERROR(-20000, 'ERRO: Campo [Hora Saída] ou [Hora Entrada] no formato errado, siga o formato [hh:mm] exemplo:. 08:00 ás 18:00, Obs:. Não esqueça de digitar os dois pontos (HH:mm)  - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+   IF NOT ((TO_NUMBER(SUBSTR(:NEW.HORASAIDA2, 1,2)||SUBSTR(:NEW.HORASAIDA2, 4,5))) > (TO_NUMBER(SUBSTR(:NEW.HORAENTRADA, 1,2)||SUBSTR(:NEW.HORAENTRADA, 4,5)))) THEN
+         RAISE_APPLICATION_ERROR(-20000, 'ERRO: [Hora Entrada] deve ser menor que a [Hora Saída] - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+   END IF;
+END IF;
+IF TIPOREQGERAL IN (23,24,25) THEN
+   -->De seg a sex máx de 2hrs extra e sab e dom máx 4
+   DIF_MIN := ((((TO_NUMBER(SUBSTR(:NEW.HORASAIDA2,0,2))-TO_NUMBER(SUBSTR(:NEW.HORAENTRADA,0,2)))*60) - (TO_NUMBER(SUBSTR(:NEW.HORAENTRADA,4,2))))+(TO_NUMBER(SUBSTR(:NEW.HORASAIDA2,4,2)))); --dif_EM_MINUTO
+
+   FOR X IN DATA_FERIADO LOOP
+      IF (:NEW.DATA=X.diaferiado) THEN
+        RET := 1;
+        EXIT;
+      END IF;
+   END LOOP;
+
+   IF ((TO_CHAR( :NEW.DATA , 'D' ) IN (7,1)) OR (RET=1)) THEN
+      IF (DIF_MIN > 240) THEN
+         RAISE_APPLICATION_ERROR(-20000, 'ERRO: Sábado, Domingo e Feriado não se pode fazer mais de quatro horas extras - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+      END IF;
+   ELSE IF ( TO_CHAR( :NEW.DATA , 'D' ) IN (2,3,4,5,6) ) THEN
+      IF (DIF_MIN > 120) THEN
+         RAISE_APPLICATION_ERROR(-20000, 'ERRO: De Segunda-feira à Sexta-feira não poderá ser feito mais de 02 horas extras. - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+      END IF;
+   END IF; END IF;
+  -->De seg a sex máx de 2hrs extra e sab e dom máx 4
+END IF;
+IF TIPOREQGERAL=28 THEN--VERIFICACAO TIPO REQUISICAO (Solicitação de Recursos)
+--Inicializa a variavel NaoPode
+SELECT COUNT(CASE 
+             WHEN ((   (:NEW.DATA_INICIO  between  data_inicio and data_fim) /*Verifica se a data_inicio informada está dentro de algum periodo existente*/
+                    OR (:NEW.DATA_INICIO <= data_fim and  :NEW.DATA_FIM >= data_inicio) /*Verifica se há alguma interseção entre o periodo informado e os existentes*/
+                   ) 
+                   AND 
+                   (    ((TO_NUMBER(SUBSTR(:NEW.HORA_INICIO, 1,2)||SUBSTR(:NEW.HORA_INICIO, 4,5))/*HORA_INICIO*/) between (TO_NUMBER(SUBSTR(HORA_INICIO, 1,2)||SUBSTR(HORA_INICIO, 4,5))) and (TO_NUMBER(SUBSTR(HORA_FIM, 1,2)||SUBSTR(HORA_FIM, 4,5))))/*Verifica se a hora_inicio informada está dentro de algum periodo existente*/
+                     OR ((TO_NUMBER(SUBSTR(:NEW.HORA_FIM, 1,2)||SUBSTR(:NEW.HORA_FIM, 4,5))/*HORA_FIM*/) between (TO_NUMBER(SUBSTR(HORA_INICIO, 1,2)||SUBSTR(HORA_INICIO, 4,5))) and (TO_NUMBER(SUBSTR(HORA_FIM, 1,2)||SUBSTR(HORA_FIM, 4,5))))/*Verifica se a hora_fim informada está dentro de algum periodo existente*/
+                   )      
+                   OR-->x
+                   (
+                        (:NEW.DATA_FIM between  data_inicio and data_fim)/*Verifica se a data_fim informada está dentro de algum periodo existente*/
+                   ) 
+                   AND 
+                   (    ((TO_NUMBER(SUBSTR(:NEW.HORA_INICIO, 1,2)||SUBSTR(:NEW.HORA_INICIO, 4,5))/*HORA_INICIO*/) between (TO_NUMBER(SUBSTR(HORA_INICIO, 1,2)||SUBSTR(HORA_INICIO, 4,5))) and (TO_NUMBER(SUBSTR(HORA_FIM, 1,2)||SUBSTR(HORA_FIM, 4,5))))/*Verifica se a hora_inicio informada está dentro de algum periodo existente*/
+                     OR ((TO_NUMBER(SUBSTR(:NEW.HORA_FIM, 1,2)||SUBSTR(:NEW.HORA_FIM, 4,5))/*HORA_FIM*/) between (TO_NUMBER(SUBSTR(HORA_INICIO, 1,2)||SUBSTR(HORA_INICIO, 4,5))) and (TO_NUMBER(SUBSTR(HORA_FIM, 1,2)||SUBSTR(HORA_FIM, 4,5))))/*Verifica se a hora_fim informada está dentro de algum periodo existente*/
+                   )
+                  )
+                  AND rc.RECURSOS=:NEW.RECURSOS /*Para concluir a verificação. Se o recurso já está alocado, na data e hora solicitada*/     
+             THEN 1 END) INTO NAOPODE
+FROM rm.vreqgeral r inner join rm.vreqgeralcompl rc on r.idreq=rc.idreq 
+WHERE r.finalidade=28 AND /*Solicitação de Recursos*/ 
+      data_inicio is not null AND 
+      data_fim    is not null AND 
+      hora_inicio is not null AND 
+      hora_fim    is not null AND
+      r.codstatus = 3; /*Aprovados*/
+      
+IF (NAOPODE > 0) THEN
+         RAISE_APPLICATION_ERROR(-20000, 'ERRO: O recurso não pode ser alocado devido conflito de horário.  - Dúvidas ligar nos ramais(3266, 3155 ou 3289)',false);
+END IF;      
+      
+END IF;
+END;
+
+select * from pfunc
+
+-- End of DDL Script for Trigger RM.VALIDACAO_ASCR
