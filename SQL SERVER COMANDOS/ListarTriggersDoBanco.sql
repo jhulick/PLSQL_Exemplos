@@ -1,0 +1,3 @@
+select distinct 'alter table ' +OBJECT_NAME(PARENT_OBJ)+' DISABLE TRIGGER ' + NAME
+FROM  SYSOBJECTS S3
+WHERE TYPE='TR'
